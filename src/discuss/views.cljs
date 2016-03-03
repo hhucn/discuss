@@ -27,13 +27,6 @@
                               :value     (:url item)})
               (:title item)))))
 
-(defn items-view [data owner]
-  (reify om/IRender
-    (render [_]
-      (dom/div #js {:id (lib/prefix-name "items-main")}
-               (apply dom/ul nil
-                      (om/build-all item-view-2 (:items data)))))))
-
 (defn main-view [data owner]
   (reify om/IRender
     (render [_]
@@ -50,4 +43,4 @@
                                      :className "text-center"}
                                 (:intro (:heading (:discussion data))))
                         (apply dom/ul #js {:id (lib/prefix-name "items-main")}
-                                (om/build-all item-view (:items data))))))))
+                               (om/build-all item-view (:items data))))))))
