@@ -1,5 +1,6 @@
 (ns discuss.lib
-  (:require [om.core :as om :include-macros true]))
+  (:require [om.core :as om :include-macros true]
+            [clojure.walk :refer [keywordize-keys]]))
 
 (def project "discuss")
 
@@ -36,5 +37,13 @@
                   :url      "api/cat-or-dog/attitude/3"
                   :attitude "start"}]}))
 
-(defn items []
-  (om/ref-cursor (:items (om/root-cursor app-state))))
+(defn get-cursor
+  "Return a cursor to the corresponding keys in the app-state."
+  [key]
+  (om/ref-cursor (key (om/root-cursor app-state))))
+
+(defn- update-state!
+  "Get the cursor for given key and update it with the new collection of data."
+  [key col]
+  (let [state (get-cursor key)]
+    (om/transact! state (fn [] (keywordize-keys col)))))

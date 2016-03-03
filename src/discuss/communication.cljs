@@ -9,22 +9,17 @@
 (defn- make-url
   "Add suffix if not provided."
   [url]
-    (str api-host url))
+  (str api-host url))
 
-(defn- update-item-list! [items]
-  (let [items-state (lib/items)]
-    (om/transact! items-state (fn [] (keywordize-keys items)))))
-
-(defn- handler [response]
-  (let [discussion (get response "discussion")
-        issues (get response "issues")
-        items (get response "items")]
-    (update-item-list! items)))
+(defn- update-items! [response]
+  (let [res (keywordize-keys response)
+        items (:items res)]
+    (lib/update-state! :items items)))
 
 (defn- error-handler [{:keys [status status-text]}]
   (.log js/console (str "something bad happened: " status " " status-text)))
 
 (defn ajax-get [url]
   (GET (make-url url)
-       {:handler handler
+       {:handler update-items!
         :error-handler error-handler}))
