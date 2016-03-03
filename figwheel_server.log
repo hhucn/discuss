@@ -1,0 +1,725 @@
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  resources/public/js/compiled/out/goog/deps.js
+notifying browser that file changed:  resources/public/js/compiled/out/cljs_deps.js
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.225 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  resources/public/js/compiled/out/goog/deps.js
+notifying browser that file changed:  resources/public/js/compiled/out/cljs_deps.js
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.222 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.152 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  resources/public/js/compiled/out/goog/deps.js
+notifying browser that file changed:  resources/public/js/compiled/out/cljs_deps.js
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.289 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.148 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.133 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.152 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+[31mCompiling "resources/public/js/compiled/discuss.js" failed.
+[0mERROR: EOF while reading, starting at line 20 and column 1 on file /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs, line 34, column 1
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.186 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  resources/public/js/compiled/out/goog/deps.js
+notifying browser that file changed:  resources/public/js/compiled/out/cljs_deps.js
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.281 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.148 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.171 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.155 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.145 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss-cljs.core/foo at line 28 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.219 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.142 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+[31mCompiling "resources/public/js/compiled/discuss.js" failed.
+[0mERROR: EOF while reading, starting at line 28 and column 1 on file /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs, line 33, column 1
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.109 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.129 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.136 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.17 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.134 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+[31mCompiling "resources/public/js/compiled/discuss.js" failed.
+[0mERROR: EOF while reading, starting at line 16 and column 3 on file /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs, line 38, column 1
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.082 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+[31mCompiling "resources/public/js/compiled/discuss.js" failed.
+[0mERROR: JavaScript literal keys must be strings or unqualified keywords on file /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs, line 17, column 27
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.089 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.128 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.131 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.145 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.129 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss-cljs.core/stripe at line 26 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.164 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss-cljs.core/contact-view at line 28 src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss-cljs.core/stripe at line 43 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.218 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss-cljs.core/contact-view at line 28 src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss-cljs.core/display-name at line 33 src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss-cljs.core/stripe at line 48 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.248 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss-cljs.core/display-name at line 25 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.192 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss-cljs.core/display-name at line 25 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.228 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss-cljs.core/middle-name at line 23 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.189 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss-cljs.core/middle-name at line 23 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.176 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss-cljs.core/middle-name at line 23 src/discuss/core.cljs
+notifying browser that file changed:  resources/public/js/compiled/out/goog/deps.js
+notifying browser that file changed:  resources/public/js/compiled/out/cljs_deps.js
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.618 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss-cljs.core/middle-name at line 23 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.344 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.221 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.176 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  resources/public/js/compiled/out/cljs_deps.js
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.177 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  resources/public/js/compiled/out/goog/deps.js
+notifying browser that file changed:  resources/public/js/compiled/out/cljs_deps.js
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.374 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss-cljs.core/data at line 39 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.438 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss-cljs.core/data at line 42 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.346 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss-cljs.core/contact at line 48 src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss-cljs.core/contact at line 49 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.387 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss-cljs.core/contact-view at line 50 src/discuss/core.cljs
+WARNING: contacts-view at line 32 is being replaced at line 53 src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss-cljs.core/contact-view at line 59 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.365 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.238 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  resources/public/js/compiled/out/cljs_deps.js
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.236 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.211 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.213 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.201 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.205 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.238 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.209 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss-cljs.core/delete at line 76 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.319 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.207 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.217 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.269 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.2 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.202 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.206 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.204 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.225 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.213 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.199 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.212 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.203 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.199 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  resources/public/js/compiled/out/goog/deps.js
+notifying browser that file changed:  resources/public/js/compiled/out/cljs_deps.js
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.472 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.255 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.282 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.271 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.24 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.213 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss-cljs.core/handle-change at line 81 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.3 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.267 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  resources/public/js/compiled/out/goog/deps.js
+notifying browser that file changed:  resources/public/js/compiled/out/cljs_deps.js
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.562 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.303 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.252 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss.core/entry-view at line 27 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/student-view at line 28 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/entry-view at line 29 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/professor-view at line 30 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.312 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss.core/entry-view at line 41 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/entry-view at line 43 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/professor-view at line 44 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.282 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss.core/professor-view at line 44 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.257 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.334 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss.core/entry-view at line 54 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/people at line 54 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: registry-view at line 48 is being replaced at line 63 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.334 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss.core/entry-view at line 58 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: registry-view at line 52 is being replaced at line 67 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.305 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss.core/entry-view at line 63 src/discuss/core.cljs
+WARNING: registry-view at line 57 is being replaced at line 72 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.271 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: registry-view at line 65 is being replaced at line 74 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.274 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.204 seconds.[0m
+sending changed CSS file: resources/public/css/style.css
+sending changed CSS file: resources/public/css/style.css
+sending changed CSS file: resources/public/css/style.css
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+[31mCompiling "resources/public/js/compiled/discuss.js" failed.
+[0mERROR: JavaScript literal keys must be strings or unqualified keywords on file /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs, line 76, column 34
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.21 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.229 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.421 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.23 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.258 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.262 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.266 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.419 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.407 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.426 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 47 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  resources/public/js/compiled/out/goog/deps.js
+notifying browser that file changed:  resources/public/js/compiled/out/cljs_deps.js
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.443 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+[31mCompiling "resources/public/js/compiled/discuss.js" failed.
+[0mERROR: Map literal must contain an even number of forms on file /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs, line 49, column 29
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.251 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+[31mCompiling "resources/public/js/compiled/discuss.js" failed.
+[0mERROR: Invalid token: : on file /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs, line 54, column 23
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.243 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 47 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 49 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/handle-change at line 51 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 53 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 54 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 56 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.355 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 47 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 49 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/handle-change at line 51 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 53 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 54 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 56 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.377 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 47 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 49 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/handle-change at line 51 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 53 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 54 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 56 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.392 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 47 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 49 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/handle-change at line 51 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 53 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 54 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 56 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.331 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 7 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 46 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 48 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/handle-change at line 50 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 52 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 53 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 55 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  resources/public/js/compiled/out/cljs_deps.js
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.391 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 7 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 46 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 48 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/handle-change at line 50 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 52 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 53 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 55 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.432 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 7 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 46 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 48 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/handle-change at line 50 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 52 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 53 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 55 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.341 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 7 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 46 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 48 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/handle-change at line 50 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 52 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 53 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 55 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.365 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 7 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 46 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 48 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/handle-change at line 50 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 52 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 53 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 55 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.485 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 7 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 47 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 49 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/handle-change at line 51 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 53 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 54 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 56 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  resources/public/js/compiled/out/goog/deps.js
+notifying browser that file changed:  resources/public/js/compiled/out/cljs_deps.js
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.693 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 7 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 48 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 50 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/handle-change at line 52 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 54 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 55 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 57 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.481 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 7 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 47 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 49 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/handle-change at line 51 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 53 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 54 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 56 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.55 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 7 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 46 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 48 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/handle-change at line 50 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 52 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 53 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/display at line 55 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.416 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 7 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/handle-change at line 56 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 58 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/commit-change at line 59 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.392 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 7 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.332 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+[31mCompiling "resources/public/js/compiled/discuss.js" failed.
+[0mjava.lang.AssertionError: No ns form found in src/discuss/lib.cljs
+ at cljs.analyzer$parse_ns$fn__2065.invoke (analyzer.cljc:2755)
+    cljs.analyzer$parse_ns.invokeStatic (analyzer.cljc:2706)
+    cljs.analyzer$parse_ns.invoke (analyzer.cljc:2687)
+    cljs.analyzer$parse_ns.invokeStatic (analyzer.cljc:2697)
+    cljs.analyzer$parse_ns.invoke (analyzer.cljc:2687)
+    cljs.compiler$find_source.invokeStatic (compiler.cljc:1415)
+    cljs.compiler$find_source.invoke (compiler.cljc:1414)
+    clojure.core$map$fn__4785.invoke (core.clj:2646)
+    clojure.lang.LazySeq.sval (LazySeq.java:40)
+    clojure.lang.LazySeq.seq (LazySeq.java:56)
+    clojure.lang.Cons.next (Cons.java:39)
+    clojure.lang.RT.next (RT.java:688)
+    clojure.core$next__4341.invokeStatic (core.clj:64)
+    clojure.core$reduce1.invokeStatic (core.clj:925)
+    clojure.core$set.invokeStatic (core.clj:3983)
+    clojure.core$set.invoke (core.clj:3975)
+    cljs.closure$add_dependency_sources.invokeStatic (closure.clj:755)
+    cljs.closure$add_dependency_sources.invoke (closure.clj:749)
+    cljs.closure$build.invokeStatic (closure.clj:1893)
+    cljs.closure$build.invoke (closure.clj:1837)
+    cljs.build.api$build.invokeStatic (api.clj:207)
+    cljs.build.api$build.invoke (api.clj:198)
+    figwheel_sidecar.components.cljs_autobuild$cljs_build.invokeStatic (cljs_autobuild.clj:24)
+    figwheel_sidecar.components.cljs_autobuild$cljs_build.invoke (cljs_autobuild.clj:23)
+    figwheel_sidecar.build_middleware.injection$hook$fn__17457.invoke (injection.clj:139)
+    figwheel_sidecar.build_middleware.notifications$hook$fn__17786.invoke (notifications.clj:187)
+    figwheel_sidecar.build_middleware.clj_reloading$hook$fn__17862.invoke (clj_reloading.clj:115)
+    figwheel_sidecar.build_middleware.javascript_reloading$hook$fn__17908.invoke (javascript_reloading.clj:60)
+    figwheel_sidecar.components.cljs_autobuild$eval17923$figwheel_start_and_end_messages__17926$fn__17928.invoke (cljs_autobuild.clj:47)
+    figwheel_sidecar.components.cljs_autobuild$execute_build$fn__17949$fn__17950.invoke (cljs_autobuild.clj:116)
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.049 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  resources/public/js/compiled/out/goog/deps.js
+notifying browser that file changed:  resources/public/js/compiled/out/cljs_deps.js
+notifying browser that file changed:  out/discuss/lib.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.288 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+[31mCompiling "resources/public/js/compiled/discuss.js" failed.
+[0mjava.lang.AssertionError: No ns form found in src/discuss/views.cljs
+ at cljs.analyzer$parse_ns$fn__2065.invoke (analyzer.cljc:2755)
+    cljs.analyzer$parse_ns.invokeStatic (analyzer.cljc:2706)
+    cljs.analyzer$parse_ns.invoke (analyzer.cljc:2687)
+    cljs.analyzer$parse_ns.invokeStatic (analyzer.cljc:2697)
+    cljs.analyzer$parse_ns.invoke (analyzer.cljc:2687)
+    cljs.compiler$find_source.invokeStatic (compiler.cljc:1415)
+    cljs.compiler$find_source.invoke (compiler.cljc:1414)
+    clojure.core$map$fn__4785.invoke (core.clj:2646)
+    clojure.lang.LazySeq.sval (LazySeq.java:40)
+    clojure.lang.LazySeq.seq (LazySeq.java:49)
+    clojure.lang.Cons.next (Cons.java:39)
+    clojure.lang.RT.next (RT.java:688)
+    clojure.core$next__4341.invokeStatic (core.clj:64)
+    clojure.core$reduce1.invokeStatic (core.clj:925)
+    clojure.core$set.invokeStatic (core.clj:3983)
+    clojure.core$set.invoke (core.clj:3975)
+    cljs.closure$add_dependency_sources.invokeStatic (closure.clj:755)
+    cljs.closure$add_dependency_sources.invoke (closure.clj:749)
+    cljs.closure$build.invokeStatic (closure.clj:1893)
+    cljs.closure$build.invoke (closure.clj:1837)
+    cljs.build.api$build.invokeStatic (api.clj:207)
+    cljs.build.api$build.invoke (api.clj:198)
+    figwheel_sidecar.components.cljs_autobuild$cljs_build.invokeStatic (cljs_autobuild.clj:24)
+    figwheel_sidecar.components.cljs_autobuild$cljs_build.invoke (cljs_autobuild.clj:23)
+    figwheel_sidecar.build_middleware.injection$hook$fn__17457.invoke (injection.clj:139)
+    figwheel_sidecar.build_middleware.notifications$hook$fn__17786.invoke (notifications.clj:187)
+    figwheel_sidecar.build_middleware.clj_reloading$hook$fn__17862.invoke (clj_reloading.clj:115)
+    figwheel_sidecar.build_middleware.javascript_reloading$hook$fn__17908.invoke (javascript_reloading.clj:60)
+    figwheel_sidecar.components.cljs_autobuild$eval17923$figwheel_start_and_end_messages__17926$fn__17928.invoke (cljs_autobuild.clj:47)
+    figwheel_sidecar.components.cljs_autobuild$execute_build$fn__17949$fn__17950.invoke (cljs_autobuild.clj:116)
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.023 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 9 src/discuss/core.cljs
+notifying browser that file changed:  resources/public/js/compiled/out/cljs_deps.js
+notifying browser that file changed:  out/discuss/core.js
+notifying browser that file changed:  out/discuss/views.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 3.583 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss.views/defui at line 6 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/views.cljs
+WARNING: Use of undeclared Var discuss.views/Clipboard at line 6 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/views.cljs
+WARNING: Use of undeclared Var discuss.views/Object at line 7 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/views.cljs
+WARNING: Use of undeclared Var discuss.views/render at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/views.cljs
+WARNING: Use of undeclared Var discuss.views/this at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/views.cljs
+WARNING: Use of undeclared Var discuss.views/defui at line 16 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/views.cljs
+WARNING: Use of undeclared Var discuss.views/Main at line 16 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/views.cljs
+WARNING: Use of undeclared Var discuss.views/Object at line 17 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/views.cljs
+WARNING: Use of undeclared Var discuss.views/render at line 18 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/views.cljs
+WARNING: Use of undeclared Var discuss.views/this at line 18 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/views.cljs
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 9 src/discuss/core.cljs
+notifying browser that file changed:  resources/public/js/compiled/out/cljs_deps.js
+notifying browser that file changed:  out/discuss/views.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.419 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 9 src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.core/entry-view at line 87 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.504 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+notifying browser that file changed:  out/discuss/views.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.211 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 9 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.296 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 9 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.262 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 9 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.262 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 9 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.275 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 9 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.228 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 9 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.217 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 9 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.27 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 9 src/discuss/core.cljs
+notifying browser that file changed:  resources/public/js/compiled/out/goog/deps.js
+notifying browser that file changed:  resources/public/js/compiled/out/cljs_deps.js
+notifying browser that file changed:  out/discuss/views.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.729 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 9 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.295 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 9 src/discuss/core.cljs
+WARNING: Use of undeclared Var discuss.views/clipboard at line 94 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.318 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 9 src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/views.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.351 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+[31mCompiling "resources/public/js/compiled/discuss.js" failed.
+[0mERROR: Unmatched delimiter ) on file /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/views.cljs, line 20, column 20
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.162 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+[31mCompiling "resources/public/js/compiled/discuss.js" failed.
+[0mERROR: Unmatched delimiter ) on file /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/views.cljs, line 20, column 20
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.197 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  resources/public/js/compiled/out/goog/deps.js
+notifying browser that file changed:  resources/public/js/compiled/out/cljs_deps.js
+notifying browser that file changed:  out/discuss/views.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 1.448 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  resources/public/js/compiled/out/cljs_deps.js
+notifying browser that file changed:  out/discuss/views.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 1.67 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/views.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.469 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/views.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.527 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss.views/item-view at line 31 src/discuss/views.cljs
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/views.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.564 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Use of undeclared Var discuss.views/item-view at line 31 src/discuss/views.cljs
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/views.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.688 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+notifying browser that file changed:  out/discuss/views.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.589 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/views.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.582 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Wrong number of args (1) passed to discuss.views/items-view at line 37 src/discuss/views.cljs
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/views.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.532 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/views.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.623 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/views.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.544 seconds.[0m
+[0mCompiling "resources/public/js/compiled/discuss.js" from ["src"]...
+WARNING: Extending an existing JavaScript type - use a different symbol name instead of js/String e.g string at line 8 /home/n2o/Cloud/Promotion/src/discuss-cljs/src/discuss/core.cljs
+notifying browser that file changed:  out/discuss/core.js
+[32mSuccessfully compiled "resources/public/js/compiled/discuss.js" in 0.41 seconds.[0m
