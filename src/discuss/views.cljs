@@ -1,10 +1,16 @@
 (ns discuss.views
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [discuss.lib :as lib]
             [discuss.communication :as com]
+            [discuss.lib :as lib]
             [om-bootstrap.panel :as p]))
 
+(defn debug-view [data owner]
+  (reify om/IRender
+    (render [_]
+      ;(dom/div nil (. js/JSON (stringify (:issues data))))
+      ;(dom/div nil (:issues data))
+      )))
 
 (defn clipboard-view []
   (reify om/IRender
@@ -36,7 +42,7 @@
                        (dom/i #js {:className "fa fa-comments"})
                        (str " " (:title data)))
                (dom/div #js {:className "text-center"}
-                        (:intro data)
+                        (:intro (:layout data))
                         (dom/br nil)
                         (dom/strong nil (:info (:issues data))))
                (p/panel nil

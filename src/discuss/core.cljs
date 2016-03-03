@@ -22,6 +22,8 @@
 (om/root views/clipboard-view lib/app-state
          {:target (. js/document (getElementById "discuss-clipboard"))})
 
+(om/root views/debug-view lib/app-state
+         {:target (. js/document (getElementById "debug"))})
 
 (defn on-js-reload []
   ;; optionally touch your app-state to force rerendering depending on

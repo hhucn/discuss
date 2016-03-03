@@ -8,10 +8,11 @@
 
 (def app-state
   (atom {:title "discuss"
-         :intro "The current discussion is about"
          :discussion {}
          :issues {}
          :items []
+         :layout {:intro "The current discussion is about"}
+         :debug-last-api ""
          }))
 
 (defn get-cursor
@@ -32,6 +33,7 @@
         items (:items res)
         discussion (:discussion res)
         issues (:issues res)]
+    (. js/console (log res))
     (update-state! :items items)
     (update-state! :discussion discussion)
     (update-state! :issues issues)))
