@@ -5,12 +5,6 @@
 
 (enable-console-print!)
 
-(extend-type js/String
-  ICloneable
-  (-clone [s] (js/String. s))
-  om/IValue
-  (-value [s] (str s)))
-
 (def app-state
   (atom {:title "discuss"
          :intro "The current discussion is about"
@@ -39,22 +33,8 @@
                  {:id       "item_3"
                   :title    "We could get both, a cat and a dog"
                   :url      "api/cat-or-dog/attitude/3"
-                  :attitude "start"}]
+                  :attitude "start"}]}))
 
-         :people
-                [{:type :student :first "Ben" :last "Bitdiddle" :email "benb@mit.edu"}
-                 {:type :student :first "Alyssa" :middle-initial "P" :last "Hacker"
-                  :email "aphacker@mit.edu"}
-                 {:type :professor :first "Gerald" :middle "Jay" :last "Sussman"
-                  :email "metacirc@mit.edu" :classes [:6001 :6946]}
-                 {:type :student :first "Eva" :middle "Lu" :last "Ator" :email "eval@mit.edu"}
-                 {:type :student :first "Louis" :last "Reasoner" :email "prolog@mit.edu"}
-                 {:type :professor :first "Hal" :last "Abelson" :email "evalapply@mit.edu"
-                  :classes [:6001]}]
-         :classes
-                {:6001 "The Structure and Interpretation of Computer Programs"
-                 :6946 "The Structure and Interpretation of Classical Mechanics"
-                 :1806 "Linear Algebra"}}))
 
 (defn display [show]
   (if show
@@ -100,23 +80,6 @@
                             (fn [cs] (mapv (:classes data) cs)))
                  x)))))
 
-(defn registry-view [data owner]
-  (reify om/IRender
-    (render [_]
-      (dom/div #js {:id "registry"}
-               (dom/h2 nil "Registry")
-               (apply dom/ul nil
-                      (om/build-all views/entry-view (people data)))))))
-
-(defn classes-view [data owner]
-  (reify om/IRender
-    (render [_]
-      (dom/div #js {:id "classes"}
-               (dom/h2 nil "Classes")
-               (apply dom/ul nil
-                      (om/build-all editable (vals (:classes data))))))))
-
-
 ;; Register
 (om/root views/main-view app-state
          {:target (. js/document (getElementById "discuss-main"))})
@@ -124,11 +87,6 @@
 (om/root views/clipboard-view app-state
          {:target (. js/document (getElementById "discuss-clipboard"))})
 
-(om/root registry-view app-state
-         {:target (. js/document (getElementById "registry"))})
-
-(om/root classes-view app-state
-         {:target (. js/document (getElementById "classes"))})
 
 (defn on-js-reload []
   ;; optionally touch your app-state to force rerendering depending on
