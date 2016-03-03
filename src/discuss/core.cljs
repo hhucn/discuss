@@ -23,7 +23,6 @@
          {:target (. js/document (getElementById "discuss-clipboard"))})
 
 
-;; For debugging
 (defn on-js-reload []
   ;; optionally touch your app-state to force rerendering depending on
   ;; your application

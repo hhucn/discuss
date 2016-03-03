@@ -38,7 +38,7 @@
                (dom/div #js {:className "text-center"}
                         (:intro data)
                         (dom/br nil)
-                        (dom/strong nil (:info (:issue data))))
+                        (dom/strong nil (:info (:issues data))))
                (p/panel nil
                         (dom/h4 #js {:id (lib/prefix-name "dialogue-topic")
                                      :className "text-center"}
