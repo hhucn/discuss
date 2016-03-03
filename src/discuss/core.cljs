@@ -1,9 +1,19 @@
 (ns ^:figwheel-always discuss.core
   (:require [om.core :as om :include-macros true]
-            [discuss.views :as views]
-            [discuss.lib :as lib]))
+            [discuss.communication :as com]
+            [discuss.config :as config]
+            [discuss.lib :as lib]
+            [discuss.views :as views]))
 
 (enable-console-print!)
+
+;; Initialization
+(defn init!
+  "Initialize initial data from API"
+  []
+  (let [url (:init config/api)]
+    (com/ajax-get url)))
+(init!)
 
 ;; Register
 (om/root views/main-view lib/app-state
@@ -13,6 +23,7 @@
          {:target (. js/document (getElementById "discuss-clipboard"))})
 
 
+;; For debugging
 (defn on-js-reload []
   ;; optionally touch your app-state to force rerendering depending on
   ;; your application
