@@ -1,0 +1,52 @@
+$discuss-width: 250px
+$discuss-height: 400px
+
+#discuss
+  position: fixed
+  top: 5em
+  right: 0
+  padding: 0.5em
+  width: $discuss-width
+  height: $discuss-height
+  font-size: small
+  resize: vertical
+  overflow: auto
+  background-color: #fff
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12)
+  h5
+    margin: 0.5em 0
+  hr
+    margin: 0.5em 0
+
+#discuss-arguments
+  //max-height: discuss-height - 70px
+  //overflow: auto
+  resize: vertical
+
+#discuss-control
+  padding-bottom: 0.5em
+
+.highlight-text
+  background-color: lightyellow
+
+.line-double
+  border-top: 3px double #ddd
+
+
+// Configure inline dialogue
+#discuss-dialogue-wrapper
+  padding-bottom: 5em
+
+#discuss-dialogue-dropzone
+  .well
+    margin-bottom: 0 !important
+
+
+// Optical text customization
+.discuss-underline
+  background-color: lightyellow
+  &:hover
+    cursor: pointer
+
+.pointer
+  cursor: pointer

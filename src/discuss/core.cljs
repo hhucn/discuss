@@ -13,6 +13,7 @@
 
 (def app-state
   (atom {:title "discuss"
+         :intro "The current discussion is about"
          :discussion
                 {:heading {:intro  "What is the initial position you are interested in?"
                            :outro  ""

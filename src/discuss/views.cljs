@@ -2,7 +2,7 @@
   (:require  [om.core :as om :include-macros true]
              [om.dom :as dom :include-macros true]
              [discuss.lib :as lib]
-             [om-bootstrap.button :as bs3]))
+             [om-bootstrap.panel :as p]))
 
 
 (defn clipboard-view []
@@ -10,32 +10,46 @@
     (render [_]
       (dom/div #js {:id "foo"}
                (dom/h5 nil "discuss")
-               (dom/hr #js {:addClass "line-double"})
+               (dom/hr #js {:className "line-double"})
                (dom/div #js {:id (lib/prefix-name "clipboard-topic")})
                (dom/hr nil)
                (dom/div #js {:id (lib/prefix-name "clipboard-arguments")})))))
 
-(defn item-view [data owner]
+(defn item-view [item owner]
   (reify om/IRender
     (render [_]
-      (dom/span nil (:uid data)))))
+      (dom/li nil
+              (dom/input #js {:id       (:id item)
+                              :type     "radio"
+                              :className (lib/prefix-name "dialogue-items")
+                              :name     (lib/prefix-name "dialogue-items-group")
+                              :value    (:url item)})
+              (:title item)))))
 
 (defn items-view [data owner]
   (reify om/IRender
     (render [_]
       (dom/div #js {:id (lib/prefix-name "items-main")}
-               (om/build-all item-view (:items data))))))
+               (apply dom/ul nil
+                      (om/build-all item-view (:items data)))))))
 
 (defn main-view [data owner]
   (reify om/IRender
     (render [_]
       (dom/div #js {:id (lib/prefix-name "dialogue-main")}
                (dom/h3 nil
-                       (:title data))
-               (dom/div {:id (lib/prefix-name "dialogue-topic")}
-                        (:topic data))
-               (dom/div #js {:id (lib/prefix-name "items-main")}
-                        (om/build-all item-view (:items data)))))))
+                       (dom/i #js {:className "fa fa-comments"})
+                       (str " " (:title data)))
+               (dom/div #js {:className "text-center"}
+                        (:intro data)
+                        (dom/br nil)
+                        (dom/strong nil (:info (:issue data))))
+               (p/panel nil
+                        (dom/h4 #js {:id (lib/prefix-name "dialogue-topic")
+                                      :className "text-center"}
+                                 (:intro (:heading (:discussion data))))
+                        (dom/ul #js {:id (lib/prefix-name "items-main")}
+                                (om/build-all item-view (:items data))))))))
 
 
 
