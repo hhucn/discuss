@@ -10,9 +10,10 @@
                  [org.clojure/clojurescript "1.7.228"]
                  [org.clojure/core.async "0.2.374"
                   :exclusions [org.clojure/tools.reader]]
-                 [sablono "0.6.2"]
-                 [racehub/om-bootstrap "0.5.0"]
-                 [org.omcljs/om "1.0.0-alpha30"]]
+                 [racehub/om-bootstrap "0.5.0"]             ; Bootstrap support for om
+                 [org.omcljs/om "1.0.0-alpha30"]
+                 [cljs-ajax "0.5.3"]                        ; AJAX for om
+                 ]
 
   :plugins [[lein-figwheel "0.5.0-6"]
             [lein-cljsbuild "1.1.2" :exclusions [[org.clojure/clojure]]]]

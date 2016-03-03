@@ -1,8 +1,9 @@
 (ns discuss.views
-  (:require  [om.core :as om :include-macros true]
-             [om.dom :as dom :include-macros true]
-             [discuss.lib :as lib]
-             [om-bootstrap.panel :as p]))
+  (:require [om.core :as om :include-macros true]
+            [om.dom :as dom :include-macros true]
+            [discuss.lib :as lib]
+            [discuss.communication :as com]
+            [om-bootstrap.panel :as p]))
 
 
 (defn clipboard-view []
@@ -19,7 +20,7 @@
   (reify om/IRender
     (render [_]
       (dom/li #js {:className "pointer"
-                   :onClick #(. js/console (log "Click"))}
+                   :onClick #(com/ajax-get (:url item))}
               (dom/input #js {:id        (:id item)
                               :type      "radio"
                               :className (lib/prefix-name "dialogue-items")
