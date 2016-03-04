@@ -1,9 +1,9 @@
 (ns discuss.views
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [om-bootstrap.panel :as p]
+            [om-bootstrap.panel :as panel]
+            [om-bootstrap.grid :as grid]
             [cljs.pprint :refer [pprint]]
-            [goog.string :as gstring]
             [discuss.communication :as com]
             [discuss.history :as history]
             [discuss.lib :as lib]))
@@ -20,6 +20,18 @@
                    " "
                    (dom/i #js {:className "fa fa-angle-right pointer"}))))
 
+(defn login-view [data _owner]
+  (grid/grid {:class "text-muted"}
+             (grid/row {}
+                       (if (get-in data [:extras :logged_in])
+                         (do
+                           (grid/col {:md 6}
+                                     (str "Logged in as " (get-in data [:extras :users_name])))
+                           (grid/col {:md 6 :class "text-right"}
+                                     "Logout"))
+                         (grid/col {:md-offset 5 :md 6 :class "text-right"}
+                                   "Login")))))
+
 ;; Views
 (defn clipboard-view []
   (reify om/IRender
@@ -31,7 +43,7 @@
                (dom/hr nil)
                (dom/div #js {:id (lib/prefix-name "clipboard-arguments")})))))
 
-(defn item-view [item owner]
+(defn item-view [item _owner]
   (reify om/IRender
     (render [_]
       (dom/li #js {:className "pointer"
@@ -41,12 +53,14 @@
                               :className (lib/prefix-name "dialogue-items")
                               :name      (lib/prefix-name "dialogue-items-group")
                               :value     (:url item)})
+              " "
               (:title item)))))
 
 (defn main-view [data owner]
   (reify om/IRender
     (render [_]
-      (dom/div #js {:id (lib/prefix-name "dialogue-main")}
+      (dom/div #js {:id (lib/prefix-name "dialogue-main")
+                    :className "container"}
                (dom/h3 nil
                        (dom/i #js {:className "fa fa-comments"})
                        (str " " (get-in data [:layout :title])))
@@ -54,18 +68,19 @@
                         (:intro (:layout data))
                         (dom/br nil)
                         (dom/strong nil (:info (:issues data))))
-               (p/panel nil
-                        (dom/h4 #js {:id (lib/prefix-name "dialogue-topic")
-                                     :className "text-center"}
-                                (get-in data [:discussion :heading :intro])
-                                (get-in data [:discussion :heading :bridge])
-                                (get-in data [:discussion :heading :outro])
-                                )
-                        (apply dom/ul #js {:id (lib/prefix-name "items-main")}
-                               (om/build-all item-view (:items data)))
-                        (control-buttons))))))
+               (panel/panel nil
+                            (dom/h4 #js {:id (lib/prefix-name "dialogue-topic")
+                                         :className "text-center"}
+                                    (get-in data [:discussion :heading :intro])
+                                    (get-in data [:discussion :heading :bridge])
+                                    (get-in data [:discussion :heading :outro])
+                                    )
+                            (apply dom/ul #js {:id (lib/prefix-name "items-main")}
+                                   (om/build-all item-view (:items data)))
+                            (control-buttons)
+                            (login-view data owner))))))
 
-(defn debug-view [data owner]
+(defn debug-view [data _owner]
   (reify om/IRender
     (render [_]
       (dom/div nil

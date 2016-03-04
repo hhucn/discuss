@@ -49,8 +49,3 @@
     (update-state-map! :issues issues)
     (update-state-item! :debug :response (fn [_] res))
     ))
-
-
-;; Time Travel
-
-

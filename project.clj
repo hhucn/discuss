@@ -10,10 +10,9 @@
                  [org.clojure/clojurescript "1.7.228"]
                  [org.clojure/core.async "0.2.374"
                   :exclusions [org.clojure/tools.reader]]
-                 [racehub/om-bootstrap "0.5.0"]             ; Bootstrap support for om
                  [org.omcljs/om "1.0.0-alpha30"]
+                 [racehub/om-bootstrap "0.5.0"]             ; Bootstrap support for om
                  [cljs-ajax "0.5.3"]                        ; AJAX for om
-                 [json-html "0.3.8"]                        ; Convert JSON to HTML DOM element
                  ]
 
   :plugins [[lein-figwheel "0.5.0-6"]
