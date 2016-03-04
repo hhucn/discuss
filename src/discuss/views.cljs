@@ -7,7 +7,17 @@
             [discuss.communication :as com]
             [discuss.lib :as lib]))
 
+;; Elements
+(defn control-buttons []
+  (dom/div #js {:className "text-center"}
+           (dom/h3 nil
+                   (dom/i #js {:className "fa fa-angle-double-left"})
+                   " "
+                   (dom/i #js {:className "fa fa-angle-left"})
+                   " "
+                   (dom/i #js {:className "fa fa-angle-right"}))))
 
+;; Views
 (defn clipboard-view []
   (reify om/IRender
     (render [_]
@@ -49,8 +59,8 @@
                                 (get-in data [:discussion :heading :outro])
                                 )
                         (apply dom/ul #js {:id (lib/prefix-name "items-main")}
-                               (om/build-all item-view (:items data))))))))
-
+                               (om/build-all item-view (:items data)))
+                        (control-buttons))))))
 
 (defn debug-view [data owner]
   (reify om/IRender
@@ -61,7 +71,8 @@
                                            (when (> (count @lib/app-history) 1)
                                              (swap! lib/app-history pop)
                                              (reset! lib/app-state (last @lib/app-history))))}
-                           "Hi")
+                           "Undo")
+
 
                (dom/h4 nil "Last API call")
                (dom/pre nil (get-in data [:debug :last-api]))

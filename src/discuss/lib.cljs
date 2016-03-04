@@ -1,7 +1,6 @@
 (ns discuss.lib
   (:require [om.core :as om :include-macros true]
             [clojure.walk :refer [keywordize-keys]]
-            [goog.string :as gstring]
             [discuss.config :as config]))
 
 (defn prefix-name [name]
@@ -15,6 +14,12 @@
                   :intro "The current discussion is about"}
          :debug {:last-api ""}
          }))
+
+(defn init!
+  "Initialize initial data from API"
+  []
+  (let [url (:init config/api)]
+    (discuss.communication/ajax-get url)))
 
 (defn get-cursor
   "Return a cursor to the corresponding keys in the app-state."

@@ -8,12 +8,7 @@
 (enable-console-print!)
 
 ;; Initialization
-(defn init!
-  "Initialize initial data from API"
-  []
-  (let [url (:init config/api)]
-    (com/ajax-get url)))
-(init!)
+(lib/init!)
 
 ;; Register
 (om/root views/main-view lib/app-state
