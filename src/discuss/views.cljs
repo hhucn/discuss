@@ -5,16 +5,6 @@
             [discuss.lib :as lib]
             [om-bootstrap.panel :as p]))
 
-(defn debug-view [data owner]
-  (reify om/IRender
-    (render [_]
-      (dom/h5 nil "Last API call:")
-      (print (:last-api (:debug data)))
-      (dom/pre nil (:last-api (:debug data)))
-      ;(dom/div nil (. js/JSON (stringify (:issues data))))
-      ;(dom/div nil (:issues data))
-      )))
-
 (defn clipboard-view []
   (reify om/IRender
     (render [_]
@@ -54,3 +44,15 @@
                                 (:intro (:heading (:discussion data))))
                         (apply dom/ul #js {:id (lib/prefix-name "items-main")}
                                (om/build-all item-view (:items data))))))))
+
+
+(defn debug-view [data owner]
+  (reify om/IRender
+    (render [_]
+      (dom/div nil
+               (dom/h4 nil "Last API call")
+               (dom/pre nil (get-in data [:debug :last-api]))
+
+               (dom/h4 nil "Last response")
+               (dom/pre nil (get-in data [:debug :response]))
+               ))))
