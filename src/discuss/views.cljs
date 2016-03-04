@@ -27,7 +27,7 @@
                                      (str "Logged in as " (get-in data [:extras :users_name])))
                            (dom/div #js {:className "col-md-6 text-right"}
                                      "Logout"))
-                         (dom/div #js {:className "col-md-offset 6 text-right"}
+                         (dom/div #js {:className "col-md-offset-6 col-md-6 text-right"}
                                    "Login")))))
 
 ;; Views
