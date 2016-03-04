@@ -1,8 +1,6 @@
 (ns discuss.views
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [om-bootstrap.panel :as panel]
-            [om-bootstrap.grid :as grid]
             [cljs.pprint :refer [pprint]]
             [discuss.communication :as com]
             [discuss.history :as history]
@@ -21,15 +19,15 @@
                    (dom/i #js {:className "fa fa-angle-right pointer"}))))
 
 (defn login-view-buttons [data _owner]
-  (grid/grid {:class "text-muted"}
-             (grid/row {}
+  (dom/div #js {:className "text-muted"}
+             (dom/div #js {:className "row"}
                        (if (get-in data [:extras :logged_in])
                          (do
-                           (grid/col {:md 6}
+                           (dom/div #js {:className "col-md-6"}
                                      (str "Logged in as " (get-in data [:extras :users_name])))
-                           (grid/col {:md 6 :class "text-right"}
+                           (dom/div #js {:className "col-md-6 text-right"}
                                      "Logout"))
-                         (grid/col {:md-offset 5 :md 6 :class "text-right"}
+                         (dom/div #js {:className "col-md-offset 6 text-right"}
                                    "Login")))))
 
 ;; Views
@@ -68,7 +66,8 @@
                         (:intro (:layout data))
                         (dom/br nil)
                         (dom/strong nil (:info (:issues data))))
-               (panel/panel nil
+               (dom/div #js {:className "panel panel-default"}
+                        (dom/div #js {:className "panel-body"})
                             (dom/h4 #js {:id (lib/prefix-name "dialogue-topic")
                                          :className "text-center"}
                                     (get-in data [:discussion :heading :intro])

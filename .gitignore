@@ -32,3 +32,5 @@ figwheel_server.log
 *.iml
 *.css
 *.css.map
+bower_components
+compiled
