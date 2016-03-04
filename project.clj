@@ -13,6 +13,7 @@
                  [racehub/om-bootstrap "0.5.0"]             ; Bootstrap support for om
                  [org.omcljs/om "1.0.0-alpha30"]
                  [cljs-ajax "0.5.3"]                        ; AJAX for om
+                 [json-html "0.3.8"]                        ; Convert JSON to HTML DOM element
                  ]
 
   :plugins [[lein-figwheel "0.5.0-6"]

@@ -1,6 +1,7 @@
 (ns discuss.lib
   (:require [om.core :as om :include-macros true]
             [clojure.walk :refer [keywordize-keys]]
+            [goog.string :as gstring]
             [discuss.config :as config]))
 
 (defn prefix-name [name]
@@ -38,7 +39,18 @@
         items (:items res)
         discussion (:discussion res)
         issues (:issues res)]
-    (. js/console (log res))
     (update-state-map! :items items)
     (update-state-map! :discussion discussion)
-    (update-state-map! :issues issues)))
+    (update-state-map! :issues issues)
+    (update-state-item! :debug :response (fn [_] res))
+    ))
+
+
+;; Time Travel
+(def app-history (atom [@app-state]))
+
+(add-watch app-state :history
+           (fn [_ _ _ n]
+             (when-not (= (last @app-history) n)
+               (swap! app-history conj n))))
+
