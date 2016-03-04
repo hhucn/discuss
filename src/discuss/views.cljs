@@ -5,17 +5,20 @@
             [cljs.pprint :refer [pprint]]
             [goog.string :as gstring]
             [discuss.communication :as com]
+            [discuss.history :as history]
             [discuss.lib :as lib]))
 
 ;; Elements
 (defn control-buttons []
   (dom/div #js {:className "text-center"}
            (dom/h3 nil
-                   (dom/i #js {:className "fa fa-angle-double-left"})
+                   (dom/i #js {:className "fa fa-angle-double-left pointer"
+                               :onClick lib/init!})
                    " "
-                   (dom/i #js {:className "fa fa-angle-left"})
+                   (dom/i #js {:className "fa fa-angle-left pointer"
+                               :onClick history/back!})
                    " "
-                   (dom/i #js {:className "fa fa-angle-right"}))))
+                   (dom/i #js {:className "fa fa-angle-right pointer"}))))
 
 ;; Views
 (defn clipboard-view []
@@ -66,14 +69,6 @@
   (reify om/IRender
     (render [_]
       (dom/div nil
-               (dom/h4 nil "Control")
-               (dom/button #js {:onClick (fn [_e]
-                                           (when (> (count @lib/app-history) 1)
-                                             (swap! lib/app-history pop)
-                                             (reset! lib/app-state (last @lib/app-history))))}
-                           "Undo")
-
-
                (dom/h4 nil "Last API call")
                (dom/pre nil (get-in data [:debug :last-api]))
 
@@ -81,5 +76,4 @@
                ;(pprint data)
                (dom/pre nil
                         (apply dom/ul nil
-                               (map (fn [[k v]] (dom/li nil (str k ": " v))) (get-in data [:debug :response]))))
-               ))))
+                               (map (fn [[k v]] (dom/li nil (str k ": " v))) (get-in data [:debug :response]))))))))
