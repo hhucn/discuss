@@ -52,10 +52,5 @@
 
 
 ;; Time Travel
-(def app-history (atom [@app-state]))
 
-(add-watch app-state :history
-           (fn [_ _ _ n]
-             (when-not (= (last @app-history) n)
-               (swap! app-history conj n))))
 
