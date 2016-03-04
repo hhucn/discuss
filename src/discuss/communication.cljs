@@ -13,6 +13,7 @@
   (.log js/console (str "something bad happened: " status " " status-text)))
 
 (defn ajax-get [url]
+  (lib/update-state-item! :debug :last-api (fn [_] url))
   (GET (make-url url)
        {:handler lib/update-all-states!
         :error-handler error-handler}))

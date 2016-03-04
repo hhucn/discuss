@@ -8,6 +8,9 @@
 (defn debug-view [data owner]
   (reify om/IRender
     (render [_]
+      (dom/h5 nil "Last API call:")
+      (print (:last-api (:debug data)))
+      (dom/pre nil (:last-api (:debug data)))
       ;(dom/div nil (. js/JSON (stringify (:issues data))))
       ;(dom/div nil (:issues data))
       )))
@@ -40,7 +43,7 @@
       (dom/div #js {:id (lib/prefix-name "dialogue-main")}
                (dom/h3 nil
                        (dom/i #js {:className "fa fa-comments"})
-                       (str " " (:title data)))
+                       (str " " (:title (:layout data))))
                (dom/div #js {:className "text-center"}
                         (:intro (:layout data))
                         (dom/br nil)

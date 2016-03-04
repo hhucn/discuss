@@ -7,12 +7,12 @@
   (str config/project "-" name))
 
 (def app-state
-  (atom {:title "discuss"
-         :discussion {}
+  (atom {:discussion {}
          :issues {}
-         :items []
-         :layout {:intro "The current discussion is about"}
-         :debug-last-api ""
+         :items {}
+         :layout {:title "discuss"
+                  :intro "The current discussion is about"}
+         :debug {:last-api ""}
          }))
 
 (defn get-cursor
@@ -20,7 +20,12 @@
   [key]
   (om/ref-cursor (key (om/root-cursor app-state))))
 
-(defn update-state!
+(defn update-state-item!
+  "Get the cursor for given key and select a field to apply the function to it."
+  [col key f]
+  (om/transact! (get-cursor col) key f))
+
+(defn update-state-map!
   "Get the cursor for given key and update it with the new collection of data."
   [key col]
   (let [state (get-cursor key)]
@@ -34,6 +39,6 @@
         discussion (:discussion res)
         issues (:issues res)]
     (. js/console (log res))
-    (update-state! :items items)
-    (update-state! :discussion discussion)
-    (update-state! :issues issues)))
+    (update-state-map! :items items)
+    (update-state-map! :discussion discussion)
+    (update-state-map! :issues issues)))
