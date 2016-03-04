@@ -20,7 +20,7 @@
                    " "
                    (dom/i #js {:className "fa fa-angle-right pointer"}))))
 
-(defn login-view [data _owner]
+(defn login-view-buttons [data _owner]
   (grid/grid {:class "text-muted"}
              (grid/row {}
                        (if (get-in data [:extras :logged_in])
@@ -78,7 +78,7 @@
                             (apply dom/ul #js {:id (lib/prefix-name "items-main")}
                                    (om/build-all item-view (:items data)))
                             (control-buttons)
-                            (login-view data owner))))))
+                            (login-view-buttons data owner))))))
 
 (defn debug-view [data _owner]
   (reify om/IRender
@@ -91,4 +91,4 @@
                ;(pprint data)
                (dom/pre nil
                         (apply dom/ul nil
-                               (map (fn [[k v]] (dom/li nil (str k ": " v))) (get-in data [:debug :response]))))))))
+                               (map (fn [[k v]] (dom/li nil (str k "\t\t" v))) (get-in data [:debug :response]))))))))
