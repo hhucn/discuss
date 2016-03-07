@@ -70,7 +70,7 @@
   (reify om/IRender
     (render [_]
       (dom/li #js {:className "pointer"
-                   :onClick #(com/ajax-get (:url item))}
+                   :onClick #(com/item-click (:url item))}
               (dom/input #js {:id        (:id item)
                               :type      "radio"
                               :className (lib/prefix-name "dialogue-items")

@@ -12,13 +12,12 @@
     (lib/update-state-map! :user {:nickname nickname
                                   :token token
                                   :logged-in? true})
-    (lib/change-view! :discussion)
-    (println "hi")))
+    (lib/change-view! :discussion)))
 
 (defn ajax-login
   "Get cleaned data and send ajax request."
   [nickname password]
-  (lib/update-state-item! :debug :last-api (fn [_] (com/make-url "login")))
+  (lib/update-state-item! :debug :last-api (fn [_] "login"))
   (POST (com/make-url (str (:base config/api) "login"))
         {:body            (lib/clj->json {:nickname nickname
                                           :password password})

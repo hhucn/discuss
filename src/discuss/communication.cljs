@@ -1,6 +1,7 @@
 (ns discuss.communication
   (:require [ajax.core :refer [GET POST]]
             [discuss.config :as config]
+            [discuss.history :as history]
             [discuss.lib :as lib]))
 
 (defn make-url
@@ -16,3 +17,10 @@
   (GET (make-url url)
        {:handler lib/update-all-states!
         :error-handler error-handler}))
+
+(defn item-click
+  "Dispatch which action has to be done when clicking an item."
+  [url]
+  (cond
+    (= url "back") (history/back!)
+    :else (ajax-get url)))

@@ -8,7 +8,8 @@
              (when-not (= (last @app-history) n)
                (swap! app-history conj n))))
 
-(defn back! [_e]
+(defn back! []
   (when (> (count @app-history) 1)
-    (swap! app-history pop)
+    (dotimes [_ 3]                                          ; Workaround, because one action are currently 3 atom changes
+      (swap! app-history pop))
     (reset! lib/app-state (last @app-history))))
