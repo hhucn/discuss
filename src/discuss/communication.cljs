@@ -1,5 +1,5 @@
 (ns discuss.communication
-  (:require [ajax.core :refer [GET POST]]
+  (:require [ajax.core :refer [GET]]
             [discuss.config :as config]
             [discuss.history :as history]
             [discuss.lib :as lib]))

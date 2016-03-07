@@ -1,5 +1,5 @@
 (ns discuss.auth
-  (:require [ajax.core :refer [GET POST]]
+  (:require [ajax.core :refer [POST]]
             [discuss.communication :as com]
             [discuss.config :as config]
             [discuss.lib :as lib]))

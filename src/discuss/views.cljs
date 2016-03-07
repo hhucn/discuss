@@ -83,9 +83,7 @@
   (dom/div nil
            (dom/h4 #js {:id (lib/prefix-name "dialogue-topic")
                         :className "text-center"}
-                   (get-in data [:discussion :heading :intro])
-                   (get-in data [:discussion :heading :bridge])
-                   (get-in data [:discussion :heading :outro]))
+                   (:message (first (get-in data [:discussion :bubbles]))))
            (apply dom/ul #js {:id (lib/prefix-name "items-main")}
                   (om/build-all item-view (:items data)))
            (control-elements)
