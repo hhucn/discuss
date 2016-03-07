@@ -1,7 +1,5 @@
 (ns ^:figwheel-always discuss.core
   (:require [om.core :as om :include-macros true]
-            [discuss.communication :as com]
-            [discuss.config :as config]
             [discuss.lib :as lib]
             [discuss.views :as views]))
 

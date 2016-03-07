@@ -3,7 +3,9 @@
             [clojure.walk :refer [keywordize-keys]]
             [discuss.config :as config]))
 
-(defn prefix-name [name]
+(defn prefix-name
+  "Create unique id for DOM elements."
+  [name]
   (str config/project "-" name))
 
 (def app-state
@@ -17,7 +19,7 @@
          }))
 
 (defn init!
-  "Initialize initial data from API"
+  "Initialize initial data from API."
   []
   (let [url (:init config/api)]
     (discuss.communication/ajax-get url)))
@@ -56,3 +58,8 @@
    [view]
    (fn []
      (update-state-item! :layout :template (fn [_] view))))
+
+(defn get-value-by-id
+  "Return value of element matching the id."
+  [id]
+  (.-value (. js/document (getElementById (prefix-name id)))))

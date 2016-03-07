@@ -4,7 +4,8 @@
             [cljs.pprint :refer [pprint]]
             [discuss.communication :as com]
             [discuss.history :as history]
-            [discuss.lib :as lib]))
+            [discuss.lib :as lib]
+            [discuss.login :as login]))
 
 ;; Elements
 (defn control-elements []
@@ -36,15 +37,19 @@
            (dom/form nil
                      (dom/div #js {:className "form-group"}
                               (dom/label #js {:htmlFor "login-form-nickname"} "Nickname")
-                              (dom/input #js {:className "form-control"
+                              (dom/input #js {:id (lib/prefix-name "login-nickname")
+                                              :className "form-control"
                                               :placeholder "nickname"}))
                      (dom/div #js {:className "form-group"}
                               (dom/label #js {:htmlFor "login-form-password"} "Password")
-                              (dom/input #js {:className "form-control"
+                              (dom/input #js {:id (lib/prefix-name "login-password")
+                                              :className "form-control"
                                               :type "password"
                                               :placeholder "password"})))
-           (dom/button #js {:className "btn btn-default"} "Submit")
-           (dom/div #js {:className "text-right text-muted pointer"
+           (dom/button #js {:className "btn btn-default"
+                            :onClick   (fn [_] (login/login (lib/get-value-by-id "login-nickname") (lib/get-value-by-id "login-password")))}
+                       "Submit")
+           (dom/div #js {:className "text-center text-muted pointer"
                          :onClick (lib/change-view! :discussion)}
                     "Back")))
 
