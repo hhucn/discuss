@@ -3,4 +3,6 @@
 (def project "discuss")
 
 (def api {:host "http://localhost:4284/"
-          :init "api/"})
+          :init "api/"
+          :base "api/"
+          })

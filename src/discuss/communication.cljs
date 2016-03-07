@@ -1,15 +1,14 @@
 (ns discuss.communication
-  (:require [om.core :as om :include-macros true]
-            [ajax.core :refer [GET POST]]
+  (:require [ajax.core :refer [GET POST]]
             [discuss.config :as config]
             [discuss.lib :as lib]))
 
-(defn- make-url
+(defn make-url
   "Add suffix if not provided."
   [url]
   (str (:host config/api) url))
 
-(defn- error-handler [{:keys [status status-text]}]
+(defn error-handler [{:keys [status status-text]}]
   (.log js/console (str "something bad happened: " status " " status-text)))
 
 (defn ajax-get [url]

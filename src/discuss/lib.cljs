@@ -50,8 +50,7 @@
     (update-state-map! :items items)
     (update-state-map! :discussion discussion)
     (update-state-map! :issues issues)
-    (update-state-item! :debug :response (fn [_] res))
-    ))
+    (update-state-item! :debug :response (fn [_] res))))
 
  (defn change-view!
    "Switch to a different view."
@@ -63,3 +62,10 @@
   "Return value of element matching the id."
   [id]
   (.-value (. js/document (getElementById (prefix-name id)))))
+
+
+;; CLJS to JS
+(defn clj->json
+  "Convert CLJS to valid JSON."
+  [col]
+  (.stringify js/JSON (clj->js col)))
