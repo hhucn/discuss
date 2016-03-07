@@ -7,7 +7,7 @@
             [discuss.lib :as lib]))
 
 ;; Elements
-(defn control-buttons []
+(defn control-elements []
   (dom/div #js {:className "text-center"}
            (dom/h3 nil
                    (dom/i #js {:className "fa fa-angle-double-left pointer"
@@ -20,15 +20,33 @@
 
 (defn login-view-buttons [data _owner]
   (dom/div #js {:className "text-muted"}
-             (dom/div #js {:className "row"}
-                       (if (get-in data [:extras :logged_in])
-                         (do
-                           (dom/div #js {:className "col-md-6"}
-                                     (str "Logged in as " (get-in data [:extras :users_name])))
-                           (dom/div #js {:className "col-md-6 text-right"}
-                                     "Logout"))
-                         (dom/div #js {:className "col-md-offset-6 col-md-6 text-right"}
-                                   "Login")))))
+           (dom/div #js {:className "row"}
+                    (if (get-in data [:extras :logged_in])
+                      (do
+                        (dom/div #js {:className "col-md-6"}
+                                 (str "Logged in as " (get-in data [:extras :users_name])))
+                        (dom/div #js {:className "col-md-6 text-right"}
+                                 "Logout"))
+                      (dom/div #js {:className "col-md-offset-6 col-md-6 text-right pointer"
+                                    :onClick (lib/change-view! :login)}
+                               "Login")))))
+
+(defn login-form [data owner]
+  (dom/div nil
+           (dom/form nil
+                     (dom/div #js {:className "form-group"}
+                              (dom/label #js {:htmlFor "login-form-nickname"} "Nickname")
+                              (dom/input #js {:className "form-control"
+                                              :placeholder "nickname"}))
+                     (dom/div #js {:className "form-group"}
+                              (dom/label #js {:htmlFor "login-form-password"} "Password")
+                              (dom/input #js {:className "form-control"
+                                              :type "password"
+                                              :placeholder "password"})))
+           (dom/button #js {:className "btn btn-default"} "Submit")
+           (dom/div #js {:className "text-right text-muted pointer"
+                         :onClick (lib/change-view! :discussion)}
+                    "Back")))
 
 ;; Views
 (defn clipboard-view []
@@ -54,6 +72,18 @@
               " "
               (:title item)))))
 
+(defn discussion-elements [data owner]
+  (dom/div nil
+           (dom/h4 #js {:id        (lib/prefix-name "dialogue-topic")
+                        :className "text-center"}
+                   (get-in data [:discussion :heading :intro])
+                   (get-in data [:discussion :heading :bridge])
+                   (get-in data [:discussion :heading :outro]))
+           (apply dom/ul #js {:id (lib/prefix-name "items-main")}
+                  (om/build-all item-view (:items data)))
+           (control-elements)
+           (login-view-buttons data owner)))
+
 (defn main-view [data owner]
   (reify om/IRender
     (render [_]
@@ -67,17 +97,11 @@
                         (dom/br nil)
                         (dom/strong nil (:info (:issues data))))
                (dom/div #js {:className "panel panel-default"}
-                        (dom/div #js {:className "panel-body"})
-                            (dom/h4 #js {:id (lib/prefix-name "dialogue-topic")
-                                         :className "text-center"}
-                                    (get-in data [:discussion :heading :intro])
-                                    (get-in data [:discussion :heading :bridge])
-                                    (get-in data [:discussion :heading :outro])
-                                    )
-                            (apply dom/ul #js {:id (lib/prefix-name "items-main")}
-                                   (om/build-all item-view (:items data)))
-                            (control-buttons)
-                            (login-view-buttons data owner))))))
+                        (dom/div #js {:className "panel-body"}
+                                 (let [view (get-in data [:layout :template])]
+                                   (cond
+                                     (= view :login) (login-form data owner)
+                                     :else (discussion-elements data owner)))))))))
 
 (defn debug-view [data _owner]
   (reify om/IRender

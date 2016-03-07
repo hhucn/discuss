@@ -11,7 +11,8 @@
          :issues {}
          :items {}
          :layout {:title "discuss"
-                  :intro "The current discussion is about"}
+                  :intro "The current discussion is about"
+                  :template :discussion}
          :debug {:last-api ""}
          }))
 
@@ -49,3 +50,9 @@
     (update-state-map! :issues issues)
     (update-state-item! :debug :response (fn [_] res))
     ))
+
+ (defn change-view!
+   "Switch to a different view."
+   [view]
+   (fn []
+     (update-state-item! :layout :template (fn [_] view))))
