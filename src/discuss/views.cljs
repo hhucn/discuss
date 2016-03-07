@@ -5,7 +5,7 @@
             [discuss.communication :as com]
             [discuss.history :as history]
             [discuss.lib :as lib]
-            [discuss.login :as login]))
+            [discuss.auth :as auth]))
 
 ;; Elements
 (defn control-elements []
@@ -22,14 +22,16 @@
 (defn login-view-buttons [data _owner]
   (dom/div #js {:className "text-muted"}
            (dom/div #js {:className "row"}
-                    (if (get-in data [:extras :logged_in])
+                    (if (get-in data [:user :logged-in?])
                       (do
-                        (dom/div #js {:className "col-md-6"}
-                                 (str "Logged in as " (get-in data [:extras :users_name])))
-                        (dom/div #js {:className "col-md-6 text-right"}
-                                 "Logout"))
+                        (dom/div nil
+                                 (dom/div #js {:className "col-md-6"}
+                                          (str "Logged in as " (get-in data [:user :nickname])))
+                                 (dom/div #js {:className "col-md-6 text-right pointer"
+                                               :onClick auth/logout}
+                                          "Logout")))
                       (dom/div #js {:className "col-md-offset-6 col-md-6 text-right pointer"
-                                    :onClick (lib/change-view! :login)}
+                                    :onClick #(lib/change-view! :login)}
                                "Login")))))
 
 (defn login-form [data owner]
@@ -47,10 +49,10 @@
                                               :type "password"
                                               :placeholder "password"})))
            (dom/button #js {:className "btn btn-default"
-                            :onClick   (fn [_] (login/login (lib/get-value-by-id "login-nickname") (lib/get-value-by-id "login-password")))}
+                            :onClick   #(auth/login (lib/get-value-by-id "login-nickname") (lib/get-value-by-id "login-password"))}
                        "Submit")
            (dom/div #js {:className "text-center text-muted pointer"
-                         :onClick (lib/change-view! :discussion)}
+                         :onClick #(lib/change-view! :discussion)}
                     "Back")))
 
 ;; Views

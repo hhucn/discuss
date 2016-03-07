@@ -16,6 +16,9 @@
                   :intro "The current discussion is about"
                   :template :discussion}
          :debug {:last-api ""}
+         :user {:nickname ""
+                :token ""
+                :logged-in false}
          }))
 
 (defn init!
@@ -52,11 +55,10 @@
     (update-state-map! :issues issues)
     (update-state-item! :debug :response (fn [_] res))))
 
- (defn change-view!
-   "Switch to a different view."
-   [view]
-   (fn []
-     (update-state-item! :layout :template (fn [_] view))))
+(defn change-view!
+  "Switch to a different view."
+  [view]
+  (update-state-item! :layout :template (fn [_] view)))
 
 (defn get-value-by-id
   "Return value of element matching the id."
