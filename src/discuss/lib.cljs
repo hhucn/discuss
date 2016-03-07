@@ -14,11 +14,13 @@
          :items {}
          :layout {:title "discuss"
                   :intro "The current discussion is about"
-                  :template :discussion}
+                  :template :discussion
+                  :add? false
+                  :add-text "Let me enter my reason!"}
          :debug {:last-api ""}
          :user {:nickname ""
                 :token ""
-                :logged-in false}
+                :logged-in? false}
          }))
 
 (defn init!
@@ -53,13 +55,30 @@
     (update-state-map! :items items)
     (update-state-map! :discussion discussion)
     (update-state-map! :issues issues)
+    (println "Premise text")
+    (println (:add_premise_text discussion))
     (update-state-item! :debug :response (fn [_] res))))
 
+
+;; Change views
 (defn change-view!
   "Switch to a different view."
   [view]
   (update-state-item! :layout :template (fn [_] view)))
 
+(defn show-add-form
+  "Shows a form to enable user-added content."
+  []
+  (println (get-in @app-state [:user :logged-in?]))
+  (when (get-in @app-state [:user :logged-in?])
+    (update-state-item! :layout :add? (fn [_] true))))
+
+(defn hide-add-form
+  "Hide the user form."
+  []
+  (update-state-item! :layout :add? (fn [_] false)))
+
+;; Other
 (defn get-value-by-id
   "Return value of element matching the id."
   [id]

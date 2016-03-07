@@ -34,7 +34,7 @@
                                     :onClick #(lib/change-view! :login)}
                                "Login")))))
 
-(defn login-form [data owner]
+(defn login-form []
   (dom/div nil
            (dom/form nil
                      (dom/div #js {:className "form-group"}
@@ -81,7 +81,7 @@
 
 (defn discussion-elements [data owner]
   (dom/div nil
-           (dom/h4 #js {:id        (lib/prefix-name "dialogue-topic")
+           (dom/h4 #js {:id (lib/prefix-name "dialogue-topic")
                         :className "text-center"}
                    (get-in data [:discussion :heading :intro])
                    (get-in data [:discussion :heading :bridge])
@@ -90,6 +90,17 @@
                   (om/build-all item-view (:items data)))
            (control-elements)
            (login-view-buttons data owner)))
+
+(defn add-element [data _owner]
+  (dom/div #js {:className "panel panel-default"}
+           (dom/div #js {:className "panel-body"}
+                    (dom/h4 #js {:className "text-center"} (get-in data [:layout :add-text]))
+                    (dom/h5 #js {:className "text-center"} (get-in data [:discussion :add_premise_text]))
+                    (dom/form nil
+                              (dom/div #js {:className "form-group"}
+                                       (dom/label #js {:htmlFor "add-element"} (get-in data [:discussion :heading :outro]))
+                                       (dom/input #js {:id (lib/prefix-name "login-nickname")
+                                                       :className "form-control"}))))))
 
 (defn main-view [data owner]
   (reify om/IRender
@@ -107,8 +118,10 @@
                         (dom/div #js {:className "panel-body"}
                                  (let [view (get-in data [:layout :template])]
                                    (cond
-                                     (= view :login) (login-form data owner)
-                                     :else (discussion-elements data owner)))))))))
+                                     (= view :login) (login-form)
+                                     :else (discussion-elements data owner)))))
+               (when (get-in data [:layout :add?])
+                 (add-element data owner))))))
 
 (defn debug-view [data _owner]
   (reify om/IRender

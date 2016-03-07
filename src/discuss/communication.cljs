@@ -4,11 +4,18 @@
             [discuss.history :as history]
             [discuss.lib :as lib]))
 
+;; Auxiliary functions
 (defn make-url
   "Add suffix if not provided."
   [url]
   (str (:host config/api) url))
 
+;; Discussion-related functions
+(defn add-new-statement []
+  (println "Add new statement")
+  (lib/show-add-form))
+
+;; AJAX stuff
 (defn error-handler [{:keys [status status-text]}]
   (.log js/console (str "something bad happened: " status " " status-text)))
 
@@ -21,6 +28,8 @@
 (defn item-click
   "Dispatch which action has to be done when clicking an item."
   [url]
+  (lib/hide-add-form)
   (cond
     (= url "back") (history/back!)
+    (= url "add")  (add-new-statement)
     :else (ajax-get url)))
