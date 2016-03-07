@@ -29,11 +29,23 @@
   (let [url (:init config/api)]
     (discuss.communication/ajax-get url)))
 
+;; Get
 (defn get-cursor
   "Return a cursor to the corresponding keys in the app-state."
   [key]
   (om/ref-cursor (key (om/root-cursor app-state))))
 
+(defn get-token
+  "Return the user's token for discussion system."
+  []
+  (get-in @app-state [:user :token]))
+
+(defn logged-in?
+  "Return true if user is logged in."
+  []
+  (get-in @app-state [:user :logged-in?]))
+
+;; State changing
 (defn update-state-item!
   "Get the cursor for given key and select a field to apply the function to it."
   [col key f]

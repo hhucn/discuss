@@ -19,10 +19,18 @@
 (defn error-handler [{:keys [status status-text]}]
   (.log js/console (str "something bad happened: " status " " status-text)))
 
+(defn token-header
+  "Return token header for ajax request if user is logged in."
+  []
+  (if (lib/logged-in?)
+    {"X-Messaging-Token" (lib/get-token)}
+    nil))
+
 (defn ajax-get [url]
   (lib/update-state-item! :debug :last-api (fn [_] url))
   (GET (make-url url)
        {:handler lib/update-all-states!
+        :headers (token-header)
         :error-handler error-handler}))
 
 (defn item-click
