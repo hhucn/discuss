@@ -96,7 +96,7 @@
   (dom/div nil
            (dom/h4 #js {:id (lib/prefix-name "dialogue-topic")
                         :className "text-center"}
-                   (:message (first (get-in data [:discussion :bubbles]))))
+                   (safe-html (:message (first (get-in data [:discussion :bubbles])))))
            (apply dom/ul #js {:id (lib/prefix-name "items-main")}
                   (om/build-all item-view (:items data)))
            (control-elements)

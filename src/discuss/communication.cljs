@@ -16,7 +16,8 @@
 
 ;; AJAX stuff
 (defn error-handler [{:keys [status status-text]}]
-  (.log js/console (str "something bad happened: " status " " status-text)))
+  (.log js/console (str "something bad happened: " status " " status-text))
+  (lib/loading? false))
 
 (defn token-header
   "Return token header for ajax request if user is logged in."
