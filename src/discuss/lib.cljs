@@ -87,7 +87,7 @@
 (defn show-add-form
   "Shows a form to enable user-added content."
   []
-  (when (get-in @discussion-state [:user :logged-in?])
+  (when (logged-in?)
     (update-state-item! :layout :add? (fn [_] true))))
 
 (defn hide-add-form

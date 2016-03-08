@@ -1,6 +1,7 @@
 (ns discuss.communication
   (:require [ajax.core :refer [GET]]
             [discuss.config :as config]
+            [discuss.debug :as debug]
             [discuss.history :as history]
             [discuss.lib :as lib]))
 
@@ -26,7 +27,7 @@
     {"X-Messaging-Token" (lib/get-token)}))
 
 (defn ajax-get [url]
-  (lib/update-state-item! :debug :last-api (fn [_] url))
+  (debug/update :last-api url)
   (GET (make-url url)
        {:handler lib/update-all-states!
         :headers (token-header)

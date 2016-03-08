@@ -2,6 +2,7 @@
   (:require [ajax.core :refer [POST]]
             [discuss.communication :as com]
             [discuss.config :as config]
+            [discuss.debug :as debug]
             [discuss.lib :as lib]))
 
 (defn success-login
@@ -18,7 +19,7 @@
   "Get cleaned data and send ajax request."
   [nickname password]
   (let [url (str (:base config/api) "login")]
-    (lib/update-state-item! :debug :last-api (fn [_] url))
+    (debug/update :last-api url)
     (POST (com/make-url url)
           {:body            (lib/clj->json {:nickname nickname
                                             :password password})
