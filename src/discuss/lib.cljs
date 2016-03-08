@@ -30,12 +30,6 @@
   (let [url (:init config/api)]
     (discuss.communication/ajax-get url)))
 
-(defn loading?
-  ([]
-   (get-in @discussion-state [:layout :loading?]))
-  ([bool]
-   (update-state-item! :layout :loading? (fn [_] bool))))
-
 ;; Get
 (defn get-cursor
   "Return a cursor to the corresponding keys in the app-state."
@@ -63,6 +57,12 @@
   [key col]
   (let [state (get-cursor key)]
     (om/transact! state (fn [] col))))
+
+(defn loading?
+  ([]
+   (get-in @discussion-state [:layout :loading?]))
+  ([bool]
+   (update-state-item! :layout :loading? (fn [_] bool))))
 
 (defn- update-all-states!
   "Update item list with the data provided by the API."

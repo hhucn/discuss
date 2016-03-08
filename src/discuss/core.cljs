@@ -1,5 +1,6 @@
 (ns ^:figwheel-always discuss.core
   (:require [om.core :as om :include-macros true]
+            [discuss.debug :as debug]
             [discuss.lib :as lib]
             [discuss.views :as views]))
 
@@ -15,7 +16,7 @@
 ;(om/root views/clipboard-view lib/app-state
 ;         {:target (. js/document (getElementById "discuss-clipboard"))})
 
-(om/root views/debug-view lib/discussion-state
+(om/root debug/debug-view lib/discussion-state
          {:target (. js/document (getElementById "debug"))})
 
 (defn on-js-reload []
