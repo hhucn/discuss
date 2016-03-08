@@ -17,7 +17,7 @@
                   :template :discussion
                   :add? false
                   :add-text "Let me enter my reason!"
-                  :loading? true}
+                  :loading? false}
          :debug {:last-api ""}
          :user {:nickname ""
                 :token ""
@@ -46,6 +46,11 @@
   []
   (get-in @discussion-state [:user :logged-in?]))
 
+(defn get-bubbles
+  "Return message bubbles from DBAS."
+  []
+  (get-in @discussion-state [:discussion :bubbles]))
+
 ;; State changing
 (defn update-state-item!
   "Get the cursor for given key and select a field to apply the function to it."
@@ -64,7 +69,7 @@
   ([bool]
    (update-state-item! :layout :loading? (fn [_] bool))))
 
-(defn- update-all-states!
+(defn update-all-states!
   "Update item list with the data provided by the API."
   [response]
   (let [res (keywordize-keys response)

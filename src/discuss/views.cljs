@@ -77,6 +77,20 @@
                (dom/hr nil)
                (dom/div #js {:id (lib/prefix-name "clipboard-arguments")})))))
 
+
+(defn bubble-view [bubble _owner]
+  (reify om/IRender
+    (render [_]
+      (. js/console (log bubble))
+      (dom/div #js {:className "well"}
+               (:message bubble)))))
+
+(defn bubbles-view [data owner]
+  (dom/div nil
+           (println "############")
+           (apply dom/div nil
+                  (om/build-all bubble-view (lib/get-bubbles)))))
+
 (defn item-view [item _owner]
   (reify om/IRender
     (render [_]
@@ -96,6 +110,7 @@
            (dom/h4 #js {:id (lib/prefix-name "dialogue-topic")
                         :className "text-center"}
                    (safe-html (:message (first (get-in data [:discussion :bubbles])))))
+           (bubbles-view data owner)
            (apply dom/ul #js {:id (lib/prefix-name "items-main")}
                   (om/build-all item-view (:items data)))
            (control-elements)

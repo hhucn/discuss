@@ -12,10 +12,13 @@
                (dom/pre nil (get-in data [:debug :last-api]))
 
                (dom/h4 nil "Last response")
-               ;(pprint data)
                (dom/pre nil
                         (apply dom/ul nil
-                               (map (fn [[k v]] (dom/li nil (str k "\t\t" v))) (get-in data [:debug :response]))))))))
+                               (map (fn [[k v]] (dom/li nil (str k "\t\t" v))) (get-in data [:debug :response]))))
+
+               (dom/h4 nil "Token")
+               (dom/pre nil (get-in data [:user :token]))
+               ))))
 
 (defn update
   "Update displayed debug information."
