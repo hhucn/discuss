@@ -13,10 +13,11 @@
          :issues {}
          :items {}
          :layout {:title "discuss"
-                  :intro "The current discussion is about"
+                  :intro "The current discussion is about:"
                   :template :discussion
                   :add? false
-                  :add-text "Let me enter my reason!"}
+                  :add-text "Let me enter my reason!"
+                  :loading? true}
          :debug {:last-api ""}
          :user {:nickname ""
                 :token ""
@@ -28,6 +29,12 @@
   []
   (let [url (:init config/api)]
     (discuss.communication/ajax-get url)))
+
+(defn loading?
+  ([]
+   (get-in @app-state [:layout :loading?]))
+  ([bool]
+   (update-state-item! :layout :loading? (fn [_] bool))))
 
 ;; Get
 (defn get-cursor
@@ -67,9 +74,8 @@
     (update-state-map! :items items)
     (update-state-map! :discussion discussion)
     (update-state-map! :issues issues)
-    (println "Premise text")
-    (println (:add_premise_text discussion))
-    (update-state-item! :debug :response (fn [_] res))))
+    (update-state-item! :debug :response (fn [_] res))
+    (loading? false)))
 
 
 ;; Change views
@@ -81,7 +87,6 @@
 (defn show-add-form
   "Shows a form to enable user-added content."
   []
-  (println (get-in @app-state [:user :logged-in?]))
   (when (get-in @app-state [:user :logged-in?])
     (update-state-item! :layout :add? (fn [_] true))))
 

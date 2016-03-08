@@ -12,8 +12,8 @@
 (om/root views/main-view lib/app-state
          {:target (. js/document (getElementById "discuss-main"))})
 
-(om/root views/clipboard-view lib/app-state
-         {:target (. js/document (getElementById "discuss-clipboard"))})
+;(om/root views/clipboard-view lib/app-state
+;         {:target (. js/document (getElementById "discuss-clipboard"))})
 
 (om/root views/debug-view lib/app-state
          {:target (. js/document (getElementById "debug"))})

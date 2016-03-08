@@ -17,15 +17,16 @@
 (defn ajax-login
   "Get cleaned data and send ajax request."
   [nickname password]
-  (lib/update-state-item! :debug :last-api (fn [_] "login"))
-  (POST (com/make-url (str (:base config/api) "login"))
-        {:body            (lib/clj->json {:nickname nickname
-                                          :password password})
-         :handler         success-login
-         :error-handler   com/error-handler
-         :response-format :json
-         :headers         {"Content-Type" "application/json"}
-         :keywords?       true}))
+  (let [url (str (:base config/api) "login")]
+    (lib/update-state-item! :debug :last-api (fn [_] url))
+    (POST (com/make-url url)
+          {:body            (lib/clj->json {:nickname nickname
+                                            :password password})
+           :handler         success-login
+           :error-handler   com/error-handler
+           :response-format :json
+           :headers         {"Content-Type" "application/json"}
+           :keywords?       true})))
 
 (defn login
   "Use login form data, validate it and send ajax request."

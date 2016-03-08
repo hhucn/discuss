@@ -7,7 +7,18 @@
             [discuss.lib :as lib]
             [discuss.auth :as auth]))
 
+;; Auxiliary functions
+(defn safe-html
+  "Creates DOM element with interpreted HTML."
+  [string]
+  (dom/span #js {:dangerouslySetInnerHTML #js {:__html string}}))
+
+
 ;; Elements
+(defn loading-element [data]
+  (when (lib/loading?)
+    (dom/i #js {:className "fa fa-circle-o-notch fa-spin pull-right"})))
+
 (defn control-elements []
   (dom/div #js {:className "text-center"}
            (dom/h3 nil
@@ -55,6 +66,7 @@
                          :onClick #(lib/change-view! :discussion)}
                     "Back")))
 
+
 ;; Views
 (defn clipboard-view []
   (reify om/IRender
@@ -69,15 +81,16 @@
 (defn item-view [item _owner]
   (reify om/IRender
     (render [_]
-      (dom/li #js {:className "pointer"
-                   :onClick #(com/item-click (:url item))}
-              (dom/input #js {:id        (:id item)
-                              :type      "radio"
-                              :className (lib/prefix-name "dialogue-items")
-                              :name      (lib/prefix-name "dialogue-items-group")
-                              :value     (:url item)})
-              " "
-              (:title item)))))
+      (dom/div #js {:className "radio"}
+               (dom/label #js {}
+                          (dom/input #js {:id        (:id item)
+                                          :type      "radio"
+                                          :className (lib/prefix-name "dialogue-items")
+                                          :name      (lib/prefix-name "dialogue-items-group")
+                                          :onClick   #(com/item-click (:url item))
+                                          :value     (:url item)})
+                          " "
+                          (safe-html (:title item)))))))
 
 (defn discussion-elements [data owner]
   (dom/div nil
@@ -114,6 +127,7 @@
                         (dom/strong nil (:info (:issues data))))
                (dom/div #js {:className "panel panel-default"}
                         (dom/div #js {:className "panel-body"}
+                                 (loading-element data)
                                  (let [view (get-in data [:layout :template])]
                                    (cond
                                      (= view :login) (login-form)
