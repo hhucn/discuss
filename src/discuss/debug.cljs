@@ -10,6 +10,9 @@
       (dom/div nil
                (dom/h4 nil "Last API call")
                (dom/pre nil (get-in data [:debug :last-api]))
+               (dom/button #js {:className "btn btn-default"
+                                :onClick #(discuss.communication/ajax-get (get-in data [:debug :last-api]))}
+                           "Resend API Call")
 
                (dom/h4 nil "Last response")
                (dom/pre nil
