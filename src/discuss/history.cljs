@@ -1,15 +1,15 @@
 (ns discuss.history
   (:require [discuss.lib :as lib]))
 
-(def app-history (atom [@lib/app-state]))
+(def discussion-history (atom [@lib/discussion-state]))
 
-(add-watch lib/app-state :history
+(add-watch lib/discussion-state :history
            (fn [_ _ _ n]
-             (when-not (= (last @app-history) n)
-               (swap! app-history conj n))))
+             (when-not (= (last @discussion-history) n)
+               (swap! discussion-history conj n))))
 
 (defn back! []
-  (when (> (count @app-history) 1)
+  (when (> (count @discussion-history) 1)
     (dotimes [_ 3]                                          ; Workaround, because one action are currently 3 atom changes
-      (swap! app-history pop))
-    (reset! lib/app-state (last @app-history))))
+      (swap! discussion-history pop))
+    (reset! lib/discussion-state (last @discussion-history))))

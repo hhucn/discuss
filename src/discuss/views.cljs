@@ -106,7 +106,7 @@
   (dom/div #js {:className "panel panel-default"}
            (dom/div #js {:className "panel-body"}
                     (dom/h4 #js {:className "text-center"} (get-in data [:layout :add-text]))
-                    (dom/h5 #js {:className "text-center"} (get-in data [:discussion :add_premise_text]))
+                    (dom/h5 #js {:className "text-center"} (safe-html (get-in data [:discussion :add_premise_text])))
                     (dom/form nil
                               (dom/div #js {:className "form-group"}
                                        (dom/label #js {:htmlFor "add-element"} (get-in data [:discussion :heading :outro]))

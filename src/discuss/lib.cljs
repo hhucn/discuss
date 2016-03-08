@@ -8,7 +8,7 @@
   [name]
   (str config/project "-" name))
 
-(def app-state
+(def discussion-state
   (atom {:discussion {}
          :issues {}
          :items {}
@@ -32,7 +32,7 @@
 
 (defn loading?
   ([]
-   (get-in @app-state [:layout :loading?]))
+   (get-in @discussion-state [:layout :loading?]))
   ([bool]
    (update-state-item! :layout :loading? (fn [_] bool))))
 
@@ -40,17 +40,17 @@
 (defn get-cursor
   "Return a cursor to the corresponding keys in the app-state."
   [key]
-  (om/ref-cursor (key (om/root-cursor app-state))))
+  (om/ref-cursor (key (om/root-cursor discussion-state))))
 
 (defn get-token
   "Return the user's token for discussion system."
   []
-  (get-in @app-state [:user :token]))
+  (get-in @discussion-state [:user :token]))
 
 (defn logged-in?
   "Return true if user is logged in."
   []
-  (get-in @app-state [:user :logged-in?]))
+  (get-in @discussion-state [:user :logged-in?]))
 
 ;; State changing
 (defn update-state-item!
@@ -87,7 +87,7 @@
 (defn show-add-form
   "Shows a form to enable user-added content."
   []
-  (when (get-in @app-state [:user :logged-in?])
+  (when (get-in @discussion-state [:user :logged-in?])
     (update-state-item! :layout :add? (fn [_] true))))
 
 (defn hide-add-form

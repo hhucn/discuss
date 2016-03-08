@@ -1,5 +1,5 @@
-(defproject discuss "0.1.0-SNAPSHOT"
-  :description "FIXME: write this!"
+(defproject discuss "0.1"
+  :description ""
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
@@ -16,7 +16,8 @@
                  ]
 
   :plugins [[lein-figwheel "0.5.0-6"]
-            [lein-cljsbuild "1.1.2" :exclusions [[org.clojure/clojure]]]]
+            [lein-cljsbuild "1.1.2" :exclusions [[org.clojure/clojure]]]
+            [lein-codox "0.9.4"]]
 
   :source-paths ["src"]
 
@@ -27,7 +28,7 @@
                 :source-paths ["src"]
 
                 ;; If no code is to be run, set :figwheel true for continued automagical reloading
-                :figwheel {:load-warninged-code true
+                :figwheel {                                 ;:load-warninged-code true
                            :on-jsload "discuss.core/on-js-reload"}
 
                 :compiler {:main discuss.core
@@ -74,4 +75,9 @@
 
              ;; to configure a different figwheel logfile path
              ;; :server-logfile "tmp/logs/figwheel-logfile.log"
-             })
+             }
+
+  ;; For documentation
+  :codox {:language :clojurescript
+          :metadata {:doc/format :markdown}}
+  )

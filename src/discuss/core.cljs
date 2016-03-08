@@ -9,13 +9,13 @@
 (lib/init!)
 
 ;; Register
-(om/root views/main-view lib/app-state
+(om/root views/main-view lib/discussion-state
          {:target (. js/document (getElementById "discuss-main"))})
 
 ;(om/root views/clipboard-view lib/app-state
 ;         {:target (. js/document (getElementById "discuss-clipboard"))})
 
-(om/root views/debug-view lib/app-state
+(om/root views/debug-view lib/discussion-state
          {:target (. js/document (getElementById "debug"))})
 
 (defn on-js-reload []
