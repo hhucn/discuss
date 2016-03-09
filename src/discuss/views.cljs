@@ -81,13 +81,11 @@
 (defn bubble-view [bubble _owner]
   (reify om/IRender
     (render [_]
-      (. js/console (log bubble))
       (dom/div #js {:className "well"}
-               (:message bubble)))))
+               (safe-html (:message bubble))))))
 
 (defn bubbles-view [data owner]
   (dom/div nil
-           (println "############")
            (apply dom/div nil
                   (om/build-all bubble-view (lib/get-bubbles)))))
 

@@ -27,7 +27,7 @@
     {"X-Messaging-Token" (lib/get-token)}))
 
 (defn ajax-get [url]
-  (debug/update :last-api url)
+  (debug/update-debug :last-api url)
   (GET (make-url url)
        {:handler lib/update-all-states!
         :headers (token-header)
