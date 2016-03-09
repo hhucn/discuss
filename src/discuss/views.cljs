@@ -12,11 +12,12 @@
   [string]
   (dom/span #js {:dangerouslySetInnerHTML #js {:__html string}}))
 
-
 ;; Elements
 (defn loading-element []
   (when (lib/loading?)
-    (dom/i #js {:className "fa fa-circle-o-notch fa-spin pull-right"})))
+    (dom/div #js {:className "loader"}
+             (dom/svg #js {:className "circular" :viewBox "25 25 50 50"}
+                      (dom/circle #js {:className "path" :cx "50" :cy "50" :r "20" :fill "none" :strokeWidth "5" :strokeMiterlimit "10"})))))
 
 (defn control-elements []
   (dom/div #js {:className "text-center"}
@@ -32,15 +33,19 @@
 (defn login-view-buttons [data _owner]
   (dom/div #js {:className "text-muted"}
            (dom/div #js {:className "row"}
-                    (if (get-in data [:user :logged-in?])
-                      (do
-                        (dom/div nil
-                                 (dom/div #js {:className "col-md-6"}
-                                          (str "Logged in as " (get-in data [:user :nickname])))
-                                 (dom/div #js {:className "col-md-6 text-right pointer"
-                                               :onClick auth/logout}
-                                          "Logout")))
-                      (dom/div #js {:className "col-md-offset-6 col-md-6 text-right pointer"
+                    (if (lib/logged-in?)
+                      (dom/div #js {:className "col-md-5"}
+                               (str "Logged in as " (get-in data [:user :nickname])))
+                      (dom/div #js {:className "col-md-5"}))
+                    (dom/div #js {:className "col-md-2 text-center"}
+                             (when (lib/loading?)
+                               (loading-element)))
+
+                    (if (lib/logged-in?)
+                      (dom/div #js {:className "col-md-5 text-right pointer"
+                                    :onClick auth/logout}
+                               "Logout")
+                      (dom/div #js {:className "col-md-5 text-right pointer"
                                     :onClick #(lib/change-view! :login)}
                                "Login")))))
 
@@ -139,7 +144,6 @@
                         (dom/strong nil (:info (:issues data))))
                (dom/div #js {:className "panel panel-default"}
                         (dom/div #js {:className "panel-body"}
-                                 (loading-element)
                                  (let [view (get-in data [:layout :template])]
                                    (cond
                                      (= view :login) (login-form)
