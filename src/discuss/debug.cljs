@@ -6,7 +6,17 @@
             [discuss.lib :as lib]))
 
 (defn print-bubbles [bubbles]
-  (map #(str (:message (nth bubbles %)) "\n") (range (count bubbles))))
+  (map #(let [bubble (nth bubbles %)]
+         (str
+           (cond
+             (:is_user bubble) "user: "
+             (:is_system bubble) "info: "
+             (:is_status bubble) "status: "
+             :else ""
+             )
+           (:message bubble)
+           "\n"))
+       (range (count bubbles))))
 
 (defn debug-view [data _owner]
   (reify om/IRender

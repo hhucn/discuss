@@ -14,7 +14,7 @@
 
 
 ;; Elements
-(defn loading-element [data]
+(defn loading-element []
   (when (lib/loading?)
     (dom/i #js {:className "fa fa-circle-o-notch fa-spin pull-right"})))
 
@@ -139,7 +139,7 @@
                         (dom/strong nil (:info (:issues data))))
                (dom/div #js {:className "panel panel-default"}
                         (dom/div #js {:className "panel-body"}
-                                 (loading-element data)
+                                 (loading-element)
                                  (let [view (get-in data [:layout :template])]
                                    (cond
                                      (= view :login) (login-form)
