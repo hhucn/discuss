@@ -36,9 +36,13 @@
 
 (defn item-click
   "Dispatch which action has to be done when clicking an item."
-  [url]
+  [id url]
   (lib/hide-add-form)
   (cond
     (= url "back") (history/back!)
     (= url "add")  (add-new-statement)
+    (= id "item_start_statement") (add-new-statement)
+    (= id "item_start_premise")   (add-new-statement)
+    (= id "item_justify_premise") (add-new-statement)
+
     :else (ajax-get url)))

@@ -12,6 +12,13 @@
   [string]
   (dom/span #js {:dangerouslySetInnerHTML #js {:__html string}}))
 
+(defn get-bubble-class [bubble]
+  "Check bubble type and return a class-string to match the CSS styles."
+  (cond
+    (:is_user bubble)   "bubble-user"
+    (:is_system bubble) "bubble-system"
+    (:is_status bubble) "bubble-status text-center"))
+
 ;; Elements
 (defn loading-element []
   (when (lib/loading?)
@@ -82,14 +89,6 @@
                (dom/hr nil)
                (dom/div #js {:id (lib/prefix-name "clipboard-arguments")})))))
 
-
-(defn get-bubble-class [bubble]
-  "bubble-system"
-  (cond
-    (:is_user bubble)   "bubble-user"
-    (:is_system bubble) "bubble-system"
-    (:is_status bubble) "bubble-status"))
-
 (defn bubble-view [bubble]
   (reify om/IRender
     (render [_]
@@ -108,7 +107,7 @@
                                           :type      "radio"
                                           :className (lib/prefix-name "dialogue-items")
                                           :name      (lib/prefix-name "dialogue-items-group")
-                                          :onClick   #(com/item-click (:url item))
+                                          :onClick   #(com/item-click (:id item) (:url item))
                                           :value     (:url item)})
                           " "
                           (safe-html (:title item)))))))
