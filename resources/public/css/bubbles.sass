@@ -1,16 +1,24 @@
-$background: #EBEBEB
-$user: #80CBC4
+$background: #eceff1
+$user: #B2DFDB
+$system: #fff
+$status: #E1F5FE
 
 .bubbles
   list-style: none
   background: $background
-  padding: 0 0 50px 0 // finality
+  padding: 0
   li
     padding: 1em
     overflow: hidden
     display: flex
   .avatar
     position: relative // for triangle
+
+.bubble-status
+  .messages
+    max-width: 50%
+    margin: auto
+    background-color: $status
 
 .bubble-system
   .avatar
@@ -40,18 +48,20 @@ $user: #80CBC4
       content: ""
       color: $user
       position: absolute
-      bottom: 10px
+      bottom: 8px
       left: 0
       width: 0
       height: 0
-      border: 5px solid white
+      border: 5px solid $user
       border-right-color: transparent
       border-top-color: transparent
       //box-shadow: 1px 1px 2px 0 rgba(black, 0.2)
 
 .messages
+  max-width: 80%
   background: white
-  padding: 10px
+  padding: 1em
+  margin-bottom: 0
   border-radius: 2px
   box-shadow: 0 1px 2px rgba(black, 0.2)
   p
