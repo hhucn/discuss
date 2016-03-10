@@ -1,0 +1,58 @@
+$background: #EBEBEB
+$user: #80CBC4
+
+.bubbles
+  list-style: none
+  background: $background
+  padding: 0 0 50px 0 // finality
+  li
+    padding: 1em
+    overflow: hidden
+    display: flex
+  .avatar
+    position: relative // for triangle
+
+.bubble-system
+  .avatar
+    &:after
+      content: ""
+      position: absolute
+      top: 0
+      right: 0
+      width: 0
+      height: 0
+      border: 5px solid white
+      border-left-color: transparent
+      border-bottom-color: transparent
+
+.bubble-user
+  justify-content: flex-end
+  align-items: flex-end
+  .messages
+    order: 1
+    background-color: $user
+    border-bottom-right-radius: 0
+  // weird shadow fix
+  .avatar
+    order: 2
+    background-color: $user
+    &:after
+      content: ""
+      color: $user
+      position: absolute
+      bottom: 10px
+      left: 0
+      width: 0
+      height: 0
+      border: 5px solid white
+      border-right-color: transparent
+      border-top-color: transparent
+      //box-shadow: 1px 1px 2px 0 rgba(black, 0.2)
+
+.messages
+  background: white
+  padding: 10px
+  border-radius: 2px
+  box-shadow: 0 1px 2px rgba(black, 0.2)
+  p
+    margin: 0 0 0.2rem 0

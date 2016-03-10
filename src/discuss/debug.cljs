@@ -9,9 +9,9 @@
   (map #(let [bubble (nth bubbles %)]
          (str
            (cond
-             (:is_user bubble) "user: "
-             (:is_system bubble) "info: "
-             (:is_status bubble) "status: "
+             (:is_user bubble) ":user "
+             (:is_system bubble) ":info "
+             (:is_status bubble) ":status "
              :else ""
              )
            (:message bubble)

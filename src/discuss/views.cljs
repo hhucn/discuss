@@ -30,7 +30,7 @@
                    " "
                    (dom/i #js {:className "fa fa-angle-right pointer"}))))
 
-(defn login-view-buttons [data _owner]
+(defn login-view-buttons [data]
   (dom/div #js {:className "text-muted"}
            (dom/div #js {:className "row"}
                     (if (lib/logged-in?)
@@ -83,16 +83,21 @@
                (dom/div #js {:id (lib/prefix-name "clipboard-arguments")})))))
 
 
-(defn bubble-view [bubble _owner]
+(defn get-bubble-class [bubble]
+  "bubble-system"
+  (cond
+    (:is_user bubble)   "bubble-user"
+    (:is_system bubble) "bubble-system"
+    (:is_status bubble) "bubble-status"))
+
+(defn bubble-view [bubble]
   (reify om/IRender
     (render [_]
-      (dom/div #js {:className "well"}
-               (safe-html (:message bubble))))))
-
-(defn bubbles-view [data owner]
-  (dom/div nil
-           (apply dom/div nil
-                  (om/build-all bubble-view (lib/get-bubbles)))))
+      (let [bubble-class (get-bubble-class bubble)]
+        (dom/li #js {:className bubble-class}
+                (dom/div #js {:className "avatar"})
+                (dom/p #js {:className "messages"}
+                       (safe-html (:message bubble))))))))
 
 (defn item-view [item _owner]
   (reify om/IRender
@@ -108,16 +113,21 @@
                           " "
                           (safe-html (:title item)))))))
 
-(defn discussion-elements [data owner]
+(defn bubbles-view []
+  (apply dom/ol #js {:className "bubbles"}
+         (om/build-all bubble-view (lib/get-bubbles))))
+
+(defn items-view [data]
   (dom/div nil
-           (dom/h4 #js {:id (lib/prefix-name "dialogue-topic")
-                        :className "text-center"}
-                   (safe-html (:message (first (get-in data [:discussion :bubbles])))))
-           (bubbles-view data owner)
            (apply dom/ul #js {:id (lib/prefix-name "items-main")}
-                  (om/build-all item-view (:items data)))
+                  (om/build-all item-view (:items data)))))
+
+(defn discussion-elements [data]
+  (dom/div nil
+           (bubbles-view)
+           (items-view data)
            (control-elements)
-           (login-view-buttons data owner)))
+           (login-view-buttons data)))
 
 (defn add-element [data _owner]
   (dom/div #js {:className "panel panel-default"}
@@ -147,6 +157,6 @@
                                  (let [view (get-in data [:layout :template])]
                                    (cond
                                      (= view :login) (login-form)
-                                     :else (discussion-elements data owner)))))
+                                     :else (discussion-elements data)))))
                (when (get-in data [:layout :add?])
                  (add-element data owner))))))
