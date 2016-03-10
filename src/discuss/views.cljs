@@ -19,6 +19,7 @@
     (:is_system bubble) "bubble-system"
     (:is_status bubble) "bubble-status text-center"))
 
+
 ;; Elements
 (defn loading-element []
   (when (lib/loading?)
@@ -60,19 +61,19 @@
   (dom/div nil
            (dom/form nil
                      (dom/div #js {:className "form-group"}
-                              (dom/label #js {:htmlFor "login-form-nickname"} "Nickname")
+                              (dom/label #js {:htmlFor (lib/prefix-name "login-nickname")} "Nickname")
                               (dom/input #js {:id (lib/prefix-name "login-nickname")
                                               :className "form-control"
                                               :placeholder "nickname"}))
                      (dom/div #js {:className "form-group"}
-                              (dom/label #js {:htmlFor "login-form-password"} "Password")
+                              (dom/label #js {:htmlFor (lib/prefix-name "login-password")} "Password")
                               (dom/input #js {:id (lib/prefix-name "login-password")
                                               :className "form-control"
                                               :type "password"
                                               :placeholder "password"})))
            (dom/button #js {:className "btn btn-default"
                             :onClick   #(auth/login (lib/get-value-by-id "login-nickname") (lib/get-value-by-id "login-password"))}
-                       "Submit")
+                       "Login")
            (dom/div #js {:className "text-center text-muted pointer"
                          :onClick #(lib/change-view! :discussion)}
                     "Back")))
@@ -128,7 +129,9 @@
            (control-elements)
            (login-view-buttons data)))
 
-(defn add-element [data _owner]
+(defn add-element
+  "Show form to add a new statement."
+  [data]
   (dom/div #js {:className "panel panel-default"}
            (dom/div #js {:className "panel-body"}
                     (dom/h4 #js {:className "text-center"} (get-in data [:layout :add-text]))
@@ -136,21 +139,24 @@
                     (dom/form nil
                               (dom/div #js {:className "form-group"}
                                        (dom/label #js {:htmlFor "add-element"} (get-in data [:discussion :heading :outro]))
-                                       (dom/input #js {:id (lib/prefix-name "login-nickname")
-                                                       :className "form-control"}))))))
+                                       (dom/input #js {:className "form-control"}))
+                              (dom/button #js {:className "btn btn-default"
+                                               :onClick   #(println "Click")}
+                                          "Submit")))))
 
-(defn main-view [data owner]
+(defn main-view [data]
   (reify om/IRender
     (render [_]
       (dom/div #js {:id (lib/prefix-name "dialogue-main")
                     :className "container"}
                (dom/h3 nil
                        (dom/i #js {:className "fa fa-comments"})
-                       (str " " (get-in data [:layout :title])))
+                       " "
+                       (get-in data [:layout :title]))
                (dom/div #js {:className "text-center"}
-                        (:intro (:layout data))
+                        (get-in data [:layout :intro])
                         (dom/br nil)
-                        (dom/strong nil (:info (:issues data))))
+                        (dom/strong nil (get-in data [:issues :info])))
                (dom/div #js {:className "panel panel-default"}
                         (dom/div #js {:className "panel-body"}
                                  (let [view (get-in data [:layout :template])]
@@ -158,4 +164,4 @@
                                      (= view :login) (login-form)
                                      :else (discussion-elements data)))))
                (when (get-in data [:layout :add?])
-                 (add-element data owner))))))
+                 (add-element data))))))

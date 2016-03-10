@@ -12,7 +12,7 @@
   (str (:host config/api) url))
 
 ;; Discussion-related functions
-(defn add-new-statement []
+(defn add-new-start-statement []
   (lib/show-add-form))
 
 ;; AJAX stuff
@@ -40,9 +40,8 @@
   (lib/hide-add-form)
   (cond
     (= url "back") (history/back!)
-    (= url "add")  (add-new-statement)
-    (= id "item_start_statement") (add-new-statement)
-    (= id "item_start_premise")   (add-new-statement)
-    (= id "item_justify_premise") (add-new-statement)
-
+    (= url "add")  (lib/show-add-form)
+    (= id "item_start_statement") (lib/show-add-form)
+    (= id "item_start_premise")   (lib/show-add-form)
+    (= id "item_justify_premise") (lib/show-add-form)
     :else (ajax-get url)))

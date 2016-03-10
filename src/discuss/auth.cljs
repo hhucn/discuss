@@ -13,7 +13,8 @@
     (lib/update-state-map! :user {:nickname nickname
                                   :token token
                                   :logged-in? true})
-    (lib/change-view! :discussion)))
+    (lib/change-view! :discussion)
+    (lib/init!)))
 
 (defn ajax-login
   "Get cleaned data and send ajax request."
