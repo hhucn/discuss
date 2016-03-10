@@ -13,6 +13,7 @@
                  [org.omcljs/om "1.0.0-alpha30"]
                  [racehub/om-bootstrap "0.5.0"]             ; Bootstrap support for om
                  [cljs-ajax "0.5.3"]                        ; AJAX for om
+                 [com.cognitect/transit-cljs "0.8.237"]     ; Better JSON support
                  ]
 
   :plugins [[lein-figwheel "0.5.0-6"]

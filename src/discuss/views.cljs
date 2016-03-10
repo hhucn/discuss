@@ -59,18 +59,17 @@
 
 (defn login-form []
   (dom/div nil
-           (dom/form nil
-                     (dom/div #js {:className "form-group"}
-                              (dom/label #js {:htmlFor (lib/prefix-name "login-nickname")} "Nickname")
-                              (dom/input #js {:id (lib/prefix-name "login-nickname")
-                                              :className "form-control"
-                                              :placeholder "nickname"}))
-                     (dom/div #js {:className "form-group"}
-                              (dom/label #js {:htmlFor (lib/prefix-name "login-password")} "Password")
-                              (dom/input #js {:id (lib/prefix-name "login-password")
-                                              :className "form-control"
-                                              :type "password"
-                                              :placeholder "password"})))
+           (dom/div #js {:className "form-group"}
+                    (dom/label #js {:htmlFor (lib/prefix-name "login-nickname")} "Nickname")
+                    (dom/input #js {:id (lib/prefix-name "login-nickname")
+                                    :className "form-control"
+                                    :placeholder "nickname"}))
+           (dom/div #js {:className "form-group"}
+                    (dom/label #js {:htmlFor (lib/prefix-name "login-password")} "Password")
+                    (dom/input #js {:id (lib/prefix-name "login-password")
+                                    :className "form-control"
+                                    :type "password"
+                                    :placeholder "password"}))
            (dom/button #js {:className "btn btn-default"
                             :onClick   #(auth/login (lib/get-value-by-id "login-nickname") (lib/get-value-by-id "login-password"))}
                        "Login")
@@ -136,13 +135,13 @@
            (dom/div #js {:className "panel-body"}
                     (dom/h4 #js {:className "text-center"} (get-in data [:layout :add-text]))
                     (dom/h5 #js {:className "text-center"} (safe-html (get-in data [:discussion :add_premise_text])))
-                    (dom/form nil
-                              (dom/div #js {:className "form-group"}
-                                       (dom/label #js {:htmlFor "add-element"} (get-in data [:discussion :heading :outro]))
-                                       (dom/input #js {:className "form-control"}))
-                              (dom/button #js {:className "btn btn-default"
-                                               :onClick   #(println "Click")}
-                                          "Submit")))))
+                    (dom/div #js {:className "form-group"}
+                             (dom/label #js {:htmlFor "add-element"} (get-in data [:discussion :heading :outro]))
+                             (dom/input #js {:id (lib/prefix-name "add-element")
+                                             :className "form-control"}))
+                    (dom/button #js {:className "btn btn-default"
+                                     :onClick   #(com/add-start-statement (lib/get-value-by-id "add-element"))}
+                                "Submit"))))
 
 (defn main-view [data]
   (reify om/IRender
