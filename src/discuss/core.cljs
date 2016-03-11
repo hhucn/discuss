@@ -1,5 +1,6 @@
 (ns ^:figwheel-always discuss.core
   (:require [om.core :as om :include-macros true]
+            [discuss.communication :as com]
             [discuss.debug :as debug]
             [discuss.lib :as lib]
             [discuss.views :as views]))
@@ -7,7 +8,7 @@
 (enable-console-print!)
 
 ;; Initialization
-(lib/init!)
+(com/init!)
 
 ;; Register
 (om/root views/main-view lib/discussion-state

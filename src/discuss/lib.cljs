@@ -17,18 +17,13 @@
                   :template :discussion
                   :add? false
                   :add-text "Let me enter my reason!"
+                  :add-element-id ""
                   :loading? true}
          :debug {:last-api ""}
          :user {:nickname ""
                 :token ""
                 :logged-in? false}
          }))
-
-(defn init!
-  "Initialize initial data from API."
-  []
-  (let [url (:init config/api)]
-    (discuss.communication/ajax-get url)))
 
 ;; Get
 (defn get-cursor
@@ -76,6 +71,7 @@
         items (:items res)
         discussion (:discussion res)
         issues (:issues res)]
+    ;; OPTIMIZE
     (update-state-map! :items items)
     (update-state-map! :discussion discussion)
     (update-state-map! :issues issues)

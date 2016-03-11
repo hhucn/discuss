@@ -49,6 +49,11 @@
         (lib/hide-add-form)
         (ajax-get url)))))
 
+(defn init!
+  "Initialize initial data from API."
+  []
+  (let [url (:init config/api)]
+    (discuss.communication/ajax-get url)))
 
 ;; Discussion-related functions
 (defn add-start-statement [statement]
@@ -68,14 +73,20 @@
                                    (token-header))
            :keywords?       true})))
 
+(defn prepare-add-element
+  "Save current add-method and show add form."
+  [id]
+  (lib/update-state-item! :layout :add-element-id (fn [_] id))
+  (lib/show-add-form))
+
 (defn item-click
   "Dispatch which action has to be done when clicking an item."
   [id url]
   (lib/hide-add-form)
   (cond
     (= url "back") (history/back!)
-    (= url "add")  (lib/show-add-form)
-    (= id "item_start_statement") (lib/show-add-form)
-    (= id "item_start_premise")   (lib/show-add-form)
-    (= id "item_justify_premise") (lib/show-add-form)
+    (= url "add")  (prepare-add-element "add")
+    (= id "item_start_statement") (prepare-add-element id)
+    (= id "item_start_premise")   (prepare-add-element id)
+    (= id "item_justify_premise") (prepare-add-element id)
     :else (ajax-get url)))

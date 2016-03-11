@@ -31,7 +31,7 @@
   (dom/div #js {:className "text-center"}
            (dom/h3 nil
                    (dom/i #js {:className "fa fa-angle-double-left pointer"
-                               :onClick lib/init!})
+                               :onClick com/init!})
                    " "
                    (dom/i #js {:className "fa fa-angle-left pointer"
                                :onClick history/back!})
@@ -136,7 +136,7 @@
                     (dom/h4 #js {:className "text-center"} (get-in data [:layout :add-text]))
                     (dom/h5 #js {:className "text-center"} (safe-html (get-in data [:discussion :add_premise_text])))
                     (dom/div #js {:className "form-group"}
-                             (dom/label #js {:htmlFor "add-element"} (get-in data [:discussion :heading :outro]))
+                             (dom/label #js {:htmlFor (lib/prefix-name "add-element")} (get-in data [:discussion :heading :outro]))
                              (dom/input #js {:id (lib/prefix-name "add-element")
                                              :className "form-control"}))
                     (dom/button #js {:className "btn btn-default"
