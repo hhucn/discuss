@@ -100,6 +100,7 @@
   []
   (update-state-item! :layout :add? (fn [_] false)))
 
+
 ;; Other
 (defn get-value-by-id
   "Return value of element matching the id."

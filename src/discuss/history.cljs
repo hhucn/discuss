@@ -10,6 +10,6 @@
 
 (defn back! []
   (when (> (count @discussion-history) 1)
-    (dotimes [_ 3]                                          ; Workaround, because one action are currently 3 atom changes
+    (dotimes [_ 5]                                          ; Workaround, because one action are currently x atom changes
       (swap! discussion-history pop))
     (reset! lib/discussion-state (last @discussion-history))))

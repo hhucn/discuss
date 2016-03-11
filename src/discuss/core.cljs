@@ -7,7 +7,7 @@
 (enable-console-print!)
 
 ;; Initialization
-;(lib/init!)
+(lib/init!)
 
 ;; Register
 (om/root views/main-view lib/discussion-state

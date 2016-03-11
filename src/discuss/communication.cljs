@@ -21,6 +21,7 @@
   (when (lib/logged-in?)
     {"X-Messaging-Token" (lib/get-token)}))
 
+
 ;; Handlers
 (defn error-handler
   "Generic error handler for ajax requests."
