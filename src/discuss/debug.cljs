@@ -2,7 +2,6 @@
   "Show information for debugging."
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [cljs.pprint :as pp]
             [discuss.lib :as lib]))
 
 (defn print-bubbles [bubbles]
@@ -28,19 +27,30 @@
                                 :onClick #(discuss.communication/ajax-get (get-in data [:debug :last-api]))}
                            "Resend API Call")
 
-               (dom/h4 nil "Last response")
-               (dom/pre nil
+               (dom/h4 nil "Token")
+               (dom/pre nil (get-in data [:user :token]))
+
+               (dom/h4 #js {:className "pointer"
+                            :data-toggle "collapse"
+                            :data-target "#debug-response"
+                            :aria-expanded false
+                            :aria-controls "debug-response"}
+                       "Last response")
+               (dom/pre #js {:id "debug-response"
+                             :className "collapse"}
                         (apply dom/ul nil
                                (map (fn [[k v]] (dom/li nil (str k "\t\t" v))) (get-in data [:debug :response]))))
 
-               (dom/h4 nil "Bubbles")
-               (dom/pre nil
+               (dom/h4 #js {:className "pointer"
+                            :data-toggle "collapse"
+                            :data-target "#debug-bubbles"
+                            :aria-expanded false
+                            :aria-controls "debug-bubbles"}
+                       "Bubbles")
+               (dom/pre #js {:id "debug-bubbles"
+                             :className "collapse"}
                         (let [bubbles (get-in data [:debug :response :discussion :bubbles])]
-                          (print-bubbles bubbles)))
-
-               (dom/h4 nil "Token")
-               (dom/pre nil (get-in data [:user :token]))
-               ))))
+                          (print-bubbles bubbles)))))))
 
 (defn update-debug
   "Update displayed debug information."

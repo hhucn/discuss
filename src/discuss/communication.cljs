@@ -73,7 +73,7 @@
                                    (token-header))
            :keywords?       true})))
 
-(defn prepare-add-element
+(defn prepare-add
   "Save current add-method and show add form."
   [id]
   (lib/update-state-item! :layout :add-element-id (fn [_] id))
@@ -85,8 +85,8 @@
   (lib/hide-add-form)
   (cond
     (= url "back") (history/back!)
-    (= url "add")  (prepare-add-element "add")
-    (= id "item_start_statement") (prepare-add-element id)
-    (= id "item_start_premise")   (prepare-add-element id)
-    (= id "item_justify_premise") (prepare-add-element id)
+    (= url "add")  (prepare-add "add")
+    (= id "item_start_statement") (prepare-add id)
+    (= id "item_start_premise")   (prepare-add id)
+    (= id "item_justify_premise") (prepare-add id)
     :else (ajax-get url)))
