@@ -29,7 +29,7 @@
 
 (defn control-elements []
   (dom/div #js {:className "text-center"}
-           (dom/h3 nil
+           (dom/h4 nil
                    (dom/i #js {:className "fa fa-angle-double-left pointer"
                                :onClick com/init!})
                    " "
@@ -148,7 +148,7 @@
     (render [_]
       (dom/div #js {:id (lib/prefix-name "dialogue-main")
                     :className "container"}
-               (dom/h3 nil
+               (dom/h4 nil
                        (dom/i #js {:className "fa fa-comments"})
                        " "
                        (get-in data [:layout :title]))
