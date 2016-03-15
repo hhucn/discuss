@@ -1,5 +1,7 @@
 (ns discuss.extensions)
 
+(enable-console-print!)
+
 (when (js* "typeof NodeList != \"undefined\"")
   (extend-type js/NodeList
     ISeqable

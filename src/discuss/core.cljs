@@ -7,8 +7,6 @@
             [discuss.lib :as lib]
             [discuss.views :as views]))
 
-(enable-console-print!)
-
 ;; Initialization
 (com/init!)
 
@@ -21,7 +19,7 @@
 
 (def arguments (.getElementsByClassName js/document "arguments"))
 
-;(map #(om/root views/main-view lib/discussion-state {:target %}) arguments)
+(om/root views/main-view lib/discussion-state {:target (first arguments)})
 
 (om/root debug/debug-view lib/discussion-state
          {:target (.getElementById js/document "debug")})
