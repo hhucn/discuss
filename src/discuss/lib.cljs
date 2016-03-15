@@ -103,8 +103,8 @@
   [id]
   (.-value (. js/document (getElementById (prefix-name id)))))
 
-(defn log [& args]
-  (.log js/console args))
+(defn log [arg]
+  (.log js/console arg))
 
 
 ;; CLJS to JS
