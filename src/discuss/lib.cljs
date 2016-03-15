@@ -103,6 +103,9 @@
   [id]
   (.-value (. js/document (getElementById (prefix-name id)))))
 
+(defn log [& args]
+  (.log js/console args))
+
 
 ;; CLJS to JS
 (defn clj->json

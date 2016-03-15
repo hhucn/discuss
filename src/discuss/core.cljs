@@ -2,6 +2,7 @@
   (:require [om.core :as om :include-macros true]
             [discuss.communication :as com]
             [discuss.debug :as debug]
+            [discuss.integration :as integration]
             [discuss.lib :as lib]
             [discuss.views :as views]))
 
