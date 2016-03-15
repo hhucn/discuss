@@ -2,6 +2,7 @@
   (:require [om.core :as om :include-macros true]
             [discuss.communication :as com]
             [discuss.debug :as debug]
+            [discuss.extensions]
             [discuss.integration :as integration]
             [discuss.lib :as lib]
             [discuss.views :as views]))
@@ -13,13 +14,17 @@
 
 ;; Register
 (om/root views/main-view lib/discussion-state
-         {:target (. js/document (getElementById "discuss-main"))})
+         {:target (.getElementById js/document "discuss-main")})
 
 ;(om/root views/clipboard-view lib/app-state
 ;         {:target (. js/document (getElementById "discuss-clipboard"))})
 
+(def arguments (.getElementsByClassName js/document "arguments"))
+
+;(map #(om/root views/main-view lib/discussion-state {:target %}) arguments)
+
 (om/root debug/debug-view lib/discussion-state
-         {:target (. js/document (getElementById "debug"))})
+         {:target (.getElementById js/document "debug")})
 
 (defn on-js-reload []
   ;; optionally touch your app-state to force rerendering depending on

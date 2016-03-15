@@ -21,36 +21,38 @@
   (reify om/IRender
     (render [_]
       (dom/div nil
-               (dom/h4 nil "Last API call")
-               (dom/pre nil (get-in data [:debug :last-api]))
-               (dom/button #js {:className "btn btn-default"
-                                :onClick #(discuss.communication/ajax-get (get-in data [:debug :last-api]))}
-                           "Resend API Call")
+               (dom/h4 nil "Debug")
+               (dom/div #js {:className "well"}
+                        (dom/h6 nil "Last API call")
+                        (dom/pre nil (get-in data [:debug :last-api]))
+                        (dom/button #js {:className "btn btn-default"
+                                         :onClick   #(discuss.communication/ajax-get (get-in data [:debug :last-api]))}
+                                    "Resend API Call")
 
-               (dom/h4 nil "Token")
-               (dom/pre nil (get-in data [:user :token]))
+                        (dom/h6 nil "Token")
+                        (dom/pre nil (get-in data [:user :token]))
 
-               (dom/h4 #js {:className "pointer"
-                            :data-toggle "collapse"
-                            :data-target "#debug-response"
-                            :aria-expanded false
-                            :aria-controls "debug-response"}
-                       "Last response")
-               (dom/pre #js {:id "debug-response"
-                             :className "collapse"}
-                        (apply dom/ul nil
-                               (map (fn [[k v]] (dom/li nil (str k "\t\t" v))) (get-in data [:debug :response]))))
+                        (dom/h6 #js {:className     "pointer"
+                                     :data-toggle   "collapse"
+                                     :data-target   "#debug-response"
+                                     :aria-expanded false
+                                     :aria-controls "debug-response"}
+                                "Last response")
+                        (dom/pre #js {:id        "debug-response"
+                                      :className "collapse"}
+                                 (apply dom/ul nil
+                                        (map (fn [[k v]] (dom/li nil (str k "\t\t" v))) (get-in data [:debug :response]))))
 
-               (dom/h4 #js {:className "pointer"
-                            :data-toggle "collapse"
-                            :data-target "#debug-bubbles"
-                            :aria-expanded false
-                            :aria-controls "debug-bubbles"}
-                       "Bubbles")
-               (dom/pre #js {:id "debug-bubbles"
-                             :className "collapse"}
-                        (let [bubbles (get-in data [:debug :response :discussion :bubbles])]
-                          (print-bubbles bubbles)))))))
+                        (dom/h6 #js {:className     "pointer"
+                                     :data-toggle   "collapse"
+                                     :data-target   "#debug-bubbles"
+                                     :aria-expanded false
+                                     :aria-controls "debug-bubbles"}
+                                "Bubbles")
+                        (dom/pre #js {:id        "debug-bubbles"
+                                      :className "collapse"}
+                                 (let [bubbles (get-in data [:debug :response :discussion :bubbles])]
+                                   (print-bubbles bubbles))))))))
 
 (defn update-debug
   "Update displayed debug information."

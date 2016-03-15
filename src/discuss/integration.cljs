@@ -3,6 +3,7 @@
   (:require [goog.events :as events]
             [cljs.core.async :refer [put! chan <!]]
             [discuss.lib :as lib]
+            [discuss.extensions]
             [goog.dom :as gdom]
             [goog.object :as gobj]))
 
@@ -16,8 +17,9 @@
                    (fn [e] (put! out e)))
     out))
 
-;(gobj/forEach (.getElementsByTagName js/document "p")
-;                     (fn [obj] (lib/log obj)))
+(def args (.getElementsByClassName js/document "arguments"))
+
+(gobj/forEach args #(lib/log (type %)))
 
 (let [clicks (listen (.getElementById js/document "discuss-text") "click")
       col (.getElementsByTagName js/document "p")
