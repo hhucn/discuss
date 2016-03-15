@@ -10,3 +10,7 @@
 (extend-type js/HTMLCollection
   ISeqable
   (-seq [array] (array-seq array 0)))
+
+(extend-type js/HTMLSpanElement
+  ISeqable
+  (-seq [array] (array-seq array 0)))

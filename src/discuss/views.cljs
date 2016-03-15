@@ -19,6 +19,13 @@
     (:is_system bubble) "bubble-system"
     (:is_status bubble) "bubble-status text-center"))
 
+(defn display
+  "Toggle display view."
+  [show]
+  (if show
+    #js {}
+    #js {:display "none"}))
+
 
 ;; Elements
 (defn loading-element []
@@ -79,6 +86,17 @@
 
 
 ;; Views
+(defn argument-view [data owner content]
+  (reify
+    om/IInitState
+    (init-state [_]
+      {:show true})
+    om/IRenderState
+    (render-state [_ {:keys [show]}]
+      (dom/span #js {:style (display show)}
+        content))
+    ))
+
 (defn clipboard-view []
   (reify om/IRender
     (render [_]

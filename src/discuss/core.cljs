@@ -14,15 +14,32 @@
 (om/root views/main-view lib/discussion-state
          {:target (.getElementById js/document "discuss-main")})
 
-;(om/root views/clipboard-view lib/app-state
-;         {:target (. js/document (getElementById "discuss-clipboard"))})
-
-(def arguments (.getElementsByClassName js/document "arguments"))
-
-(om/root views/main-view lib/discussion-state {:target (first arguments)})
-
 (om/root debug/debug-view lib/discussion-state
          {:target (.getElementById js/document "debug")})
+
+
+;; Find and bind arguments
+(def arguments (.getElementsByClassName js/document "arguments"))
+
+(println "#####")
+(lib/log (keys (first arguments)))
+(lib/log (.. (first arguments) -innerHTML))
+(println "#####")
+
+(defn register-arguments
+  "Takes collection of all arguments in DOM and binds it to a view."
+  [arguments]
+  (loop [argument (first arguments)
+         col      (rest arguments)]
+    (if (nil? argument)
+      nil
+      (do
+        (lib/log (.. argument -innerHTML))
+        (om/root #(views/argument-view % % (.. argument -innerHTML)) lib/discussion-state {:target argument})
+        (recur (first col) (rest col))))))
+
+;(register-arguments arguments)
+
 
 (defn on-js-reload []
   ;; optionally touch your app-state to force rerendering depending on
