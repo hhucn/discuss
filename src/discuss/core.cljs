@@ -38,7 +38,7 @@
         (om/root #(views/argument-view % % (.. argument -innerHTML)) lib/discussion-state {:target argument})
         (recur (first col) (rest col))))))
 
-;(register-arguments arguments)
+(register-arguments arguments)
 
 
 (defn on-js-reload []

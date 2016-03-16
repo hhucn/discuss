@@ -90,11 +90,18 @@
   (reify
     om/IInitState
     (init-state [_]
-      {:show true})
+      {:show true
+       :text ""})
     om/IRenderState
-    (render-state [_ {:keys [show]}]
+    (render-state [_ {:keys [show text]}]
+      (when (= text "")
+        (om/set-state! owner :text content))
       (dom/span #js {:style (display show)}
-        content))
+        text))
+    om/IWillMount
+    (will-mount [_]
+      (lib/log "IWillMount"))
+
     ))
 
 (defn clipboard-view []
