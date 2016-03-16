@@ -164,8 +164,7 @@
 (defn main-view [data]
   (reify om/IRender
     (render [_]
-      (dom/div #js {:id (lib/prefix-name "dialogue-main")
-                    :className "container"}
+      (dom/div #js {:id (lib/prefix-name "dialogue-main")}
                (dom/h4 nil
                        (dom/i #js {:className "fa fa-comments"})
                        " "
