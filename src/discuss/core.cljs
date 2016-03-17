@@ -21,21 +21,14 @@
 ;; Find and bind arguments
 (def arguments (.getElementsByClassName js/document "arguments"))
 
-(println "#####")
-(lib/log (keys (first arguments)))
-(lib/log (.. (first arguments) -innerHTML))
-(println "#####")
-
 (defn register-arguments
   "Takes collection of all arguments in DOM and binds it to a view."
   [arguments]
   (loop [argument (first arguments)
          col      (rest arguments)]
-    (if (nil? argument)
-      nil
-      (do
-        (lib/log (.. argument -innerHTML))
-        (om/root #(views/argument-view % % (.. argument -innerHTML)) lib/discussion-state {:target argument})
+    (when-not (nil? argument)
+      (let [arg-text (.. argument -innerHTML)]
+        (om/root views/argument-view {:text arg-text} {:target argument})
         (recur (first col) (rest col))))))
 
 (register-arguments arguments)

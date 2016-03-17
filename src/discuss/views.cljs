@@ -2,6 +2,7 @@
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [discuss.communication :as com]
+            [discuss.extensions]
             [discuss.history :as history]
             [discuss.lib :as lib]
             [discuss.auth :as auth]))
@@ -86,7 +87,7 @@
 
 
 ;; Views
-(defn argument-view [data owner content]
+(defn argument-view [data owner]
   (reify
     om/IInitState
     (init-state [_]
@@ -94,15 +95,10 @@
        :text ""})
     om/IRenderState
     (render-state [_ {:keys [show text]}]
-      (when (= text "")
-        (om/set-state! owner :text content))
+      (when (= text "")                                     ; Set initial text to be displayed
+        (om/set-state! owner :text (:text data)))
       (dom/span #js {:style (display show)}
-        text))
-    om/IWillMount
-    (will-mount [_]
-      (lib/log "IWillMount"))
-
-    ))
+        text))))
 
 (defn clipboard-view []
   (reify om/IRender
