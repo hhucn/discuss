@@ -98,7 +98,8 @@
       (when (= text "")                                     ; Set initial text to be displayed
         (om/set-state! owner :text (:text data)))
       (dom/span #js {:className "pointer"
-                     :style (display show)}
+                     :style (display show)
+                     :onClick (fn [e] (println "click"))}
                 text))))
 
 (defn clipboard-view []
@@ -165,6 +166,21 @@
                                      :onClick   #(com/add-start-statement (lib/get-value-by-id "add-element"))}
                                 "Submit"))))
 
+(defn main-content-view [data]
+  (dom/div nil
+           (dom/div #js {:className "text-center"}
+                    (get-in data [:layout :intro])
+                    (dom/br nil)
+                    (dom/strong nil (get-in data [:issues :info])))
+           (dom/div #js {:className "panel panel-default"}
+                    (dom/div #js {:className "panel-body"}
+                             (let [view (get-in data [:layout :template])]
+                               (cond
+                                 (= view :login) (login-form)
+                                 :else (discussion-elements data)))))
+           (when (get-in data [:layout :add?])
+             (add-element data))))
+
 (defn main-view [data]
   (reify om/IRender
     (render [_]
@@ -173,15 +189,4 @@
                        (dom/i #js {:className "fa fa-comments"})
                        " "
                        (get-in data [:layout :title]))
-               (dom/div #js {:className "text-center"}
-                        (get-in data [:layout :intro])
-                        (dom/br nil)
-                        (dom/strong nil (get-in data [:issues :info])))
-               (dom/div #js {:className "panel panel-default"}
-                        (dom/div #js {:className "panel-body"}
-                                 (let [view (get-in data [:layout :template])]
-                                   (cond
-                                     (= view :login) (login-form)
-                                     :else (discussion-elements data)))))
-               (when (get-in data [:layout :add?])
-                 (add-element data))))))
+               (main-content-view data)))))
