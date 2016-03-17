@@ -178,6 +178,8 @@
                        (get-in data [:layout :title]))
                (main-content-view data)))))
 
+(defn toggle-show [show] (if show false true))
+
 (defn argument-view [data owner]
   (reify
     om/IInitState
@@ -191,6 +193,6 @@
       (dom/span nil
                 " "
                 (dom/i #js {:className "pointer fa fa-comments"
-                            :onClick   (fn [e] (println "click"))})
+                            :onClick   #(om/set-state! owner :show (toggle-show show))})
                 (when show
                   (main-content-view data))))))
