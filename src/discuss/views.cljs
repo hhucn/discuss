@@ -1,6 +1,7 @@
 (ns discuss.views
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
+            [cljs.pprint :as pprint]
             [discuss.communication :as com]
             [discuss.extensions]
             [discuss.history :as history]
@@ -87,21 +88,6 @@
 
 
 ;; Views
-(defn argument-view [data owner]
-  (reify
-    om/IInitState
-    (init-state [_]
-      {:show true
-       :text ""})
-    om/IRenderState
-    (render-state [_ {:keys [show text]}]
-      (when (= text "")                                     ; Set initial text to be displayed
-        (om/set-state! owner :text (:text data)))
-      (dom/span #js {:className "pointer"
-                     :style (display show)
-                     :onClick (fn [e] (println "click"))}
-                text))))
-
 (defn clipboard-view []
   (reify om/IRender
     (render [_]
@@ -121,6 +107,10 @@
                 (dom/p #js {:className "messages"}
                        (safe-html (:message bubble))))))))
 
+(defn bubbles-view []
+  (apply dom/ol #js {:className "bubbles"}
+         (om/build-all bubble-view (lib/get-bubbles))))
+
 (defn item-view [item _owner]
   (reify om/IRender
     (render [_]
@@ -134,10 +124,6 @@
                                           :value     (:url item)})
                           " "
                           (safe-html (:title item)))))))
-
-(defn bubbles-view []
-  (apply dom/ol #js {:className "bubbles"}
-         (om/build-all bubble-view (lib/get-bubbles))))
 
 (defn items-view [data]
   (dom/div nil
@@ -166,20 +152,21 @@
                                      :onClick   #(com/add-start-statement (lib/get-value-by-id "add-element"))}
                                 "Submit"))))
 
-(defn main-content-view [data]
-  (dom/div nil
-           (dom/div #js {:className "text-center"}
-                    (get-in data [:layout :intro])
-                    (dom/br nil)
-                    (dom/strong nil (get-in data [:issues :info])))
-           (dom/div #js {:className "panel panel-default"}
-                    (dom/div #js {:className "panel-body"}
-                             (let [view (get-in data [:layout :template])]
-                               (cond
-                                 (= view :login) (login-form)
-                                 :else (discussion-elements data)))))
-           (when (get-in data [:layout :add?])
-             (add-element data))))
+(defn main-content-view
+  [data]
+   (dom/div nil
+            (dom/div #js {:className "text-center"}
+                     (get-in data [:layout :intro])
+                     (dom/br nil)
+                     (dom/strong nil (get-in data [:issues :info])))
+            (dom/div #js {:className "panel panel-default"}
+                     (dom/div #js {:className "panel-body"}
+                              (let [view (get-in data [:layout :template])]
+                                (cond
+                                  (= view :login) (login-form)
+                                  :else (discussion-elements data)))))
+            (when (get-in data [:layout :add?])
+              (add-element data))))
 
 (defn main-view [data]
   (reify om/IRender
@@ -190,3 +177,20 @@
                        " "
                        (get-in data [:layout :title]))
                (main-content-view data)))))
+
+(defn argument-view [data owner]
+  (reify
+    om/IInitState
+    (init-state [_]
+      {:show false
+       :text ""})
+    om/IRenderState
+    (render-state [_ {:keys [show text]}]
+      (when (= text "")                                     ; Set initial text to be displayed
+        (om/set-state! owner :text (:text data)))
+      (dom/span nil
+                " "
+                (dom/i #js {:className "pointer fa fa-comments"
+                            :onClick   (fn [e] (println "click"))})
+                (when show
+                  (main-content-view data))))))

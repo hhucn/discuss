@@ -5,7 +5,9 @@
             [discuss.extensions]
             [discuss.integration :as integration]
             [discuss.lib :as lib]
-            [discuss.views :as views]))
+            [discuss.views :as views]
+            [om.dom :as dom]
+            [goog.dom :as gdom]))
 
 ;; Initialization
 (com/init!)
@@ -19,7 +21,7 @@
 
 
 ;; Find and bind arguments
-(def arguments (.getElementsByClassName js/document "arguments"))
+(def arguments (.getElementsByClassName js/document "arguments-toggle"))
 
 (defn register-arguments
   "Takes collection of all arguments in DOM and binds it to a view."
@@ -28,11 +30,11 @@
          col      (rest arguments)]
     (when-not (nil? argument)
       (let [arg-text (.. argument -innerHTML)]
-        (om/root views/argument-view {:text arg-text} {:target argument})
+        ;(.addEventListener argument "click" show-discuss-at-argument)
+        (om/root views/argument-view lib/discussion-state {:target argument})
         (recur (first col) (rest col))))))
 
 (register-arguments arguments)
-
 
 (defn on-js-reload []
   ;; optionally touch your app-state to force rerendering depending on
