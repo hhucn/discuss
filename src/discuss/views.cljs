@@ -97,8 +97,9 @@
     (render-state [_ {:keys [show text]}]
       (when (= text "")                                     ; Set initial text to be displayed
         (om/set-state! owner :text (:text data)))
-      (dom/span #js {:style (display show)}
-        text))))
+      (dom/span #js {:className "pointer"
+                     :style (display show)}
+                text))))
 
 (defn clipboard-view []
   (reify om/IRender
