@@ -68,7 +68,7 @@
 
 (defn login-form []
   (dom/div nil
-           (dom/h5 nil "Login")
+           (dom/h5 #js {:className "text-center"} "Login")
            (dom/div #js {:className "input-group"}
                     (dom/span #js {:className "input-group-addon"}
                               (dom/i #js {:className "fa fa-user fa-fw"}))

@@ -53,6 +53,7 @@
   "Initialize initial data from API."
   []
   (let [url (:init config/api)]
+    (lib/update-state-item! :layout :add? (fn [_] false))
     (discuss.communication/ajax-get url)))
 
 ;; Discussion-related functions
