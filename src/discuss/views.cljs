@@ -39,13 +39,13 @@
 (defn control-elements []
   (dom/div #js {:className "text-center"}
            (dom/h4 nil
-                   (dom/i #js {:className "fa fa-angle-double-left pointer"
-                               :onClick com/init!})
+                   (dom/i #js {:className (str (lib/prefix-name "control-buttons") " fa fa-angle-double-left fa-border pointer")
+                               :onClick   com/init!})
                    " "
-                   (dom/i #js {:className "fa fa-angle-left pointer"
-                               :onClick history/back!})
+                   (dom/i #js {:className (str (lib/prefix-name "control-buttons") " fa fa-angle-left fa-border pointer")
+                               :onClick   history/back!})
                    " "
-                   (dom/i #js {:className "fa fa-angle-right pointer"}))))
+                   (dom/i #js {:className (str (lib/prefix-name "control-buttons") " fa fa-angle-right fa-border pointer")}))))
 
 (defn login-view-buttons [data]
   (dom/div #js {:className "text-muted"}
@@ -144,9 +144,11 @@
            (dom/div #js {:className "panel-body"}
                     (dom/h4 #js {:className "text-center"} (get-in data [:layout :add-text]))
                     (dom/h5 #js {:className "text-center"} (safe-html (get-in data [:discussion :add_premise_text])))
-                    (dom/div #js {:className "form-group"}
-                             (dom/label #js {:htmlFor (lib/prefix-name "add-element")} (get-in data [:discussion :heading :outro]))
-                             (dom/input #js {:id (lib/prefix-name "add-element")
+
+                    (dom/div #js {:className "input-group padding-bottom"}
+                             (dom/span #js {:className "input-group-addon"}
+                                       (dom/i #js {:className "fa fa-comment"}))
+                             (dom/input #js {:id        (lib/prefix-name "add-element")
                                              :className "form-control"}))
                     (dom/button #js {:className "btn btn-default"
                                      :onClick   #(com/add-start-statement (lib/get-value-by-id "add-element"))}

@@ -5,9 +5,7 @@
             [discuss.extensions]
             [discuss.integration :as integration]
             [discuss.lib :as lib]
-            [discuss.views :as views]
-            [om.dom :as dom]
-            [goog.dom :as gdom]))
+            [discuss.views :as views]))
 
 ;; Initialization
 (com/init!)
@@ -29,10 +27,9 @@
   (loop [argument (first arguments)
          col      (rest arguments)]
     (when-not (nil? argument)
-      (let [arg-text (.. argument -innerHTML)]
         ;(.addEventListener argument "click" show-discuss-at-argument)
         (om/root views/argument-view lib/discussion-state {:target argument})
-        (recur (first col) (rest col))))))
+        (recur (first col) (rest col)))))
 
 (register-arguments arguments)
 
