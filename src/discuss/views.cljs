@@ -68,13 +68,16 @@
 
 (defn login-form []
   (dom/div nil
-           (dom/div #js {:className "form-group"}
-                    (dom/label #js {:htmlFor (lib/prefix-name "login-nickname")} "Nickname")
+           (dom/h5 nil "Login")
+           (dom/div #js {:className "input-group"}
+                    (dom/span #js {:className "input-group-addon"}
+                              (dom/i #js {:className "fa fa-user fa-fw"}))
                     (dom/input #js {:id (lib/prefix-name "login-nickname")
                                     :className "form-control"
                                     :placeholder "nickname"}))
-           (dom/div #js {:className "form-group"}
-                    (dom/label #js {:htmlFor (lib/prefix-name "login-password")} "Password")
+           (dom/div #js {:className "input-group"}
+                    (dom/span #js {:className "input-group-addon"}
+                              (dom/i #js {:className "fa fa-key fa-fw"}))
                     (dom/input #js {:id (lib/prefix-name "login-password")
                                     :className "form-control"
                                     :type "password"
@@ -144,8 +147,7 @@
            (dom/div #js {:className "panel-body"}
                     (dom/h4 #js {:className "text-center"} (get-in data [:layout :add-text]))
                     (dom/h5 #js {:className "text-center"} (safe-html (get-in data [:discussion :add_premise_text])))
-
-                    (dom/div #js {:className "input-group padding-bottom"}
+                    (dom/div #js {:className "input-group"}
                              (dom/span #js {:className "input-group-addon"}
                                        (dom/i #js {:className "fa fa-comment"}))
                              (dom/input #js {:id        (lib/prefix-name "add-element")
