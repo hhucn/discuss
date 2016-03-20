@@ -1,4 +1,5 @@
 (ns discuss.communication
+  "Functions concerning the communication with the remote discussion system."
   (:require [ajax.core :refer [GET POST]]
             [clojure.walk :refer [keywordize-keys]]
             [cognitect.transit :as transit]
