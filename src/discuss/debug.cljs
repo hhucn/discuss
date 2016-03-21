@@ -21,8 +21,14 @@
   (reify om/IRender
     (render [_]
       (dom/div nil
-               (dom/h4 nil "Debug")
-               (dom/div #js {:className "well"}
+               (dom/h4 #js {:className "pointer text-muted"
+                            :data-toggle "collapse"
+                            :data-target "#collapse-debug"
+                            :aria-expanded "true"
+                            :aria-controls "collapse-debug"}
+                       "Debug")
+               (dom/div #js {:className "collapse well"
+                             :id "collapse-debug"}
                         (dom/h6 nil "Last API call")
                         (dom/pre nil (get-in data [:debug :last-api]))
                         (dom/button #js {:className "btn btn-default"
