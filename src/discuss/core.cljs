@@ -11,11 +11,11 @@
 (com/init!)
 
 ;; Register
-(om/root views/main-view lib/discussion-state
+(om/root views/main-view lib/app-state
          {:target (.getElementById js/document "discuss-main")})
 
-(om/root debug/debug-view lib/discussion-state
-         {:target (.getElementById js/document "debug")})
+;(om/root debug/debug-view lib/discussion-state
+;         {:target (.getElementById js/document "debug")})
 
 
 ;; Find and bind arguments
@@ -28,7 +28,7 @@
          col      (rest arguments)]
     (when-not (nil? argument)
         ;(.addEventListener argument "click" show-discuss-at-argument)
-        (om/root views/argument-view lib/discussion-state {:target argument})
+        (om/root views/argument-view lib/app-state {:target argument})
         (recur (first col) (rest col)))))
 
 (register-arguments arguments)

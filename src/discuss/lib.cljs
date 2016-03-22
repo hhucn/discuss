@@ -8,7 +8,7 @@
   [name]
   (str config/project "-" name))
 
-(def discussion-state
+(def app-state
   (atom {:discussion {}
          :issues {}
          :items {}
@@ -29,22 +29,22 @@
 (defn get-cursor
   "Return a cursor to the corresponding keys in the app-state."
   [key]
-  (om/ref-cursor (key (om/root-cursor discussion-state))))
+  (om/ref-cursor (key (om/root-cursor app-state))))
 
 (defn get-token
   "Return the user's token for discussion system."
   []
-  (get-in @discussion-state [:user :token]))
+  (get-in @app-state [:user :token]))
 
 (defn logged-in?
   "Return true if user is logged in."
   []
-  (get-in @discussion-state [:user :logged-in?]))
+  (get-in @app-state [:user :logged-in?]))
 
 (defn get-bubbles
   "Return message bubbles from DBAS."
   []
-  (get-in @discussion-state [:discussion :bubbles]))
+  (get-in @app-state [:discussion :bubbles]))
 
 ;; State changing
 (defn update-state-item!
@@ -60,7 +60,7 @@
 
 (defn loading?
   ([]
-   (get-in @discussion-state [:layout :loading?]))
+   (get-in @app-state [:layout :loading?]))
   ([bool]
    (update-state-item! :layout :loading? (fn [_] bool))))
 
