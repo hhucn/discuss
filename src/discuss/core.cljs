@@ -3,7 +3,7 @@
             [discuss.communication :as com]
             [discuss.debug :as debug]
             [discuss.extensions]
-            [discuss.integration :as integration]
+            [discuss.integration]
             [discuss.lib :as lib]
             [discuss.views :as views]))
 

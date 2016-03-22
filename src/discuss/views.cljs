@@ -92,14 +92,9 @@
 
 ;; Views
 (defn clipboard-view []
-  (reify om/IRender
-    (render [_]
-      (dom/div #js {:id "foo"}
-               (dom/h5 nil "discuss")
-               (dom/hr #js {:className "line-double"})
-               (dom/div #js {:id (lib/prefix-name "clipboard-topic")})
-               (dom/hr nil)
-               (dom/div #js {:id (lib/prefix-name "clipboard-arguments")})))))
+  (dom/div #js {:id (lib/prefix-name "sidebar")
+                :className "sidenav"}
+           "discuss"))
 
 (defn bubble-view [bubble]
   (reify om/IRender
@@ -180,7 +175,8 @@
                        (dom/i #js {:className "fa fa-comments"})
                        " "
                        (get-in data [:layout :title]))
-               (main-content-view data)))))
+               (main-content-view data)
+               (clipboard-view)))))
 
 (defn toggle-show [show] (if show false true))
 

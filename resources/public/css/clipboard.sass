@@ -1,0 +1,34 @@
+//colors
+$color_woodsmoke_approx: #fff
+$color_gray_approx: #818181
+$seashell: #f1f1f1
+
+.sidenav
+  height: 30%
+  position: fixed
+  z-index: 1
+  top: 33%
+  right: 0
+  background-color: #fff
+  overflow-x: hidden
+  padding-top: 60px
+  padding-left: 1em
+  transition: 0.5s
+  a
+    padding: 8px 8px 8px 32px
+    text-decoration: none
+    font-size: 25px
+    color: $color_gray_approx
+    display: block
+    //If you use compass, instead of the line below you could use + transition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+    transition: 0.3s
+    &:hover
+      color: $seashell
+
+.closebtn
+  position: absolute
+  top: 0
+  right: 25px
+  font-size: 36px !important
+  margin-left: 50px
+

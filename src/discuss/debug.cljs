@@ -27,7 +27,7 @@
                             :aria-expanded "true"
                             :aria-controls "collapse-debug"}
                        "Debug")
-               (dom/div #js {:className "collapse well"
+               (dom/div #js {:className "collapse in well"
                              :id "collapse-debug"}
                         (dom/h6 nil "Last API call")
                         (dom/pre nil (get-in data [:debug :last-api]))
