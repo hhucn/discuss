@@ -14,8 +14,8 @@
 (om/root views/main-view lib/app-state
          {:target (.getElementById js/document "discuss-main")})
 
-;(om/root debug/debug-view lib/discussion-state
-;         {:target (.getElementById js/document "debug")})
+(om/root debug/debug-view lib/app-state
+         {:target (.getElementById js/document "debug")})
 
 
 ;; Find and bind arguments
