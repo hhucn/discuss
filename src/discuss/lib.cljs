@@ -23,6 +23,8 @@
          :user {:nickname ""
                 :token ""
                 :logged-in? false}
+         :sidebar {:width "200px"
+                   :show? false}
          }))
 
 ;; Get
@@ -36,15 +38,18 @@
   []
   (get-in @app-state [:user :token]))
 
+(defn get-bubbles
+  "Return message bubbles from DBAS."
+  []
+  (get-in @app-state [:discussion :bubbles]))
+
+
+;; Booleans
 (defn logged-in?
   "Return true if user is logged in."
   []
   (get-in @app-state [:user :logged-in?]))
 
-(defn get-bubbles
-  "Return message bubbles from DBAS."
-  []
-  (get-in @app-state [:discussion :bubbles]))
 
 ;; State changing
 (defn update-state-item!

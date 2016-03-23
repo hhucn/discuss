@@ -6,6 +6,7 @@
             [discuss.extensions]
             [discuss.history :as history]
             [discuss.lib :as lib]
+            [discuss.sidebar :as sidebar]
             [discuss.auth :as auth]))
 
 ;; Auxiliary functions
@@ -91,10 +92,11 @@
 
 
 ;; Views
-(defn clipboard-view []
-  (dom/div #js {:id (lib/prefix-name "sidebar")
-                :className "sidenav"}
-           "discuss"))
+(defn sidebar-view []
+  (dom/div #js {:id        (lib/prefix-name "sidebar")
+                :className "panel panel-default sidenav"}
+           (when (sidebar/show?)
+             (dom/div nil "discuss"))))
 
 (defn bubble-view [bubble]
   (reify om/IRender
@@ -176,7 +178,7 @@
                        " "
                        (get-in data [:layout :title]))
                (main-content-view data)
-               (clipboard-view)))))
+               (sidebar-view)))))
 
 (defn toggle-show [show] (if show false true))
 
