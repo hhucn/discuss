@@ -11,19 +11,21 @@
   [w]
   (set! (.-width (.-style (.getElementById js/document id))) w))
 
-(defn show!
-  "Show sidebar, switch app-state."
-  []
-  (set-sidebar-width! width)
-  (lib/update-state-item! :sidebar :show? (fn [_] true)))
-
-(defn hide!
-  "Hide sidebar."
-  []
-  (set-sidebar-width! "0")
-  (lib/update-state-item! :sidebar :show? (fn [_] false)))
-
 (defn show?
   "Return boolean which indicates if the sidebar is visible or not."
   []
   (get-in @lib/app-state [:sidebar :show?]))
+
+(defn show!
+  "Show sidebar, switch app-state."
+  []
+  (when-not (show?)
+    (set-sidebar-width! width)
+    (lib/update-state-item! :sidebar :show? (fn [_] true))))
+
+(defn hide!
+  "Hide sidebar."
+  []
+  (when (show?)
+    (set-sidebar-width! "39px")
+    (lib/update-state-item! :sidebar :show? (fn [_] false))))

@@ -10,12 +10,13 @@
   []
   (get-in @lib/app-state [:user :selection]))
 
-(defn selected-text []
+(defn save-selected-text
+  "Get the users selection and save it."
+  []
   (let [selection (str (.getSelection js/window))]
     (when (and (> (count selection) 0)
                (not= selection (get-selection)))
-      (lib/update-state-item! :user :selection (fn [_] selection))
-      (lib/log selection))))
+      (lib/update-state-item! :user :selection (fn [_] selection)))))
 
 (defn listen [el type]
   (let [out (chan)]
@@ -26,6 +27,6 @@
 (let [clicks (listen (.getElementById js/document "discuss-text") "click")]
   (go (while true
         (<! clicks)
-        (selected-text))))
+        (save-selected-text))))
 
 ;; http://www.thesoftwaresimpleton.com/blog/2014/12/30/core-dot-async-dot-mouse-dot-down/

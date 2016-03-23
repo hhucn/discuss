@@ -10,6 +10,8 @@
             [discuss.sidebar :as sidebar]
             [discuss.auth :as auth]))
 
+(def logo (dom/i #js {:className "fa fa-comments"}))
+
 ;; Auxiliary functions
 (defn safe-html
   "Creates DOM element with interpreted HTML."
@@ -94,8 +96,8 @@
 (defn sidebar-view []
   (dom/div #js {:id        (lib/prefix-name "sidebar")
                 :className "panel panel-default sidenav"}
+           logo
            (when (sidebar/show?)
-             (dom/strong nil "discuss")
              (dom/blockquote nil (integration/get-selection)))))
 
 ;; Views
@@ -150,7 +152,7 @@
                                        (dom/i #js {:className "fa fa-comment"}))
                              (dom/input #js {:id        (lib/prefix-name "add-element")
                                              :className "form-control"}))
-                    (when-not (= "" (integration/get-selection))
+                    (when (integration/get-selection)
                       (dom/div #js {:className "input-group"}
                                (dom/span #js {:className "input-group-addon"}
                                          (dom/i #js {:className "fa fa-quote-left"}))
