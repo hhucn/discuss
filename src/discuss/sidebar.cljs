@@ -24,8 +24,15 @@
     (lib/update-state-item! :sidebar :show? (fn [_] true))))
 
 (defn hide!
-  "Hide sidebar."
+  "Hide sidebar, switch app-state"
   []
   (when (show?)
     (set-sidebar-width! "39px")
     (lib/update-state-item! :sidebar :show? (fn [_] false))))
+
+(defn toggle!
+  "Toggle visibility of sidebar."
+  []
+  (if (show?)
+    (hide!)
+    (show!)))

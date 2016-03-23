@@ -10,9 +10,17 @@
             [discuss.sidebar :as sidebar]
             [discuss.auth :as auth]))
 
-(def logo (dom/i #js {:className "fa fa-comments"}))
-
 ;; Auxiliary functions
+(defn logo
+  "If no function is provided, show logo as is. Else bind function to onClick-event and add
+   pointer-class."
+  ([]
+   (logo nil))
+  ([f]
+   (let [icon "fa fa-comments"]
+     (dom/i #js {:className (if f (str "pointer " icon) icon)
+                 :onClick   f}))))
+
 (defn safe-html
   "Creates DOM element with interpreted HTML."
   [string]
@@ -96,7 +104,7 @@
 (defn sidebar-view []
   (dom/div #js {:id        (lib/prefix-name "sidebar")
                 :className "panel panel-default sidenav"}
-           logo
+           (logo #(sidebar/toggle!))
            (when (sidebar/show?)
              (dom/blockquote nil (integration/get-selection)))))
 
@@ -186,7 +194,7 @@
     (render [_]
       (dom/div #js {:id (lib/prefix-name "dialogue-main")}
                (dom/h4 nil
-                       (dom/i #js {:className "fa fa-comments"})
+                       (logo)
                        " "
                        (get-in data [:layout :title]))
                (main-content-view data)
@@ -206,7 +214,6 @@
         (om/set-state! owner :text (:text data)))
       (dom/span nil
                 " "
-                (dom/i #js {:className "pointer fa fa-comments"
-                            :onClick   #(om/set-state! owner :show (toggle-show show))})
+                (logo #(om/set-state! owner :show (toggle-show show)))
                 (when show
                   (main-content-view data))))))
