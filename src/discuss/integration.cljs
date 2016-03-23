@@ -10,6 +10,9 @@
   []
   (get-in @lib/app-state [:user :selection]))
 
+(defn has-selection? []
+  (> (count (get-selection)) 0))
+
 (defn save-selected-text
   "Get the users selection and save it."
   []

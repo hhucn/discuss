@@ -1,6 +1,7 @@
 (ns discuss.sidebar
   "Controlling the sidebar."
-  (:require [discuss.lib :as lib]))
+  (:require [discuss.lib :as lib]
+            [discuss.integration :as integration]))
 
 (def id (lib/prefix-name "sidebar"))
 (def width "200px")
@@ -19,7 +20,8 @@
 (defn show!
   "Show sidebar, switch app-state."
   []
-  (when-not (show?)
+  (when (and (not (show?))
+             (integration/has-selection?))
     (set-sidebar-width! width)
     (lib/update-state-item! :sidebar :show? (fn [_] true))))
 
@@ -33,6 +35,4 @@
 (defn toggle!
   "Toggle visibility of sidebar."
   []
-  (if (show?)
-    (hide!)
-    (show!)))
+  (if (show?) (hide!) (show!)))

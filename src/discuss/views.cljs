@@ -105,7 +105,8 @@
   (dom/div #js {:id        (lib/prefix-name "sidebar")
                 :className "panel panel-default sidenav"}
            (logo #(sidebar/toggle!))
-           (when (sidebar/show?)
+           (when (and (sidebar/show?)
+                      (integration/has-selection?))
              (dom/blockquote nil (integration/get-selection)))))
 
 ;; Views
