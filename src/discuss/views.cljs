@@ -5,6 +5,7 @@
             [discuss.communication :as com]
             [discuss.extensions]
             [discuss.history :as history]
+            [discuss.integration :as integration]
             [discuss.lib :as lib]
             [discuss.sidebar :as sidebar]
             [discuss.auth :as auth]))
@@ -90,14 +91,14 @@
                          :onClick #(lib/change-view! :discussion)}
                     "Back")))
 
-
-;; Views
 (defn sidebar-view []
   (dom/div #js {:id        (lib/prefix-name "sidebar")
                 :className "panel panel-default sidenav"}
            (when (sidebar/show?)
-             (dom/div nil "discuss"))))
+             (dom/strong nil "discuss")
+             (dom/blockquote nil (integration/get-selection)))))
 
+;; Views
 (defn bubble-view [bubble]
   (reify om/IRender
     (render [_]
@@ -149,6 +150,15 @@
                                        (dom/i #js {:className "fa fa-comment"}))
                              (dom/input #js {:id        (lib/prefix-name "add-element")
                                              :className "form-control"}))
+                    (when-not (= "" (integration/get-selection))
+                      (dom/div #js {:className "input-group"}
+                               (dom/span #js {:className "input-group-addon"}
+                                         (dom/i #js {:className "fa fa-quote-left"}))
+                               (dom/input #js {:id        (lib/prefix-name "add-element-quote")
+                                               :className "form-control"
+                                               :value (integration/get-selection)})
+                               (dom/span #js {:className "input-group-addon"}
+                                         (dom/i #js {:className "fa fa-quote-right"}))))
                     (dom/button #js {:className "btn btn-default"
                                      :onClick   #(com/add-start-statement (lib/get-value-by-id "add-element"))}
                                 "Submit"))))

@@ -8,7 +8,7 @@
             [discuss.views :as views]))
 
 ;; Initialization
-(com/init!)
+;(com/init!)
 
 ;; Register
 (om/root views/main-view lib/app-state

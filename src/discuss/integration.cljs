@@ -3,14 +3,18 @@
   (:require [goog.events :as events]
             [cljs.core.async :refer [put! chan <!]]
             [discuss.lib :as lib]
-            [discuss.extensions]
-            [goog.dom :as gdom]
-            [goog.object :as gobj]))
+            [discuss.extensions]))
 
 (defn selected-text []
   (let [selection (str (.getSelection js/window))]
     (when (> (count selection) 0)
+      (lib/update-state-item! :user :selection (fn [_] selection))
       (lib/log selection))))
+
+(defn get-selection
+  "Return the stored selection of the user."
+  []
+  (get-in @lib/app-state [:user :selection]))
 
 (defn listen [el type]
   (let [out (chan)]
