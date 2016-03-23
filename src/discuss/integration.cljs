@@ -5,16 +5,17 @@
             [discuss.lib :as lib]
             [discuss.extensions]))
 
-(defn selected-text []
-  (let [selection (str (.getSelection js/window))]
-    (when (> (count selection) 0)
-      (lib/update-state-item! :user :selection (fn [_] selection))
-      (lib/log selection))))
-
 (defn get-selection
   "Return the stored selection of the user."
   []
   (get-in @lib/app-state [:user :selection]))
+
+(defn selected-text []
+  (let [selection (str (.getSelection js/window))]
+    (when (and (> (count selection) 0)
+               (not= selection (get-selection)))
+      (lib/update-state-item! :user :selection (fn [_] selection))
+      (lib/log selection))))
 
 (defn listen [el type]
   (let [out (chan)]
