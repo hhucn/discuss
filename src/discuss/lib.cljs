@@ -22,9 +22,9 @@
          :debug {:last-api ""}
          :user {:nickname ""
                 :token ""
+                :selection ""
                 :logged-in? false}
-         :sidebar {:width "200px"
-                   :show? false}
+         :sidebar {:show? false}
          }))
 
 ;; Get

@@ -3,28 +3,25 @@
   (:require [discuss.lib :as lib]))
 
 (def id (lib/prefix-name "sidebar"))
+(def width "200px")
 
 ;(println (.. (.getElementById js/document "mySidenav") -style))
 (defn- set-sidebar-width!
   "Get sidebar DOM element and set its width."
-  [width]
-  (set! (.-width (.-style (.getElementById js/document id))) width))
-
-(defn- get-sidebar-width
-  "Look in app-state for sidebar width."
-  []
-  (get-in @lib/app-state [:sidebar :width]))
+  [w]
+  (set! (.-width (.-style (.getElementById js/document id))) w))
 
 (defn show!
   "Show sidebar, switch app-state."
   []
-  (set-sidebar-width! (get-sidebar-width))
+  (set-sidebar-width! width)
   (lib/update-state-item! :sidebar :show? (fn [_] true)))
 
 (defn hide!
   "Hide sidebar."
   []
-  (set-sidebar-width! "0"))
+  (set-sidebar-width! "0")
+  (lib/update-state-item! :sidebar :show? (fn [_] false)))
 
 (defn show?
   "Return boolean which indicates if the sidebar is visible or not."
