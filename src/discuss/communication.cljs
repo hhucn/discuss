@@ -5,7 +5,6 @@
             [cognitect.transit :as transit]
             [discuss.config :as config]
             [discuss.debug :as debug]
-            [discuss.history :as history]
             [discuss.lib :as lib]))
 
 ;; Auxiliary functions
@@ -48,6 +47,7 @@
       (.log js/console error)
       (do
         (lib/hide-add-form)
+        (lib/update-state-item! :layout :add-type (fn [_] nil))
         (ajax-get url)))))
 
 (defn init!
@@ -59,13 +59,24 @@
 
 
 ;; Discussion-related functions
+(defn get-conclusion-id
+  "Returns statement id to which the newly added statement is referred to.
+   Currently this is stored in the data_statement_uid of the first bubble."
+  []
+  (let [bubble (first (lib/get-bubbles))]
+    (:data_statement_uid bubble)))
+
 (defn post-statement [statement reference add-type]
-  (let [id   (get-in @lib/app-state [:issues :uid])
-        slug (get-in @lib/app-state [:issues :slug])
-        url  (str (:base config/api) (get-in config/api [:add add-type]))]
+  (let [id            (get-in @lib/app-state [:issues :uid])
+        slug          (get-in @lib/app-state [:issues :slug])
+        conclusion-id (get-conclusion-id)          ; Relevant for add-start-premise
+        supportive?   (get-in @lib/app-state [:discussion :is_supportive])
+        url           (str (:base config/api) (get-in config/api [:add add-type]))]
     (POST (make-url url)
           {:body            (lib/clj->json {:statement statement
                                             :reference reference
+                                            :conclusion_id conclusion-id
+                                            :supportive supportive?
                                             :issue_id id
                                             :slug slug})
            :handler         success-handler
@@ -74,8 +85,7 @@
            :response-format :json
            :headers         (merge {"Content-Type" "application/json"}
                                    (token-header))
-           :keywords?       true})
-    (lib/update-state-item! :layout :add-type (fn [_] nil))))
+           :keywords?       true})))
 
 (defn dispatch-add-action
   "Check which action needs to be performed based on the type previously stored in the app-state."
@@ -83,8 +93,8 @@
   (let [action (get-in @lib/app-state [:layout :add-type])]
     (cond
       (= action :add-start-statement) (post-statement statement reference :add-start-statement)
-      (= action :add-start-premise)   (post-statement statement reference :add-start-premise)
-      (= action :add-justify-premise) (post-statement statement reference :add-justify-premise)
+      (= action :add-start-premise)   (post-statement [statement] reference :add-start-premise)
+      (= action :add-justify-premise) (post-statement [statement] reference :add-justify-premise)
       :else (println "Action not found:" action))))
 
 (defn prepare-add
