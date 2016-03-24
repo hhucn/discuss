@@ -62,7 +62,7 @@
 (defn add-start-statement [statement]
   (let [id   (get-in @lib/app-state [:issues :uid])
         slug (get-in @lib/app-state [:issues :slug])
-        url  (str (:base config/api) (get-in config/api [:add :start_statement]))]
+        url  (str (:base config/api) (get-in config/api [:add :add-start-statement]))]
     (debug/update-debug :last-api url)
     (POST (make-url url)
           {:body            (lib/clj->json {:statement statement
