@@ -76,7 +76,7 @@
         items (:items res)
         discussion (:discussion res)
         issues (:issues res)]
-    ;; OPTIMIZE
+    ;; @OPTIMIZE
     (update-state-map! :items items)
     (update-state-map! :discussion discussion)
     (update-state-map! :issues issues)
@@ -106,7 +106,8 @@
 (defn get-value-by-id
   "Return value of element matching the id."
   [id]
-  (.-value (. js/document (getElementById (prefix-name id)))))
+  (let [element (.getElementById js/document (prefix-name id))]
+    (when element (.-value element))))
 
 (defn log [arg]
   (.log js/console arg))

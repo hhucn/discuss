@@ -63,7 +63,6 @@
   (let [id   (get-in @lib/app-state [:issues :uid])
         slug (get-in @lib/app-state [:issues :slug])
         url  (str (:base config/api) (get-in config/api [:add add-type]))]
-    (debug/update-debug :last-api url)
     (POST (make-url url)
           {:body            (lib/clj->json {:statement statement
                                             :reference reference
@@ -86,7 +85,7 @@
       (= action :add-start-statement) (post-statement statement reference :add-start-statement)
       (= action :add-start-premise)   (post-statement statement reference :add-start-premise)
       (= action :add-justify-premise) (post-statement statement reference :add-justify-premise)
-      :else (println "No action matched"))))
+      :else (println "Action not found:" action))))
 
 (defn prepare-add
   "Save current add-method and show add form."
@@ -102,6 +101,5 @@
     (= id "item_start_statement") (prepare-add :add-start-statement)
     (= id "item_start_premise")   (prepare-add :add-start-premise)
     (= id "item_justify_premise") (prepare-add :add-justify-premise)
-    (= url "back") (history/back!) ;; @DEPRECATED
     (= url "add")  (prepare-add "add")
     :else (ajax-get url)))
