@@ -29,7 +29,7 @@
 (defn get-bubble-class [bubble]
   "Check bubble type and return a class-string to match the CSS styles."
   (cond
-    (:is_user bubble)   "bubble-user"
+    (:is_user   bubble) "bubble-user"
     (:is_system bubble) "bubble-system"
     (:is_status bubble) "bubble-status text-center"))
 
