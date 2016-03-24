@@ -59,7 +59,7 @@
 
 
 ;; Discussion-related functions
-(defn add-position [statement]
+(defn add-start-statement [statement]
   (let [id   (get-in @lib/app-state [:issues :uid])
         slug (get-in @lib/app-state [:issues :slug])
         url  (str (:base config/api) (get-in config/api [:add :start_statement]))]
@@ -78,8 +78,8 @@
 
 (defn prepare-add
   "Save current add-method and show add form."
-  [id]
-  (lib/update-state-item! :layout :add-element-id (fn [_] id))
+  [add-type]
+  (lib/update-state-item! :layout :add-type (fn [_] add-type))
   (lib/show-add-form))
 
 (defn item-click
@@ -87,10 +87,9 @@
   [id url]
   (lib/hide-add-form)
   (cond
+    (= id "item_start_statement") (prepare-add :add-start-statement)
+    (= id "item_start_premise")   (prepare-add :add-start-premise)
+    (= id "item_justify_premise") (prepare-add :add-justify-premise)
     (= url "back") (history/back!) ;; @DEPRECATED
-    (= url "change_attack") (lib/log "Found change_attack, not implemented yet.")
     (= url "add")  (prepare-add "add")
-    (= id "item_start_statement") (prepare-add id)
-    (= id "item_start_premise")   (prepare-add id)
-    (= id "item_justify_premise") (prepare-add id)
     :else (ajax-get url)))

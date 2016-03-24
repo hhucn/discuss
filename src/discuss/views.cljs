@@ -170,7 +170,7 @@
                                (dom/span #js {:className "input-group-addon"}
                                          (dom/i #js {:className "fa fa-quote-right"}))))
                     (dom/button #js {:className "btn btn-default"
-                                     :onClick   #(com/add-position (lib/get-value-by-id "add-element"))}
+                                     :onClick   #(com/add-start-statement (lib/get-value-by-id "add-element"))}
                                 "Submit"))))
 
 (defn main-content-view

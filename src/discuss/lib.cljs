@@ -17,7 +17,7 @@
                   :template :discussion
                   :add? false
                   :add-text "Let me enter my reason!"
-                  :add-element-id ""
+                  :add-type nil
                   :loading? true}
          :debug {:last-api ""}
          :user {:nickname ""
