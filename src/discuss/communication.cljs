@@ -57,8 +57,9 @@
     (lib/update-state-item! :layout :add? (fn [_] false))
     (discuss.communication/ajax-get url)))
 
+
 ;; Discussion-related functions
-(defn add-start-statement [statement]
+(defn add-position [statement]
   (let [id   (get-in @lib/app-state [:issues :uid])
         slug (get-in @lib/app-state [:issues :slug])
         url  (str (:base config/api) (get-in config/api [:add :start_statement]))]
@@ -86,7 +87,8 @@
   [id url]
   (lib/hide-add-form)
   (cond
-    (= url "back") (history/back!)
+    (= url "back") (history/back!) ;; @DEPRECATED
+    (= url "change_attack") (lib/log "Found change_attack, not implemented yet.")
     (= url "add")  (prepare-add "add")
     (= id "item_start_statement") (prepare-add id)
     (= id "item_start_premise")   (prepare-add id)

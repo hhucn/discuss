@@ -11,13 +11,14 @@
                  [org.clojure/core.async "0.2.374"
                   :exclusions [org.clojure/tools.reader]]
                  [org.omcljs/om "1.0.0-alpha31"]
-                 [cljs-ajax "0.5.3"]                        ; AJAX for om
+                 [cljs-ajax "0.5.4"]                        ; AJAX for om
                  [com.cognitect/transit-cljs "0.8.237"]     ; Better JSON support
                  ]
 
-  :plugins [[lein-figwheel "0.5.0-6"]
-            [lein-cljsbuild "1.1.2" :exclusions [[org.clojure/clojure]]]
-            [lein-codox "0.9.4"]]
+  :plugins [[lein-figwheel "0.5.1"]
+            [lein-cljsbuild "1.1.3" :exclusions [[org.clojure/clojure]]]
+            [lein-codox "0.9.4"]
+            [lein-ancient "0.6.8"]]
 
   :source-paths ["src"]
 
@@ -80,5 +81,7 @@
   ;; For documentation
   :codox {:language :clojurescript
           :metadata {:doc/format :markdown}
-          :source-uri "https://gitlab.cs.uni-duesseldorf.de/meter/discuss-cljs/blob/master/{filepath}#L{line}"}
+          :source-uri "https://gitlab.cs.uni-duesseldorf.de/meter/discuss-cljs/blob/master/{filepath}#L{line}"
+          :doc-paths ["docs"]
+          :output-path "target/docs"}
   )

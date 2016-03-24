@@ -128,8 +128,7 @@
     (render [_]
       (dom/div #js {:className "radio"}
                (dom/label #js {}
-                          (dom/input #js {:id        (:id item)
-                                          :type      "radio"
+                          (dom/input #js {:type      "radio"
                                           :className (lib/prefix-name "dialogue-items")
                                           :name      (lib/prefix-name "dialogue-items-group")
                                           :onClick   #(com/item-click (:id item) (:url item))
@@ -171,7 +170,7 @@
                                (dom/span #js {:className "input-group-addon"}
                                          (dom/i #js {:className "fa fa-quote-right"}))))
                     (dom/button #js {:className "btn btn-default"
-                                     :onClick   #(com/add-start-statement (lib/get-value-by-id "add-element"))}
+                                     :onClick   #(com/add-position (lib/get-value-by-id "add-element"))}
                                 "Submit"))))
 
 (defn main-content-view
