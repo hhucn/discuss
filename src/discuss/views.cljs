@@ -164,13 +164,13 @@
                       (dom/div #js {:className "input-group"}
                                (dom/span #js {:className "input-group-addon"}
                                          (dom/i #js {:className "fa fa-quote-left"}))
-                               (dom/input #js {:id        (lib/prefix-name "add-element-quote")
+                               (dom/input #js {:id        (lib/prefix-name "add-element-reference")
                                                :className "form-control"
                                                :value (integration/get-selection)})
                                (dom/span #js {:className "input-group-addon"}
                                          (dom/i #js {:className "fa fa-quote-right"}))))
                     (dom/button #js {:className "btn btn-default"
-                                     :onClick   #(com/add-start-statement (lib/get-value-by-id "add-element"))}
+                                     :onClick   #(com/dispatch-add-action (lib/get-value-by-id "add-element") (lib/get-value-by-id "add-element-reference"))}
                                 "Submit"))))
 
 (defn main-content-view

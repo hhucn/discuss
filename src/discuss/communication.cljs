@@ -59,13 +59,14 @@
 
 
 ;; Discussion-related functions
-(defn add-start-statement [statement]
+(defn post-statement [statement reference add-type]
   (let [id   (get-in @lib/app-state [:issues :uid])
         slug (get-in @lib/app-state [:issues :slug])
-        url  (str (:base config/api) (get-in config/api [:add :add-start-statement]))]
+        url  (str (:base config/api) (get-in config/api [:add add-type]))]
     (debug/update-debug :last-api url)
     (POST (make-url url)
           {:body            (lib/clj->json {:statement statement
+                                            :reference reference
                                             :issue_id id
                                             :slug slug})
            :handler         success-handler
@@ -74,7 +75,18 @@
            :response-format :json
            :headers         (merge {"Content-Type" "application/json"}
                                    (token-header))
-           :keywords?       true})))
+           :keywords?       true})
+    (lib/update-state-item! :layout :add-type (fn [_] nil))))
+
+(defn dispatch-add-action
+  "Check which action needs to be performed based on the type previously stored in the app-state."
+  [statement reference]
+  (let [action (get-in @lib/app-state [:layout :add-type])]
+    (cond
+      (= action :add-start-statement) (post-statement statement reference :add-start-statement)
+      (= action :add-start-premise)   (post-statement statement reference :add-start-premise)
+      (= action :add-justify-premise) (post-statement statement reference :add-justify-premise)
+      :else (println "No action matched"))))
 
 (defn prepare-add
   "Save current add-method and show add form."
@@ -83,7 +95,7 @@
   (lib/show-add-form))
 
 (defn item-click
-  "Dispatch which action has to be done when clicking an item."
+  "Prepare which action has to be done when clicking an item."
   [id url]
   (lib/hide-add-form)
   (cond
