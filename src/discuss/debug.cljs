@@ -29,13 +29,21 @@
                (dom/div #js {:className "collapse in well"
                              :id "collapse-debug"}
 
-                        (dom/h6 nil "Last API call")
-                        (dom/pre nil (get-in data [:debug :last-api]))
+                        (dom/h6 nil "API Calls")
+                        (dom/div #js {:className "padding-bottom"}
+                                 (dom/div #js {:className "form-group"}
+                                          (dom/input #js {:id          (lib/prefix-name "debug-api-call")
+                                                          :className   "form-control"
+                                                          :placeholder (get-in data [:debug :last-api])}))
+                                 (dom/button #js {:className "btn btn-default"
+                                                  :onClick   #(discuss.communication/ajax-get (lib/get-value-by-id "debug-api-call"))}
+                                             "Make new API call"))
+
+                        ;; Fast login
+                        (dom/h6 nil "Other")
                         (dom/button #js {:className "btn btn-default"
                                          :onClick   #(discuss.communication/ajax-get (get-in data [:debug :last-api]))}
                                     "Resend API Call")
-
-                        ;; Fast login
                         " "
                         (dom/button #js {:className "btn btn-default"
                                          :onClick   #(discuss.auth/login "christian" "christian")}
