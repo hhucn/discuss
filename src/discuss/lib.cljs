@@ -20,7 +20,7 @@
                   :add-type nil
                   :loading? true
                   :error? false
-                  :error-msg "xD"}
+                  :error-msg nil}
          :debug {:last-api ""}
          :user {:nickname ""
                 :token ""
@@ -44,11 +44,6 @@
   "Return message bubbles from DBAS."
   []
   (get-in @app-state [:discussion :bubbles]))
-
-(defn get-error
-  "Return error message."
-  []
-  (get-in @app-state [:layout :error-msg]))
 
 
 ;; Booleans
@@ -102,14 +97,20 @@
 (defn error-msg!
   "Set error message."
   [msg]
-  (error? true)
+  (when (< 0 (count msg))
+    (error? true))
   (update-state-item! :layout :error-msg (fn [_] msg)))
 
 (defn no-error!
   "Macro to remove all error warnings."
   []
   (error? false)
-  (error-msg! ""))
+  (error-msg! nil))
+
+(defn get-error
+  "Return error message."
+  []
+  (get-in @app-state [:layout :error-msg]))
 
 ;; Change views
 (defn change-view!
