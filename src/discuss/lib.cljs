@@ -17,7 +17,7 @@
                   :template :discussion
                   :add? false
                   :add-text "Let me enter my reason!"
-                  :add-element-id ""
+                  :add-type nil
                   :loading? true}
          :debug {:last-api ""}
          :user {:nickname ""
@@ -76,7 +76,7 @@
         items (:items res)
         discussion (:discussion res)
         issues (:issues res)]
-    ;; OPTIMIZE
+    ;; @OPTIMIZE
     (update-state-map! :items items)
     (update-state-map! :discussion discussion)
     (update-state-map! :issues issues)
@@ -106,9 +106,12 @@
 (defn get-value-by-id
   "Return value of element matching the id."
   [id]
-  (.-value (. js/document (getElementById (prefix-name id)))))
+  (let [element (.getElementById js/document (prefix-name id))]
+    (when element (.-value element))))
 
-(defn log [arg]
+(defn log
+  "Print argument as JS object to be accessible from the console."
+  [arg]
   (.log js/console arg))
 
 

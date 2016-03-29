@@ -5,7 +5,6 @@
             [cognitect.transit :as transit]
             [discuss.config :as config]
             [discuss.debug :as debug]
-            [discuss.history :as history]
             [discuss.lib :as lib]))
 
 ;; Auxiliary functions
@@ -48,6 +47,7 @@
       (.log js/console error)
       (do
         (lib/hide-add-form)
+        (lib/update-state-item! :layout :add-type (fn [_] nil))
         (ajax-get url)))))
 
 (defn init!
@@ -57,14 +57,26 @@
     (lib/update-state-item! :layout :add? (fn [_] false))
     (discuss.communication/ajax-get url)))
 
+
 ;; Discussion-related functions
-(defn add-start-statement [statement]
-  (let [id   (get-in @lib/app-state [:issues :uid])
-        slug (get-in @lib/app-state [:issues :slug])
-        url  (str (:base config/api) (get-in config/api [:add :start_statement]))]
-    (debug/update-debug :last-api url)
+(defn get-conclusion-id
+  "Returns statement id to which the newly added statement is referred to.
+   Currently this is stored in the data_statement_uid of the first bubble."
+  []
+  (let [bubble (first (lib/get-bubbles))]
+    (:data_statement_uid bubble)))
+
+(defn post-statement [statement reference add-type]
+  (let [id            (get-in @lib/app-state [:issues :uid])
+        slug          (get-in @lib/app-state [:issues :slug])
+        conclusion-id (get-conclusion-id)          ; Relevant for add-start-premise
+        supportive?   (get-in @lib/app-state [:discussion :is_supportive])
+        url           (str (:base config/api) (get-in config/api [:add add-type]))]
     (POST (make-url url)
           {:body            (lib/clj->json {:statement statement
+                                            :reference reference
+                                            :conclusion_id conclusion-id
+                                            :supportive supportive?
                                             :issue_id id
                                             :slug slug})
            :handler         success-handler
@@ -75,20 +87,29 @@
                                    (token-header))
            :keywords?       true})))
 
+(defn dispatch-add-action
+  "Check which action needs to be performed based on the type previously stored in the app-state."
+  [statement reference]
+  (let [action (get-in @lib/app-state [:layout :add-type])]
+    (cond
+      (= action :add-start-statement) (post-statement statement reference :add-start-statement)
+      (= action :add-start-premise)   (post-statement [statement] reference :add-start-premise)
+      (= action :add-justify-premise) (post-statement [statement] reference :add-justify-premise)
+      :else (println "Action not found:" action))))
+
 (defn prepare-add
   "Save current add-method and show add form."
-  [id]
-  (lib/update-state-item! :layout :add-element-id (fn [_] id))
+  [add-type]
+  (lib/update-state-item! :layout :add-type (fn [_] add-type))
   (lib/show-add-form))
 
 (defn item-click
-  "Dispatch which action has to be done when clicking an item."
+  "Prepare which action has to be done when clicking an item."
   [id url]
   (lib/hide-add-form)
   (cond
-    (= url "back") (history/back!)
+    (= id "item_start_statement") (prepare-add :add-start-statement)
+    (= id "item_start_premise")   (prepare-add :add-start-premise)
+    (= id "item_justify_premise") (prepare-add :add-justify-premise)
     (= url "add")  (prepare-add "add")
-    (= id "item_start_statement") (prepare-add id)
-    (= id "item_start_premise")   (prepare-add id)
-    (= id "item_justify_premise") (prepare-add id)
     :else (ajax-get url)))

@@ -8,7 +8,9 @@
              (when-not (= (last @discussion-history) n)
                (swap! discussion-history conj n))))
 
-(defn back! []
+(defn back!
+  "Travel one unit back in time!"
+  []
   (when (> (count @discussion-history) 1)
     (dotimes [_ 5]                                          ; Workaround, because one action are currently x atom changes
       (swap! discussion-history pop))

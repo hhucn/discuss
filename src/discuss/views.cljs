@@ -1,7 +1,7 @@
 (ns discuss.views
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [cljs.pprint :as pprint]
+            [clojure.string :as string]
             [discuss.communication :as com]
             [discuss.extensions]
             [discuss.history :as history]
@@ -29,7 +29,7 @@
 (defn get-bubble-class [bubble]
   "Check bubble type and return a class-string to match the CSS styles."
   (cond
-    (:is_user bubble)   "bubble-user"
+    (:is_user   bubble) "bubble-user"
     (:is_system bubble) "bubble-system"
     (:is_status bubble) "bubble-status text-center"))
 
@@ -128,14 +128,13 @@
     (render [_]
       (dom/div #js {:className "radio"}
                (dom/label #js {}
-                          (dom/input #js {:id        (:id item)
-                                          :type      "radio"
+                          (dom/input #js {:type      "radio"
                                           :className (lib/prefix-name "dialogue-items")
                                           :name      (lib/prefix-name "dialogue-items-group")
                                           :onClick   #(com/item-click (:id item) (:url item))
                                           :value     (:url item)})
                           " "
-                          (safe-html (:title item)))))))
+                          (safe-html (string/join " <i>and</i> " (map #(:title %) (:premises item))))))))) ; get all premises of item and add an "and" between them
 
 (defn items-view [data]
   (dom/div nil
@@ -165,30 +164,30 @@
                       (dom/div #js {:className "input-group"}
                                (dom/span #js {:className "input-group-addon"}
                                          (dom/i #js {:className "fa fa-quote-left"}))
-                               (dom/input #js {:id        (lib/prefix-name "add-element-quote")
+                               (dom/input #js {:id        (lib/prefix-name "add-element-reference")
                                                :className "form-control"
                                                :value (integration/get-selection)})
                                (dom/span #js {:className "input-group-addon"}
                                          (dom/i #js {:className "fa fa-quote-right"}))))
                     (dom/button #js {:className "btn btn-default"
-                                     :onClick   #(com/add-start-statement (lib/get-value-by-id "add-element"))}
+                                     :onClick   #(com/dispatch-add-action (lib/get-value-by-id "add-element") (lib/get-value-by-id "add-element-reference"))}
                                 "Submit"))))
 
 (defn main-content-view
   [data]
-   (dom/div nil
-            (dom/div #js {:className "text-center"}
-                     (get-in data [:layout :intro])
-                     (dom/br nil)
-                     (dom/strong nil (get-in data [:issues :info])))
-            (dom/div #js {:className "panel panel-default"}
-                     (dom/div #js {:className "panel-body"}
-                              (let [view (get-in data [:layout :template])]
-                                (cond
-                                  (= view :login) (login-form)
-                                  :else (discussion-elements data)))))
-            (when (get-in data [:layout :add?])
-              (add-element data))))
+  (dom/div nil
+           (dom/div #js {:className "text-center"}
+                    (get-in data [:layout :intro])
+                    (dom/br nil)
+                    (dom/strong nil (get-in data [:issues :info])))
+           (dom/div #js {:className "panel panel-default"}
+                    (dom/div #js {:className "panel-body"}
+                             (let [view (get-in data [:layout :template])]
+                               (cond
+                                 (= view :login) (login-form)
+                                 :else (discussion-elements data)))))
+           (when (get-in data [:layout :add?])
+             (add-element data))))
 
 (defn main-view [data]
   (reify om/IRender

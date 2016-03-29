@@ -11,8 +11,7 @@
              (:is_user bubble) ":user "
              (:is_system bubble) ":info "
              (:is_status bubble) ":status "
-             :else ""
-             )
+             :else "")
            (:message bubble)
            "\n"))
        (range (count bubbles))))
@@ -29,11 +28,27 @@
                        "Debug")
                (dom/div #js {:className "collapse in well"
                              :id "collapse-debug"}
-                        (dom/h6 nil "Last API call")
+
+                        (dom/h6 nil "API Calls")
                         (dom/pre nil (get-in data [:debug :last-api]))
+                        (dom/div #js {:className "padding-bottom"}
+                                 (dom/div #js {:className "form-group"}
+                                          (dom/input #js {:id          (lib/prefix-name "debug-api-call")
+                                                          :className   "form-control"
+                                                          :placeholder (get-in data [:debug :last-api])}))
+                                 (dom/button #js {:className "btn btn-default"
+                                                  :onClick   #(discuss.communication/ajax-get (lib/get-value-by-id "debug-api-call"))}
+                                             "Do the magic"))
+
+                        ;; Fast login
+                        (dom/h6 nil "Other")
                         (dom/button #js {:className "btn btn-default"
                                          :onClick   #(discuss.communication/ajax-get (get-in data [:debug :last-api]))}
                                     "Resend API Call")
+                        " "
+                        (dom/button #js {:className "btn btn-default"
+                                         :onClick   #(discuss.auth/login "christian" "christian")}
+                                    "One-Click Login")
 
                         (dom/h6 nil "Token")
                         (dom/pre nil (get-in data [:user :token]))
