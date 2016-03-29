@@ -43,6 +43,10 @@
                         ;; Fast login
                         (dom/h6 nil "Other")
                         (dom/button #js {:className "btn btn-default"
+                                         :onClick   #(discuss.communication/ajax-get "api/cat-or-dog")}
+                                    (dom/i #js {:className "fa fa-paw"}))
+                        " "
+                        (dom/button #js {:className "btn btn-default"
                                          :onClick   #(discuss.communication/ajax-get (get-in data [:debug :last-api]))}
                                     "Resend API Call")
                         " "

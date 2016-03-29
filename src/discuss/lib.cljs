@@ -18,7 +18,9 @@
                   :add? false
                   :add-text "Let me enter my reason!"
                   :add-type nil
-                  :loading? true}
+                  :loading? true
+                  :error? false
+                  :error-msg "xD"}
          :debug {:last-api ""}
          :user {:nickname ""
                 :token ""
@@ -43,6 +45,11 @@
   []
   (get-in @app-state [:discussion :bubbles]))
 
+(defn get-error
+  "Return error message."
+  []
+  (get-in @app-state [:layout :error-msg]))
+
 
 ;; Booleans
 (defn logged-in?
@@ -64,6 +71,7 @@
     (om/transact! state (fn [] col))))
 
 (defn loading?
+  "Return boolean if app is currently loading content. Provide a boolean to change the app-state."
   ([]
    (get-in @app-state [:layout :loading?]))
   ([bool]
@@ -83,6 +91,25 @@
     (update-state-item! :debug :response (fn [_] res))
     (loading? false)))
 
+;; Show error messages
+(defn error?
+  "Return boolean indicating if there are errors or not. Provide a boolean to change the app-state."
+  ([]
+   (get-in @app-state [:layout :error?]))
+  ([bool]
+   (update-state-item! :layout :error? (fn [_] bool))))
+
+(defn error-msg!
+  "Set error message."
+  [msg]
+  (error? true)
+  (update-state-item! :layout :error-msg (fn [_] msg)))
+
+(defn no-error!
+  "Macro to remove all error warnings."
+  []
+  (error? false)
+  (error-msg! ""))
 
 ;; Change views
 (defn change-view!

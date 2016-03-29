@@ -26,13 +26,14 @@
 (defn error-handler
   "Generic error handler for ajax requests."
   [{:keys [status status-text]}]
-  (.log js/console (str "something bad happened: " status " " status-text))
+  (lib/error-msg! (str status " " status-text))
   (lib/loading? false))
 
 (defn ajax-get
   "Make ajax call to dialogue based argumentation system."
   [url]
   (debug/update-debug :last-api url)
+  (lib/no-error!)
   (GET (make-url url)
        {:handler lib/update-all-states!
         :headers (token-header)
@@ -44,8 +45,9 @@
         error (:error res)
         url (:url res)]
     (if (< 0 (count error))
-      (.log js/console error)
+      (lib/error-msg! error)
       (do
+        (lib/no-error!)
         (lib/hide-add-form)
         (lib/update-state-item! :layout :add-type (fn [_] nil))
         (ajax-get url)))))

@@ -147,6 +147,19 @@
            (control-elements)
            (login-view-buttons data)))
 
+(defn error-view
+  "Display error message if there are errors."
+  []
+  (when (lib/error?)
+    (dom/div #js {:className "alert alert-info alert-dismissable"
+                  :role "alert"}
+             (dom/button #js {:className "close"
+                              :data-dismiss "alert"
+                              :aria-label "Close"}
+                         (dom/span #js {:aria-hidden "true"}
+                                   (safe-html "&times;")))
+             (lib/get-error))))
+
 (defn add-element
   "Show form to add a new statement."
   [data]
@@ -154,6 +167,7 @@
            (dom/div #js {:className "panel-body"}
                     (dom/h4 #js {:className "text-center"} (get-in data [:layout :add-text]))
                     (dom/h5 #js {:className "text-center"} (safe-html (get-in data [:discussion :add_premise_text])))
+                    (error-view)
                     (dom/div #js {:className "input-group"}
                              (dom/span #js {:className "input-group-addon"}
                                        (dom/i #js {:className "fa fa-comment"}))
@@ -165,7 +179,7 @@
                                          (dom/i #js {:className "fa fa-quote-left"}))
                                (dom/input #js {:id        (lib/prefix-name "add-element-reference")
                                                :className "form-control"
-                                               :value (integration/get-selection)})
+                                               :value     (integration/get-selection)})
                                (dom/span #js {:className "input-group-addon"}
                                          (dom/i #js {:className "fa fa-quote-right"}))))
                     (dom/button #js {:className "btn btn-default"
