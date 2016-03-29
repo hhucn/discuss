@@ -30,6 +30,7 @@
                              :id "collapse-debug"}
 
                         (dom/h6 nil "API Calls")
+                        (dom/pre nil (get-in data [:debug :last-api]))
                         (dom/div #js {:className "padding-bottom"}
                                  (dom/div #js {:className "form-group"}
                                           (dom/input #js {:id          (lib/prefix-name "debug-api-call")
@@ -37,7 +38,7 @@
                                                           :placeholder (get-in data [:debug :last-api])}))
                                  (dom/button #js {:className "btn btn-default"
                                                   :onClick   #(discuss.communication/ajax-get (lib/get-value-by-id "debug-api-call"))}
-                                             "Make new API call"))
+                                             "Do the magic"))
 
                         ;; Fast login
                         (dom/h6 nil "Other")

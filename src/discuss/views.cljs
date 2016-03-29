@@ -1,7 +1,7 @@
 (ns discuss.views
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [cljs.pprint :as pprint]
+            [clojure.string :as string]
             [discuss.communication :as com]
             [discuss.extensions]
             [discuss.history :as history]
@@ -134,7 +134,7 @@
                                           :onClick   #(com/item-click (:id item) (:url item))
                                           :value     (:url item)})
                           " "
-                          (safe-html (:title item)))))))
+                          (safe-html (string/join " <i>and</i> " (map #(:title %) (:premises item))))))))) ; get all premises of item and add an "and" between them
 
 (defn items-view [data]
   (dom/div nil
