@@ -76,6 +76,7 @@
         supportive?   (get-in @lib/app-state [:discussion :is_supportive])
         arg-uid       (get-in @lib/app-state [:discussion :arg_uid]) ; For premisses for arguments
         attack-type   (get-in @lib/app-state [:discussion :attack_type])
+        origin        js/location.href
         url           (str (:base config/api) (get-in config/api [:add add-type]))]
     (POST (make-url url)
           {:body            (lib/clj->json {:statement statement
@@ -84,6 +85,7 @@
                                             :supportive supportive?
                                             :arg_uid arg-uid
                                             :attack_type attack-type
+                                            :origin origin
                                             :issue_id id
                                             :slug slug})
            :handler         success-handler
