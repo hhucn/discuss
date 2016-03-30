@@ -40,8 +40,15 @@
                                                   :onClick   #(discuss.communication/ajax-get (lib/get-value-by-id "debug-api-call"))}
                                              "Do the magic"))
 
-                        ;; Fast login
                         (dom/h6 nil "Other")
+                        (dom/button #js {:className "btn btn-default"
+                                         :onClick   #(discuss.communication/ajax-get "api/cat-or-dog")}
+                                    (dom/i #js {:className "fa fa-paw"}))
+                        " "
+                        (dom/button #js {:className "btn btn-default"
+                                         :onClick   #(discuss.communication/ajax-get "api/town-has-to-cut-spending")}
+                                    (dom/i #js {:className "fa fa-building"}))
+                        " "
                         (dom/button #js {:className "btn btn-default"
                                          :onClick   #(discuss.communication/ajax-get (get-in data [:debug :last-api]))}
                                     "Resend API Call")

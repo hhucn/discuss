@@ -27,12 +27,14 @@
   "Generic error handler for ajax requests."
   [{:keys [status status-text]}]
   (.log js/console (str "something bad happened: " status " " status-text))
+  (lib/error-msg! (str status " " status-text))
   (lib/loading? false))
 
 (defn ajax-get
   "Make ajax call to dialogue based argumentation system."
   [url]
   (debug/update-debug :last-api url)
+  (lib/no-error!)
   (GET (make-url url)
        {:handler lib/update-all-states!
         :headers (token-header)
@@ -44,8 +46,9 @@
         error (:error res)
         url (:url res)]
     (if (< 0 (count error))
-      (.log js/console error)
+      (lib/error-msg! error)
       (do
+        (lib/no-error!)
         (lib/hide-add-form)
         (lib/update-state-item! :layout :add-type (fn [_] nil))
         (ajax-get url)))))
@@ -69,14 +72,18 @@
 (defn post-statement [statement reference add-type]
   (let [id            (get-in @lib/app-state [:issues :uid])
         slug          (get-in @lib/app-state [:issues :slug])
-        conclusion-id (get-conclusion-id)          ; Relevant for add-start-premise
+        conclusion-id (get-conclusion-id)                   ; Relevant for add-start-premise
         supportive?   (get-in @lib/app-state [:discussion :is_supportive])
+        arg-uid       (get-in @lib/app-state [:discussion :arg_uid]) ; For premisses for arguments
+        attack-type   (get-in @lib/app-state [:discussion :attack_type])
         url           (str (:base config/api) (get-in config/api [:add add-type]))]
     (POST (make-url url)
           {:body            (lib/clj->json {:statement statement
                                             :reference reference
                                             :conclusion_id conclusion-id
                                             :supportive supportive?
+                                            :arg_uid arg-uid
+                                            :attack_type attack-type
                                             :issue_id id
                                             :slug slug})
            :handler         success-handler
