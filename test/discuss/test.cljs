@@ -1,9 +1,13 @@
 (ns discuss.test
-  (:require [cljs.test :refer-macros [deftest is testing run-tests run-all-tests]]))
+  (:require [cljs.test :refer-macros [deftest is run-all-tests]]))
 
 (enable-console-print!)
 
-(println "### Tests ###")
+(deftest do-i-work
+  (is (= 1 2)))
+
+(deftest fail
+  (is (= "foo" "bar")))
 
 (defn ^:export run []
-  (run-all-tests #"discuss.*-test"))
+  (run-all-tests #"discuss.test"))
