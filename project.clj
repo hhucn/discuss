@@ -20,7 +20,7 @@
             [lein-codox "0.9.4"]
             [lein-ancient "0.6.8"]]
 
-  :source-paths ["src"]
+  :source-paths ["src/discuss" "src/test"]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
@@ -45,7 +45,15 @@
                 :compiler {:output-to "resources/public/js/compiled/discuss.js"
                            :main discuss.core
                            :optimizations :advanced
-                           :pretty-print false}}]}
+                           :pretty-print false}}
+               {:id "test"
+                :source-paths ["test"]
+                :compiler {:output-to "resources/public/js/compiled/discuss-test.js"
+                           :optimizations :whitespace
+                           :pretty-print true}}]
+              :test-commands {"unit" ["phantomjs"
+                                      "resources/test/phantom/runner.js"
+                                      "resources/test/test.html"]}}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
              ;; :server-port 3449 ;; default
