@@ -1,6 +1,6 @@
 # discuss-cljs
 
-Minimal front-end to include dialogue-based discussion systems into existing websites.
+Minimal front-end to include dialogue-based discussion systems into existing websites. Compatible to [D-BAS](https://gitlab.cs.uni-duesseldorf.de/project/dbas).
 
 ## Setup
 
@@ -31,9 +31,9 @@ get live reloading, nor a REPL.
 ### Testing
 
 Tests can be found in `test/discuss/*_test.cljs`. These tests are automatically executed
-when running an interactive environment. Or run them manually with:
+when running an interactive environment but currently need to be compiled in a separate process:
 
-    lein cljsbuild test
+    lein cljsbuild auto test
 
 The tests require [phantomjs](http://phantomjs.org/) (`$ pacman -S phantomjs`).
 
