@@ -1,10 +1,6 @@
 # discuss-cljs
 
-FIXME: Write a one-line description of your library/project.
-
-## Overview
-
-FIXME: Write a paragraph about the library/project and highlight its goals.
+Minimal front-end to include dialogue-based discussion systems into existing websites.
 
 ## Setup
 
@@ -31,6 +27,15 @@ To create a production build run:
 
 And open your browser in `resources/public/index.html`. You will not
 get live reloading, nor a REPL.
+
+### Testing
+
+Tests can be found in `test/discuss/*_test.cljs`. These tests are automatically executed
+when running an interactive environment. Or run them manually with:
+
+    lein cljsbuild test
+
+The tests require [phantomjs](http://phantomjs.org/) (`$ pacman -S phantomjs`).
 
 ## License
 
