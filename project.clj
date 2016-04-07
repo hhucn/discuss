@@ -47,7 +47,8 @@
                            :optimizations :advanced
                            :pretty-print false}}
                {:id "test"
-                :source-paths ["test"]
+                :source-paths ["src" "test"]
+                :notify-command ["phantomjs" "resources/test/phantom/runner.js" "resources/public/js/compiled/discuss-test.js"]
                 :compiler {:output-to "resources/public/js/compiled/discuss-test.js"
                            :optimizations :whitespace
                            :pretty-print true}}]
