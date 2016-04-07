@@ -2,7 +2,8 @@
   "Show information for debugging."
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [discuss.lib :as lib]))
+            [discuss.lib :as lib]
+            [discuss.test :as test]))
 
 (defn print-bubbles [bubbles]
   (map #(let [bubble (nth bubbles %)]
@@ -56,6 +57,10 @@
                         (dom/button #js {:className "btn btn-default"
                                          :onClick   #(discuss.auth/login "christian" "christian")}
                                     "One-Click Login")
+                        " "
+                        (dom/button #js {:className "btn btn-default"
+                                         :onClick   #(test/run)}
+                                    "Run all tests")
 
                         (dom/h6 nil "Token")
                         (dom/pre nil (get-in data [:user :token]))

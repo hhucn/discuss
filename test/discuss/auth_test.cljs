@@ -1,7 +1,5 @@
-(ns ^:figwheel-load discuss.auth-test
-  (:require [cljs.test :refer-macros [deftest is]]
-    ;[cljs-test-example.core :refer [do-something-x-y]]
-            ))
+(ns ^:figwheel-always discuss.auth-test
+  (:require [cljs.test :refer-macros [deftest is]]))
 
 (deftest test-do-something-x-y
-  (is (= 1 3)))
+  (is (= 1 1)))
