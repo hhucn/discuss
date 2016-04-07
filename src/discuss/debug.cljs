@@ -41,7 +41,7 @@
                                                   :onClick   #(discuss.communication/ajax-get (lib/get-value-by-id "debug-api-call"))}
                                              "Do the magic"))
 
-                        (dom/h6 nil "Other")
+                        (dom/h6 nil "Control")
                         (dom/button #js {:className "btn btn-default"
                                          :onClick   #(discuss.communication/ajax-get "api/cat-or-dog")}
                                     (dom/i #js {:className "fa fa-paw"}))

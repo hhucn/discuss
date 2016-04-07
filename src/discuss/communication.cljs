@@ -120,5 +120,6 @@
     (= id "item_start_statement") (prepare-add :add-start-statement)
     (= id "item_start_premise")   (prepare-add :add-start-premise)
     (= id "item_justify_premise") (prepare-add :add-justify-premise)
-    (= url "add")  (prepare-add "add")
+    (= url "add")   (prepare-add "add")
+    (= url "login") (lib/change-view! :login)
     :else (ajax-get url)))
