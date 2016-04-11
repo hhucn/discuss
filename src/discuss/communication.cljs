@@ -11,7 +11,7 @@
 (def r (transit/reader :json))
 
 (defn make-url
-  "Add prefix if not provided."
+  "Prefix url with host."
   [url]
   (str (:host config/api) url))
 
@@ -69,6 +69,21 @@
   (let [bubble (first (lib/get-bubbles))]
     (:data_statement_uid bubble)))
 
+(defn post-origin-get-references
+  "When this app is loaded, request all available references from the external discussion system."
+  []
+  (let [host js/location.host
+        path js/location.pathname]
+    (POST (make-url "api/get/references")
+          {:body            (lib/clj->json {:host host
+                                            :path path})
+           :handler         success-handler
+           :error-handler   error-handler
+           :format          :json
+           :response-format :json
+           :headers         {"Content-Type" "application/json"}
+           :keywords?       true})))
+
 (defn post-statement [statement reference add-type]
   (let [id            (get-in @lib/app-state [:issues :uid])
         slug          (get-in @lib/app-state [:issues :slug])
@@ -76,7 +91,6 @@
         supportive?   (get-in @lib/app-state [:discussion :is_supportive])
         arg-uid       (get-in @lib/app-state [:discussion :arg_uid]) ; For premisses for arguments
         attack-type   (get-in @lib/app-state [:discussion :attack_type])
-        origin        js/location.href
         host          js/location.host
         path          js/location.pathname
         url           (str (:base config/api) (get-in config/api [:add add-type]))]
