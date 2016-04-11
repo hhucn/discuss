@@ -62,6 +62,11 @@
                                          :onClick   #(test/run)}
                                     "Run all tests")
 
+                        " "
+                        (dom/button #js {:className "btn btn-default"
+                                         :onClick   #(discuss.communication/ajax-get "api/get_news")}
+                                    "Get references")
+
                         (dom/h6 nil "Token")
                         (dom/pre nil (get-in data [:user :token]))
 
