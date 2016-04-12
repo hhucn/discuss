@@ -69,50 +69,45 @@
   (let [bubble (first (lib/get-bubbles))]
     (:data_statement_uid bubble)))
 
+;;; POST functions
+(defn post-json
+  "Wrapper to prepare a POST request. Sending and receiving JSON."
+  ([url body handler headers]
+   (POST (make-url url)
+         {:body            (lib/clj->json body)
+          :handler         handler
+          :error-handler   error-handler
+          :format          :json
+          :response-format :json
+          :headers         headers
+          :keywords?       true}))
+  ([url body]
+   (post-json url body success-handler {"Content-Type" "application/json"})))
+
 (defn post-origin-get-references
   "When this app is loaded, request all available references from the external discussion system."
   []
-  (let [host js/location.host
-        path js/location.pathname]
-    (POST (make-url "api/get/references")
-          {:body            (lib/clj->json {:host host
-                                            :path path})
-           :handler         success-handler
-           :error-handler   error-handler
-           :format          :json
-           :response-format :json
-           :headers         {"Content-Type" "application/json"}
-           :keywords?       true})))
+  (let [url  "api/get/references"
+        body {:host js/location.host
+              :path js/location.pathname}]
+    (post-json url body)))
 
 (defn post-statement [statement reference add-type]
-  (let [id            (get-in @lib/app-state [:issues :uid])
-        slug          (get-in @lib/app-state [:issues :slug])
-        conclusion-id (get-conclusion-id)                   ; Relevant for add-start-premise
-        supportive?   (get-in @lib/app-state [:discussion :is_supportive])
-        arg-uid       (get-in @lib/app-state [:discussion :arg_uid]) ; For premisses for arguments
-        attack-type   (get-in @lib/app-state [:discussion :attack_type])
-        host          js/location.host
-        path          js/location.pathname
-        url           (str (:base config/api) (get-in config/api [:add add-type]))]
-    (POST (make-url url)
-          {:body            (lib/clj->json {:statement statement
-                                            :reference reference
-                                            :conclusion_id conclusion-id
-                                            :supportive supportive?
-                                            :arg_uid arg-uid
-                                            :attack_type attack-type
-                                            :host host
-                                            :path path
-                                            :issue_id id
-                                            :slug slug})
-           :handler         success-handler
-           :error-handler   error-handler
-           :format          :json
-           :response-format :json
-           :headers         (merge {"Content-Type" "application/json"}
-                                   (token-header))
-           :keywords?       true})))
+  (let [url           (str (:base config/api) (get-in config/api [:add add-type]))
+        body          {:statement statement
+                       :reference reference
+                       :conclusion_id (get-conclusion-id)   ; Relevant for add-start-premise
+                       :supportive    (get-in @lib/app-state [:discussion :is_supportive])
+                       :arg_uid       (get-in @lib/app-state [:discussion :arg_uid]) ; For premisses for arguments
+                       :attack_type   (get-in @lib/app-state [:discussion :attack_type])
+                       :host          js/location.host
+                       :path          js/location.pathname
+                       :issue_id      (get-in @lib/app-state [:issues :uid])
+                       :slug          (get-in @lib/app-state [:issues :slug])}
+        headers        (merge {"Content-Type" "application/json"} (token-header))]
+    (post-json url body success-handler headers)))
 
+;;; For preparation
 (defn dispatch-add-action
   "Check which action needs to be performed based on the type previously stored in the app-state."
   [statement reference]
