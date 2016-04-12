@@ -1,10 +1,14 @@
 (ns discuss.integration
   "Listen for mouse clicks, get references and highlight them in the article."
   (:require-macros [cljs.core.async.macros :refer [go]])
-  (:require [goog.events :as events]
-            [cljs.core.async :refer [put! chan <!]]
-            [discuss.lib :as lib]
-            [discuss.extensions]))
+  (:require
+    [goog.dom :as gdom]
+    [goog.events :as events]
+    [cljs.core.async :refer [put! chan <!]]
+    [clojure.string :as string]
+    [discuss.lib :as lib]
+    [discuss.extensions])
+  (:import [goog.dom]))
 
 (defn get-selection
   "Return the stored selection of the user."
@@ -36,8 +40,24 @@
         (save-selected-text))))
 
 ;;; Integrate references and highlight them in the article
+;; So I have to iterate through all DOM elements...?
+;; http://stackoverflow.com/questions/4256339/javascript-how-to-loop-through-all-dom-elements-on-a-page
+(defn convert-reference [ref]
+  (let [body js/document.body.innerHTML
+        ;tspan (str "<span class='arguments'>" ref "</span>")
+        span (gdom/createElement "span")
+        tspan "foo"
+        regex-ref (re-pattern ref)
+        nbody (string/replace body regex-ref (.-innerHTML span))]
+    ;(gdom/setTextContent span ref)
+    (println "Convert...")
+    ;(set! (.. js/document -body -innerHTML) nbody)
+
+    ))
+
 (defn process-references
   "Receives references through the API and prepares them for the next steps."
   [refs]
   (println "Received" (count refs) "references")
-  (println refs))
+  (println refs)
+  (convert-reference "Debug"))
