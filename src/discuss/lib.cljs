@@ -80,9 +80,9 @@
         discussion (:discussion res)
         issues (:issues res)]
     ;; @OPTIMIZE
-    (update-state-map! :items items)
-    (update-state-map! :discussion discussion)
-    (update-state-map! :issues issues)
+    (update-state-map!  :items items)
+    (update-state-map!  :discussion discussion)
+    (update-state-map!  :issues issues)
     (update-state-item! :debug :response (fn [_] res))
     (loading? false)))
 

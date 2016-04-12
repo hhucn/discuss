@@ -5,9 +5,10 @@
             [cognitect.transit :as transit]
             [discuss.config :as config]
             [discuss.debug :as debug]
+            [discuss.integration :as integration]
             [discuss.lib :as lib]))
 
-;; Auxiliary functions
+;;; Auxiliary functions
 (def r (transit/reader :json))
 
 (defn make-url
@@ -22,7 +23,7 @@
     {"X-Messaging-Token" (lib/get-token)}))
 
 
-;; Handlers
+;;; Handlers
 (defn error-handler
   "Generic error handler for ajax requests."
   [{:keys [status status-text]}]
@@ -42,9 +43,9 @@
   (lib/loading? true))
 
 (defn success-handler [response]
-  (let [res (keywordize-keys (transit/read r response))
+  (let [res   (keywordize-keys (transit/read r response))
         error (:error res)
-        url (:url res)]
+        url   (:url res)]
     (if (< 0 (count error))
       (lib/error-msg! error)
       (do
@@ -52,6 +53,17 @@
         (lib/hide-add-form)
         (lib/update-state-item! :layout :add-type (fn [_] nil))
         (ajax-get url)))))
+
+(defn references-handler
+  "Called when received a response on the reference-query."
+  [response]
+  (let [refs  (:references response)
+        error (:error response)]
+    (if (< 0 (count error))
+      (lib/error-msg! error)
+      (do
+        (lib/no-error!)
+        (integration/process-references refs)))))
 
 (defn init!
   "Initialize initial data from API."
@@ -61,7 +73,7 @@
     (discuss.communication/ajax-get url)))
 
 
-;; Discussion-related functions
+;;;; Discussion-related functions
 (defn get-conclusion-id
   "Returns statement id to which the newly added statement is referred to.
    Currently this is stored in the data_statement_uid of the first bubble."
@@ -81,6 +93,8 @@
           :response-format :json
           :headers         headers
           :keywords?       true}))
+  ([url body handler]
+   (post-json url body handler {"Content-Type" "application/json"}))
   ([url body]
    (post-json url body success-handler {"Content-Type" "application/json"})))
 
@@ -90,21 +104,21 @@
   (let [url  "api/get/references"
         body {:host js/location.host
               :path js/location.pathname}]
-    (post-json url body)))
+    (post-json url body references-handler)))
 
 (defn post-statement [statement reference add-type]
-  (let [url           (str (:base config/api) (get-in config/api [:add add-type]))
-        body          {:statement statement
-                       :reference reference
-                       :conclusion_id (get-conclusion-id)   ; Relevant for add-start-premise
-                       :supportive    (get-in @lib/app-state [:discussion :is_supportive])
-                       :arg_uid       (get-in @lib/app-state [:discussion :arg_uid]) ; For premisses for arguments
-                       :attack_type   (get-in @lib/app-state [:discussion :attack_type])
-                       :host          js/location.host
-                       :path          js/location.pathname
-                       :issue_id      (get-in @lib/app-state [:issues :uid])
-                       :slug          (get-in @lib/app-state [:issues :slug])}
-        headers        (merge {"Content-Type" "application/json"} (token-header))]
+  (let [url     (str (:base config/api) (get-in config/api [:add add-type]))
+        headers (merge {"Content-Type" "application/json"} (token-header))
+        body    {:statement statement
+                 :reference reference
+                 :conclusion_id (get-conclusion-id)   ; Relevant for add-start-premise
+                 :supportive    (get-in @lib/app-state [:discussion :is_supportive])
+                 :arg_uid       (get-in @lib/app-state [:discussion :arg_uid]) ; For premisses for arguments
+                 :attack_type   (get-in @lib/app-state [:discussion :attack_type])
+                 :host          js/location.host
+                 :path          js/location.pathname
+                 :issue_id      (get-in @lib/app-state [:issues :uid])
+                 :slug          (get-in @lib/app-state [:issues :slug])}]
     (post-json url body success-handler headers)))
 
 ;;; For preparation

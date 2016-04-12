@@ -1,4 +1,5 @@
 (ns discuss.integration
+  "Listen for mouse clicks, get references and highlight them in the article."
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [goog.events :as events]
             [cljs.core.async :refer [put! chan <!]]
@@ -27,9 +28,16 @@
                    (fn [e] (put! out e)))
     out))
 
+;;; Listener for mouse clicks
+;; http://www.thesoftwaresimpleton.com/blog/2014/12/30/core-dot-async-dot-mouse-dot-down/
 (let [clicks (listen (.getElementById js/document "discuss-text") "click")]
   (go (while true
         (<! clicks)
         (save-selected-text))))
 
-;; http://www.thesoftwaresimpleton.com/blog/2014/12/30/core-dot-async-dot-mouse-dot-down/
+;;; Integrate references and highlight them in the article
+(defn process-references
+  "Receives references through the API and prepares them for the next steps."
+  [refs]
+  (println "Received" (count refs) "references")
+  (println refs))
