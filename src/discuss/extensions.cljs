@@ -1,6 +1,13 @@
 (ns discuss.extensions
   "Extending JS types to be better accessible in CLJS.")
 
+(def types [js/NodeList
+            js/HTMLCollection
+            js/HTMLDocument
+            js/HTMLDivElement
+            js/HTMLParagraphElement
+            js/HTMLSpanElement])
+
 (defn extend-type-fn
   "Given a type t, apply extensions."
   [t]
@@ -29,9 +36,4 @@
       ([array f start]
        (ci-reduce array f start)))))
 
-(extend-type-fn js/NodeList)
-(extend-type-fn js/HTMLCollection)
-(extend-type-fn js/HTMLDocument)
-(extend-type-fn js/HTMLDivElement)
-(extend-type-fn js/HTMLParagraphElement)
-(extend-type-fn js/HTMLSpanElement)
+(doall (map #(extend-type-fn %) types))
