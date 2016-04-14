@@ -67,7 +67,9 @@
                        dom))
            doms))))
 
-(defn convert-reference [ref]
+(defn convert-reference
+  "Find parent of reference, split it into parts and wrap the original reference for highlighting and interaction."
+  [ref]
   (let [doms-raw  (.getElementsByTagName js/document "*")
         doms      (minify-doms doms-raw)
         parent    (get-parent doms ref)
