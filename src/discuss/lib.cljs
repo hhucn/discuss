@@ -112,6 +112,7 @@
   []
   (get-in @app-state [:layout :error-msg]))
 
+
 ;; Change views
 (defn change-view!
   "Switch to a different view."
@@ -142,6 +143,10 @@
   [arg]
   (.log js/console arg))
 
+(defn substring?
+  "Evaluates if a substring is contained in the given string."
+  [sub st]
+  (not= (.indexOf st sub) -1))
 
 ;; CLJS to JS
 (defn clj->json
