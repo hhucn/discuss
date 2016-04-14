@@ -84,11 +84,12 @@
 (defn convert-reference
   "Find parent of reference, split it into parts and wrap the original reference for highlighting and interaction."
   [ref]
-  (let [doms-raw  (.getElementsByTagName js/document "*")
+  (let [ref-text  (:text ref)
+        doms-raw  (.getElementsByTagName js/document "*")
         doms      (minify-doms doms-raw)
-        parent    (get-parent doms ref)
-        dom-parts (string/split (.-innerHTML parent) (re-pattern ref))
-        dom-ref   (str "<span class='arguments'>" ref "</span><span class='arguments-toggle'></span>")
+        parent    (get-parent doms ref-text)
+        dom-parts (string/split (.-innerHTML parent) (re-pattern ref-text))
+        dom-ref   (str "<span class='arguments'>" ref-text "</span><span class='arguments-toggle'></span>")
         new-dom   (str (first dom-parts) dom-ref (last dom-parts))]
     (when parent
       (set! (.-innerHTML parent) new-dom))))
