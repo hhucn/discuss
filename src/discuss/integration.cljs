@@ -3,6 +3,7 @@
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [goog.dom :as gdom]
             [goog.events :as events]
+            [om.core :as om]
             [om.dom :as dom :include-macros true]
             [cljs.core.async :refer [put! chan <!]]
             [clojure.string :as string]
@@ -26,22 +27,22 @@
                (not= selection (get-selection)))
       (lib/update-state-item! :user :selection (fn [_] selection)))))
 
-(defn listen [el type]
+
+;;; Listener for mouse clicks
+(defn listen
+  "Helper function for mouse-click events."
+  [el type]
   (let [out (chan)]
     (events/listen el type
                    (fn [e] (put! out e)))
     out))
 
-;;; Listener for mouse clicks
 ;; http://www.thesoftwaresimpleton.com/blog/2014/12/30/core-dot-async-dot-mouse-dot-down/
 (let [clicks (listen (.getElementById js/document "discuss-text") "click")]
   (go (while true
         (<! clicks)
         (save-selected-text))))
 
-;;; Integrate references and highlight them in the article
-;; So I have to iterate through all DOM elements...?
-;; http://stackoverflow.com/questions/4256339/javascript-how-to-loop-through-all-dom-elements-on-a-page
 (defn minify-doms
   "Removes dom-elements, which can never be used as a reference."
   [doms]
@@ -64,9 +65,22 @@
       identity
       (map (fn [dom]
              (when (lib/substring? ref (.-innerHTML dom))
-                       dom))
+               dom))
            doms))))
 
+
+;;; Register arguments after they have been highlighted and prepared
+(defn register-arguments
+  "Takes collection of all arguments in DOM and binds it to a view."
+  [arguments]
+  (loop [argument (first arguments)
+         col      (rest arguments)]
+    (when-not (nil? argument)
+      (om/root discuss.views/argument-view lib/app-state {:target argument})
+      (recur (first col) (rest col)))))
+
+
+;;; Integrate references and highlight them in the article
 (defn convert-reference
   "Find parent of reference, split it into parts and wrap the original reference for highlighting and interaction."
   [ref]
@@ -82,6 +96,6 @@
 (defn process-references
   "Receives references through the API and prepares them for the next steps."
   [refs]
-  (println "Received" (count refs) "references")
-  (println refs)
-  (doall (map #(convert-reference %) refs)))
+  (doall (map #(convert-reference %) refs))
+  (let [arguments (.getElementsByClassName js/document "arguments-toggle")]
+    (register-arguments arguments)))
