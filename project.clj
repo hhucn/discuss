@@ -13,6 +13,7 @@
                  [org.omcljs/om "1.0.0-alpha31"]
                  [cljs-ajax "0.5.4"]                        ; AJAX for om
                  [com.cognitect/transit-cljs "0.8.237"]     ; Better JSON support
+                 [figwheel-sidecar "0.5.0"]
                  ]
 
   :plugins [[lein-figwheel "0.5.1"]
