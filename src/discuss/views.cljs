@@ -102,7 +102,7 @@
 
 (defn sidebar-view []
   (dom/div #js {:id        (lib/prefix-name "sidebar")
-                :className "panel panel-default sidenav"}
+                :className ""}
            (logo #(sidebar/toggle!))
            (when (and (sidebar/show?)
                       (integration/has-selection?))

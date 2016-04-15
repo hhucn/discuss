@@ -101,7 +101,7 @@
 (defn post-origin-get-references
   "When this app is loaded, request all available references from the external discussion system."
   []
-  (let [url  "api/get/references"
+  (let [url  "api/get/references"                           ; TODO hardcoded url = bad
         body {:host js/location.host
               :path js/location.pathname}]
     (post-json url body references-handler)))
@@ -111,7 +111,7 @@
         headers (merge {"Content-Type" "application/json"} (token-header))
         body    {:statement statement
                  :reference reference
-                 :conclusion_id (get-conclusion-id)   ; Relevant for add-start-premise
+                 :conclusion_id (get-conclusion-id)         ; Relevant for add-start-premise
                  :supportive    (get-in @lib/app-state [:discussion :is_supportive])
                  :arg_uid       (get-in @lib/app-state [:discussion :arg_uid]) ; For premisses for arguments
                  :attack_type   (get-in @lib/app-state [:discussion :attack_type])
