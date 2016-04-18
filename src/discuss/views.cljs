@@ -219,14 +219,13 @@
   (reify
     om/IInitState
     (init-state [_]
-      {:show false
-       :text ""})
+      {:show false})
     om/IRenderState
-    (render-state [_ {:keys [show text]}]
-      (when (= text "")                                     ; Set initial text to be displayed
-        (om/set-state! owner :text (:text data)))
+    (render-state [_ {:keys [show]}]
       (dom/span nil
-                " "
-                (logo #(om/set-state! owner :show (toggle-show show)))
-                (when show
-                  (main-content-view data))))))
+                (dom/span nil (:dom-pre data))
+                (dom/span #js {:className "arguments"}
+                          (:text data)
+                          " "
+                          (logo #(om/set-state! owner :show (toggle-show show))))
+                (dom/span nil (:dom-post data))))))

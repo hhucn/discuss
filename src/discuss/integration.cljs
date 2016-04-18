@@ -69,34 +69,24 @@
            doms))))
 
 
-;;; Register arguments after they have been highlighted and prepared
-(defn register-arguments
-  "Takes collection of all arguments in DOM and binds it to a view."
-  [arguments]
-  (loop [argument (first arguments)
-         col      (rest arguments)]
-    (when-not (nil? argument)
-      (om/root discuss.views/argument-view lib/app-state {:target argument})
-      (recur (first col) (rest col)))))
-
-
 ;;; Integrate references and highlight them in the article
 (defn convert-reference
   "Find parent of reference, split it into parts and wrap the original reference for highlighting and interaction."
   [ref]
   (let [ref-text  (:text ref)
+        ref-url   (:url ref)
         doms-raw  (.getElementsByTagName js/document "*")
         doms      (minify-doms doms-raw)
         parent    (get-parent doms ref-text)
-        dom-parts (string/split (.-innerHTML parent) (re-pattern ref-text))
-        dom-ref   (str "<span class='arguments'>" ref-text "</span><span class='arguments-toggle'></span>")
-        new-dom   (str (first dom-parts) dom-ref (last dom-parts))]
+        dom-parts (string/split (.-innerHTML parent) (re-pattern ref-text))]
     (when parent
-      (set! (.-innerHTML parent) new-dom))))
+      (om/root discuss.views/argument-view {:text ref-text
+                                            :url  ref-url
+                                            :dom-pre  (first dom-parts)
+                                            :dom-post (last dom-parts)}
+               {:target parent}))))
 
 (defn process-references
   "Receives references through the API and prepares them for the next steps."
   [refs]
-  (doall (map #(convert-reference %) refs))
-  (let [arguments (.getElementsByClassName js/document "arguments-toggle")]
-    (register-arguments arguments)))
+  (doall (map #(convert-reference %) refs)))
