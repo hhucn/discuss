@@ -7,8 +7,7 @@
             [clojure.string :as string]
             [discuss.extensions]
             [discuss.communication :as com]
-            [discuss.lib :as lib])
-  (:import [goog.dom]))
+            [discuss.lib :as lib]))
 
 ;;; Listener for mouse clicks
 (defn listen

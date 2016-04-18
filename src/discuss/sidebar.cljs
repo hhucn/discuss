@@ -21,17 +21,20 @@
   []
   (when (and (not (show?))
              (lib/has-selection?))
-    (set-sidebar-width! width)
+    (let [sidebar-dom (.getElementById js/document id)]
+      (.classList/toggle sidebar-dom "active" true))
     (lib/update-state-item! :sidebar :show? (fn [_] true))))
 
 (defn hide!
-  "Hide sidebar, switch app-state"
+  "Hide sidebar, switch app-state."
   []
   (when (show?)
-    (set-sidebar-width! "39px")
+    (let [sidebar-dom (.getElementById js/document id)]
+      (.classList/toggle sidebar-dom "active" false))
     (lib/update-state-item! :sidebar :show? (fn [_] false))))
 
 (defn toggle!
   "Toggle visibility of sidebar."
   []
-  (if (show?) (hide!) (show!)))
+  (let [sidebar-dom (.getElementById js/document id)]
+    (.classList/toggle sidebar-dom "active")))
