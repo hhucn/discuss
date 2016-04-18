@@ -61,7 +61,7 @@
         parent    (get-parent doms ref-text)
         dom-parts (string/split (.-innerHTML parent) (re-pattern ref-text))]
     (when parent
-      (om/root discuss.views/reference-view {:text    ref-text
+      (om/root discuss.views/reference-view {:text     ref-text
                                              :url      ref-url
                                              :dom-pre  (first dom-parts)
                                              :dom-post (last dom-parts)}
@@ -78,4 +78,5 @@
   ""
   [text url]
   (com/ajax-get url)
+  (discuss.sidebar/show!)
   )
