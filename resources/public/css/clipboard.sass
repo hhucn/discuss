@@ -13,7 +13,6 @@ $speed: 0.25s
   right: -$width
   bottom: 0
   background-color: $seashell
-  //overflow-x: hidden
   padding: 1em
   -webkit-transform: translate(0px, 0px)
   -moz-transform: translate(0px, 0px)
@@ -26,6 +25,25 @@ $speed: 0.25s
   transition: $speed ease
 
 #discuss-sidebar.active
+  width: 2*$width
+  -webkit-transform: translate(-$width, 0px)
+  -moz-transform: translate(-$width, 0px)
+  -o-transform: translate(-$width, 0px)
+  -ms-transform: translate(-$width, 0px)
+  transform: translate(-$width, 0px)
+
+#main-wrapper
+  -webkit-transform: translate(0px, 0px)
+  -moz-transform: translate(0px, 0px)
+  -o-transform: translate(0px, 0px)
+  -ms-transform: translate(0px, 0px)
+  transform: translate(0px, 0px)
+  -webkit-transition: $speed ease
+  -moz-transition: $speed ease
+  -o-transition: $speed ease
+  transition: $speed ease
+
+#main-wrapper.active
   -webkit-transform: translate(-$width, 0px)
   -moz-transform: translate(-$width, 0px)
   -o-transform: translate(-$width, 0px)

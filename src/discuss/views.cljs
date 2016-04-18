@@ -226,7 +226,4 @@
     (render [_]
       (dom/div nil
                (logo #(sidebar/toggle!))
-               (main-content-view data)
-               (when (and (sidebar/show?)
-                          (lib/has-selection?))
-                 (dom/blockquote nil (lib/get-selection)))))))
+               (main-content-view data)))))
