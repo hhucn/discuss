@@ -13,7 +13,10 @@
 
 ;; Register
 (om/root views/main-view lib/app-state
-         {:target (.getElementById js/document "discuss-main")})
+         {:target (.getElementById js/document (lib/prefix-name "main"))})
+
+(om/root views/sidebar-view lib/app-state
+         {:target (.getElementById js/document (lib/prefix-name "sidebar"))})
 
 (om/root debug/debug-view lib/app-state
          {:target (.getElementById js/document "debug")})

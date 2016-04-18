@@ -40,6 +40,7 @@
     #js {}
     #js {:display "none"}))
 
+(defn toggle-show [show] (if show false true))
 
 ;; Elements
 (defn loading-element []
@@ -99,14 +100,6 @@
            (dom/div #js {:className "text-center text-muted pointer"
                          :onClick #(lib/change-view! :discussion)}
                     "Back")))
-
-(defn sidebar-view []
-  (dom/div #js {:id        (lib/prefix-name "sidebar")
-                :className ""}
-           (logo #(sidebar/toggle!))
-           (when (and (sidebar/show?)
-                      (lib/has-selection?))
-             (dom/blockquote nil (lib/get-selection)))))
 
 ;; Views
 (defn bubble-view [bubble]
@@ -210,10 +203,7 @@
                        (logo)
                        " "
                        (get-in data [:layout :title]))
-               (main-content-view data)
-               (sidebar-view)))))
-
-(defn toggle-show [show] (if show false true))
+               (main-content-view data)))))
 
 (defn reference-view [data owner]
   (reify
@@ -230,3 +220,13 @@
                           " "
                           (logo #(om/set-state! owner :show (toggle-show show))))
                 (dom/span nil (:dom-post data))))))
+
+(defn sidebar-view [data]
+  (reify om/IRender
+    (render [_]
+      (dom/div nil
+               (logo #(sidebar/toggle!))
+               ;(main-view data)
+               (when (and (sidebar/show?)
+                          (lib/has-selection?))
+                 (dom/blockquote nil (lib/get-selection)))))))
