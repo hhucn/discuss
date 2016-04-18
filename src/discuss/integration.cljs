@@ -75,8 +75,8 @@
 
 ;;; Interaction with integratet references
 (defn click-reference
-  ""
+  "When clicking on a reference directly in the text, make AJAX request with the url to the discussion
+   and show the sidebar to start the discussion."
   [text url]
   (com/ajax-get url)
-  (discuss.sidebar/show!)
-  )
+  (discuss.sidebar/show!))

@@ -4,11 +4,6 @@
 
 (def id (lib/prefix-name "sidebar"))
 
-(defn show?
-  "Return boolean which indicates if the sidebar is visible or not."
-  []
-  (get-in @lib/app-state [:sidebar :show?]))
-
 (defn toggle!
   "Toggle visibility of sidebar."
   ([]
