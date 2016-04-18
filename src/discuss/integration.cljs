@@ -1,32 +1,14 @@
 (ns discuss.integration
   "Listen for mouse clicks, get references and highlight them in the article."
   (:require-macros [cljs.core.async.macros :refer [go]])
-  (:require [goog.dom :as gdom]
-            [goog.events :as events]
+  (:require [goog.events :as events]
             [om.core :as om]
-            [om.dom :as dom :include-macros true]
             [cljs.core.async :refer [put! chan <!]]
             [clojure.string :as string]
-            [discuss.lib :as lib]
-            [discuss.extensions])
+            [discuss.extensions]
+            [discuss.communication :as com]
+            [discuss.lib :as lib])
   (:import [goog.dom]))
-
-(defn get-selection
-  "Return the stored selection of the user."
-  []
-  (get-in @lib/app-state [:user :selection]))
-
-(defn has-selection? []
-  (> (count (get-selection)) 0))
-
-(defn save-selected-text
-  "Get the users selection and save it."
-  []
-  (let [selection (str (.getSelection js/window))]
-    (when (and (> (count selection) 0)
-               (not= selection (get-selection)))
-      (lib/update-state-item! :user :selection (fn [_] selection)))))
-
 
 ;;; Listener for mouse clicks
 (defn listen
@@ -41,7 +23,7 @@
 (let [clicks (listen (.getElementById js/document "discuss-text") "click")]
   (go (while true
         (<! clicks)
-        (save-selected-text))))
+        (lib/save-selected-text))))
 
 (defn minify-doms
   "Removes dom-elements, which can never be used as a reference."
@@ -80,13 +62,21 @@
         parent    (get-parent doms ref-text)
         dom-parts (string/split (.-innerHTML parent) (re-pattern ref-text))]
     (when parent
-      (om/root discuss.views/argument-view {:text ref-text
-                                            :url  ref-url
-                                            :dom-pre  (first dom-parts)
-                                            :dom-post (last dom-parts)}
+      (om/root discuss.views/reference-view {:text    ref-text
+                                             :url      ref-url
+                                             :dom-pre  (first dom-parts)
+                                             :dom-post (last dom-parts)}
                {:target parent}))))
 
 (defn process-references
   "Receives references through the API and prepares them for the next steps."
   [refs]
   (doall (map #(convert-reference %) refs)))
+
+
+;;; Interaction with integratet references
+(defn click-reference
+  ""
+  [text url]
+  (com/ajax-get url)
+  )

@@ -131,6 +131,24 @@
   (update-state-item! :layout :add? (fn [_] false)))
 
 
+;; Get mouse selection
+(defn get-selection
+  "Return the stored selection of the user."
+  []
+  (get-in @app-state [:user :selection]))
+
+(defn has-selection? []
+  (> (count (get-selection)) 0))
+
+(defn save-selected-text
+  "Get the users selection and save it."
+  []
+  (let [selection (str (.getSelection js/window))]
+    (when (and (> (count selection) 0)
+               (not= selection (get-selection)))
+      (update-state-item! :user :selection (fn [_] selection)))))
+
+
 ;; Other
 (defn get-value-by-id
   "Return value of element matching the id."
@@ -147,6 +165,7 @@
   "Evaluates if a substring is contained in the given string."
   [sub st]
   (not= (.indexOf st sub) -1))
+
 
 ;; CLJS to JS
 (defn clj->json

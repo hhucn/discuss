@@ -105,8 +105,8 @@
                 :className ""}
            (logo #(sidebar/toggle!))
            (when (and (sidebar/show?)
-                      (integration/has-selection?))
-             (dom/blockquote nil (integration/get-selection)))))
+                      (lib/has-selection?))
+             (dom/blockquote nil (lib/get-selection)))))
 
 ;; Views
 (defn bubble-view [bubble]
@@ -173,13 +173,13 @@
                                        (dom/i #js {:className "fa fa-comment"}))
                              (dom/input #js {:id        (lib/prefix-name "add-element")
                                              :className "form-control"}))
-                    (when (integration/get-selection)
+                    (when (lib/get-selection)
                       (dom/div #js {:className "input-group"}
                                (dom/span #js {:className "input-group-addon"}
                                          (dom/i #js {:className "fa fa-quote-left"}))
                                (dom/input #js {:id        (lib/prefix-name "add-element-reference")
                                                :className "form-control"
-                                               :value     (integration/get-selection)})
+                                               :value     (lib/get-selection)})
                                (dom/span #js {:className "input-group-addon"}
                                          (dom/i #js {:className "fa fa-quote-right"}))))
                     (dom/button #js {:className "btn btn-default"
@@ -215,7 +215,7 @@
 
 (defn toggle-show [show] (if show false true))
 
-(defn argument-view [data owner]
+(defn reference-view [data owner]
   (reify
     om/IInitState
     (init-state [_]
@@ -224,7 +224,8 @@
     (render-state [_ {:keys [show]}]
       (dom/span nil
                 (dom/span nil (:dom-pre data))
-                (dom/span #js {:className "arguments"}
+                (dom/span #js {:className "arguments pointer"
+                               :onClick   #(integration/click-reference (:text data) (:url data))}
                           (:text data)
                           " "
                           (logo #(om/set-state! owner :show (toggle-show show))))

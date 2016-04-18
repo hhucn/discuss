@@ -5,7 +5,6 @@
             [cognitect.transit :as transit]
             [discuss.config :as config]
             [discuss.debug :as debug]
-            [discuss.integration :as integration]
             [discuss.lib :as lib]))
 
 ;;; Auxiliary functions
@@ -63,7 +62,7 @@
       (lib/error-msg! error)
       (do
         (lib/no-error!)
-        (integration/process-references refs)))))
+        (discuss.integration/process-references refs)))))
 
 (defn init!
   "Initialize initial data from API."
