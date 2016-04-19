@@ -7,7 +7,8 @@
             [clojure.string :as string]
             [discuss.extensions]
             [discuss.communication :as com]
-            [discuss.lib :as lib]))
+            [discuss.lib :as lib]
+            [discuss.sidebar :as sidebar]))
 
 ;;; Listener for mouse clicks
 (defn listen
@@ -79,4 +80,6 @@
    and show the sidebar to start the discussion."
   [text url]
   (com/ajax-get url)
-  (discuss.sidebar/show!))
+  (sidebar/show!)
+  (lib/update-state-item! :layout :reference (fn [_] text))
+  )

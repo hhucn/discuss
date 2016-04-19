@@ -19,6 +19,7 @@
                   :add-text "Let me enter my reason!"
                   :add-type nil
                   :loading? true
+                  :reference ""
                   :error? false
                   :error-msg nil}
          :debug {:last-api ""}
