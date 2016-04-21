@@ -155,7 +155,7 @@
 
 (defn add-element
   "Show form to add a new statement."
-  [data]
+  [data owner]
   (dom/div #js {:className "panel panel-default"}
            (dom/div #js {:className "panel-body"}
                     (dom/h4 #js {:className "text-center"} (get-in data [:layout :add-text]))
@@ -166,7 +166,7 @@
                                        (dom/i #js {:className "fa fa-comment"}))
                              (dom/input #js {:id        (lib/prefix-name "add-element")
                                              :className "form-control"
-                                             :onChange  #(lib/update-state-item! :user :statement (fn [_] (-> % .-target .-value)))}))
+                                             :onChange  #(om/transact! :statement (fn [_] (-> % .-target .-value)))}))
                     (when (lib/get-selection)
                       (dom/div #js {:className "input-group"}
                                (dom/span #js {:className "input-group-addon"}
@@ -181,7 +181,7 @@
                                 "Submit"))))
 
 (defn main-content-view
-  [data]
+  [data owner]
   (dom/div nil
            (dom/div #js {:className "text-center"}
                     (get-in data [:layout :intro])
@@ -194,9 +194,9 @@
                                  (= view :login) (login-form)
                                  :else (discussion-elements data)))))
            (when (get-in data [:layout :add?])
-             (add-element data))))
+             (add-element data owner))))
 
-(defn main-view [data]
+(defn main-view [data owner]
   (reify om/IRender
     (render [_]
       (dom/div #js {:id (lib/prefix-name "dialogue-main")}
@@ -204,7 +204,7 @@
                        (logo)
                        " "
                        (get-in data [:layout :title]))
-               (main-content-view data)))))
+               (main-content-view data owner)))))
 
 (defn reference-view [data owner]
   (reify
@@ -222,12 +222,12 @@
                           (logo #(om/set-state! owner :show (toggle-show show))))
                 (dom/span nil (:dom-post data))))))
 
-(defn sidebar-view [data]
+(defn sidebar-view [data owner]
   (reify om/IRender
     (render [_]
       (dom/div nil
                (logo #(sidebar/toggle!))
-               (main-content-view data)
+               (main-content-view data owner)
                (dom/h5 nil "Reference")
                (dom/div #js {:className "well well-sm"}
                         (get-in @lib/app-state [:layout :reference]))))))
