@@ -47,6 +47,15 @@
   []
   (get-in @app-state [:discussion :bubbles]))
 
+(defn get-add-text
+  "Return message for adding new statements."
+  []
+  (get-in @app-state [:layout :add-text]))
+
+(defn get-add-premise-text
+  "Return text for adding new premise."
+  []
+  (get-in data [:discussion :add_premise_text]))
 
 ;; Booleans
 (defn logged-in?

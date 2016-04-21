@@ -29,9 +29,14 @@
 (defn get-bubble-class [bubble]
   "Check bubble type and return a class-string to match the CSS styles."
   (cond
-    (:is_user   bubble) "bubble-user"
+    (:is_user bubble) "bubble-user"
     (:is_system bubble) "bubble-system"
     (:is_status bubble) "bubble-status text-center"))
+
+(defn- commit-target-value
+  "Set local state of view, parse the value of the target of val."
+  [key val owner]
+  (om/set-state! owner key (.. val -target -value)))
 
 (defn display
   "Toggle display view."
@@ -72,10 +77,10 @@
 
                     (if (lib/logged-in?)
                       (dom/div #js {:className "col-md-5 text-right pointer"
-                                    :onClick auth/logout}
+                                    :onClick   auth/logout}
                                "Logout")
                       (dom/div #js {:className "col-md-5 text-right pointer"
-                                    :onClick #(lib/change-view! :login)}
+                                    :onClick   #(lib/change-view! :login)}
                                "Login")))))
 
 (defn login-form []
@@ -84,21 +89,21 @@
            (dom/div #js {:className "input-group"}
                     (dom/span #js {:className "input-group-addon"}
                               (dom/i #js {:className "fa fa-user fa-fw"}))
-                    (dom/input #js {:id (lib/prefix-name "login-nickname")
-                                    :className "form-control"
+                    (dom/input #js {:id          (lib/prefix-name "login-nickname")
+                                    :className   "form-control"
                                     :placeholder "nickname"}))
            (dom/div #js {:className "input-group"}
                     (dom/span #js {:className "input-group-addon"}
                               (dom/i #js {:className "fa fa-key fa-fw"}))
-                    (dom/input #js {:id (lib/prefix-name "login-password")
-                                    :className "form-control"
-                                    :type "password"
+                    (dom/input #js {:id          (lib/prefix-name "login-password")
+                                    :className   "form-control"
+                                    :type        "password"
                                     :placeholder "password"}))
            (dom/button #js {:className "btn btn-default"
                             :onClick   #(auth/login (lib/get-value-by-id "login-nickname") (lib/get-value-by-id "login-password"))}
                        "Login")
            (dom/div #js {:className "text-center text-muted pointer"
-                         :onClick #(lib/change-view! :discussion)}
+                         :onClick   #(lib/change-view! :discussion)}
                     "Back")))
 
 ;; Views
@@ -145,40 +150,45 @@
   []
   (when (lib/error?)
     (dom/div #js {:className "alert alert-info alert-dismissable"
-                  :role "alert"}
-             (dom/button #js {:className "close"
+                  :role      "alert"}
+             (dom/button #js {:className    "close"
                               :data-dismiss "alert"
-                              :aria-label "Close"}
+                              :aria-label   "Close"}
                          (dom/span #js {:aria-hidden "true"}
                                    (safe-html "&times;")))
              (lib/get-error))))
 
 (defn add-element
   "Show form to add a new statement."
-  [data owner]
-  (dom/div #js {:className "panel panel-default"}
-           (dom/div #js {:className "panel-body"}
-                    (dom/h4 #js {:className "text-center"} (get-in data [:layout :add-text]))
-                    (dom/h5 #js {:className "text-center"} (safe-html (get-in data [:discussion :add_premise_text])))
-                    (error-view)
-                    (dom/div #js {:className "input-group"}
-                             (dom/span #js {:className "input-group-addon"}
-                                       (dom/i #js {:className "fa fa-comment"}))
-                             (dom/input #js {:id        (lib/prefix-name "add-element")
-                                             :className "form-control"
-                                             :onChange  #(om/transact! :statement (fn [_] (-> % .-target .-value)))}))
-                    (when (lib/get-selection)
-                      (dom/div #js {:className "input-group"}
-                               (dom/span #js {:className "input-group-addon"}
-                                         (dom/i #js {:className "fa fa-quote-left"}))
-                               (dom/input #js {:id        (lib/prefix-name "add-element-reference")
-                                               :className "form-control"
-                                               :value     (lib/get-selection)})
-                               (dom/span #js {:className "input-group-addon"}
-                                         (dom/i #js {:className "fa fa-quote-right"}))))
-                    (dom/button #js {:className "btn btn-default"
-                                     :onClick   #(com/dispatch-add-action (lib/get-value-by-id "add-element") (lib/get-value-by-id "add-element-reference"))}
-                                "Submit"))))
+  [_ owner]
+  (reify
+    om/IInitState
+    (init-state [_]
+      {:statement ""})
+    om/IRenderState
+    (render-state [_ {:keys [statement]}]
+      (dom/div #js {:className "panel panel-default"}
+               (dom/div #js {:className "panel-body"}
+                        (dom/h4 #js {:className "text-center"} (lib/get-add-text))
+                        (dom/h5 #js {:className "text-center"} (safe-html (lib/get-add-premise-text)))
+                        (error-view)
+                        (dom/div #js {:className "input-group"}
+                                 (dom/span #js {:className "input-group-addon"}
+                                           (dom/i #js {:className "fa fa-comment"}))
+                                 (dom/input #js {:className "form-control"
+                                                 :onChange  #(commit-target-value :statement % owner)
+                                                 :value     statement}))
+                        (when (lib/get-selection)
+                          (dom/div #js {:className "input-group"}
+                                   (dom/span #js {:className "input-group-addon"}
+                                             (dom/i #js {:className "fa fa-quote-left"}))
+                                   (dom/input #js {:className "form-control"
+                                                   :value     (lib/get-selection)})
+                                   (dom/span #js {:className "input-group-addon"}
+                                             (dom/i #js {:className "fa fa-quote-right"}))))
+                        (dom/button #js {:className "btn btn-default"
+                                         :onClick   #(com/dispatch-add-action statement (lib/get-selection))}
+                                    "Submit"))))))
 
 (defn main-content-view
   [data owner]
@@ -194,7 +204,7 @@
                                  (= view :login) (login-form)
                                  :else (discussion-elements data)))))
            (when (get-in data [:layout :add?])
-             (add-element data owner))))
+             (om/build add-element {}))))
 
 (defn main-view [data owner]
   (reify om/IRender
