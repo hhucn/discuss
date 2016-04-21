@@ -1,5 +1,6 @@
 (ns discuss.lib
   (:require [om.core :as om :include-macros true]
+            [goog.dom.selection :as sel]
             [clojure.walk :refer [keywordize-keys]]
             [discuss.config :as config]))
 
@@ -55,7 +56,7 @@
 (defn get-add-premise-text
   "Return text for adding new premise."
   []
-  (get-in data [:discussion :add_premise_text]))
+  (get-in @app-state [:discussion :add_premise_text]))
 
 ;; Booleans
 (defn logged-in?
@@ -148,15 +149,15 @@
   []
   (get-in @app-state [:user :selection]))
 
-(defn has-selection? []
-  (> (count (get-selection)) 0))
-
 (defn save-selected-text
   "Get the users selection and save it."
   []
   (let [selection (str (.getSelection js/window))]
     (when (and (> (count selection) 0)
                (not= selection (get-selection)))
+      ;; TODO hier gehts weiter
+      ; (println (sel/setCursorPosition))
+      ; (println (sel/setCursorPosition 100 200))
       (update-state-item! :user :selection (fn [_] selection)))))
 
 

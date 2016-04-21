@@ -2,7 +2,8 @@
   "Show information for debugging."
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [discuss.lib :as lib]))
+            [discuss.lib :as lib]
+            [discuss.test :as test]))
 
 (defn print-bubbles [bubbles]
   (map #(let [bubble (nth bubbles %)]

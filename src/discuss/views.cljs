@@ -96,8 +96,7 @@
                (dom/div #js {:className "input-group"}
                         (dom/span #js {:className "input-group-addon"}
                                   (dom/i #js {:className "fa fa-user fa-fw"}))
-                        (dom/input #js {:id          (lib/prefix-name "login-nickname")
-                                        :className   "form-control"
+                        (dom/input #js {:className   "form-control"
                                         :onChange    #(commit-target-value :nickname % owner)
                                         :value       nickname
                                         :placeholder "nickname"}))
@@ -201,7 +200,7 @@
                                     "Submit"))))))
 
 (defn main-content-view
-  [data owner]
+  [data]
   (dom/div nil
            (dom/div #js {:className "text-center"}
                     (get-in data [:layout :intro])
@@ -224,7 +223,7 @@
                        (logo)
                        " "
                        (get-in data [:layout :title]))
-               (main-content-view data owner)))))
+               (main-content-view data)))))
 
 (defn reference-view [data owner]
   (reify
@@ -247,7 +246,7 @@
     (render [_]
       (dom/div nil
                (logo #(sidebar/toggle!))
-               (main-content-view data owner)
+               (main-content-view data)
                (dom/h5 nil "Reference")
                (dom/div #js {:className "well well-sm"}
                         (get-in @lib/app-state [:layout :reference]))))))
