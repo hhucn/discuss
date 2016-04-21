@@ -10,29 +10,30 @@
 
 (def app-state
   (atom {:discussion {}
-         :issues {}
-         :items {}
-         :layout {:title "discuss"
-                  :intro "The current discussion is about:"
-                  :template :discussion
-                  :add? false
-                  :add-text "Let me enter my reason!"
-                  :add-type nil
-                  :loading? true
-                  :reference ""
-                  :error? false
-                  :error-msg nil}
-         :debug {:last-api ""}
-         :user {:nickname ""
-                :token ""
-                :selection nil
-                :logged-in? false}
-         :sidebar {:show? false}
+         :issues     {}
+         :items      {}
+         :layout     {:title     "discuss"
+                      :intro     "The current discussion is about:"
+                      :template  :discussion
+                      :add?      false
+                      :add-text  "Let me enter my reason!"
+                      :add-type  nil
+                      :loading?  true
+                      :reference ""
+                      :error?    false
+                      :error-msg nil}
+         :debug      {:last-api ""}
+         :user       {:nickname   ""
+                      :token      ""
+                      :statement  ""
+                      :selection  nil
+                      :logged-in? false}
+         :sidebar    {:show? false}
          }))
 
 ;; Get
 (defn get-cursor
-  "Return a cursor to the corresponding keys in the app-state."
+  "Return a cursor to the corresponding key in the app-state."
   [key]
   (om/ref-cursor (key (om/root-cursor app-state))))
 
@@ -81,9 +82,9 @@
         discussion (:discussion res)
         issues (:issues res)]
     ;; @OPTIMIZE
-    (update-state-map!  :items items)
-    (update-state-map!  :discussion discussion)
-    (update-state-map!  :issues issues)
+    (update-state-map! :items items)
+    (update-state-map! :discussion discussion)
+    (update-state-map! :issues issues)
     (update-state-item! :debug :response (fn [_] res))
     (loading? false)))
 

@@ -165,7 +165,8 @@
                              (dom/span #js {:className "input-group-addon"}
                                        (dom/i #js {:className "fa fa-comment"}))
                              (dom/input #js {:id        (lib/prefix-name "add-element")
-                                             :className "form-control"}))
+                                             :className "form-control"
+                                             :onChange  #(lib/update-state-item! :user :statement (fn [_] (-> % .-target .-value)))}))
                     (when (lib/get-selection)
                       (dom/div #js {:className "input-group"}
                                (dom/span #js {:className "input-group-addon"}
