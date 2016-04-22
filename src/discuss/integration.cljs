@@ -68,14 +68,14 @@
         ref-url   (:url ref)
         doms-raw  (.getElementsByTagName js/document "*")
         doms      (minify-doms doms-raw)
-        parent    (get-parent doms ref-text)
-        dom-parts (string/split (.-innerHTML parent) (re-pattern ref-text))]
+        parent    (get-parent doms ref-text)]
     (when parent
-      (om/root discuss.views/reference-view {:text     ref-text
-                                             :url      ref-url
-                                             :dom-pre  (first dom-parts)
-                                             :dom-post (last dom-parts)}
-               {:target parent}))))
+      (let [dom-parts (string/split (.-innerHTML parent) (re-pattern ref-text))]
+        (om/root discuss.views/reference-view {:text     ref-text
+                                               :url      ref-url
+                                               :dom-pre  (first dom-parts)
+                                               :dom-post (last dom-parts)}
+                 {:target parent})))))
 
 (defn process-references
   "Receives references through the API and prepares them for the next steps."
@@ -90,5 +90,4 @@
   [text url]
   (com/ajax-get url)
   (sidebar/show!)
-  (lib/update-state-item! :layout :reference (fn [_] text))
-  )
+  (lib/update-state-item! :layout :reference (fn [_] text)))
