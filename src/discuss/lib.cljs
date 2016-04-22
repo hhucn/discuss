@@ -142,7 +142,7 @@
   (update-state-item! :layout :add? (fn [_] false)))
 
 
-;; Get mouse selection
+;; Mouse interaction
 (defn get-selection
   "Return the stored selection of the user."
   []
@@ -158,6 +158,12 @@
       ; (println (sel/setCursorPosition))
       ; (println (sel/setCursorPosition 100 200))
       (update-state-item! :user :selection (fn [_] selection)))))
+
+(defn save-mouse-position
+  "Store mouse position."
+  [[x y]]
+  (update-state-item! :user :mouse-x (fn [_] x))
+  (update-state-item! :user :mouse-y (fn [_] y)))
 
 
 ;; Other

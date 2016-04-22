@@ -12,7 +12,7 @@
 
 ;;; Listener for mouse clicks
 (defn get-mouse-position
-  ""
+  "Multi browser support for getting the current mouse position. Returns tuple of x and y: [x y]"
   [e]
   (if (.-pageX e)
     [(.-pageX e) (.-pageY e)]
@@ -26,7 +26,9 @@
   "Helper function for mouse-click events."
   [el type]
   (let [out (chan)]
-    (events/listen el type (fn [e] (put! out e)))
+    (events/listen el type (fn [e]
+                             (put! out e)
+                             (lib/save-mouse-position (get-mouse-position e))))
     out))
 
 ;; http://www.thesoftwaresimpleton.com/blog/2014/12/30/core-dot-async-dot-mouse-dot-down/
@@ -55,10 +57,7 @@
   (last
     (filter
       identity
-      (map (fn [dom]
-             (when (lib/substring? ref (.-innerHTML dom))
-               dom))
-           doms))))
+      (map #(when (lib/substring? ref (.-innerHTML %)) %) doms))))
 
 
 ;;; Integrate references and highlight them in the article
