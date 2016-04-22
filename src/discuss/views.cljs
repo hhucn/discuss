@@ -250,3 +250,9 @@
                (dom/h5 nil "Reference")
                (dom/div #js {:className "well well-sm"}
                         (get-in @lib/app-state [:layout :reference]))))))
+
+(defn tooltip-view [data owner]
+  (reify om/IRender
+    (render [_]
+      (dom/div nil
+               "Awesome tooltip"))))

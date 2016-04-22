@@ -166,7 +166,31 @@
   (update-state-item! :user :mouse-y (fn [_] y)))
 
 
-;; Other
+;;;; Tooltip
+(defn calc-tooltip-position
+  "Create a new tooltip at given selection. Creates a rectangle around the selection,
+   which has position-properties and which are useful for positioning of the tooltip."
+  []
+  (let [selection (.getSelection js/window)
+        range (.getRangeAt selection 0)
+        rect (.getBoundingClientRect range)
+        top (.-top rect)
+        left (.-left rect)
+        width (.-width rect)]
+    [top left width]))
+
+
+(defn move-tooltip
+  "Sets CSS position of tooltip."
+  []
+  (let [tooltip (.getElementById js/document (prefix-name "tooltip"))
+        [top left width] (calc-tooltip-position)]
+    (set! (.. tooltip -style -top) (str top "px"))
+    (set! (.. tooltip -style -left) (str left "px"))
+    ;(set! (.. tooltip -style -display) "none")
+    ))
+
+;;;; Other
 (defn get-value-by-id
   "Return value of element matching the id."
   [id]

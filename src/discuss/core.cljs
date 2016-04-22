@@ -18,6 +18,9 @@
 (om/root views/sidebar-view lib/app-state
          {:target (.getElementById js/document (lib/prefix-name "sidebar"))})
 
+(om/root views/tooltip-view {}
+         {:target (.getElementById js/document (lib/prefix-name "tooltip"))})
+
 (om/root debug/debug-view lib/app-state
          {:target (.getElementById js/document "debug")})
 
