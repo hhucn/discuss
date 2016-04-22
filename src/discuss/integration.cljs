@@ -11,12 +11,22 @@
             [discuss.sidebar :as sidebar]))
 
 ;;; Listener for mouse clicks
+(defn get-mouse-position
+  ""
+  [e]
+  (if (.-pageX e)
+    [(.-pageX e) (.-pageY e)]
+    [(.-clientX e) (.-clientY e)]
+    ;(let [x (- (+ (.-clientX e) (.. js/document -body -scrollLeft)) (.. js/document -documentElement -scrollLeft))
+    ;      y (- (+ (.-clientY e) (.. js/document -body -scrollTop)) (.. js/document -documentElement -scrollTop))]
+    ;  [x y (.-clientX e) (.-clientY e)])
+    ))
+
 (defn listen
   "Helper function for mouse-click events."
   [el type]
   (let [out (chan)]
-    (events/listen el type
-                   (fn [e] (put! out e)))
+    (events/listen el type (fn [e] (put! out e)))
     out))
 
 ;; http://www.thesoftwaresimpleton.com/blog/2014/12/30/core-dot-async-dot-mouse-dot-down/

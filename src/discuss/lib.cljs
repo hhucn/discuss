@@ -1,6 +1,5 @@
 (ns discuss.lib
   (:require [om.core :as om :include-macros true]
-            [goog.dom.selection :as sel]
             [clojure.walk :refer [keywordize-keys]]
             [discuss.config :as config]))
 
