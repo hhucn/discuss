@@ -1,7 +1,8 @@
 (ns discuss.lib
   (:require [om.core :as om :include-macros true]
             [clojure.walk :refer [keywordize-keys]]
-            [discuss.config :as config]))
+            [discuss.config :as config]
+            [goog.fx.dom :as fx]))
 
 (defn prefix-name
   "Create unique id for DOM elements."
@@ -167,12 +168,6 @@
 
 
 ;;;; Tooltip
-(defn abs
-  "Return absolute value of given number."
-  [val]
-  (when (number? val)
-    (if (pos? val) val (- val))))
-
 (defn x-position-tooltip
   "Center tooltip at mouse selection."
   [left twidth ewidth]
@@ -195,8 +190,8 @@
         left (.-left rect)
         width (.-width rect)
         positioned-top (y-position-tooltip top tooltip-height)
-        centered-left (x-position-tooltip left tooltip-width width)]
-    [positioned-top centered-left width]))
+        positioned-left (x-position-tooltip left tooltip-width width)]
+    [positioned-top positioned-left]))
 
 ;;;;;;;;;;;;;;;;;;
 ; http://www.w3schools.com/css/css_tooltip.asp
@@ -208,7 +203,7 @@
   "Sets CSS position of tooltip."
   []
   (let [tooltip (.getElementById js/document (prefix-name "tooltip"))
-        [top left width] (calc-tooltip-position tooltip.offsetWidth tooltip.offsetHeight)]
+        [top left] (calc-tooltip-position tooltip.offsetWidth tooltip.offsetHeight)]
     (set! (.. tooltip -style -top) (str top "px"))
     (set! (.. tooltip -style -left) (str left "px"))
     ;(set! (.. tooltip -style -display) "none")

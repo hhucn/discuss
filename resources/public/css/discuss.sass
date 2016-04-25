@@ -1,10 +1,12 @@
 @import 'bubbles'
 @import 'loading'
 @import 'clipboard'
+@import 'keyframes'
 
 $discuss-width: 250px
 $discuss-height: 400px
 $lightgreen: #e0f2f1
+$fadetime: 1s
 
 #discuss
   position: fixed
@@ -73,16 +75,18 @@ $lightgreen: #e0f2f1
 // Tooltip
 #discuss-tooltip
   position: absolute
-  width: 200px
-  height: 2em
-  line-height: 2em
+  vertical-align: middle
   color: #fff
   text-align: center
-  padding: 5px 0
+  padding: 0 1em
   border-radius: 6px
   background-color: black
   opacity: 0.8
-
+  -webkit-animation: fadein $fadetime
+  -moz-animation: fadein $fadetime
+  -ms-animation: fadein $fadetime
+  -o-animation: fadein $fadetime
+  animation: fadein $fadetime
   ::after
     // Create small arrow at bottom of tooltip
     content: " "
@@ -93,3 +97,10 @@ $lightgreen: #e0f2f1
     border: 5px solid transparent
     border-top-color: black
     opacity: 0.8
+
+  .hidden
+    -webkit-animation: fadeout $fadetime
+    -moz-animation: fadeout $fadetime
+    -ms-animation: fadeout $fadetime
+    -o-animation: fadeout $fadetime
+    animation: fadeout $fadetime
