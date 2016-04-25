@@ -167,24 +167,48 @@
 
 
 ;;;; Tooltip
+(defn abs
+  "Return absolute value of given number."
+  [val]
+  (when (number? val)
+    (if (pos? val) val (- val))))
+
+(defn x-position-tooltip
+  "Center tooltip at mouse selection."
+  [left twidth ewidth]
+  (+ left js/window.scrollX (/ (- ewidth twidth) 2)))
+
+(defn y-position-tooltip
+  "Move tooltip a bit above the mouse selection."
+  [top theight]
+  (let [offset 5]
+    (+ (- top theight offset) js/window.scrollY)))
+
 (defn calc-tooltip-position
   "Create a new tooltip at given selection. Creates a rectangle around the selection,
    which has position-properties and which are useful for positioning of the tooltip."
-  []
+  [tooltip-width tooltip-height]
   (let [selection (.getSelection js/window)
         range (.getRangeAt selection 0)
         rect (.getBoundingClientRect range)
         top (.-top rect)
         left (.-left rect)
-        width (.-width rect)]
-    [top left width]))
+        width (.-width rect)
+        positioned-top (y-position-tooltip top tooltip-height)
+        centered-left (x-position-tooltip left tooltip-width width)]
+    [positioned-top centered-left width]))
+
+;;;;;;;;;;;;;;;;;;
+; http://www.w3schools.com/css/css_tooltip.asp
+; http://stackoverflow.com/questions/18302683/how-to-create-tooltip-over-text-selection-without-wrapping
+;;;;;;;;;;;;;;;;;;
 
 
 (defn move-tooltip
   "Sets CSS position of tooltip."
   []
   (let [tooltip (.getElementById js/document (prefix-name "tooltip"))
-        [top left width] (calc-tooltip-position)]
+        [top left width] (calc-tooltip-position tooltip.offsetWidth tooltip.offsetHeight)]
     (set! (.. tooltip -style -top) (str top "px"))
     (set! (.. tooltip -style -left) (str left "px"))
     ;(set! (.. tooltip -style -display) "none")
