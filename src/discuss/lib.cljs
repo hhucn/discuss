@@ -149,65 +149,11 @@
   []
   (get-in @app-state [:user :selection]))
 
-(defn save-selected-text
-  "Get the users selection and save it."
-  []
-  (let [selection (str (.getSelection js/window))]
-    (when (and (> (count selection) 0)
-               (not= selection (get-selection)))
-      ;; TODO hier gehts weiter
-      ; (println (sel/setCursorPosition))
-      ; (println (sel/setCursorPosition 100 200))
-      (update-state-item! :user :selection (fn [_] selection)))))
-
 (defn save-mouse-position
   "Store mouse position."
   [[x y]]
   (update-state-item! :user :mouse-x (fn [_] x))
   (update-state-item! :user :mouse-y (fn [_] y)))
-
-
-;;;; Tooltip
-(defn x-position-tooltip
-  "Center tooltip at mouse selection."
-  [left twidth ewidth]
-  (+ left js/window.scrollX (/ (- ewidth twidth) 2)))
-
-(defn y-position-tooltip
-  "Move tooltip a bit above the mouse selection."
-  [top theight]
-  (let [offset 5]
-    (+ (- top theight offset) js/window.scrollY)))
-
-(defn calc-tooltip-position
-  "Create a new tooltip at given selection. Creates a rectangle around the selection,
-   which has position-properties and which are useful for positioning of the tooltip."
-  [tooltip-width tooltip-height]
-  (let [selection (.getSelection js/window)
-        range (.getRangeAt selection 0)
-        rect (.getBoundingClientRect range)
-        top (.-top rect)
-        left (.-left rect)
-        width (.-width rect)
-        positioned-top (y-position-tooltip top tooltip-height)
-        positioned-left (x-position-tooltip left tooltip-width width)]
-    [positioned-top positioned-left]))
-
-;;;;;;;;;;;;;;;;;;
-; http://www.w3schools.com/css/css_tooltip.asp
-; http://stackoverflow.com/questions/18302683/how-to-create-tooltip-over-text-selection-without-wrapping
-;;;;;;;;;;;;;;;;;;
-
-
-(defn move-tooltip
-  "Sets CSS position of tooltip."
-  []
-  (let [tooltip (.getElementById js/document (prefix-name "tooltip"))
-        [top left] (calc-tooltip-position tooltip.offsetWidth tooltip.offsetHeight)]
-    (set! (.. tooltip -style -top) (str top "px"))
-    (set! (.. tooltip -style -left) (str left "px"))
-    ;(set! (.. tooltip -style -display) "none")
-    ))
 
 ;;;; Other
 (defn get-value-by-id
@@ -227,7 +173,27 @@
   (not= (.indexOf st sub) -1))
 
 
-;; CLJS to JS
+;;;; CSS modifications
+(defn toggle-class
+  "Toggle CSS class of provided DOM element. A third paramenter as boolean can be provided to
+   force removing or adding the class."
+  ([dom-element class]
+   (.classList/toggle dom-element class))
+  ([dom-element class bool]
+   (.classList/toggle dom-element class bool)))
+
+(defn remove-class
+  "Remove a specific class of a DOM element."
+  [dom-element class]
+  (toggle-class dom-element class false))
+
+(defn add-class
+  "Add a specific class to a DOM element."
+  [dom-element class]
+  (toggle-class dom-element class true))
+
+
+;;;; CLJS to JS
 (defn clj->json
   "Convert CLJS to valid JSON."
   [col]
