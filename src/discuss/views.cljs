@@ -11,15 +11,21 @@
             [discuss.auth :as auth]))
 
 ;; Auxiliary functions
+(defn fa-icon
+  "Wrapper for font-awesome icons."
+  ([class]
+   (dom/i #js {:className (str "fa " class)}))
+  ([class f]
+   (dom/i #js {:className (str "pointer fa " class)
+               :onClick   f})))
+
 (defn logo
   "If no function is provided, show logo as is. Else bind function to onClick-event and add
    pointer-class."
   ([]
-   (logo nil))
+   (fa-icon "fa-comments"))
   ([f]
-   (let [icon "fa fa-comments"]
-     (dom/i #js {:className (if f (str "pointer " icon) icon)
-                 :onClick   f}))))
+   (fa-icon "fa-comments" f)))
 
 (defn safe-html
   "Creates DOM element with interpreted HTML."
@@ -57,13 +63,11 @@
 (defn control-elements []
   (dom/div #js {:className "text-center"}
            (dom/h4 nil
-                   (dom/i #js {:className (str (lib/prefix-name "control-buttons") " fa fa-angle-double-left fa-border pointer")
-                               :onClick   com/init!})
+                   (fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-double-left fa-border") com/init!)
                    " "
-                   (dom/i #js {:className (str (lib/prefix-name "control-buttons") " fa fa-angle-left fa-border pointer")
-                               :onClick   history/back!})
+                   (fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-left fa-border") history/back!)
                    " "
-                   (dom/i #js {:className (str (lib/prefix-name "control-buttons") " fa fa-angle-right fa-border pointer")}))))
+                   (fa-icon (str (lib/prefix-name "control-buttons") " fa fa-angle-right fa-border pointer")))))
 
 (defn login-view-buttons [data]
   (dom/div #js {:className "text-muted"}
@@ -95,14 +99,14 @@
                (dom/h5 #js {:className "text-center"} "Login")
                (dom/div #js {:className "input-group"}
                         (dom/span #js {:className "input-group-addon"}
-                                  (dom/i #js {:className "fa fa-user fa-fw"}))
+                                  (fa-icon "fa-user fa-fw"))
                         (dom/input #js {:className   "form-control"
                                         :onChange    #(commit-target-value :nickname % owner)
                                         :value       nickname
                                         :placeholder "nickname"}))
                (dom/div #js {:className "input-group"}
                         (dom/span #js {:className "input-group-addon"}
-                                  (dom/i #js {:className "fa fa-key fa-fw"}))
+                                  (fa-icon "fa-key fa-fw"))
                         (dom/input #js {:className   "form-control"
                                         :onChange    #(commit-target-value :password % owner)
                                         :value       password
@@ -183,18 +187,18 @@
                         (error-view)
                         (dom/div #js {:className "input-group"}
                                  (dom/span #js {:className "input-group-addon"}
-                                           (dom/i #js {:className "fa fa-comment"}))
+                                           (fa-icon "fa-comment"))
                                  (dom/input #js {:className "form-control"
                                                  :onChange  #(commit-target-value :statement % owner)
                                                  :value     statement}))
                         (when (lib/get-selection)
                           (dom/div #js {:className "input-group"}
                                    (dom/span #js {:className "input-group-addon"}
-                                             (dom/i #js {:className "fa fa-quote-left"}))
+                                             (fa-icon "fa-quote-left"))
                                    (dom/input #js {:className "form-control"
                                                    :value     (lib/get-selection)})
                                    (dom/span #js {:className "input-group-addon"}
-                                             (dom/i #js {:className "fa fa-quote-right"}))))
+                                             (fa-icon "fa-quote-right"))))
                         (dom/button #js {:className "btn btn-default"
                                          :onClick   #(com/dispatch-add-action statement (lib/get-selection))}
                                     "Submit"))))))
@@ -255,4 +259,6 @@
   (reify om/IRender
     (render [_]
       (dom/div nil
-               "Awesome tooltip"))))
+               (logo)
+               " "
+               "Save as reference"))))
