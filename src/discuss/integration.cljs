@@ -8,7 +8,8 @@
             [discuss.extensions]
             [discuss.communication :as com]
             [discuss.lib :as lib]
-            [discuss.sidebar :as sidebar]))
+            [discuss.sidebar :as sidebar]
+            [discuss.tooltip :as tooltip]))
 
 ;;; Listener for mouse clicks
 (defn get-mouse-position
@@ -32,10 +33,20 @@
     out))
 
 ;; http://www.thesoftwaresimpleton.com/blog/2014/12/30/core-dot-async-dot-mouse-dot-down/
+(defn save-selected-text
+  "Get the users selection and save it."
+  []
+  (let [selection (str (.getSelection js/window))]
+    (if (and (> (count selection) 0)
+             (not= selection (lib/get-selection)))
+      (do (tooltip/move-to-selection)
+          (lib/update-state-item! :user :selection (fn [_] selection)))
+      (tooltip/hide))))
+
 (let [clicks (listen (.getElementById js/document "discuss-text") "click")]
   (go (while true
         (<! clicks)
-        (lib/save-selected-text))))
+        (save-selected-text))))
 
 (defn minify-doms
   "Removes dom-elements, which can never be used as a reference."
@@ -89,5 +100,5 @@
    and show the sidebar to start the discussion."
   [text url]
   (com/ajax-get url)
-  (sidebar/show!)
+  (sidebar/show)
   (lib/update-state-item! :layout :reference (fn [_] text)))
