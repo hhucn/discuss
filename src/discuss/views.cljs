@@ -245,7 +245,7 @@
   (reify om/IRender
     (render [_]
       (dom/div nil
-               (logo #(sidebar/toggle!))
+               (logo #(sidebar/toggle))
                (main-content-view data)
                (dom/h5 nil "Reference")
                (dom/div #js {:className "well well-sm"}
