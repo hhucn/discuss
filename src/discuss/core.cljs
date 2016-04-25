@@ -3,13 +3,14 @@
             [discuss.communication :as com]
             [discuss.debug :as debug]
             [discuss.extensions]
-            [discuss.integration]
             [discuss.lib :as lib]
             [discuss.test :as test]
             [discuss.views :as views]))
 
 ;; Initialization
-;(com/init!)
+(com/init!)
+(discuss.auth/login "christian" "christian")
+(com/post-origin-get-references)
 
 ;; Register
 (om/root views/main-view lib/app-state

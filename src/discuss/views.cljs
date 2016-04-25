@@ -32,6 +32,11 @@
   [string]
   (dom/span #js {:dangerouslySetInnerHTML #js {:__html string}}))
 
+(defn safe-space
+  "Create a safed spacer."
+  []
+  (safe-html "&nbsp;"))
+
 (defn get-bubble-class [bubble]
   "Check bubble type and return a class-string to match the CSS styles."
   (cond
@@ -260,5 +265,11 @@
     (render [_]
       (dom/div nil
                (logo)
-               " "
-               "Save as reference"))))
+               (safe-space) " | " (safe-space)
+               (dom/span nil
+                         (fa-icon "fa-bookmark-o")
+                         " Save")
+               (safe-space) "  " (safe-space)
+               (dom/span #js {:onClick #(sidebar/show)}
+                         (fa-icon "fa-comment")
+                         " Discuss")))))
