@@ -4,7 +4,6 @@
             [discuss.debug :as debug]
             [discuss.extensions]
             [discuss.lib :as lib]
-            [discuss.test :as test]
             [discuss.views :as views]))
 
 ;; Initialization
@@ -29,5 +28,5 @@
   ;; optionally touch your app-state to force rerendering depending on
   ;; your application
   ;; (swap! app-state update-in [:__figwheel_counter] inc)
-  (test/run)
+  ; (test/run)
   )
