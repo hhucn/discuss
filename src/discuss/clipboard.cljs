@@ -16,16 +16,37 @@
         with-current (conj selections current)]
     (lib/update-state-item! :clipboard :selections (fn [_] with-current))))
 
+
+;;;; Drag n Drop stuff
+; http://www.w3schools.com/html/html5_draganddrop.asp
+
+(defn allow-drop [ev]
+  (println "fn: allow-drop")
+  (.preventDefault ev))
+
+(defn drag-event [ev]
+  (println "fn: drag-event")
+  (.setData ev.dataTransfer "text" (.. ev -target -id)))
+
+(defn drop-event [ev]
+  (.preventDefault ev)
+  (println "fn: drop-event"))
+
 (defn item-view [data owner]
   (reify om/IRender
     (render [_]
-      (dom/div nil
-               (dom/div #js {:className "well well-sm"}
-                         data)))))
+      (dom/div #js {:className "well well-sm"
+                    :draggable true
+                    :onDragStart drag-event}
+               data))))
 
 (defn view [data owner]
   (reify om/IRender
     (render [_]
       (dom/div nil
+               (dom/div #js {:className "well"
+                             :onDragOver allow-drop
+                             :onDrop drop-event}
+                        "Drop here!")
                (dom/h5 nil "Clipboard")
                (om/build-all item-view (get-stored-selections))))))

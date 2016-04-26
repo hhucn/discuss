@@ -45,7 +45,6 @@
   []
   (let [tooltip (.getElementById js/document (lib/prefix-name "tooltip"))
         [top left] (calc-position tooltip.offsetWidth tooltip.offsetHeight)]
-    (println "tooltip height:" tooltip.offsetHeight)
     (set! (.. tooltip -style -top) (str top "px"))
     (set! (.. tooltip -style -left) (str left "px"))
     (show)))
