@@ -29,6 +29,7 @@
                       :statement  ""
                       :selection  nil
                       :logged-in? false}
+         :clipboard  {:selections nil}
          :sidebar    {:show? false}
          }))
 

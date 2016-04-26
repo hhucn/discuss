@@ -2,6 +2,7 @@
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [clojure.string :as string]
+            [discuss.clipboard :as clipboard]
             [discuss.communication :as com]
             [discuss.extensions]
             [discuss.history :as history]
@@ -250,12 +251,15 @@
                           (logo #(om/set-state! owner :show (toggle-show show))))
                 (dom/span nil (:dom-post data))))))
 
+
+;;;; Sidebar
 (defn sidebar-view [data owner]
   (reify om/IRender
     (render [_]
       (dom/div nil
                (logo #(sidebar/toggle))
                (main-content-view data)
+               (om/build clipboard/view data)
                (dom/h5 nil "Reference")
                (dom/div #js {:className "well well-sm"}
                         (get-in @lib/app-state [:layout :reference]))))))
@@ -266,7 +270,7 @@
       (dom/div nil
                (logo)
                (safe-space) " | " (safe-space)
-               (dom/span nil
+               (dom/span #js {:onClick clipboard/add-selection}
                          (fa-icon "fa-bookmark-o")
                          " Save")
                (safe-space) "  " (safe-space)
