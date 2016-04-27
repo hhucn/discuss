@@ -1,6 +1,6 @@
 (ns discuss.auth
   (:require [ajax.core :refer [POST]]
-            [goog.crypt.base64 :as b64]
+            [goog.crypt.base64 :as gtfo]
             [discuss.communication :as com]
             [discuss.config :as config]
             [discuss.debug :as debug]
@@ -42,7 +42,7 @@
 (defn one-click-login
   "Directly log-in with my personal user-account."
   []
-  (let [magic (b64/decodeString config/user)]
+  (let [magic (gtfo/decodeString config/user)]
     (login magic magic)))
 
 (defn logout

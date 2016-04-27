@@ -1,9 +1,8 @@
-(ns discuss.config
-  (:require [goog.crypt.base64 :as b64]))
+(ns discuss.config)
 
 (def project "discuss")
 
-(def user (b64/encodeString "christian"))
+(def user "Y2hyaXN0aWFu")
 
 (def api {:host "http://localhost:4284/"
           :init "api/"
