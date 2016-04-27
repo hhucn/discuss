@@ -10,7 +10,7 @@
 
 ;; Initialization
 (com/init!)
-(discuss.auth/login "christian" "christian")
+(discuss.auth/one-click-login)
 (com/post-origin-get-references)
 
 ;; Register

@@ -1,5 +1,6 @@
 (ns discuss.auth
   (:require [ajax.core :refer [POST]]
+            [goog.crypt.base64 :as b64]
             [discuss.communication :as com]
             [discuss.config :as config]
             [discuss.debug :as debug]
@@ -37,6 +38,12 @@
           (> (count nickname) 0)
           (> (count password) 0))
     (ajax-login nickname password)))
+
+(defn one-click-login
+  "Directly log-in with my personal user-account."
+  []
+  (let [magic (b64/decodeString config/user)]
+    (login magic magic)))
 
 (defn logout
   "Reset user credentials."
