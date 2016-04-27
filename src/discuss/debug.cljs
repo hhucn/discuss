@@ -54,7 +54,7 @@
                                     "Resend API Call")
                         " "
                         (dom/button #js {:className "btn btn-default"
-                                         :onClick   #(discuss.auth/login "christian" "christian")}
+                                         :onClick   discuss.auth/one-click-login}
                                     "One-Click Login")
                         ;" "
                         ;(dom/button #js {:className "btn btn-default"

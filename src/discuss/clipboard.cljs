@@ -35,7 +35,7 @@
 (defn item-view [data owner]
   (reify om/IRender
     (render [_]
-      (dom/div #js {:className "well well-sm"
+      (dom/div #js {:className "bs-callout bs-callout-info"
                     :draggable true
                     :onDragStart drag-event}
                data))))
@@ -44,7 +44,7 @@
   (reify om/IRender
     (render [_]
       (dom/div nil
-               (dom/div #js {:className "well"
+               (dom/div #js {:className "panel panel-body"
                              :onDragOver allow-drop
                              :onDrop drop-event}
                         "Drop here!")

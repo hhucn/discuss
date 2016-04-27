@@ -259,10 +259,7 @@
       (dom/div nil
                (logo #(sidebar/toggle))
                (main-content-view data)
-               (om/build clipboard/view data)
-               (dom/h5 nil "Reference")
-               (dom/div #js {:className "well well-sm"}
-                        (get-in @lib/app-state [:layout :reference]))))))
+               (om/build clipboard/view data)))))
 
 (defn tooltip-view [data owner]
   (reify om/IRender
