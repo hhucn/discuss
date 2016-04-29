@@ -267,10 +267,12 @@
       (dom/div nil
                (logo)
                (safe-space) " | " (safe-space)
-               (dom/span #js {:onClick clipboard/add-selection}
+               (dom/span #js {:className "pointer"
+                              :onClick clipboard/add-selection}
                          (fa-icon "fa-bookmark-o")
                          " Save")
                (safe-space) "  " (safe-space)
-               (dom/span #js {:onClick #(sidebar/show)}
+               (dom/span #js {:className "pointer"
+                              :onClick   sidebar/show}
                          (fa-icon "fa-comment")
                          " Discuss")))))

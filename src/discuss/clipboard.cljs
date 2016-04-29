@@ -47,6 +47,6 @@
                (dom/div #js {:className "panel panel-body"
                              :onDragOver allow-drop
                              :onDrop drop-event}
-                        "Drop here!")
+                        (lib/get-selection))
                (dom/h5 nil "Clipboard")
                (om/build-all item-view (get-stored-selections))))))
