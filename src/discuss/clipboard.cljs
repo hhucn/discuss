@@ -13,7 +13,7 @@
   []
   (let [selections (get-stored-selections)
         current (lib/get-selection)
-        with-current (conj selections current)]
+        with-current (distinct (conj selections current))]
     (lib/update-state-item! :clipboard :selections (fn [_] with-current))))
 
 
@@ -21,16 +21,12 @@
 ; http://www.w3schools.com/html/html5_draganddrop.asp
 
 (defn update-reference-drop
-  ""
-  [ev]
-  (println "Dropper")
+  "Use text from clipboard item as reference for own statement."
+  [_ev]
   (let [clipboard-item (get-in @lib/app-state [:clipboard :current])]
-    (println "foo")
-    (.log js/console clipboard-item)
     (lib/remove-class clipboard-item "bs-callout-info")
-    (lib/add-class clipboard-item "bs-callout-success"))
-  ;(lib/update-state-item! :user :selection (fn [_] selection))
-  )
+    (lib/add-class clipboard-item "bs-callout-success")
+    (lib/update-state-item! :user :selection (fn [_] (.. clipboard-item -innerText)))))
 
 (defn allow-drop [ev]
   (println "fn: allow-drop")
@@ -48,10 +44,9 @@
 (defn item-view [data owner]
   (reify om/IRender
     (render [_]
-      (dom/div #js {:id (rand-int 10000)
-                    :className "bs-callout bs-callout-info"
-                    :data-id 100
-                    :draggable true
+      (dom/div #js {:className   "bs-callout bs-callout-info"
+                    :data-id     100
+                    :draggable   true
                     :onDragStart drag-event}
                data))))
 
