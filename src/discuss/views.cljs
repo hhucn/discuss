@@ -186,7 +186,9 @@
       {:statement ""})
     om/IRenderState
     (render-state [_ {:keys [statement]}]
-      (dom/div #js {:className "panel panel-default"}
+      (dom/div #js {:className  "panel panel-default"
+                    :onDragOver discuss.clipboard/allow-drop
+                    :onDrop     discuss.clipboard/update-reference-drop}
                (dom/div #js {:className "panel-body"}
                         (dom/h4 #js {:className "text-center"} (lib/get-add-text))
                         (dom/h5 #js {:className "text-center"} (safe-html (lib/get-add-premise-text)))

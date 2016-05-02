@@ -29,7 +29,8 @@
                       :statement  ""
                       :selection  nil
                       :logged-in? false}
-         :clipboard  {:selections nil}
+         :clipboard  {:selections nil
+                      :current    nil}
          :sidebar    {:show? false}
          }))
 

@@ -20,12 +20,25 @@
 ;;;; Drag n Drop stuff
 ; http://www.w3schools.com/html/html5_draganddrop.asp
 
+(defn update-reference-drop
+  ""
+  [ev]
+  (println "Dropper")
+  (let [clipboard-item (get-in @lib/app-state [:clipboard :current])]
+    (println "foo")
+    (.log js/console clipboard-item)
+    (lib/remove-class clipboard-item "bs-callout-info")
+    (lib/add-class clipboard-item "bs-callout-success"))
+  ;(lib/update-state-item! :user :selection (fn [_] selection))
+  )
+
 (defn allow-drop [ev]
   (println "fn: allow-drop")
   (.preventDefault ev))
 
 (defn drag-event [ev]
-  (println "fn: drag-event")
+  (let [target (.. ev -target)]
+    (lib/update-state-item! :clipboard :current (fn [_] target)))
   (.setData ev.dataTransfer "text" (.. ev -target -id)))
 
 (defn drop-event [ev]
@@ -35,7 +48,9 @@
 (defn item-view [data owner]
   (reify om/IRender
     (render [_]
-      (dom/div #js {:className "bs-callout bs-callout-info"
+      (dom/div #js {:id (rand-int 10000)
+                    :className "bs-callout bs-callout-info"
+                    :data-id 100
                     :draggable true
                     :onDragStart drag-event}
                data))))
@@ -44,9 +59,9 @@
   (reify om/IRender
     (render [_]
       (dom/div nil
-               (dom/div #js {:className "panel panel-body"
+               (dom/div #js {:className  "panel panel-body"
                              :onDragOver allow-drop
-                             :onDrop drop-event}
+                             :onDrop     drop-event}
                         (lib/get-selection))
                (dom/h5 nil "Clipboard")
-               (om/build-all item-view (get-stored-selections))))))
+               (om/build-all item-view (get-stored-selections) {:key (rand-int 1000)})))))
