@@ -90,7 +90,7 @@
   ;; For documentation
   :codox {:language :clojurescript
           :metadata {:doc/format :markdown}
-          :source-uri "https://gitlab.cs.uni-duesseldorf.de/meter/discuss-cljs/blob/master/{filepath}#L{line}"
+          :source-uri "https://gitlab.cs.uni-duesseldorf.de/project/discuss/blob/master/{filepath}#L{line}"
           :doc-paths ["docs"]
           :output-path "target/docs"}
   )
