@@ -45,7 +45,7 @@
   (let [res   (keywordize-keys (transit/read r response))
         error (:error res)
         url   (:url res)]
-    (if (< 0 (count error))
+    (if (pos? (count error))
       (lib/error-msg! error)
       (do
         (lib/no-error!)
@@ -58,7 +58,7 @@
   [response]
   (let [refs  (:references response)
         error (:error response)]
-    (if (< 0 (count error))
+    (if (pos? (count error))
       (lib/error-msg! error)
       (do
         (lib/no-error!)

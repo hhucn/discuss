@@ -150,7 +150,7 @@
                                           :onClick   #(com/item-click (:id item) (:url item))
                                           :value     (:url item)})
                           " "
-                          (safe-html (string/join " <i>and</i> " (map #(:title %) (:premises item))))))))) ; get all premises of item and add an "and" between them
+                          (safe-html (string/join " <i>and</i> " (map :title (:premises item))))))))) ; get all premises of item and add an "and" between them
 
 (defn items-view [data]
   (dom/div nil

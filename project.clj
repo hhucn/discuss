@@ -18,7 +18,8 @@
   :plugins [[lein-figwheel "0.5.1"]
             [lein-cljsbuild "1.1.3" :exclusions [[org.clojure/clojure]]]
             [lein-codox "0.9.4"]
-            [lein-ancient "0.6.8"]]
+            [lein-ancient "0.6.8"]
+            [lein-kibit "0.1.2"]]
 
   :source-paths ["src/discuss" "src/test"]
 

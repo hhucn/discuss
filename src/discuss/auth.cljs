@@ -35,8 +35,8 @@
   "Use login form data, validate it and send ajax request."
   [nickname password]
   (when (and
-          (> (count nickname) 0)
-          (> (count password) 0))
+          (pos? (count nickname))
+          (pos? (count password)))
     (ajax-login nickname password)))
 
 (defn one-click-login

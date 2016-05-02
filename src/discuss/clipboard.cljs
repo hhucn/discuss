@@ -38,10 +38,6 @@
   (let [target (.. ev -target)]
     (lib/update-state-item! :clipboard :current (fn [_] target))))
 
-(defn drop-event [ev]
-  (.preventDefault ev)
-  (println "fn: drop-event"))
-
 (defn item-view [data owner]
   (reify om/IRender
     (render [_]

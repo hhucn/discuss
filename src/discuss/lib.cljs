@@ -31,7 +31,7 @@
                       :logged-in? false}
          :clipboard  {:selections nil
                       :current    nil}
-         :sidebar    {:show? false}
+         :sidebar    {:show? true}
          }))
 
 ;; Get
@@ -111,7 +111,7 @@
 (defn error-msg!
   "Set error message."
   [msg]
-  (when (< 0 (count msg))
+  (when (pos? (count msg))
     (error? true))
   (update-state-item! :layout :error-msg (fn [_] msg)))
 

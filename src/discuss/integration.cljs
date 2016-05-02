@@ -37,7 +37,7 @@
   "Get the users selection and save it."
   []
   (let [selection (str (.getSelection js/window))]
-    (if (and (> (count selection) 0)
+    (if (and (pos? (count selection))
              (not= selection (lib/get-selection)))
       (do (tooltip/move-to-selection)
           (lib/update-state-item! :user :selection (fn [_] selection)))
@@ -91,7 +91,7 @@
 (defn process-references
   "Receives references through the API and prepares them for the next steps."
   [refs]
-  (doall (map #(convert-reference %) refs)))
+  (doall (map convert-reference refs)))
 
 
 ;;; Interaction with integratet references
