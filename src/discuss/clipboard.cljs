@@ -3,6 +3,8 @@
             [om.dom :as dom :include-macros true]
             [discuss.lib :as lib]))
 
+(def counter (atom 0))
+
 (defn get-stored-selections
   "Return all stored selections."
   []
@@ -34,8 +36,7 @@
 
 (defn drag-event [ev]
   (let [target (.. ev -target)]
-    (lib/update-state-item! :clipboard :current (fn [_] target)))
-  (.setData ev.dataTransfer "text" (.. ev -target -id)))
+    (lib/update-state-item! :clipboard :current (fn [_] target))))
 
 (defn drop-event [ev]
   (.preventDefault ev)
@@ -44,19 +45,16 @@
 (defn item-view [data owner]
   (reify om/IRender
     (render [_]
-      (dom/div #js {:className   "bs-callout bs-callout-info"
-                    :data-id     100
+      (dom/div #js {:react-key   (swap! counter inc)
+                    :className   "bs-callout bs-callout-info"
                     :draggable   true
                     :onDragStart drag-event}
                data))))
+
 
 (defn view [data owner]
   (reify om/IRender
     (render [_]
       (dom/div nil
-               (dom/div #js {:className  "panel panel-body"
-                             :onDragOver allow-drop
-                             :onDrop     drop-event}
-                        (lib/get-selection))
                (dom/h5 nil "Clipboard")
-               (om/build-all item-view (get-stored-selections) {:key (rand-int 1000)})))))
+               (om/build-all item-view (get-stored-selections))))))
