@@ -1,10 +1,12 @@
-(ns ^:figwheel-load discuss.auth-test
+(ns discuss.clipboard-test
   (:require [cljs.test :refer-macros [deftest is run-tests]]))
 
 (enable-console-print!)
 
-(deftest fail
+(deftest failing
   (is (= 1 2)))
 
-(deftest success
+(deftest successing
   (is (= 1 1)))
+
+;(run-tests)
