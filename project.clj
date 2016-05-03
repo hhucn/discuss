@@ -21,7 +21,7 @@
             [lein-ancient "0.6.8"]
             [lein-kibit "0.1.2"]]
 
-  :source-paths ["src/discuss" "src/test"]
+  :source-paths ["src"]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
@@ -30,8 +30,7 @@
                 :source-paths ["src"]
 
                 ;; If no code is to be run, set :figwheel true for continued automagical reloading
-                :figwheel {                                 ;:load-warninged-code true
-                           :on-jsload "discuss.core/on-js-reload"}
+                :figwheel {:on-jsload "discuss.core/on-js-reload"}
 
                 :compiler {:main discuss.core
                            :asset-path "js/compiled/out"
@@ -47,16 +46,24 @@
                            :main discuss.core
                            :optimizations :advanced
                            :pretty-print false}}
-               {:id "test"
+               {:id "test-no-phantom"
                 :source-paths ["src" "test"]
-                :notify-command ["phantomjs" "resources/test/phantom/runner.js" "resources/public/js/compiled/discuss-test.js"]
                 :compiler {:output-to "resources/public/js/compiled/discuss-test.js"
                            :optimizations :whitespace
-                           :pretty-print true}}]
-              :test-commands {"unit" ["phantomjs"
-                                      "resources/test/phantom/runner.js"
-                                      "resources/test/test.html"]}}
-
+                           :pretty-print true}}
+               {:id "test"
+                :source-paths ["src" "test"]
+                :compiler {:output-to "resources/public/js/compiled/discuss-test.js"
+                           :optimizations :whitespace
+                           :pretty-print true}
+                :notify-command ["phantomjs" "resources/test/phantom/runner.js" ;"resources/public/js/compiled/discuss-test.js"
+                                 "resources/test/test.html"
+                                 ]}
+               ]
+              ;:test-commands {"unit" ["phantomjs"
+              ;                        "resources/test/phantom/runner.js"
+              ;                        "resources/test/test.html"]}
+              }
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
              ;; :server-port 3449 ;; default
              ;; :server-ip "127.0.0.1"
