@@ -20,14 +20,14 @@
   (reify om/IRender
     (render [_]
       (dom/div nil
-               (dom/h4 #js {:className "pointer text-muted"
-                            :data-toggle "collapse"
-                            :data-target "#collapse-debug"
+               (dom/h4 #js {:className     "pointer text-muted"
+                            :data-toggle   "collapse"
+                            :data-target   "#collapse-debug"
                             :aria-expanded "true"
                             :aria-controls "collapse-debug"}
                        "Debug")
                (dom/div #js {:className "collapse in well"
-                             :id "collapse-debug"}
+                             :id        "collapse-debug"}
 
                         (dom/h6 nil "API Calls")
                         (dom/pre nil (get-in data [:debug :last-api]))
@@ -41,6 +41,11 @@
                                              "Do the magic"))
 
                         (dom/h6 nil "Control")
+                        (dom/button #js {:className "btn btn-info"
+                                         :onClick   discuss.core/main}
+                                    (dom/i #js {:className "fa fa-fort-awesome"}))
+                        " "
+
                         (dom/button #js {:className "btn btn-default"
                                          :onClick   #(discuss.communication/ajax-get "api/cat-or-dog")}
                                     (dom/i #js {:className "fa fa-paw"}))

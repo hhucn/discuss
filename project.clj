@@ -56,10 +56,7 @@
                 :compiler {:output-to "resources/public/js/compiled/discuss-test.js"
                            :optimizations :whitespace
                            :pretty-print true}
-                :notify-command ["phantomjs" "resources/test/phantom/runner.js" ;"resources/public/js/compiled/discuss-test.js"
-                                 "resources/test/test.html"
-                                 ]}
-               ]
+                :notify-command ["phantomjs" "resources/test/phantom/runner.js" "resources/test/test.html"]}]
               ;:test-commands {"unit" ["phantomjs"
               ;                        "resources/test/phantom/runner.js"
               ;                        "resources/test/test.html"]}
@@ -96,9 +93,9 @@
              }
 
   ;; For documentation
-  :codox {:language :clojurescript
-          :metadata {:doc/format :markdown}
-          :source-uri "https://gitlab.cs.uni-duesseldorf.de/project/discuss/blob/master/{filepath}#L{line}"
-          :doc-paths ["docs"]
+  :codox {:language    :clojurescript
+          :metadata    {:doc/format :markdown}
+          :source-uri  "https://gitlab.cs.uni-duesseldorf.de/project/discuss/blob/master/{filepath}#L{line}"
+          :doc-paths   ["docs"]
           :output-path "target/docs"}
   )
