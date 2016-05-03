@@ -9,9 +9,10 @@
 (enable-console-print!)
 
 ;; Initialization
-(com/init!)
-(discuss.auth/one-click-login)
-(com/post-origin-get-references)
+(defn main []
+  (com/init!)
+  (discuss.auth/one-click-login)
+  (com/post-origin-get-references))
 
 ;; Register
 (om/root views/main-view lib/app-state
@@ -30,5 +31,4 @@
   ;; optionally touch your app-state to force rerendering depending on
   ;; your application
   ;; (swap! app-state update-in [:__figwheel_counter] inc)
-  ; (test/run)
   )
