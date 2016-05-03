@@ -47,10 +47,10 @@
                     :onDragStart drag-event}
                data))))
 
-
 (defn view [data owner]
   (reify om/IRender
     (render [_]
-      (dom/div nil
-               (dom/h5 nil "Clipboard")
-               (om/build-all item-view (get-stored-selections))))))
+      (when (pos? (count (get-stored-selections)))
+        (dom/div nil
+                 (dom/h5 nil "Clipboard")
+                 (om/build-all item-view (get-stored-selections) {:key (swap! counter inc)}))))))
