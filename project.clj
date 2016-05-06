@@ -13,7 +13,10 @@
                  [org.omcljs/om "1.0.0-alpha32"]
                  [cljs-ajax "0.5.4"]                        ; AJAX for om
                  [com.cognitect/transit-cljs "0.8.237"]     ; Better JSON support
-                 [figwheel-sidecar "0.5.2"]]
+                 [figwheel-sidecar "0.5.3"]
+                 [devcards "0.2.1-6"                        ;:scope "devcards"
+                  ;:exclusions [org.clojure/clojurescript]
+                  ]]
 
   :plugins [[lein-figwheel "0.5.1"]
             [lein-cljsbuild "1.1.3" :exclusions [[org.clojure/clojure]]]
@@ -27,21 +30,25 @@
 
   :cljsbuild {:builds
               [{:id "dev"
-                :source-paths ["src" "test"]
-
-                ;; If no code is to be run, set :figwheel true for continued automagical reloading
+                :source-paths ["src/discuss"]
                 :figwheel {:on-jsload "discuss.core/on-js-reload"}
-
                 :compiler {:main discuss.core
                            :asset-path "js/compiled/out"
                            :output-to "resources/public/js/compiled/discuss.js"
                            :output-dir "resources/public/js/compiled/out"
                            :source-map-timestamp true}}
-               ;; This next build is an compressed minified build for
-               ;; production. You can build this with:
-               ;; lein cljsbuild once min
+               {:id "devcards"
+                :source-paths ["src/discuss" "src/devcards"]
+                :figwheel {:devcards true}
+                :compiler {:main discuss.devcards.core
+                           :asset-path "../js/compiled/devcards/out"
+                           :output-to "resources/public/js/compiled/devcards/discuss.js"
+                           :output-dir "resources/public/js/compiled/devcards/out"
+                           :parallel-build true
+                           :compiler-stats true
+                           :source-map-timestamp true}}
                {:id "min"
-                :source-paths ["src"]
+                :source-paths ["src/discuss"]
                 :compiler {:output-to "resources/public/js/compiled/discuss.js"
                            :main discuss.core
                            :optimizations :advanced
