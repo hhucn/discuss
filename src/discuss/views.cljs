@@ -2,42 +2,17 @@
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [clojure.string :as string]
+            [discuss.auth :as auth]
             [discuss.clipboard :as clipboard]
             [discuss.communication :as com]
             [discuss.extensions]
             [discuss.history :as history]
             [discuss.integration :as integration]
             [discuss.lib :as lib]
-            [discuss.sidebar :as sidebar]
-            [discuss.auth :as auth]))
+            [discuss.lib.views :as vlib]
+            [discuss.sidebar :as sidebar]))
 
-;; Auxiliary functions
-(defn fa-icon
-  "Wrapper for font-awesome icons."
-  ([class]
-   (dom/i #js {:className (str "fa " class)}))
-  ([class f]
-   (dom/i #js {:className (str "pointer fa " class)
-               :onClick   f})))
-
-(defn logo
-  "If no function is provided, show logo as is. Else bind function to onClick-event and add
-   pointer-class."
-  ([]
-   (fa-icon "fa-comments"))
-  ([f]
-   (fa-icon "fa-comments" f)))
-
-(defn safe-html
-  "Creates DOM element with interpreted HTML."
-  [string]
-  (dom/span #js {:dangerouslySetInnerHTML #js {:__html string}}))
-
-(defn safe-space
-  "Create a safed spacer."
-  []
-  (safe-html "&nbsp;"))
-
+;;;; Auxiliary functions
 (defn get-bubble-class [bubble]
   "Check bubble type and return a class-string to match the CSS styles."
   (cond
@@ -45,21 +20,8 @@
     (:is_system bubble) "bubble-system"
     (:is_status bubble) "bubble-status text-center"))
 
-(defn- commit-target-value
-  "Set local state of view, parse the value of the target of val."
-  [key val owner]
-  (om/set-state! owner key (.. val -target -value)))
 
-(defn display
-  "Toggle display view."
-  [show]
-  (if show
-    #js {}
-    #js {:display "none"}))
-
-(defn toggle-show [show] (if show false true))
-
-;; Elements
+;;;; Elements
 (defn loading-element []
   (when (lib/loading?)
     (dom/div #js {:className "loader"}
@@ -69,11 +31,11 @@
 (defn control-elements []
   (dom/div #js {:className "text-center"}
            (dom/h4 nil
-                   (fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-double-left fa-border") com/init!)
+                   (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-double-left fa-border") com/init!)
                    " "
-                   (fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-left fa-border") history/back!)
+                   (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-left fa-border") history/back!)
                    " "
-                   (fa-icon (str (lib/prefix-name "control-buttons") " fa fa-angle-right fa-border pointer")))))
+                   (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa fa-angle-right fa-border pointer")))))
 
 (defn login-view-buttons [data]
   (dom/div #js {:className "text-muted"}
@@ -105,16 +67,16 @@
                (dom/h5 #js {:className "text-center"} "Login")
                (dom/div #js {:className "input-group"}
                         (dom/span #js {:className "input-group-addon"}
-                                  (fa-icon "fa-user fa-fw"))
+                                  (vlib/fa-icon "fa-user fa-fw"))
                         (dom/input #js {:className   "form-control"
-                                        :onChange    #(commit-target-value :nickname % owner)
+                                        :onChange    #(vlib/commit-target-value :nickname % owner)
                                         :value       nickname
                                         :placeholder "nickname"}))
                (dom/div #js {:className "input-group"}
                         (dom/span #js {:className "input-group-addon"}
-                                  (fa-icon "fa-key fa-fw"))
+                                  (vlib/fa-icon "fa-key fa-fw"))
                         (dom/input #js {:className   "form-control"
-                                        :onChange    #(commit-target-value :password % owner)
+                                        :onChange    #(vlib/commit-target-value :password % owner)
                                         :value       password
                                         :type        "password"
                                         :placeholder "password"}))
@@ -133,7 +95,7 @@
         (dom/li #js {:className bubble-class}
                 (dom/div #js {:className "avatar"})
                 (dom/p #js {:className "messages"}
-                       (safe-html (:message bubble))))))))
+                       (vlib/safe-html (:message bubble))))))))
 
 (defn bubbles-view []
   (apply dom/ol #js {:className "bubbles"}
@@ -150,7 +112,7 @@
                                           :onClick   #(com/item-click (:id item) (:url item))
                                           :value     (:url item)})
                           " "
-                          (safe-html (string/join " <i>and</i> " (map :title (:premises item))))))))) ; get all premises of item and add an "and" between them
+                          (vlib/safe-html (string/join " <i>and</i> " (map :title (:premises item))))))))) ; get all premises of item and add an "and" between them
 
 (defn items-view [data]
   (dom/div nil
@@ -174,7 +136,7 @@
                               :data-dismiss "alert"
                               :aria-label   "Close"}
                          (dom/span #js {:aria-hidden "true"}
-                                   (safe-html "&times;")))
+                                   (vlib/safe-html "&times;")))
              (lib/get-error))))
 
 (defn add-element
@@ -191,22 +153,22 @@
                     :onDrop     discuss.clipboard/update-reference-drop}
                (dom/div #js {:className "panel-body"}
                         (dom/h4 #js {:className "text-center"} (lib/get-add-text))
-                        (dom/h5 #js {:className "text-center"} (safe-html (lib/get-add-premise-text)))
+                        (dom/h5 #js {:className "text-center"} (vlib/safe-html (lib/get-add-premise-text)))
                         (error-view)
                         (dom/div #js {:className "input-group"}
                                  (dom/span #js {:className "input-group-addon"}
-                                           (fa-icon "fa-comment"))
+                                           (vlib/fa-icon "fa-comment"))
                                  (dom/input #js {:className "form-control"
-                                                 :onChange  #(commit-target-value :statement % owner)
+                                                 :onChange  #(vlib/commit-target-value :statement % owner)
                                                  :value     statement}))
                         (when (lib/get-selection)
                           (dom/div #js {:className "input-group"}
                                    (dom/span #js {:className "input-group-addon"}
-                                             (fa-icon "fa-quote-left"))
+                                             (vlib/fa-icon "fa-quote-left"))
                                    (dom/input #js {:className "form-control"
                                                    :value     (lib/get-selection)})
                                    (dom/span #js {:className "input-group-addon"}
-                                             (fa-icon "fa-quote-right"))))
+                                             (vlib/fa-icon "fa-quote-right"))))
                         (dom/button #js {:className "btn btn-default"
                                          :onClick   #(com/dispatch-add-action statement (lib/get-selection))}
                                     "Submit"))))))
@@ -232,7 +194,7 @@
     (render [_]
       (dom/div #js {:id (lib/prefix-name "dialogue-main")}
                (dom/h4 nil
-                       (logo)
+                       (vlib/logo)
                        " "
                        (get-in data [:layout :title]))
                (main-content-view data)))))
@@ -250,7 +212,7 @@
                                :onClick   #(integration/click-reference (:text data) (:url data))}
                           (:text data)
                           " "
-                          (logo #(om/set-state! owner :show (toggle-show show))))
+                          (vlib/logo #(om/set-state! owner :show (vlib/toggle-show show))))
                 (dom/span nil (:dom-post data))))))
 
 
@@ -259,22 +221,6 @@
   (reify om/IRender
     (render [_]
       (dom/div nil
-               (logo #(sidebar/toggle))
+               (vlib/logo #(sidebar/toggle))
                (main-content-view data)
                (om/build clipboard/view data)))))
-
-(defn tooltip-view [data owner]
-  (reify om/IRender
-    (render [_]
-      (dom/div nil
-               (logo)
-               (safe-space) " | " (safe-space)
-               (dom/span #js {:className "pointer"
-                              :onClick clipboard/add-selection}
-                         (fa-icon "fa-bookmark-o")
-                         " Save")
-               (safe-space) "  " (safe-space)
-               (dom/span #js {:className "pointer"
-                              :onClick   sidebar/show}
-                         (fa-icon "fa-comment")
-                         " Discuss")))))
