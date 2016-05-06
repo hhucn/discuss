@@ -19,7 +19,7 @@
                       :add?      false
                       :add-text  "Let me enter my reason!"
                       :add-type  nil
-                      :loading?  true
+                      :loading?  false
                       :reference ""
                       :error?    false
                       :error-msg nil}

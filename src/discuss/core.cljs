@@ -1,5 +1,6 @@
 (ns ^:figwheel-always discuss.core
   (:require [om.core :as om :include-macros true]
+            [discuss.auth :as auth]
             [discuss.communication :as com]
             [discuss.debug :as debug]
             [discuss.extensions]
@@ -12,7 +13,7 @@
 ;; Initialization
 (defn main []
   (com/init!)
-  (discuss.auth/one-click-login)
+  (auth/one-click-login)
   (com/post-origin-get-references))
 
 ;; Register

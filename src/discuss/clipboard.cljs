@@ -1,14 +1,16 @@
 (ns discuss.clipboard
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [discuss.lib :as lib]))
+            [discuss.lib :as lib]
+            [discuss.lib.views :as vlib]))
 
 (def counter (atom 0))
 
 (defn get-stored-selections
   "Return all stored selections."
   []
-  (get-in @lib/app-state [:clipboard :selections]))
+  (let [selections (get-in @lib/app-state [:clipboard :selections])]
+    (if selections selections [])))
 
 (defn add-selection
   "Store current selection in clipboard."
@@ -38,14 +40,26 @@
   (let [target (.. ev -target)]
     (lib/update-state-item! :clipboard :current (fn [_] target))))
 
-(defn item-view [data owner]
-  (reify om/IRender
-    (render [_]
-      (dom/div #js {:react-key   (swap! counter inc)
-                    :className   "bs-callout bs-callout-info"
+
+;;;; Views
+(defn clipboard-item [data owner]
+  (reify
+    om/IInitState
+    (init-state [_]
+      {:selected? false})
+    om/IRenderState
+    (render-state [_ {:keys [selected?]}]
+      (dom/div #js {:id        (swap! counter inc)
+                    ;; :key @counter
+                    :className "bs-callout bs-callout-info"
                     :draggable   true
-                    :onDragStart drag-event}
-               data))))
+                    :onDragStart drag-event
+                    }
+               (dom/div nil data)
+               (dom/button #js {:className "btn btn-sm btn-default"
+                                :onClick   #(discuss.communication/ajax-get "api/cat-or-dog")
+                                :title     "Select this reference for your statement"}
+                           (vlib/fa-icon "fa-check"))))))
 
 (defn view [data owner]
   (reify om/IRender
@@ -53,4 +67,5 @@
       (when (pos? (count (get-stored-selections)))
         (dom/div nil
                  (dom/h5 nil "Clipboard")
-                 (om/build-all item-view (get-stored-selections) {:key (swap! counter inc)}))))))
+                 (apply dom/div nil
+                        (om/build-all clipboard-item (get-stored-selections))))))))
