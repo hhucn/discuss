@@ -50,11 +50,9 @@
     om/IRenderState
     (render-state [_ {:keys [selected?]}]
       (dom/div #js {:id        (swap! counter inc)
-                    ;; :key @counter
                     :className "bs-callout bs-callout-info"
                     :draggable   true
-                    :onDragStart drag-event
-                    }
+                    :onDragStart drag-event}
                (dom/div nil data)
                (dom/button #js {:className "btn btn-sm btn-default"
                                 :onClick   #(discuss.communication/ajax-get "api/cat-or-dog")
