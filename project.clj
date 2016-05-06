@@ -21,13 +21,13 @@
             [lein-ancient "0.6.8"]
             [lein-kibit "0.1.2"]]
 
-  :source-paths ["src"]
+  :source-paths ["src" "test"]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
   :cljsbuild {:builds
               [{:id "dev"
-                :source-paths ["src"]
+                :source-paths ["src" "test"]
 
                 ;; If no code is to be run, set :figwheel true for continued automagical reloading
                 :figwheel {:on-jsload "discuss.core/on-js-reload"}
@@ -52,6 +52,7 @@
                            :optimizations :whitespace
                            :pretty-print true}}
                {:id "test"
+                :figwheel {:on-jsload "discuss.core/on-js-reload"}
                 :source-paths ["src" "test"]
                 :compiler {:output-to "resources/public/js/compiled/discuss-test.js"
                            :optimizations :whitespace
