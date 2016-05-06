@@ -4,6 +4,7 @@
             [discuss.debug :as debug]
             [discuss.extensions]
             [discuss.lib :as lib]
+            [discuss.tooltip :as tooltip]
             [discuss.views :as views]))
 
 (enable-console-print!)
@@ -21,7 +22,7 @@
 (om/root views/sidebar-view lib/app-state
          {:target (.getElementById js/document (lib/prefix-name "sidebar"))})
 
-(om/root views/tooltip-view {}
+(om/root tooltip/view {}
          {:target (.getElementById js/document (lib/prefix-name "tooltip"))})
 
 (om/root debug/debug-view lib/app-state
