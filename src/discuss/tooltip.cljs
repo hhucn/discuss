@@ -1,5 +1,10 @@
 (ns discuss.tooltip
-  (:require [discuss.lib :as lib]))
+  (:require [om.core :as om :include-macros true]
+            [om.dom :as dom :include-macros true]
+            [discuss.clipboard :as clipboard]
+            [discuss.lib :as lib]
+            [discuss.lib.views :as vlib]
+            [discuss.sidebar :as sidebar]))
 
 (defn show
   "Show tooltip by removing a class."
@@ -48,3 +53,26 @@
     (set! (.. tooltip -style -top) (str top "px"))
     (set! (.. tooltip -style -left) (str left "px"))
     (show)))
+
+
+;;;; Creating the view
+(defn safe-space
+  "Create a safed spacer."
+  []
+  (vlib/safe-html "&nbsp;"))
+
+(defn view [data owner]
+  (reify om/IRender
+    (render [_]
+      (dom/div nil
+               (vlib/logo)
+               (safe-space) " | " (safe-space)
+               (dom/span #js {:className "pointer"
+                              :onClick clipboard/add-selection}
+                         (vlib/fa-icon "fa-bookmark-o")
+                         " Save")
+               (safe-space) "  " (safe-space)
+               (dom/span #js {:className "pointer"
+                              :onClick   sidebar/show}
+                         (vlib/fa-icon "fa-comment")
+                         " Discuss")))))
