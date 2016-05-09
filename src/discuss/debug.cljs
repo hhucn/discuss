@@ -68,7 +68,7 @@
 
                         " "
                         (dom/button #js {:className "btn btn-default"
-                                         :onClick   #(discuss.communication/post-origin-get-references)}
+                                         :onClick   #(discuss.communication/request-references)}
                                     "Get references")
 
                         (dom/h6 nil "Token")
