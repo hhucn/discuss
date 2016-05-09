@@ -26,7 +26,7 @@
 (defn error-handler
   "Generic error handler for ajax requests."
   [{:keys [status status-text]}]
-  (.log js/console (str "something bad happened: " status " " status-text))
+  (.log js/console (str "I feel a disturbance in the Force... " status " " status-text))
   (lib/error-msg! (str status " " status-text))
   (lib/loading? false))
 
@@ -60,8 +60,10 @@
 (defn references-handler
   "Called when received a response on the reference-query."
   [response]
-  (let [refs  (:references response)
-        error (:error response)]
+  (let [res   (keywordize-keys response)
+        refs  (:references res)
+        csrf  (:csrf res)
+        error (:error res)]
     (if (pos? (count error))
       (lib/error-msg! error)
       (do
@@ -101,7 +103,7 @@
   ([url body]
    (post-json url body success-handler {"Content-Type" "application/json"})))
 
-(defn post-origin-get-references
+(defn request-references
   "When this app is loaded, request all available references from the external discussion system."
   []
   (let [url "api/get/references"                            ; TODO hardcoded url = bad
