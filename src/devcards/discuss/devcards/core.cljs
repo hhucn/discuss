@@ -3,6 +3,7 @@
             [cljs.test :refer-macros [testing is are]]
             [om.dom :as dom]
             [discuss.core :as core]
+            [discuss.debug :as debug]
             [discuss.extensions]
             [discuss.integration :as integration]
             [discuss.lib :as lib]
@@ -19,9 +20,11 @@
 
 (defcard control-buttons
          ""
-         (dom/button #js {:className "btn btn-info"
-                          :onClick   core/main}
-                     (dom/i #js {:className "fa fa-fort-awesome"})))
+         (dom/div nil
+                  (dom/button #js {:className "btn btn-info"
+                                   :onClick   core/main}
+                              (dom/i #js {:className "fa fa-fort-awesome"}))
+                  (debug/control-buttons lib/app-state)))
 
 #_(defcard debug
          (dc/om-root debug/debug-view)
