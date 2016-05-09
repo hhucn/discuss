@@ -16,6 +16,24 @@
            "\n"))
        (range (count bubbles))))
 
+(defn control-buttons [data]
+  (dom/div nil
+           (dom/button #js {:className "btn btn-default"
+                            :onClick   #(discuss.communication/ajax-get "api/cat-or-dog")}
+                       (dom/i #js {:className "fa fa-paw"}))
+           " "
+           (dom/button #js {:className "btn btn-default"
+                            :onClick   #(discuss.communication/ajax-get "api/town-has-to-cut-spending")}
+                       (dom/i #js {:className "fa fa-building"}))
+           " "
+           (dom/button #js {:className "btn btn-default"
+                            :onClick   #(discuss.communication/ajax-get (get-in data [:debug :last-api]))}
+                       "Resend API Call")
+           " "
+           (dom/button #js {:className "btn btn-default"
+                            :onClick   discuss.auth/one-click-login}
+                       "One-Click Login")))
+
 (defn debug-view [data _owner]
   (reify om/IRender
     (render [_]
@@ -45,23 +63,7 @@
                                          :onClick   discuss.core/main}
                                     (dom/i #js {:className "fa fa-fort-awesome"}))
                         " "
-
-                        (dom/button #js {:className "btn btn-default"
-                                         :onClick   #(discuss.communication/ajax-get "api/cat-or-dog")}
-                                    (dom/i #js {:className "fa fa-paw"}))
-                        " "
-                        (dom/button #js {:className "btn btn-default"
-                                         :onClick   #(discuss.communication/ajax-get "api/town-has-to-cut-spending")}
-                                    (dom/i #js {:className "fa fa-building"}))
-                        " "
-                        (dom/button #js {:className "btn btn-default"
-                                         :onClick   #(discuss.communication/ajax-get (get-in data [:debug :last-api]))}
-                                    "Resend API Call")
-                        " "
-                        (dom/button #js {:className "btn btn-default"
-                                         :onClick   discuss.auth/one-click-login}
-                                    "One-Click Login")
-                        ;" "
+                        (control-buttons data)
                         ;(dom/button #js {:className "btn btn-default"
                         ;                 :onClick   #(test/run)}
                         ;            "Run all tests")
