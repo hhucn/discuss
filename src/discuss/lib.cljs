@@ -24,8 +24,9 @@
                       :error?    false
                       :error-msg nil}
          :debug      {:last-api ""}
-         :user       {:nickname   ""
-                      :token      ""
+         :user       {:nickname   "kangaroo"
+                      :token      "razupaltuff"
+                      :csrf       nil
                       :statement  ""
                       :selection  nil
                       :logged-in? false}
@@ -39,6 +40,11 @@
   "Return a cursor to the corresponding key in the app-state."
   [key]
   (om/ref-cursor (key (om/root-cursor app-state))))
+
+(defn get-nickname
+  "Return the user's nickname, with whom she logged in."
+  []
+  (get-in @app-state [:user :nickname]))
 
 (defn get-token
   "Return the user's token for discussion system."
@@ -79,6 +85,18 @@
   (let [state (get-cursor key)]
     (om/transact! state (fn [] col))))
 
+
+;;;; CSRF Token
+(defn get-csrf
+  "Return the user's csrf token for discussion system."
+  []
+  (get-in @app-state [:user :csrf]))
+
+(defn set-csrf!
+  "Set the newly received CSRF token."
+  [csrf]
+  (update-state-item! :user :csrf (fn [_] csrf)))
+
 (defn loading?
   "Return boolean if app is currently loading content. Provide a boolean to change the app-state."
   ([]
@@ -87,13 +105,16 @@
    (update-state-item! :layout :loading? (fn [_] bool))))
 
 (defn update-all-states!
-  "Update item list with the data provided by the API."
+  "Update item list with the data provided by the API.
+
+  ** Needs optimizations **"
   [response]
   (let [res (keywordize-keys response)
+        csrf (:csrf res)
         items (:items res)
         discussion (:discussion res)
         issues (:issues res)]
-    ;; @OPTIMIZE
+    (set-csrf! csrf)
     (update-state-map! :items items)
     (update-state-map! :discussion discussion)
     (update-state-map! :issues issues)
@@ -156,6 +177,7 @@
   [[x y]]
   (update-state-item! :user :mouse-x (fn [_] x))
   (update-state-item! :user :mouse-y (fn [_] y)))
+
 
 ;;;; Other
 (defn get-value-by-id

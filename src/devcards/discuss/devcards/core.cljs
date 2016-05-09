@@ -18,6 +18,17 @@
          lib/app-state
          {:history true})
 
+(defcard user-information
+         ""
+         (dom/div nil
+                  (dom/h6 nil "User")
+                  (dom/pre nil (lib/get-nickname))
+                  (dom/h6 nil "Auth Token")
+                  (dom/pre nil (lib/get-token))
+                  (dom/h6 nil "CSRF Token")
+                  (dom/pre nil (lib/get-csrf))
+                  ))
+
 (defcard control-buttons
          ""
          (dom/div nil

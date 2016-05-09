@@ -2,7 +2,8 @@
   "Show information for debugging."
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [discuss.lib :as lib]))
+            [discuss.lib :as lib]
+            [discuss.lib.views :as vlibs]))
 
 (defn print-bubbles [bubbles]
   (map #(let [bubble (nth bubbles %)]
@@ -20,11 +21,11 @@
   (dom/div nil
            (dom/button #js {:className "btn btn-default"
                             :onClick   #(discuss.communication/ajax-get "api/cat-or-dog")}
-                       (dom/i #js {:className "fa fa-paw"}))
+                       (vlibs/fa-icon "fa-paw"))
            " "
            (dom/button #js {:className "btn btn-default"
                             :onClick   #(discuss.communication/ajax-get "api/town-has-to-cut-spending")}
-                       (dom/i #js {:className "fa fa-building"}))
+                       (vlibs/fa-icon "fa-building"))
            " "
            (dom/button #js {:className "btn btn-default"
                             :onClick   #(discuss.communication/ajax-get (get-in data [:debug :last-api]))}

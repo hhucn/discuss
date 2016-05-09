@@ -28,7 +28,8 @@
            :handler         success-login
            :error-handler   com/error-handler
            :response-format :json
-           :headers         {"Content-Type" "application/json"}
+           :headers         {"Content-Type" "application/json"
+                             "X-CSRF-Token" (lib/get-csrf)}
            :keywords?       true})))
 
 (defn login

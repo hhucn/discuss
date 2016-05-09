@@ -13,8 +13,9 @@
 ;; Initialization
 (defn main []
   (com/init!)
-  (auth/one-click-login)
-  (com/post-origin-get-references))
+  (com/request-references)
+  ;(auth/one-click-login)
+  )
 
 ;; Register
 (om/root views/main-view lib/app-state

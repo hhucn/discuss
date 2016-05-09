@@ -18,8 +18,10 @@
 (defn token-header
   "Return token header for ajax request if user is logged in."
   []
-  (when (lib/logged-in?)
-    {"X-Messaging-Token" (lib/get-token)}))
+  (let [csrf-map {"X-CSRF-Token" (lib/get-csrf)}]
+    (if (lib/logged-in?)
+      (merge csrf-map {"X-Messaging-Token" (lib/get-token)})
+      csrf-map)))
 
 
 ;;; Handlers
@@ -41,14 +43,16 @@
          :error-handler error-handler})
    (lib/loading? true))
   ([url headers]
-    (ajax-get url headers lib/update-all-states!))
+   (ajax-get url headers lib/update-all-states!))
   ([url]
    (ajax-get url {})))
 
 (defn success-handler [response]
-  (let [res   (keywordize-keys (transit/read r response))
-        error (:error res)
-        url   (:url res)]
+  (let [res (keywordize-keys (transit/read r response))
+        url (:url res)
+        csrf (:csrf res)
+        error (:error res)]
+    (lib/set-csrf! csrf)
     (if (pos? (count error))
       (lib/error-msg! error)
       (do
@@ -60,10 +64,11 @@
 (defn references-handler
   "Called when received a response on the reference-query."
   [response]
-  (let [res   (keywordize-keys response)
-        refs  (:references res)
-        csrf  (:csrf res)
+  (let [res (keywordize-keys response)
+        refs (:references res)
+        csrf (:csrf res)
         error (:error res)]
+    (lib/set-csrf! csrf)
     (if (pos? (count error))
       (lib/error-msg! error)
       (do
@@ -133,7 +138,7 @@
   (let [action (get-in @lib/app-state [:layout :add-type])]
     (cond
       (= action :add-start-statement) (post-statement statement reference :add-start-statement)
-      (= action :add-start-premise)   (post-statement [statement] reference :add-start-premise)
+      (= action :add-start-premise) (post-statement [statement] reference :add-start-premise)
       (= action :add-justify-premise) (post-statement [statement] reference :add-justify-premise)
       :else (println "Action not found:" action))))
 
@@ -149,8 +154,8 @@
   (lib/hide-add-form)
   (cond
     (= id "item_start_statement") (prepare-add :add-start-statement)
-    (= id "item_start_premise")   (prepare-add :add-start-premise)
+    (= id "item_start_premise") (prepare-add :add-start-premise)
     (= id "item_justify_premise") (prepare-add :add-justify-premise)
-    (= url "add")   (prepare-add "add")
+    (= url "add") (prepare-add "add")
     (= url "login") (lib/change-view! :login)
     :else (ajax-get url)))
