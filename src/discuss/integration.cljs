@@ -75,11 +75,11 @@
 (defn convert-reference
   "Find parent of reference, split it into parts and wrap the original reference for highlighting and interaction."
   [ref]
-  (let [ref-text  (:text ref)
-        ref-url   (:url ref)
-        doms-raw  (.getElementsByTagName js/document "*")
-        doms      (minify-doms doms-raw)
-        parent    (get-parent doms ref-text)]
+  (let [ref-text (:text ref)
+        ref-url  (:url ref)
+        doms-raw (.getElementsByTagName js/document "*")
+        doms     (minify-doms doms-raw)
+        parent   (get-parent doms ref-text)]
     (when parent
       (let [dom-parts (string/split (.-innerHTML parent) (re-pattern ref-text))]
         (om/root discuss.views/reference-view {:text     ref-text
