@@ -32,14 +32,18 @@
 
 (defn ajax-get
   "Make ajax call to dialogue based argumentation system."
-  [url]
-  (debug/update-debug :last-api url)
-  (lib/no-error!)
-  (GET (make-url url)
-       {:handler lib/update-all-states!
-        :headers (token-header)
-        :error-handler error-handler})
-  (lib/loading? true))
+  ([url headers handler]
+   (debug/update-debug :last-api url)
+   (lib/no-error!)
+   (GET (make-url url)
+        {:handler       handler
+         :headers       (merge (token-header) headers)
+         :error-handler error-handler})
+   (lib/loading? true))
+  ([url headers]
+    (ajax-get url headers lib/update-all-states!))
+  ([url]
+   (ajax-get url {})))
 
 (defn success-handler [response]
   (let [res   (keywordize-keys (transit/read r response))
@@ -100,24 +104,24 @@
 (defn post-origin-get-references
   "When this app is loaded, request all available references from the external discussion system."
   []
-  (let [url  "api/get/references"                           ; TODO hardcoded url = bad
-        body {:host js/location.host
-              :path js/location.pathname}]
-    (post-json url body references-handler)))
+  (let [url "api/get/references"                            ; TODO hardcoded url = bad
+        headers {"X-Host" js/location.host
+                 "X-Path" js/location.pathname}]
+    (ajax-get url headers references-handler)))
 
 (defn post-statement [statement reference add-type]
-  (let [url     (str (:base config/api) (get-in config/api [:add add-type]))
+  (let [url (str (:base config/api) (get-in config/api [:add add-type]))
         headers (merge {"Content-Type" "application/json"} (token-header))
-        body    {:statement statement
-                 :reference reference
-                 :conclusion_id (get-conclusion-id)         ; Relevant for add-start-premise
-                 :supportive    (get-in @lib/app-state [:discussion :is_supportive])
-                 :arg_uid       (get-in @lib/app-state [:discussion :arg_uid]) ; For premisses for arguments
-                 :attack_type   (get-in @lib/app-state [:discussion :attack_type])
-                 :host          js/location.host
-                 :path          js/location.pathname
-                 :issue_id      (get-in @lib/app-state [:issues :uid])
-                 :slug          (get-in @lib/app-state [:issues :slug])}]
+        body {:statement     statement
+              :reference     reference
+              :conclusion_id (get-conclusion-id)            ; Relevant for add-start-premise
+              :supportive    (get-in @lib/app-state [:discussion :is_supportive])
+              :arg_uid       (get-in @lib/app-state [:discussion :arg_uid]) ; For premisses for arguments
+              :attack_type   (get-in @lib/app-state [:discussion :attack_type])
+              :host          js/location.host
+              :path          js/location.pathname
+              :issue_id      (get-in @lib/app-state [:issues :uid])
+              :slug          (get-in @lib/app-state [:issues :slug])}]
     (post-json url body success-handler headers)))
 
 ;;; For preparation
