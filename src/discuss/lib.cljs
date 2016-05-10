@@ -1,6 +1,7 @@
 (ns discuss.lib
   (:require [om.core :as om :include-macros true]
             [clojure.walk :refer [keywordize-keys]]
+            [cognitect.transit :as transit]
             [discuss.config :as config]
             [goog.fx.dom :as fx]))
 
@@ -110,7 +111,6 @@
   ** Needs optimizations **"
   [response]
   (let [res (keywordize-keys response)
-        csrf (:csrf res)
         items (:items res)
         discussion (:discussion res)
         issues (:issues res)]
@@ -221,3 +221,9 @@
   "Convert CLJS to valid JSON."
   [col]
   (.stringify js/JSON (clj->js col)))
+
+(defn json->clj
+  "Use cognitec's transit reader for json to convert it to proper Clojure datastructures."
+  [response]
+  (let [r (transit/reader :json)]
+    (keywordize-keys (transit/read r response))))

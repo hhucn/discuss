@@ -2,14 +2,11 @@
   "Functions concerning the communication with the remote discussion system."
   (:require [ajax.core :refer [GET POST]]
             [clojure.walk :refer [keywordize-keys]]
-            [cognitect.transit :as transit]
             [discuss.config :as config]
             [discuss.debug :as debug]
             [discuss.lib :as lib]))
 
 ;;; Auxiliary functions
-(def r (transit/reader :json))
-
 (defn make-url
   "Prefix url with host."
   [url]
@@ -46,7 +43,7 @@
    (ajax-get url {})))
 
 (defn success-handler [response]
-  (let [res (keywordize-keys (transit/read r response))
+  (let [res (lib/json->clj response)
         url (:url res)
         error (:error res)]
     (if (pos? (count error))
