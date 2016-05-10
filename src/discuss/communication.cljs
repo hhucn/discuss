@@ -18,10 +18,8 @@
 (defn token-header
   "Return token header for ajax request if user is logged in."
   []
-  (let [csrf-map {"X-CSRF-Token" (lib/get-csrf)}]
-    (if (lib/logged-in?)
-      (merge csrf-map {"X-Messaging-Token" (lib/get-token)})
-      csrf-map)))
+  (when (lib/logged-in?)
+    {"X-Messaging-Token" (lib/get-token)}))
 
 
 ;;; Handlers

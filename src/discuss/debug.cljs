@@ -33,7 +33,11 @@
            " "
            (dom/button #js {:className "btn btn-default"
                             :onClick   discuss.auth/one-click-login}
-                       "One-Click Login")))
+                       "One-Click Login")
+           " "
+           (dom/button #js {:className "btn btn-default"
+                            :onClick   #(discuss.communication/request-references)}
+                       "Get references")))
 
 (defn debug-view [data _owner]
   (reify om/IRender
@@ -68,11 +72,6 @@
                         ;(dom/button #js {:className "btn btn-default"
                         ;                 :onClick   #(test/run)}
                         ;            "Run all tests")
-
-                        " "
-                        (dom/button #js {:className "btn btn-default"
-                                         :onClick   #(discuss.communication/request-references)}
-                                    "Get references")
 
                         (dom/h6 nil "Token")
                         (dom/pre nil (get-in data [:user :token]))

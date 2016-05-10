@@ -43,7 +43,7 @@
   "Directly log-in with my personal user-account."
   []
   (let [magic (gtfo/decodeString config/user)]
-    (login magic magic)))
+    (login "Christian" "michael")))
 
 (defn logout
   "Reset user credentials."
