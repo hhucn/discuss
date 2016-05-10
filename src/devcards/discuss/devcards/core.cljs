@@ -6,6 +6,7 @@
             [discuss.communication :as com]
             [discuss.debug :as debug]
             [discuss.extensions]
+            [discuss.find :as find]
             [discuss.integration :as integration]
             [discuss.lib :as lib]
             [discuss.lib.views :as vlib]
@@ -14,21 +15,20 @@
 (enable-console-print!)
 
 (defcard main
-         "#### Main discuss Component"
          (dc/om-root views/main-view)
          lib/app-state
          {:history true})
 
-(defcard user-information
-         ""
-         (dom/div nil
-                  (dom/h6 nil "User")
-                  (dom/pre nil (lib/get-nickname))
-                  (dom/h6 nil "Auth Token")
-                  (dom/pre nil (lib/get-token))
-                  (dom/h6 nil "CSRF Token")
-                  (dom/pre nil (lib/get-csrf))
-                  ))
+#_(defcard user-information
+           ""
+           (dom/div nil
+                    (dom/h6 nil "User")
+                    (dom/pre nil (lib/get-nickname))
+                    (dom/h6 nil "Auth Token")
+                    (dom/pre nil (lib/get-token))
+                    (dom/h6 nil "CSRF Token")
+                    (dom/pre nil (lib/get-csrf))
+                    ))
 
 (defcard control-buttons
          ""
@@ -39,11 +39,21 @@
                   (debug/control-buttons lib/app-state)))
 
 #_(defcard debug
-         (dc/om-root debug/debug-view)
-         lib/app-state)
+           (dc/om-root debug/debug-view)
+           lib/app-state)
 
 #_(defcard global-state
-         @lib/app-state)
+           @lib/app-state)
+
+(defcard find-statement
+           "Query database to find stataments."
+           (dc/om-root find/view))
+
+(deftest find-tests
+         "Testing the small search engine in `discuss.find`"
+         (testing "fn statement"
+           ;(is (= (type {}) (type (find/statement "foo"))))
+           ))
 
 (deftest integration-test
          "Testing `discuss.integration`"
@@ -51,14 +61,12 @@
            (testing "fn get-parent"
              (is (= "test-get-parent" (.-id (integration/get-parent doms-raw "Eine Krise in den neunziger Jahren brachte die Wende für die Stadt"))))
              ;(is (= "PRE" (.-nodeName (integration/get-parent doms-raw "foo bar baz lorem ipsum"))))
-             (is (= "figwheel-heads-up-content-area" (.-id (integration/get-parent doms-raw "")))))
-           (testing "fn convert-reference"
-             (is true))))
+             (is (= "figwheel-heads-up-content-area" (.-id (integration/get-parent doms-raw "")))))))
 
-(deftest communication-test
-         "Testing `discuss.communication`"
-         (testing "fn token-header"
-           (is (= {"X-CSRF-Token" nil} (com/token-header)))))
+(deftest lib-test
+         (testing "cljs to json conversion stuff"
+           (let [json "{\"distance_name\": \"Levensthein\", \"values\": {\"00020_020\": \"Foobaraaaaaaaaaaaaaa.\", \"00033_013\": \"This is the only park in our city.\"}}"]
+             (is (= {:distance_name "Levensthein", :values {:00020_020 "Foobaraaaaaaaaaaaaaa.", :00033_013 "This is the only park in our city."}} (lib/json->clj json))))))
 
-(defcard integration-stuff
-         (.-id (integration/get-parent (.getElementsByTagName js/document "*") "")))
+#_(deftest communication-test
+           "Testing `discuss.communication`")
