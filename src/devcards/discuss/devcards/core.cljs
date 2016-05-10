@@ -49,7 +49,7 @@
          "Testing `discuss.integration`"
          (let [doms-raw (.getElementsByTagName js/document "*")]
            (testing "fn get-parent"
-             (is (integration/get-parent doms-raw "Eine Krise in den neunziger Jahren brachte die Wende für die Stadt"))
+             (is (= "test-get-parent" (.-id (integration/get-parent doms-raw "Eine Krise in den neunziger Jahren brachte die Wende für die Stadt"))))
              ;(is (= "PRE" (.-nodeName (integration/get-parent doms-raw "foo bar baz lorem ipsum"))))
              (is (= "figwheel-heads-up-content-area" (.-id (integration/get-parent doms-raw "")))))
            (testing "fn convert-reference"
