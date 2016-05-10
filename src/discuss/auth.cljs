@@ -10,9 +10,9 @@
   "Callback function when login was successful. Set attributes of user."
   [response]
   (let [nickname (first (clojure.string/split (:token response) "-"))
-        token    (:token response)]
-    (lib/update-state-map! :user {:nickname nickname
-                                  :token token
+        token (:token response)]
+    (lib/update-state-map! :user {:nickname   nickname
+                                  :token      token
                                   :logged-in? true})
     (lib/change-view! :discussion)
     (com/init!)))
@@ -28,8 +28,7 @@
            :handler         success-login
            :error-handler   com/error-handler
            :response-format :json
-           :headers         {"Content-Type" "application/json"
-                             "X-CSRF-Token" (lib/get-csrf)}
+           :headers         {"Content-Type" "application/json"}
            :keywords?       true})))
 
 (defn login
@@ -49,6 +48,6 @@
 (defn logout
   "Reset user credentials."
   []
-  (lib/update-state-map! :user {:nickname ""
-                                :token ""
+  (lib/update-state-map! :user {:nickname   ""
+                                :token      ""
                                 :logged-in? false}))

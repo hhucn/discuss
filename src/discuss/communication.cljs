@@ -50,9 +50,7 @@
 (defn success-handler [response]
   (let [res (keywordize-keys (transit/read r response))
         url (:url res)
-        csrf (:csrf res)
         error (:error res)]
-    (lib/set-csrf! csrf)
     (if (pos? (count error))
       (lib/error-msg! error)
       (do
@@ -66,9 +64,7 @@
   [response]
   (let [res (keywordize-keys response)
         refs (:references res)
-        csrf (:csrf res)
         error (:error res)]
-    (lib/set-csrf! csrf)
     (if (pos? (count error))
       (lib/error-msg! error)
       (do

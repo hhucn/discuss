@@ -3,6 +3,7 @@
             [cljs.test :refer-macros [testing is are]]
             [om.dom :as dom]
             [discuss.core :as core]
+            [discuss.communication :as com]
             [discuss.debug :as debug]
             [discuss.extensions]
             [discuss.integration :as integration]
@@ -53,6 +54,11 @@
              (is (= "figwheel-heads-up-content-area" (.-id (integration/get-parent doms-raw "")))))
            (testing "fn convert-reference"
              (is true))))
+
+(deftest communication-test
+         "Testing `discuss.communication`"
+         (testing "fn token-header"
+           (is (= {"X-CSRF-Token" nil} (com/token-header)))))
 
 (defcard integration-stuff
          (.-id (integration/get-parent (.getElementsByTagName js/document "*") "")))
