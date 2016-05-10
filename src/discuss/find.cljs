@@ -11,17 +11,12 @@
   "Called when received a response in the search."
   [response]
   (let [res (lib/json->clj response)
-        values (:values res)
         error (:error res)]
     (if (pos? (count error))
       (lib/error-msg! error)
       (do
         (lib/no-error!)
-        (swap! data assoc :foo (keywordize-keys res))
-        (println res)
-        (println values)
-        (println (get "values" res))
-        ))))
+        (lib/update-state-item! :discussion :search (fn [_] res))))))
 
 (defn statement
   "Find related statements to given keywords."

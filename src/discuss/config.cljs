@@ -2,7 +2,7 @@
 
 (def project "discuss")
 
-(def user "Y2hyaXN0aWFu")
+(def user "Q2hyaXN0aWFu")
 
 (def api {:host "http://localhost:4284/"
           :init "api/"
