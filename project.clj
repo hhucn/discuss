@@ -23,7 +23,7 @@
             [lein-ancient "0.6.8"]
             [lein-kibit "0.1.2"]]
 
-  :source-paths ["src" "test"]
+  :source-paths ["src/discuss"]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
@@ -52,21 +52,6 @@
                            :main discuss.core
                            :optimizations :advanced
                            :pretty-print false}}
-               {:id "test-no-phantom"
-                :source-paths ["src" "test"]
-                :compiler {:output-to "resources/public/js/compiled/discuss-test.js"
-                           :optimizations :whitespace
-                           :pretty-print true}}
-               {:id "test"
-                :figwheel {:on-jsload "discuss.core/on-js-reload"}
-                :source-paths ["src" "test"]
-                :compiler {:output-to "resources/public/js/compiled/discuss-test.js"
-                           :optimizations :whitespace
-                           :pretty-print true}
-                :notify-command ["phantomjs" "resources/test/phantom/runner.js" "resources/test/test.html"]}]
-              ;:test-commands {"unit" ["phantomjs"
-              ;                        "resources/test/phantom/runner.js"
-              ;                        "resources/test/test.html"]}
               }
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
              ;; :server-port 3449 ;; default
