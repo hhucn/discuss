@@ -1,5 +1,5 @@
 (ns discuss.history
-  (:require [discuss.lib :as lib]))
+  (:require [discuss.utils.common :as lib]))
 
 (def discussion-history (atom [@lib/app-state]))
 

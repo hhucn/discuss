@@ -1,4 +1,4 @@
-(ns discuss.lib
+(ns discuss.utils.common
   (:require [om.core :as om :include-macros true]
             [clojure.walk :refer [keywordize-keys]]
             [cognitect.transit :as transit]

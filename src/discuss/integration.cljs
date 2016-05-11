@@ -7,7 +7,7 @@
             [clojure.string :as string]
             [discuss.extensions]
             [discuss.communication :as com]
-            [discuss.lib :as lib]
+            [discuss.utils.common :as lib]
             [discuss.sidebar :as sidebar]
             [discuss.tooltip :as tooltip]))
 

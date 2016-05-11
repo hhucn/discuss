@@ -2,22 +2,22 @@
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [discuss.clipboard :as clipboard]
-            [discuss.lib :as lib]
-            [discuss.lib.views :as vlib]
+            [discuss.utils.common :as lib]
+            [discuss.utils.views :as vlib]
             [discuss.sidebar :as sidebar]))
 
 (defn show
   "Show tooltip by removing a class."
   []
   (let [tooltip (.getElementById js/document (lib/prefix-name "tooltip"))]
-    ;(lib/remove-class tooltip "hidden")
+    ;(utils/remove-class tooltip "hidden")
     (set! (.. tooltip -style -visibility) "visible")))
 
 (defn hide
   "Hide tooltip by adding a class."
   []
   (let [tooltip (.getElementById js/document (lib/prefix-name "tooltip"))]
-    ;(lib/add-class tooltip "hidden")
+    ;(utils/add-class tooltip "hidden")
     (set! (.. tooltip -style -visibility) "hidden")))
 
 (defn x-position

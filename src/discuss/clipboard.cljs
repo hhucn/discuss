@@ -1,8 +1,8 @@
 (ns discuss.clipboard
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [discuss.lib :as lib]
-            [discuss.lib.views :as vlib]))
+            [discuss.utils.common :as lib]
+            [discuss.utils.views :as vlib]))
 
 (def counter (atom 0))
 

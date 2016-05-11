@@ -1,6 +1,6 @@
 (ns discuss.sidebar
   "Controlling the sidebar."
-  (:require [discuss.lib :as lib]))
+  (:require [discuss.utils.common :as lib]))
 
 (def id (lib/prefix-name "sidebar"))
 

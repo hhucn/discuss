@@ -4,7 +4,7 @@
             [clojure.walk :refer [keywordize-keys]]
             [discuss.config :as config]
             [discuss.debug :as debug]
-            [discuss.lib :as lib]))
+            [discuss.utils.common :as lib]))
 
 ;;; Auxiliary functions
 (defn make-url

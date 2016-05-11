@@ -4,7 +4,7 @@
             [discuss.communication :as com]
             [discuss.config :as config]
             [discuss.debug :as debug]
-            [discuss.lib :as lib]))
+            [discuss.utils.common :as lib]))
 
 (defn success-login
   "Callback function when login was successful. Set attributes of user."

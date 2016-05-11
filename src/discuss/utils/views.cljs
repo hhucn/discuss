@@ -1,4 +1,4 @@
-(ns discuss.lib.views
+(ns discuss.utils.views
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]))
 

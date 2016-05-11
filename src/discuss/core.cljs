@@ -4,7 +4,7 @@
             [discuss.communication :as com]
             [discuss.debug :as debug]
             [discuss.extensions]
-            [discuss.lib :as lib]
+            [discuss.utils.common :as lib]
             [discuss.tooltip :as tooltip]
             [discuss.views :as views]))
 

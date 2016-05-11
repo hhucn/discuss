@@ -3,7 +3,7 @@
             [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [discuss.communication :as com]
-            [discuss.lib :as lib]))
+            [discuss.utils.common :as lib]))
 
 (def data (atom {}))
 

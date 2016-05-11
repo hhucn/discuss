@@ -8,8 +8,8 @@
             [discuss.extensions]
             [discuss.history :as history]
             [discuss.integration :as integration]
-            [discuss.lib :as lib]
-            [discuss.lib.views :as vlib]
+            [discuss.utils.common :as lib]
+            [discuss.utils.views :as vlib]
             [discuss.sidebar :as sidebar]))
 
 ;;;; Auxiliary functions

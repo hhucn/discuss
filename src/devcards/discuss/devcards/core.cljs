@@ -8,8 +8,8 @@
             [discuss.extensions]
             [discuss.find :as find]
             [discuss.integration :as integration]
-            [discuss.lib :as lib]
-            [discuss.lib.views :as vlib]
+            [discuss.utils.common :as lib]
+            [discuss.utils.views :as vlib]
             [discuss.views :as views]))
 
 (enable-console-print!)
