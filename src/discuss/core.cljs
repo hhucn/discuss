@@ -14,8 +14,7 @@
 (defn main []
   (com/init!)
   (com/request-references)
-  ;(auth/one-click-login)
-  )
+  (auth/one-click-login))
 
 ;; Register
 (om/root views/main-view lib/app-state
