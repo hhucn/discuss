@@ -3,15 +3,18 @@
             [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [discuss.communication :as com]
-            [discuss.utils.common :as lib]))
+            [discuss.utils.common :as lib]
+            [discuss.utils.views :as vlib]))
 
-(def data (atom {}))
+;(def data (atom {}))
+(def counter (atom 0))
 
 (defn statement-handler
   "Called when received a response in the search."
   [response]
   (let [res (lib/json->clj response)
         error (:error res)]
+    (lib/loading? false)
     (if (pos? (count error))
       (lib/error-msg! error)
       (do
@@ -21,14 +24,34 @@
 (defn statement
   "Find related statements to given keywords."
   [keywords]
-  (com/ajax-get "api/get/statements/1/3/a" {} statement-handler))
+  (when-not (= keywords "")
+    (let [issue 1
+          mode 3
+          request (str "api/get/statements/" issue "/" mode "/" keywords)]
+      (com/ajax-get request {} statement-handler))))
 
-(defn item-view []
+(defn item-view [data owner]
   (reify om/IRender
     (render [_]
-      (dom/div nil "One element"))))
+      (println data)
+      (dom/div #js {:id (str (lib/prefix-name "search-item-") (swap! counter inc))}
+               (dom/div nil data)
+               (println data)))))
 
 (defn view []
   (reify om/IRender
     (render [_]
-      (dom/h4 nil "Hello World!"))))
+      (dom/div nil
+               (dom/div #js {:className "input-group"}
+                        (dom/span #js {:className "input-group-addon"}
+                                  (vlib/fa-icon "fa-search fa-fw"))
+                        (dom/input #js {:className   "form-control"
+                                        :onChange    #(statement (.. % -target -value))
+                                        :placeholder "Find Statement"}))
+               (let [vals (get-in @lib/app-state [:discussion :search :values])
+                     vals-dict (for [[k v] vals] {k v})]
+                 (println vals-dict)
+                 (apply dom/div nil
+                        (om/build-all item-view vals-dict
+                                      )))
+               ))))

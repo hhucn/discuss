@@ -114,11 +114,11 @@
         items (:items res)
         discussion (:discussion res)
         issues (:issues res)]
+    (loading? false)
     (update-state-map! :items items)
     (update-state-map! :discussion discussion)
     (update-state-map! :issues issues)
-    (update-state-item! :debug :response (fn [_] res))
-    (loading? false)))
+    (update-state-item! :debug :response (fn [_] res))))
 
 ;; Show error messages
 (defn error?
