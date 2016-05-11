@@ -28,14 +28,18 @@ To create a production build run:
 And open your browser in `resources/public/index.html`. You will not
 get live reloading, nor a REPL.
 
-### Testing
+### Testing and Development
 
-Tests can be found in `test/discuss/*_test.cljs`. These tests are automatically executed
-when running an interactive environment but currently need to be compiled in a separate process:
+Interactive tests! I am now using [devcards](https://github.com/bhauman/devcards) for visual tests with
+different states. Start them by using `leiningen`:
 
-    lein cljsbuild auto test
+    lein figwheel devcards
 
-The tests require [phantomjs](http://phantomjs.org/) (`$ pacman -S phantomjs`).
+Tests are defined as cards in `src/devcards/discuss/devcards/core.cljs`. You *must* access this
+url if you run figwheel with the devcards-parameter:
+[http://localhost:3449/devcards/index.html](http://localhost:3449/devcards/index.html).
+
+This is currently the best profile for development.
 
 ## License
 
