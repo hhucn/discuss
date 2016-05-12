@@ -9,6 +9,13 @@
 ;(def data (atom {}))
 (def counter (atom 0))
 
+(defn prepare-search-results
+  "Extract values and create a list of maps."
+  []
+  (let [vals (get-in @lib/app-state [:discussion :search :values])
+        vals-dict (for [[k v] vals] {k v})]
+    (vec vals-dict)))
+
 (defn statement-handler
   "Called when received a response in the search."
   [response]
@@ -19,7 +26,10 @@
       (lib/error-msg! error)
       (do
         (lib/no-error!)
-        (lib/update-state-item! :discussion :search (fn [_] res))))))
+        (lib/update-state-item! :discussion :search (fn [_] res))
+        #_(let [foo (prepare-search-results)]
+          (println foo)
+          (println (count foo)))))))
 
 (defn statement
   "Find related statements to given keywords."
@@ -33,10 +43,14 @@
 (defn item-view [data owner]
   (reify om/IRender
     (render [_]
-      (println data)
-      (dom/div #js {:id (str (lib/prefix-name "search-item-") (swap! counter inc))}
-               (dom/div nil data)
-               (println data)))))
+      (let [bubble-class nil]
+        (dom/li #js {:className bubble-class}
+                (dom/div #js {:className "avatar"})
+                (dom/p #js {:className "messages"}
+                       (vlib/safe-html "foo"))))
+      #_(dom/div #js {:id (str (lib/prefix-name "search-item-") (swap! counter inc))}
+                 (dom/div nil data)
+                 (println data)))))
 
 (defn view []
   (reify om/IRender
@@ -48,10 +62,10 @@
                         (dom/input #js {:className   "form-control"
                                         :onChange    #(statement (.. % -target -value))
                                         :placeholder "Find Statement"}))
-               (let [vals (get-in @lib/app-state [:discussion :search :values])
-                     vals-dict (for [[k v] vals] {k v})]
-                 (println vals-dict)
-                 (apply dom/div nil
+               (println (prepare-search-results))
+               #_(apply dom/ol #js {:className "foobar"}
+                        (om/build-all item-view (lib/get-bubbles)))
+               #_(apply dom/div nil
                         (om/build-all item-view vals-dict
-                                      )))
+                                      ))
                ))))
