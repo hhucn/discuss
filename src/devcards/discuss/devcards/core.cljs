@@ -40,7 +40,7 @@
          "Testing the small search engine in `discuss.find`"
          (testing "fn statement, sending request and counting results"
            (find/statement "are")
-           (is (= 4 (count (find/prepare-search-results))))))
+           (is (= 4 (count (find/get-search-results))))))
 
 (deftest integration-test
          "Testing `discuss.integration`"
