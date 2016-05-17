@@ -45,7 +45,7 @@
                                (str "Logged in as " (get-in data [:user :nickname])))
                       (dom/div #js {:className "col-md-5"}))
                     (dom/div #js {:className "col-md-2 text-center"}
-                             (loading-element))
+                             #_(loading-element))
 
                     (if (lib/logged-in?)
                       (dom/div #js {:className "col-md-5 text-right pointer"

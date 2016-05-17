@@ -43,14 +43,8 @@
 (defn item-view [data owner]
   (reify om/IRender
     (render [_]
-      (let [bubble-class nil]
-        (dom/li #js {:className bubble-class}
-                (dom/div #js {:className "avatar"})
-                (dom/p #js {:className "messages"}
-                       (vlib/safe-html data))))
-      #_(dom/div #js {:id (str (lib/prefix-name "search-item-") (swap! counter inc))}
-                 (dom/div nil data)
-                 (println data)))))
+      (dom/li nil
+              (vlib/safe-html data)))))
 
 (defn form-view []
   (reify om/IRender
