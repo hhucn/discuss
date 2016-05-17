@@ -195,6 +195,11 @@
   [sub st]
   (not= (.indexOf st sub) -1))
 
+(defn str->int
+  "Convert String to Integer."
+  [s]
+  (js/parseInt s))
+
 
 ;;;; CSS modifications
 (defn toggle-class
