@@ -19,17 +19,6 @@
          lib/app-state
          #_{:history true})
 
-#_(defcard user-information
-           ""
-           (dom/div nil
-                    (dom/h6 nil "User")
-                    (dom/pre nil (lib/get-nickname))
-                    (dom/h6 nil "Auth Token")
-                    (dom/pre nil (lib/get-token))
-                    (dom/h6 nil "CSRF Token")
-                    (dom/pre nil (lib/get-csrf))
-                    ))
-
 (defcard control-buttons
          ""
          (dom/div nil
@@ -38,22 +27,14 @@
                               (dom/i #js {:className "fa fa-fort-awesome"}))
                   (debug/control-buttons lib/app-state)))
 
-#_(defcard debug
-           (dc/om-root debug/debug-view)
-           lib/app-state)
-
-#_(defcard global-state
-           @lib/app-state)
-
 (defcard find-form
          ""
          (dc/om-root find/form-view))
 
 (defcard-om find-statement
-            "Query database to find stataments."
+            "Query database to find statements."
             find/results-view
-            lib/app-state
-            )
+            lib/app-state)
 
 (deftest find-tests
          "Testing the small search engine in `discuss.find`"
@@ -72,6 +53,3 @@
          (testing "cljs to json conversion stuff"
            (let [json "{\"distance_name\": \"Levensthein\", \"values\": {\"00020_020\": \"Foobaraaaaaaaaaaaaaa.\", \"00033_013\": \"This is the only park in our city.\"}}"]
              (is (= {:distance_name "Levensthein", :values {:00020_020 "Foobaraaaaaaaaaaaaaa.", :00033_013 "This is the only park in our city."}} (lib/json->clj json))))))
-
-#_(deftest communication-test
-           "Testing `discuss.communication`")
