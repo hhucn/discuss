@@ -10,7 +10,7 @@
   "Return all stored selections."
   []
   (let [selections (get-in @lib/app-state [:clipboard :selections])]
-    (if selections selections [])))
+    (or selections [])))
 
 (defn add-selection
   "Store current selection in clipboard."
