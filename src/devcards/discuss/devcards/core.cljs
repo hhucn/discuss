@@ -1,5 +1,5 @@
 (ns discuss.devcards.core
-  (:require [devcards.core :as dc :refer-macros [defcard deftest]]
+  (:require [devcards.core :as dc :refer-macros [defcard deftest defcard-om]]
             [cljs.test :refer-macros [testing is are]]
             [om.dom :as dom]
             [discuss.core :as core]
@@ -17,7 +17,7 @@
 (defcard main
          (dc/om-root views/main-view)
          lib/app-state
-         {:history true})
+         #_{:history true})
 
 #_(defcard user-information
            ""
@@ -45,9 +45,15 @@
 #_(defcard global-state
            @lib/app-state)
 
-(defcard find-statement
-           "Query database to find stataments."
-           (dc/om-root find/view))
+(defcard find-form
+         ""
+         (dc/om-root find/form-view))
+
+(defcard-om find-statement
+            "Query database to find stataments."
+            find/results-view
+            lib/app-state
+            )
 
 (deftest find-tests
          "Testing the small search engine in `discuss.find`"

@@ -47,12 +47,12 @@
         (dom/li #js {:className bubble-class}
                 (dom/div #js {:className "avatar"})
                 (dom/p #js {:className "messages"}
-                       (vlib/safe-html "foo"))))
+                       (vlib/safe-html data))))
       #_(dom/div #js {:id (str (lib/prefix-name "search-item-") (swap! counter inc))}
                  (dom/div nil data)
                  (println data)))))
 
-(defn view []
+(defn form-view []
   (reify om/IRender
     (render [_]
       (dom/div nil
@@ -62,10 +62,17 @@
                         (dom/input #js {:className   "form-control"
                                         :onChange    #(statement (.. % -target -value))
                                         :placeholder "Find Statement"}))
-               (println (prepare-search-results))
+               ;(println (prepare-search-results))
                #_(apply dom/ol #js {:className "foobar"}
                         (om/build-all item-view (lib/get-bubbles)))
                #_(apply dom/div nil
                         (om/build-all item-view vals-dict
                                       ))
                ))))
+
+(defn results-view []
+  (reify om/IRender
+    (render [_]
+      (dom/div nil
+               (apply dom/ol nil
+                      (om/build-all item-view (prepare-search-results)))))))

@@ -10,7 +10,7 @@
   [name]
   (str config/project "-" name))
 
-(def app-state
+(defonce app-state
   (atom {:discussion {}
          :issues     {}
          :items      {}
