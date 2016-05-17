@@ -6,15 +6,10 @@
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
 
-;(def data (atom {}))
-(def counter (atom 0))
-
-(defn prepare-search-results
+(defn get-search-results
   "Extract values and create a list of maps."
   []
-  (let [vals (get-in @lib/app-state [:discussion :search :values])
-        vals-dict (for [[k v] vals] {k v})]
-    (vec vals-dict)))
+  (get-in @lib/app-state [:discussion :search :values]))
 
 (defn statement-handler
   "Called when received a response in the search."
@@ -26,10 +21,7 @@
       (lib/error-msg! error)
       (do
         (lib/no-error!)
-        (lib/update-state-item! :discussion :search (fn [_] res))
-        #_(let [foo (prepare-search-results)]
-          (println foo)
-          (println (count foo)))))))
+        (lib/update-state-item! :discussion :search (fn [_] res))))))
 
 (defn statement
   "Find related statements to given keywords."
@@ -43,8 +35,10 @@
 (defn item-view [data owner]
   (reify om/IRender
     (render [_]
-      (dom/li nil
-              (vlib/safe-html data)))))
+      (dom/div #js {:className "bs-callout bs-callout-info"}
+               (vlib/safe-html (:text data))
+               (dom/span #js {:className "badge pull-right"}
+                         (lib/str->int (:distance data)))))))
 
 (defn form-view []
   (reify om/IRender
@@ -55,18 +49,11 @@
                                   (vlib/fa-icon "fa-search fa-fw"))
                         (dom/input #js {:className   "form-control"
                                         :onChange    #(statement (.. % -target -value))
-                                        :placeholder "Find Statement"}))
-               ;(println (prepare-search-results))
-               #_(apply dom/ol #js {:className "foobar"}
-                        (om/build-all item-view (lib/get-bubbles)))
-               #_(apply dom/div nil
-                        (om/build-all item-view vals-dict
-                                      ))
-               ))))
+                                        :placeholder "Find Statement"}))))))
 
 (defn results-view []
   (reify om/IRender
     (render [_]
       (dom/div nil
-               (apply dom/ol nil
-                      (om/build-all item-view (prepare-search-results)))))))
+               (apply dom/div nil
+                      (om/build-all item-view (get-search-results)))))))
