@@ -37,7 +37,7 @@
   (when-not (= keywords "")
     (let [issue 1
           mode 3
-          request (str "api/get/statements/" issue "/" mode "/" keywords)]
+          request (clojure.string/join "/" ["api/get/statements" issue mode keywords])]
       (com/ajax-get request {} statement-handler))))
 
 (defn item-view [data owner]
