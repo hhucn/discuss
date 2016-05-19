@@ -22,12 +22,6 @@
 
 
 ;;;; Elements
-(defn loading-element []
-  (when (lib/loading?)
-    (dom/div #js {:className "loader"}
-             (dom/svg #js {:className "circular" :viewBox "25 25 50 50"}
-                      (dom/circle #js {:className "path" :cx "50" :cy "50" :r "20" :fill "none" :strokeWidth "5" :strokeMiterlimit "10"})))))
-
 (defn control-elements []
   (dom/div #js {:className "text-center"}
            (dom/h4 nil
@@ -45,7 +39,7 @@
                                (str "Logged in as " (get-in data [:user :nickname])))
                       (dom/div #js {:className "col-md-5"}))
                     (dom/div #js {:className "col-md-2 text-center"}
-                             #_(loading-element))
+                             #_(vlib/loading-element))
 
                     (if (lib/logged-in?)
                       (dom/div #js {:className "col-md-5 text-right pointer"
