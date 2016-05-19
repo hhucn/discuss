@@ -39,7 +39,7 @@
 (deftest find-tests
          "Testing the small search engine in `discuss.find`"
          (testing "fn statement, sending request and counting results"
-           (find/statement "are")
+           (find/find-statement "are")
            (is (= 4 (count (find/get-search-results))))))
 
 (deftest integration-test

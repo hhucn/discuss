@@ -23,7 +23,7 @@
         (lib/no-error!)
         (lib/update-state-item! :discussion :search (fn [_] res))))))
 
-(defn statement
+(defn find-statement
   "Find related statements to given keywords."
   [keywords]
   (when-not (= keywords "")
@@ -40,16 +40,33 @@
                (dom/span #js {:className "badge pull-right"}
                          (lib/str->int (:distance data)))))))
 
-(defn form-view []
-  (reify om/IRender
-    (render [_]
+(defn update-state-find-statement
+  "Saves current state into object and sends search request to discussion system."
+  [key val owner]
+  (vlib/commit-target-value key val owner)
+  (find-statement (.. val -target -value)))
+
+(defn form-view [_ owner]
+  (reify
+    om/IInitState
+    (init-state [_]
+      {:search-value ""})
+    om/IRenderState
+    (render-state [_ {:keys [search-value]}]
       (dom/div nil
                (dom/div #js {:className "input-group"}
                         (dom/span #js {:className "input-group-addon"}
                                   (vlib/fa-icon "fa-search fa-fw"))
                         (dom/input #js {:className   "form-control"
-                                        :onChange    #(statement (.. % -target -value))
-                                        :placeholder "Find Statement"}))))))
+                                        :onChange    #(update-state-find-statement :search-value % owner)
+                                        :value search-value
+                                        :placeholder "Find Statement"})
+                        (dom/span #js {:className "input-group-btn"}
+                                  (dom/button #js {:className "btn btn-primary"
+                                                   :type      "button"}
+                                              (dom/i #js {:className (str "fa fa-search fa-fw")
+                                                          :onClick   #(find-statement search-value)
+                                                          :style     #js {:lineHeight "1.9em"}}))))))))
 
 (defn results-view []
   (reify om/IRender
