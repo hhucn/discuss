@@ -64,9 +64,7 @@
                         (dom/span #js {:className "input-group-btn"}
                                   (dom/button #js {:className "btn btn-primary"
                                                    :type      "button"}
-                                              (dom/i #js {:className (str "fa fa-search fa-fw")
-                                                          :onClick   #(find-statement search-value)
-                                                          :style     #js {:lineHeight "1.9em"}}))))))))
+                                              (vlib/fa-icon "fa-search fa-fw" #(find-statement search-value)))))))))
 
 (defn results-view []
   (reify om/IRender
