@@ -54,12 +54,25 @@
     om/IRenderState
     (render-state [_ {:keys [search-value]}]
       (dom/div nil
+
+               #_(dom/div #js {:className "dropdown"}
+                        (dom/button #js {:id            "dropdownMenu1"
+                                         :className     "btn btn-default dropdown-toggle"
+                                         :type          "button"
+                                         :data-toggle   "dropdown"
+                                         :aria-haspopup "true"
+                                         :aria-expanded "true"}
+                                    "Dropdown "
+                                    (dom/span #js {:className "caret"}))
+                        (dom/ul #js {:className       "dropdown-menu"
+                                     :aria-labelledby "dropdownMenu1"}
+                                (dom/li nil
+                                        (dom/a #js {:href "#"} "foo"))))
+
                (dom/div #js {:className "input-group"}
-                        (dom/span #js {:className "input-group-addon"}
-                                  (vlib/fa-icon "fa-search fa-fw"))
                         (dom/input #js {:className   "form-control"
                                         :onChange    #(update-state-find-statement :search-value % owner)
-                                        :value search-value
+                                        :value       search-value
                                         :placeholder "Find Statement"})
                         (dom/span #js {:className "input-group-btn"}
                                   (dom/button #js {:className "btn btn-primary"
