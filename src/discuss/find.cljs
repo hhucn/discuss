@@ -54,20 +54,14 @@
     om/IRenderState
     (render-state [_ {:keys [search-value]}]
       (dom/div nil
-
-               #_(dom/div #js {:className "dropdown"}
-                        (dom/button #js {:id            "dropdownMenu1"
-                                         :className     "btn btn-default dropdown-toggle"
-                                         :type          "button"
-                                         :data-toggle   "dropdown"
-                                         :aria-haspopup "true"
-                                         :aria-expanded "true"}
-                                    "Dropdown "
-                                    (dom/span #js {:className "caret"}))
-                        (dom/ul #js {:className       "dropdown-menu"
-                                     :aria-labelledby "dropdownMenu1"}
-                                (dom/li nil
-                                        (dom/a #js {:href "#"} "foo"))))
+               (let [issues (lib/get-issues)]
+                 (dom/div #js {:className "form-group"}
+                          (dom/label nil "Select Issue")
+                          (dom/select #js {:className "form-control"
+                                           :multiple  true}
+                                      (map #(dom/option #js {:key (lib/prefix-name (str "discuss-issue-selector-" (:uid %)))}
+                                                        (:title %))
+                                           issues))))
 
                (dom/div #js {:className "input-group"}
                         (dom/input #js {:className   "form-control"
