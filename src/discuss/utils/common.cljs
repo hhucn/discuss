@@ -52,6 +52,11 @@
   []
   (get-in @app-state [:user :token]))
 
+(defn get-issues
+  "Returns list of dictionaries with all available issues."
+  []
+  (get-in @app-state [:issues :all]))
+
 (defn get-bubbles
   "Return message bubbles from DBAS."
   []
