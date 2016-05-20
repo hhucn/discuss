@@ -46,6 +46,12 @@
   (vlib/commit-target-value key val owner)
   (find-statement (.. val -target -value)))
 
+(defn issue-selector-view
+  "Create option items from each issue."
+  [issue owner]
+  (dom/option #js {:key (lib/prefix-name (str "discuss-issue-selector-" (:uid issue)))}
+              (:title issue)))
+
 (defn form-view [_ owner]
   (reify
     om/IInitState
@@ -59,9 +65,7 @@
                           (dom/label nil "Select Issue")
                           (dom/select #js {:className "form-control"
                                            :multiple  true}
-                                      (map #(dom/option #js {:key (lib/prefix-name (str "discuss-issue-selector-" (:uid %)))}
-                                                        (:title %))
-                                           issues))))
+                                      (map #(issue-selector-view % owner) issues))))
 
                (dom/div #js {:className "input-group"}
                         (dom/input #js {:className   "form-control"
