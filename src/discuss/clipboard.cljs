@@ -54,7 +54,7 @@
                     :draggable   true
                     :onDragStart drag-event}
                (dom/div nil data)
-               (dom/button #js {:className "btn btn-sm btn-default"
+               #_(dom/button #js {:className "btn btn-sm btn-default"
                                 :onClick   #(discuss.communication/ajax-get "api/cat-or-dog")
                                 :title     "Select this reference for your statement"}
                            (vlib/fa-icon "fa-check"))))))
