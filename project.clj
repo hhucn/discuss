@@ -40,9 +40,9 @@
                 :source-paths ["src/discuss" "src/devcards"]
                 :figwheel {:devcards true}
                 :compiler {:main discuss.devcards.core
-                           :asset-path "../js/compiled/out"
-                           :output-to "resources/public/js/compiled/discuss.js"
-                           :output-dir "resources/public/js/compiled/out"
+                           :asset-path "../js/compiled/devcards/out"
+                           :output-to "resources/public/js/compiled/devcards/discuss.js"
+                           :output-dir "resources/public/js/compiled/devcards/out"
                            :parallel-build true
                            :compiler-stats true
                            :source-map-timestamp true}}
