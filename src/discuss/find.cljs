@@ -25,18 +25,17 @@
 
 (defn find-statement
   "Find related statements to given keywords."
-  [keywords]
+  [keywords issue-id]
   (when-not (= keywords "")
-    (let [issue 1
-          mode 3
-          request (clojure.string/join "/" ["api/get/statements" issue mode keywords])]
+    (let [mode 3
+          request (clojure.string/join "/" ["api/get/statements" issue-id mode keywords])]
       (com/ajax-get request {} statement-handler))))
 
 (defn update-state-find-statement
   "Saves current state into object and sends search request to discussion system."
-  [key val owner]
+  [key val issue-id owner]
   (vlib/commit-component-state key val owner)
-  (find-statement (.. val -target -value)))
+  (find-statement (.. val -target -value) issue-id))
 
 (defn store-selected-issue
   "Store issue id from current selection into local state of the component. Preparation to find statements
@@ -69,12 +68,10 @@
     om/IInitState
     (init-state [_]
       {:search-value ""
-       :issue-id     -1})
+       :issue-id     1})
     om/IRenderState
     (render-state [_ {:keys [search-value issue-id]}]
       (dom/div nil
-               "Selected: "
-               issue-id
                (dom/div #js {:className "form-group"}
                         (dom/label nil "Select Issue")
                         (dom/select #js {:className "form-control"
@@ -83,17 +80,19 @@
 
                (dom/div #js {:className "input-group"}
                         (dom/input #js {:className   "form-control"
-                                        :onChange    #(update-state-find-statement :search-value % owner)
+                                        :onChange    #(update-state-find-statement :search-value % issue-id owner)
                                         :value       search-value
                                         :placeholder "Find Statement"})
                         (dom/span #js {:className "input-group-btn"}
                                   (dom/button #js {:className "btn btn-primary"
                                                    :type      "button"}
-                                              (vlib/fa-icon "fa-search fa-fw" #(find-statement search-value)))))))))
+                                              (vlib/fa-icon "fa-search fa-fw" #(find-statement search-value issue-id)))))))))
 
 (defn results-view []
   (reify om/IRender
     (render [_]
-      (dom/div nil
-               (apply dom/div nil
-                      (om/build-all item-view (get-search-results)))))))
+      (let [results (get-search-results)]
+        (dom/div nil
+                 (dom/h6 nil (str "Received " (count results) " entries."))
+                 (apply dom/div nil
+                        (om/build-all item-view results)))))))
