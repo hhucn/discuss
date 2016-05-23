@@ -58,7 +58,7 @@
            (is (= 9999999999999999999999999
                   (lib/str->int "9999999999999999999999999")))
            (is (nil? (lib/str->int ""))))
-         
+
          (testing "cljs to json conversion stuff."
            (let [json "{\"distance_name\": \"Levensthein\", \"values\": {\"00020_020\": \"Foobaraaaaaaaaaaaaaa.\", \"00033_013\": \"This is the only park in our city.\"}}"]
              (is (= {:distance_name "Levensthein", :values {:00020_020 "Foobaraaaaaaaaaaaaaa.", :00033_013 "This is the only park in our city."}} (lib/json->clj json)))))

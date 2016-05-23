@@ -32,24 +32,29 @@
           request (clojure.string/join "/" ["api/get/statements" issue mode keywords])]
       (com/ajax-get request {} statement-handler))))
 
-(defn item-view [data owner]
-  (reify om/IRender
-    (render [_]
-      (dom/div #js {:className "bs-callout bs-callout-info"}
-               (vlib/safe-html (:text data))
-               (dom/span #js {:className "badge pull-right"}
-                         (lib/str->int (:distance data)))))))
-
 (defn update-state-find-statement
   "Saves current state into object and sends search request to discussion system."
   [key val owner]
   (vlib/commit-target-value key val owner)
   (find-statement (.. val -target -value)))
 
+
+;;;; Views
+(defn item-view [data _owner]
+  (reify om/IRender
+    (render [_]
+      (dom/div #js {:className "bs-callout bs-callout-info"}
+               (dom/div nil (dom/a #js {:href    "javascript:void(0)"
+                                        :onClick #(com/ajax-get (:url data))}
+                                   (vlib/safe-html (:text data))))
+               (dom/span #js {:className "badge pull-right"}
+                         (lib/str->int (:distance data)))))))
+
 (defn issue-selector-view
   "Create option items from each issue."
-  [issue owner]
-  (dom/option #js {:key (lib/prefix-name (str "discuss-issue-selector-" (:uid issue)))}
+  [issue _owner]
+  (dom/option #js {:key      (lib/prefix-name (str "discuss-issue-selector-" (:uid issue)))
+                   :onChange #(println (:uid %))}
               (:title issue)))
 
 (defn form-view [_ owner]
@@ -60,12 +65,13 @@
     om/IRenderState
     (render-state [_ {:keys [search-value]}]
       (dom/div nil
-               (let [issues (lib/get-issues)]
-                 (dom/div #js {:className "form-group"}
-                          (dom/label nil "Select Issue")
-                          (dom/select #js {:className "form-control"
-                                           :multiple  true}
-                                      (map #(issue-selector-view % owner) issues))))
+               (dom/div #js {:className "form-group"}
+                        (dom/label nil "Select Issue")
+                        (dom/select #js {:className "form-control"
+                                         :onChange  (fn [e]
+                                                      (.log js/console (.. e -target -selectedOptions))
+                                                      (.log js/console e))}
+                                    (map #(issue-selector-view % owner) (lib/get-issues))))
 
                (dom/div #js {:className "input-group"}
                         (dom/input #js {:className   "form-control"
