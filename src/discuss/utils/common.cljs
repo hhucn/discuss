@@ -36,6 +36,13 @@
          :sidebar    {:show? true}
          }))
 
+(defn str->int
+  "Convert String to Integer."
+  [s]
+  (let [converted (js/parseInt s)]
+    (when-not (js/isNaN converted)
+      converted)))
+
 ;; Get
 (defn get-cursor
   "Return a cursor to the corresponding key in the app-state."
@@ -56,6 +63,11 @@
   "Returns list of dictionaries with all available issues."
   []
   (get-in @app-state [:issues :all]))
+
+(defn get-issue
+  "Return specific issue, matching by id."
+  [issue]
+  (first (filter #(= (str->int (:uid %)) issue) (get-issues))))
 
 (defn get-bubbles
   "Return message bubbles from DBAS."
@@ -199,11 +211,6 @@
   "Evaluates if a substring is contained in the given string."
   [sub st]
   (not= (.indexOf st sub) -1))
-
-(defn str->int
-  "Convert String to Integer."
-  [s]
-  (js/parseInt s))
 
 
 ;;;; CSS modifications
