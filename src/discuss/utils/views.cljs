@@ -23,10 +23,12 @@
   [string]
   (dom/span #js {:dangerouslySetInnerHTML #js {:__html string}}))
 
-(defn commit-target-value
+(defn commit-component-state
   "Set local state of view, parse the value of the target of val."
   [key val owner]
-  (om/set-state! owner key (.. val -target -value)))
+  (cond
+    (= (type val) js/Event) (om/set-state! owner key (.. val -target -value))
+    (= (type val) js/String) (om/set-state! owner key val)))
 
 (defn display
   "Toggle display view."

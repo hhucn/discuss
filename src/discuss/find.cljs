@@ -35,15 +35,16 @@
 (defn update-state-find-statement
   "Saves current state into object and sends search request to discussion system."
   [key val owner]
-  (vlib/commit-target-value key val owner)
+  (vlib/commit-component-state key val owner)
   (find-statement (.. val -target -value)))
 
 (defn store-selected-issue
   "Store issue id from current selection into local state of the component. Preparation to find statements
    for selected issue."
   [e owner]
-  (let [issue-text (.. (first (.. e -target -selectedOptions)) -innerText)]
-    ))
+  (let [issue-title (.. (first (.. e -target -selectedOptions)) -innerText)
+        issue (lib/get-issue issue-title)]
+    (vlib/commit-component-state :issue-id (:uid issue) owner)))
 
 ;;;; Views
 (defn item-view [data _owner]
@@ -68,14 +69,16 @@
     om/IInitState
     (init-state [_]
       {:search-value ""
-       :selection 1})
+       :issue-id     -1})
     om/IRenderState
-    (render-state [_ {:keys [search-value selection]}]
+    (render-state [_ {:keys [search-value issue-id]}]
       (dom/div nil
+               "Selected: "
+               issue-id
                (dom/div #js {:className "form-group"}
                         (dom/label nil "Select Issue")
                         (dom/select #js {:className "form-control"
-                                         :onChange  (fn [e] (.log js/console (.. (first (.. e -target -selectedOptions)) -innerText)))}
+                                         :onChange  #(store-selected-issue % owner)}
                                     (map #(issue-selector-view % owner) (lib/get-issues))))
 
                (dom/div #js {:className "input-group"}

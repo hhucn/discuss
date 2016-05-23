@@ -63,14 +63,14 @@
                         (dom/span #js {:className "input-group-addon"}
                                   (vlib/fa-icon "fa-user fa-fw"))
                         (dom/input #js {:className   "form-control"
-                                        :onChange    #(vlib/commit-target-value :nickname % owner)
+                                        :onChange    #(vlib/commit-component-state :nickname % owner)
                                         :value       nickname
                                         :placeholder "nickname"}))
                (dom/div #js {:className "input-group"}
                         (dom/span #js {:className "input-group-addon"}
                                   (vlib/fa-icon "fa-key fa-fw"))
                         (dom/input #js {:className   "form-control"
-                                        :onChange    #(vlib/commit-target-value :password % owner)
+                                        :onChange    #(vlib/commit-component-state :password % owner)
                                         :value       password
                                         :type        "password"
                                         :placeholder "password"}))
@@ -153,7 +153,7 @@
                                  (dom/span #js {:className "input-group-addon"}
                                            (vlib/fa-icon "fa-comment"))
                                  (dom/input #js {:className "form-control"
-                                                 :onChange  #(vlib/commit-target-value :statement % owner)
+                                                 :onChange  #(vlib/commit-component-state :statement % owner)
                                                  :value     statement}))
                         (when (lib/get-selection)
                           (dom/div #js {:className "input-group"}
