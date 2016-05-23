@@ -28,6 +28,10 @@
                        (vlibs/fa-icon "fa-building"))
            " "
            (dom/button #js {:className "btn btn-default"
+                            :onClick   #(discuss.sidebar/toggle)}
+                       (vlibs/fa-icon "fa-clipboard"))
+           " "
+           (dom/button #js {:className "btn btn-default"
                             :onClick   #(discuss.communication/ajax-get (get-in data [:debug :last-api]))}
                        "Resend API Call")
            " "
