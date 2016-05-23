@@ -65,5 +65,9 @@
 
          (testing "Get issue for uid."
            (is (= "Elektroautos"
-                  (:title (lib/get-issue 3)))))
+                  (:title (lib/get-issue 3))))
+           (is (= "3"
+                  (:uid (lib/get-issue "Elektroautos"))))
+           (is (nil? (lib/get-issue "This should not be an issue in our app-state"))))
+
          test-state)

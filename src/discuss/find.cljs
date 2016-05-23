@@ -38,17 +38,23 @@
   (vlib/commit-target-value key val owner)
   (find-statement (.. val -target -value)))
 
+(defn store-selected-issue
+  "Store issue id from current selection into local state of the component. Preparation to find statements
+   for selected issue."
+  [e owner]
+  (let [issue-text (.. (first (.. e -target -selectedOptions)) -innerText)]
+    ))
 
 ;;;; Views
 (defn item-view [data _owner]
   (reify om/IRender
     (render [_]
       (dom/div #js {:className "bs-callout bs-callout-info"}
+               (dom/span #js {:className "badge pull-right"}
+                         (lib/str->int (:distance data)))
                (dom/div nil (dom/a #js {:href    "javascript:void(0)"
                                         :onClick #(com/ajax-get (:url data))}
-                                   (vlib/safe-html (:text data))))
-               (dom/span #js {:className "badge pull-right"}
-                         (lib/str->int (:distance data)))))))
+                                   (vlib/safe-html (:text data))))))))
 
 (defn issue-selector-view
   "Create option items from each issue."
@@ -61,16 +67,15 @@
   (reify
     om/IInitState
     (init-state [_]
-      {:search-value ""})
+      {:search-value ""
+       :selection 1})
     om/IRenderState
-    (render-state [_ {:keys [search-value]}]
+    (render-state [_ {:keys [search-value selection]}]
       (dom/div nil
                (dom/div #js {:className "form-group"}
                         (dom/label nil "Select Issue")
                         (dom/select #js {:className "form-control"
-                                         :onChange  (fn [e]
-                                                      (.log js/console (.. e -target -selectedOptions))
-                                                      (.log js/console e))}
+                                         :onChange  (fn [e] (.log js/console (.. (first (.. e -target -selectedOptions)) -innerText)))}
                                     (map #(issue-selector-view % owner) (lib/get-issues))))
 
                (dom/div #js {:className "input-group"}

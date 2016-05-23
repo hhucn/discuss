@@ -65,9 +65,11 @@
   (get-in @app-state [:issues :all]))
 
 (defn get-issue
-  "Return specific issue, matching by id."
+  "Return specific issue, matching by id or title."
   [issue]
-  (first (filter #(= (str->int (:uid %)) issue) (get-issues))))
+  (cond
+    (number? issue) (first (filter #(= (str->int (:uid %)) issue) (get-issues)))
+    (string? issue) (first (filter #(= (:title %) issue) (get-issues)))))
 
 (defn get-bubbles
   "Return message bubbles from DBAS."
