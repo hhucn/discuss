@@ -11,30 +11,30 @@
   (str config/project "-" name))
 
 (defonce app-state
-  (atom {:discussion {}
-         :issues     {}
-         :items      {}
-         :layout     {:title     "discuss"
-                      :intro     "The current discussion is about:"
-                      :template  :discussion
-                      :add?      false
-                      :add-text  "Let me enter my reason!"
-                      :add-type  nil
-                      :loading?  false
-                      :reference ""
-                      :error?    false
-                      :error-msg nil}
-         :debug      {:last-api ""}
-         :user       {:nickname   "kangaroo"
-                      :token      "razupaltuff"
-                      :csrf       nil
-                      :statement  ""
-                      :selection  nil
-                      :logged-in? false}
-         :clipboard  {:selections nil
-                      :current    nil}
-         :sidebar    {:show? true}
-         }))
+         (atom {:discussion {}
+                :issues     {}
+                :items      {}
+                :layout     {:title     "discuss"
+                             :intro     "The current discussion is about:"
+                             :template  :discussion
+                             :add?      false
+                             :add-text  "Let me enter my reason!"
+                             :add-type  nil
+                             :loading?  false
+                             :reference ""
+                             :error?    false
+                             :error-msg nil}
+                :debug      {:last-api ""}
+                :user       {:nickname   "kangaroo"
+                             :token      "razupaltuff"
+                             :csrf       nil
+                             :statement  ""
+                             :selection  nil
+                             :logged-in? false}
+                :clipboard  {:selections nil
+                             :current    nil}
+                :sidebar    {:show? true}
+                }))
 
 (defn str->int
   "Convert String to Integer."
@@ -137,6 +137,7 @@
     (update-state-map! :items items)
     (update-state-map! :discussion discussion)
     (update-state-map! :issues issues)
+    (update-state-item! :user :avatar (fn [_] (get-in res [:extras :users_avatar])))
     (update-state-item! :debug :response (fn [_] res))))
 
 ;; Show error messages
