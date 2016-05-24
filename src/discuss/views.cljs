@@ -37,7 +37,7 @@
            (dom/div #js {:className "row"}
                     (if (lib/logged-in?)
                       (dom/div #js {:className "col-md-5"}
-                               (str "Logged in as " (get-in data [:user :nickname])))
+                               (str "Logged in as " (lib/get-nickname)))
                       (dom/div #js {:className "col-md-5"}))
                     (dom/div #js {:className "col-md-2 text-center"}
                              #_(vlib/loading-element))
@@ -175,12 +175,11 @@
                     (get-in data [:layout :intro])
                     (dom/br nil)
                     (dom/strong nil (get-in data [:issues :info])))
-           (dom/div #js {:className "panel panel-default"}
-                    (dom/div #js {:className "panel-body"}
-                             (let [view (get-in data [:layout :template])]
-                               (cond
-                                 (= view :login) (om/build login-form {})
-                                 :else (discussion-elements data)))))
+           (vlib/panel-wrapper
+             (let [view (get-in data [:layout :template])]
+               (cond
+                 (= view :login) (om/build login-form {})
+                 :else (discussion-elements data))))
            (when (get-in data [:layout :add?])
              (om/build add-element {}))))
 
