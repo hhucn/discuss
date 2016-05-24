@@ -54,3 +54,10 @@
     (dom/div #js {:className "loader"}
              (dom/svg #js {:className "circular" :viewBox "25 25 50 50"}
                       (dom/circle #js {:className "path" :cx "50" :cy "50" :r "20" :fill "none" :strokeWidth "5" :strokeMiterlimit "10"})))))
+
+(defn panel-wrapper
+  "Wrap content into bootstrap's panel class."
+  [content]
+  (dom/div #js {:className "panel panel-default"}
+           (dom/div #js {:className "panel-body"}
+                    content)))
