@@ -1,5 +1,6 @@
 (ns discuss.utils.views
-  (:require [om.core :as om :include-macros true]
+  (:require [goog.string :as gstring]
+            [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]))
 
 (defn fa-icon
@@ -22,6 +23,12 @@
   "Creates DOM element with interpreted HTML."
   [string]
   (dom/span #js {:dangerouslySetInnerHTML #js {:__html string}}))
+
+(defn html->str
+  "Unescape HTML entities and return a string."
+  [escaped]
+  (when (string? escaped)
+    (gstring/unescapeEntities escaped)))
 
 (defn commit-component-state
   "Set local state of view, parse the value of the target of val."
