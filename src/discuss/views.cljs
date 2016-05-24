@@ -6,6 +6,7 @@
             [discuss.clipboard :as clipboard]
             [discuss.communication :as com]
             [discuss.extensions]
+            [discuss.find :as find]
             [discuss.history :as history]
             [discuss.integration :as integration]
             [discuss.utils.common :as lib]
@@ -217,4 +218,6 @@
       (dom/div nil
                (vlib/logo #(sidebar/toggle))
                (main-content-view data)
+               (om/build find/form-view {})
+               (om/build find/results-view data)
                (om/build clipboard/view data)))))
