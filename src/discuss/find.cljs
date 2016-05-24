@@ -45,6 +45,7 @@
         issue (lib/get-issue issue-title)]
     (vlib/commit-component-state :issue-id (:uid issue) owner)))
 
+
 ;;;; Views
 (defn item-view [data _owner]
   (reify om/IRender

@@ -28,7 +28,8 @@
   [key val owner]
   (cond
     (= (type val) js/Event) (om/set-state! owner key (.. val -target -value))
-    (= (type val) js/String) (om/set-state! owner key val)))
+    (= (type val) js/String) (om/set-state! owner key val)
+    :else (om/set-state! owner key (.. val -target -value))))
 
 (defn display
   "Toggle display view."
