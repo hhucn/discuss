@@ -8,6 +8,7 @@
             [discuss.extensions]
             [discuss.communication :as com]
             [discuss.utils.common :as lib]
+            [discuss.utils.views :as vlib]
             [discuss.sidebar :as sidebar]
             [discuss.tooltip :as tooltip]))
 
@@ -75,7 +76,7 @@
 (defn convert-reference
   "Find parent of reference, split it into parts and wrap the original reference for highlighting and interaction."
   [ref]
-  (let [ref-text (:text ref)
+  (let [ref-text (vlib/html->str (:text ref))
         ref-url  (:url ref)
         doms-raw (.getElementsByTagName js/document "*")
         doms     (minify-doms doms-raw)
