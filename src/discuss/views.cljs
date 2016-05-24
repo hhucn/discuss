@@ -32,23 +32,24 @@
                    " "
                    (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa fa-angle-right fa-border pointer")))))
 
-(defn login-view-buttons [data]
+(defn login-view-buttons [_data]
   (dom/div #js {:className "text-muted"}
            (dom/div #js {:className "row"}
                     (if (lib/logged-in?)
                       (dom/div #js {:className "col-md-5"}
-                               (str "Logged in as " (lib/get-nickname)))
+                               (dom/img #js {:src (lib/get-avatar)
+                                             :className "img-responsive img-circle"})
+                               (str "Hello " (lib/get-nickname) "!"))
                       (dom/div #js {:className "col-md-5"}))
                     (dom/div #js {:className "col-md-2 text-center"}
                              #_(vlib/loading-element))
-
                     (if (lib/logged-in?)
                       (dom/div #js {:className "col-md-5 text-right pointer"
                                     :onClick   auth/logout}
-                               "Logout")
+                               (vlib/fa-icon "fa-sign-out"))
                       (dom/div #js {:className "col-md-5 text-right pointer"
                                     :onClick   #(lib/change-view! :login)}
-                               "Login")))))
+                               (vlib/fa-icon "fa-sign-in"))))))
 
 (defn login-form [_ owner]
   (reify
@@ -183,7 +184,7 @@
            (when (get-in data [:layout :add?])
              (om/build add-element {}))))
 
-(defn main-view [data owner]
+(defn main-view [data _owner]
   (reify om/IRender
     (render [_]
       (dom/div #js {:id (lib/prefix-name "dialogue-main")}
@@ -211,7 +212,7 @@
 
 
 ;;;; Sidebar
-(defn sidebar-view [data owner]
+(defn sidebar-view [data _owner]
   (reify om/IRender
     (render [_]
       (dom/div nil

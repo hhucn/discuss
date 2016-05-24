@@ -27,6 +27,7 @@
                 :debug      {:last-api ""}
                 :user       {:nickname   "kangaroo"
                              :token      "razupaltuff"
+                             :avatar     ""
                              :csrf       nil
                              :statement  ""
                              :selection  nil
@@ -53,6 +54,11 @@
   "Return the user's nickname, with whom she logged in."
   []
   (get-in @app-state [:user :nickname]))
+
+(defn get-avatar
+  "Return the URL of the user's avatar."
+  []
+  (get-in @app-state [:user :avatar]))
 
 (defn get-token
   "Return the user's token for discussion system."
