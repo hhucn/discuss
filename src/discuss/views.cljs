@@ -48,25 +48,6 @@
                            :onClick   #(lib/change-view! :login)}
                       (vlib/fa-icon "fa-sign-in")))))
 
-(defn login-view-buttons [_data]
-  (dom/div #js {:className "text-muted"}
-           (dom/div #js {:className "row"}
-                    (if (lib/logged-in?)
-                      #_(dom/div #js {:className "col-md-5"}
-                                 (dom/img #js {:src       (lib/get-avatar)
-                                               :className "img-responsive img-circle"})
-                                 (str "Hello " (lib/get-nickname) "!"))
-                      (dom/div #js {:className "col-md-5"}))
-                    (dom/div #js {:className "col-md-2 text-center"}
-                             #_(vlib/loading-element))
-                    #_(if (lib/logged-in?)
-                        (dom/div #js {:className "col-md-5 text-right pointer"
-                                      :onClick   auth/logout}
-                                 (vlib/fa-icon "fa-sign-out"))
-                        (dom/div #js {:className "col-md-5 text-right pointer"
-                                      :onClick   #(lib/change-view! :login)}
-                                 (vlib/fa-icon "fa-sign-in"))))))
-
 (defn login-form [_ owner]
   (reify
     om/IInitState
@@ -135,8 +116,7 @@
   (dom/div nil
            (bubbles-view)
            (items-view data)
-           (control-elements)
-           (login-view-buttons data)))
+           (control-elements)))
 
 (defn error-view
   "Display error message if there are errors."
