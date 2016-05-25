@@ -4,7 +4,7 @@
   (:require [goog.events :as events]
             [om.core :as om]
             [cljs.core.async :refer [put! chan <!]]
-            [clojure.string :as string]
+            [clojure.string :refer [split lower-case]]
             [discuss.extensions]
             [discuss.communication :as com]
             [discuss.utils.common :as lib]
@@ -52,14 +52,14 @@
 (defn minify-doms
   "Removes dom-elements, which can never be used as a reference."
   [doms]
-  (remove #(or (= "SCRIPT" (.-nodeName %))
-               (= "path"   (.-nodeName %))
-               (= "svg"    (.-nodeName %))
-               (= "circle" (.-nodeName %))
-               (= "HTML"   (.-nodeName %))
-               (= "HEAD"   (.-nodeName %))
-               (= "META"   (.-nodeName %))
-               (= "BUTTON" (.-nodeName %)))
+  (remove #(or (= "script" (lower-case (.-nodeName %)))
+               (= "path"   (lower-case (.-nodeName %)))
+               (= "svg"    (lower-case (.-nodeName %)))
+               (= "circle" (lower-case (.-nodeName %)))
+               (= "html"   (lower-case (.-nodeName %)))
+               (= "head"   (lower-case (.-nodeName %)))
+               (= "meta"   (lower-case (.-nodeName %)))
+               (= "button" (lower-case (.-nodeName %))))
           doms))
 
 (defn get-parent
@@ -82,7 +82,7 @@
         doms     (minify-doms doms-raw)
         parent   (get-parent doms ref-text)]
     (when parent
-      (let [dom-parts (string/split (.-innerHTML parent) (re-pattern ref-text))]
+      (let [dom-parts (split (.-innerHTML parent) (re-pattern ref-text))]
         (om/root discuss.views/reference-view {:text     ref-text
                                                :url      ref-url
                                                :dom-pre  (first dom-parts)

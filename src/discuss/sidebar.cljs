@@ -18,11 +18,11 @@
      (lib/toggle-class main-wrapper "active" bool))))
 
 (defn show
-  "Show sidebar, switch app-state."
+  "Show sidebar."
   []
   (toggle true))
 
 (defn hide
-  "Hide sidebar, switch app-state."
+  "Hide sidebar."
   []
   (toggle false))

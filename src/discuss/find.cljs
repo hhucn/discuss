@@ -1,4 +1,5 @@
 (ns discuss.find
+  "Search engine."
   (:require [clojure.walk :refer [keywordize-keys]]
             [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
@@ -78,7 +79,6 @@
                         (dom/select #js {:className "form-control"
                                          :onChange  #(store-selected-issue % owner)}
                                     (map #(issue-selector-view % owner) (lib/get-issues))))
-
                (dom/div #js {:className "input-group"}
                         (dom/input #js {:className   "form-control"
                                         :onChange    #(update-state-find-statement :search-value % issue-id owner)
