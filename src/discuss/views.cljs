@@ -186,14 +186,15 @@
 
 (defn avatar-view []
   (dom/div #js {:className "discuss-avatar-main-wrapper pull-right text-muted text-center"}
-           (dom/img #js {:src (lib/get-avatar)
-                         :className "discuss-avatar-main img-responsive img-circle"})
-           (dom/span nil (str "Hello " (lib/get-nickname) "!"))
-           (dom/br nil)
            (if (lib/logged-in?)
-             (dom/div #js {:className "pointer"
-                           :onClick   auth/logout}
-                      (vlib/fa-icon "fa-sign-out"))
+             (dom/div nil
+               (dom/img #js {:src       (lib/get-avatar)
+                             :className "discuss-avatar-main img-responsive img-circle"})
+               (dom/span nil (str "Hello " (lib/get-nickname) "!"))
+               (dom/br nil)
+               (dom/div #js {:className "pointer"
+                             :onClick   auth/logout}
+                        (vlib/fa-icon "fa-sign-out")))
              (dom/div #js {:className "pointer"
                            :onClick   #(lib/change-view! :login)}
                       (vlib/fa-icon "fa-sign-in")))))
