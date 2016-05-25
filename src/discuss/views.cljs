@@ -32,24 +32,40 @@
                    " "
                    (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa fa-angle-right fa-border pointer")))))
 
+(defn avatar-view
+  "Get the user's avatar and add login + logout functions to it."
+  []
+  (dom/div #js {:className "discuss-avatar-main-wrapper pull-right text-muted text-center"}
+           (if (lib/logged-in?)
+             (dom/div nil
+                      (dom/img #js {:src       (lib/get-avatar)
+                                    :className "discuss-avatar-main img-responsive img-circle"})
+                      (dom/span nil (str "Hello " (lib/get-nickname) "!"))
+                      (dom/span #js {:className "pointer"
+                                     :onClick   auth/logout}
+                                (vlib/fa-icon "fa-sign-out")))
+             (dom/div #js {:className "pointer"
+                           :onClick   #(lib/change-view! :login)}
+                      (vlib/fa-icon "fa-sign-in")))))
+
 (defn login-view-buttons [_data]
   (dom/div #js {:className "text-muted"}
            (dom/div #js {:className "row"}
                     (if (lib/logged-in?)
                       #_(dom/div #js {:className "col-md-5"}
-                               (dom/img #js {:src (lib/get-avatar)
-                                             :className "img-responsive img-circle"})
-                               (str "Hello " (lib/get-nickname) "!"))
+                                 (dom/img #js {:src       (lib/get-avatar)
+                                               :className "img-responsive img-circle"})
+                                 (str "Hello " (lib/get-nickname) "!"))
                       (dom/div #js {:className "col-md-5"}))
                     (dom/div #js {:className "col-md-2 text-center"}
                              #_(vlib/loading-element))
                     #_(if (lib/logged-in?)
-                      (dom/div #js {:className "col-md-5 text-right pointer"
-                                    :onClick   auth/logout}
-                               (vlib/fa-icon "fa-sign-out"))
-                      (dom/div #js {:className "col-md-5 text-right pointer"
-                                    :onClick   #(lib/change-view! :login)}
-                               (vlib/fa-icon "fa-sign-in"))))))
+                        (dom/div #js {:className "col-md-5 text-right pointer"
+                                      :onClick   auth/logout}
+                                 (vlib/fa-icon "fa-sign-out"))
+                        (dom/div #js {:className "col-md-5 text-right pointer"
+                                      :onClick   #(lib/change-view! :login)}
+                                 (vlib/fa-icon "fa-sign-in"))))))
 
 (defn login-form [_ owner]
   (reify
@@ -183,21 +199,6 @@
                  :else (discussion-elements data))))
            (when (get-in data [:layout :add?])
              (om/build add-element {}))))
-
-(defn avatar-view []
-  (dom/div #js {:className "discuss-avatar-main-wrapper pull-right text-muted text-center"}
-           (if (lib/logged-in?)
-             (dom/div nil
-               (dom/img #js {:src       (lib/get-avatar)
-                             :className "discuss-avatar-main img-responsive img-circle"})
-               (dom/span nil (str "Hello " (lib/get-nickname) "!"))
-               (dom/br nil)
-               (dom/div #js {:className "pointer"
-                             :onClick   auth/logout}
-                        (vlib/fa-icon "fa-sign-out")))
-             (dom/div #js {:className "pointer"
-                           :onClick   #(lib/change-view! :login)}
-                      (vlib/fa-icon "fa-sign-in")))))
 
 (defn main-view [data _owner]
   (reify om/IRender
