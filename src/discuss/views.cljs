@@ -36,14 +36,14 @@
   (dom/div #js {:className "text-muted"}
            (dom/div #js {:className "row"}
                     (if (lib/logged-in?)
-                      (dom/div #js {:className "col-md-5"}
+                      #_(dom/div #js {:className "col-md-5"}
                                (dom/img #js {:src (lib/get-avatar)
                                              :className "img-responsive img-circle"})
                                (str "Hello " (lib/get-nickname) "!"))
                       (dom/div #js {:className "col-md-5"}))
                     (dom/div #js {:className "col-md-2 text-center"}
                              #_(vlib/loading-element))
-                    (if (lib/logged-in?)
+                    #_(if (lib/logged-in?)
                       (dom/div #js {:className "col-md-5 text-right pointer"
                                     :onClick   auth/logout}
                                (vlib/fa-icon "fa-sign-out"))
@@ -184,10 +184,25 @@
            (when (get-in data [:layout :add?])
              (om/build add-element {}))))
 
+(defn avatar-view []
+  (dom/div #js {:className "discuss-avatar-main-wrapper pull-right text-muted text-center"}
+           (dom/img #js {:src (lib/get-avatar)
+                         :className "discuss-avatar-main img-responsive img-circle"})
+           (dom/span nil (str "Hello " (lib/get-nickname) "!"))
+           (dom/br nil)
+           (if (lib/logged-in?)
+             (dom/div #js {:className "pointer"
+                           :onClick   auth/logout}
+                      (vlib/fa-icon "fa-sign-out"))
+             (dom/div #js {:className "pointer"
+                           :onClick   #(lib/change-view! :login)}
+                      (vlib/fa-icon "fa-sign-in")))))
+
 (defn main-view [data _owner]
   (reify om/IRender
     (render [_]
       (dom/div #js {:id (lib/prefix-name "dialogue-main")}
+               (avatar-view)
                (dom/h4 nil
                        (vlib/logo)
                        " "
