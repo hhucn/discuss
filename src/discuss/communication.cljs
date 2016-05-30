@@ -19,7 +19,7 @@
     {"X-Messaging-Token" (lib/get-token)}))
 
 
-;;; Handlers
+;;;; Handlers
 (defn error-handler
   "Generic error handler for ajax requests."
   [{:keys [status status-text]}]
@@ -83,7 +83,8 @@
   (let [bubble (first (lib/get-bubbles))]
     (:data_statement_uid bubble)))
 
-;;; POST functions
+
+;;;; POST functions
 (defn post-json
   "Wrapper to prepare a POST request. Sending and receiving JSON."
   ([url body handler headers]
@@ -123,7 +124,8 @@
               :slug          (get-in @lib/app-state [:issues :slug])}]
     (post-json url body success-handler headers)))
 
-;;; For preparation
+
+;;;; For preparation
 (defn dispatch-add-action
   "Check which action needs to be performed based on the type previously stored in the app-state."
   [statement reference]

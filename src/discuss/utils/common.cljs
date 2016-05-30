@@ -107,6 +107,13 @@
   []
   (get-in @app-state [:common :references]))
 
+(defn get-reference
+  "Return map matching a specific id. This id must be a number."
+  ([id col]
+   (first (filter #(= (str->int id) (:uid %)) col)))
+  ([id]
+    (get-reference id (get-references))))
+
 ;;;; State changing
 (defn update-state-item!
   "Get the cursor for given key and select a field to apply the function to it."
