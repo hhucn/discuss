@@ -41,6 +41,7 @@
                       (dom/img #js {:src       (lib/get-avatar)
                                     :className "discuss-avatar-main img-responsive img-circle"})
                       (dom/span nil (str "Hello " (lib/get-nickname) "!"))
+                      " "
                       (dom/span #js {:className "pointer"
                                      :onClick   auth/logout}
                                 (vlib/fa-icon "fa-sign-out")))
@@ -213,8 +214,8 @@
   (reify om/IRender
     (render [_]
       (dom/div nil
-               (vlib/logo #(sidebar/toggle))
-               (main-content-view data)
+               (vlib/fa-icon "fa-bars" #(sidebar/toggle))
+               (om/build main-view data)
                (om/build find/form-view {})
                (om/build find/results-view data)
                (om/build clipboard/view data)))))
