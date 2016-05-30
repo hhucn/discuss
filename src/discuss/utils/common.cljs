@@ -36,7 +36,7 @@
                 :clipboard  {:selections nil
                              :current    nil}
                 :sidebar    {:show? true}
-                }))
+                :common     {:references []}}))
 
 (defn str->int
   "Convert String to Integer."
@@ -93,14 +93,21 @@
   []
   (get-in @app-state [:discussion :add_premise_text]))
 
-;; Booleans
+
+;;;; Booleans
 (defn logged-in?
   "Return true if user is logged in."
   []
   (get-in @app-state [:user :logged-in?]))
 
 
-;; State changing
+;;;; References
+(defn get-references
+  "Returns a list of references which were received from the discussion system."
+  []
+  (get-in @app-state [:common :references]))
+
+;;;; State changing
 (defn update-state-item!
   "Get the cursor for given key and select a field to apply the function to it."
   [col key f]

@@ -64,6 +64,7 @@
       (lib/error-msg! error)
       (do
         (lib/no-error!)
+        (lib/update-state-item! :common :references (fn [_] refs))
         (discuss.integration/process-references refs)))))
 
 (defn init!
