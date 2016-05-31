@@ -85,7 +85,10 @@
 (defn bubble-view [bubble]
   (reify om/IRender
     (render [_]
-      (let [bubble-class (get-bubble-class bubble)]
+      (let [bubble-class (get-bubble-class bubble)
+            ref (lib/get-reference (:id bubble))]
+        (comment (println bubble)
+                 (println (:id bubble)))
         (dom/li #js {:className bubble-class}
                 (dom/div #js {:className "avatar"})
                 (dom/p #js {:className "messages"}
