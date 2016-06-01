@@ -30,7 +30,7 @@
                    " "
                    (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-left fa-border") history/back!)
                    " "
-                   (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa fa-angle-right fa-border pointer")))))
+                   (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-right fa-border pointer")))))
 
 (defn avatar-view
   "Get the user's avatar and add login + logout functions to it."
