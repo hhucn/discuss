@@ -29,8 +29,8 @@
   [keywords issue-id]
   (when-not (= keywords "")
     (let [mode 3
-          request (clojure.string/join "/" ["api/get/statements" issue-id mode keywords])]
-      (com/ajax-get request {} statement-handler))))
+          request-url (clojure.string/join "/" ["api/get/statements" issue-id mode keywords])]
+      (com/ajax-get request-url {} statement-handler))))
 
 (defn update-state-find-statement
   "Saves current state into object and sends search request to discussion system."

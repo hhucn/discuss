@@ -2,7 +2,14 @@
   "Handle interaction with already existing references, for example showing usages in other statements / arguments
    or providing a form to use it in the own statement."
   (:require [om.core :as om]
-            [om.dom :as dom]))
+            [om.dom :as dom]
+            [discuss.communication :as com]))
+
+(defn show-usages
+  "Show usages of the provided reference.
+   @TODO"
+  [reference]
+  (comment "Make AJAX call via API to get some information about the reference."))
 
 (defn dialog
   "Show a dialog to give the user the option to choose, whether she wants to get some information about the statement
