@@ -7,13 +7,12 @@
   :min-lein-version "2.5.3"
 
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.8.34"]
-                 [org.clojure/core.async "0.2.374"
-                  :exclusions [org.clojure/tools.reader]]
+                 [org.clojure/clojurescript "1.8.51"]
+                 [org.clojure/core.async "0.2.374" :exclusions [org.clojure/tools.reader]]
                  [org.omcljs/om "1.0.0-alpha32"]
-                 [cljs-ajax "0.5.4"]                        ; AJAX for om
+                 [cljs-ajax "0.5.5"]                        ; AJAX for om
                  [com.cognitect/transit-cljs "0.8.237"]     ; Better JSON support
-                 [figwheel-sidecar "0.5.3-1"]
+                 [figwheel-sidecar "0.5.3-2"]
                  [devcards "0.2.1-7" :scope "devcards"
                   :exclusions [org.clojure/clojurescript]]]
 
