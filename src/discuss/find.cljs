@@ -29,6 +29,7 @@
   [keywords issue-id]
   (when-not (= keywords "")
     (let [mode 3
+          ;; TODO change this URL
           request-url (clojure.string/join "/" ["api/get/statements" issue-id mode keywords])]
       (com/ajax-get request-url {} statement-handler))))
 
