@@ -54,7 +54,9 @@
         (lib/no-error!)
         res))))
 
-(defn process-url-handler [response]
+(defn process-url-handler
+  "React on response after sending a new statement. Reset atom and call newly received url."
+  [response]
   (let [res (success-handler response)
         url (:url res)]
     (lib/hide-add-form)
@@ -79,7 +81,7 @@
   []
   (let [url (:init config/api)]
     (lib/update-state-item! :layout :add? (fn [_] false))
-    (discuss.communication/ajax-get url)))
+    (ajax-get url)))
 
 
 ;;;; Discussion-related functions
