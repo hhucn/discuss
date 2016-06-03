@@ -15,14 +15,8 @@
 (defn statement-handler
   "Called when received a response in the search."
   [response]
-  (let [res (lib/json->clj response)
-        error (:error res)]
-    (lib/loading? false)
-    (if (pos? (count error))
-      (lib/error-msg! error)
-      (do
-        (lib/no-error!)
-        (lib/update-state-item! :discussion :search (fn [_] res))))))
+  (let [res (com/success-handler response)]
+    (lib/update-state-item! :discussion :search (fn [_] res))))
 
 (defn find-statement
   "Find related statements to given keywords."
