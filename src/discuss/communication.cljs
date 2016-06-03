@@ -42,17 +42,24 @@
   ([url]
    (ajax-get url {})))
 
-(defn success-handler [response]
+(defn success-handler
+  "Generic success handler, which sets error handling and returns a cljs-compatible response."
+  [response]
   (let [res (lib/json->clj response)
-        url (:url res)
         error (:error res)]
+    (lib/loading? false)
     (if (pos? (count error))
       (lib/error-msg! error)
       (do
         (lib/no-error!)
-        (lib/hide-add-form)
-        (lib/update-state-item! :layout :add-type (fn [_] nil))
-        (ajax-get url)))))
+        res))))
+
+(defn process-url-handler [response]
+  (let [res (success-handler response)
+        url (:url res)]
+    (lib/hide-add-form)
+    (lib/update-state-item! :layout :add-type (fn [_] nil))
+    (ajax-get url)))
 
 (defn references-handler
   "Called when received a response on the reference-query."
@@ -99,7 +106,7 @@
   ([url body handler]
    (post-json url body handler {"Content-Type" "application/json"}))
   ([url body]
-   (post-json url body success-handler {"Content-Type" "application/json"})))
+   (post-json url body process-url-handler {"Content-Type" "application/json"})))
 
 (defn request-references
   "When this app is loaded, request all available references from the external discussion system."
@@ -122,7 +129,7 @@
               :path          js/location.pathname
               :issue_id      (get-in @lib/app-state [:issues :uid])
               :slug          (get-in @lib/app-state [:issues :slug])}]
-    (post-json url body success-handler headers)))
+    (post-json url body process-url-handler headers)))
 
 
 ;;;; For preparation
