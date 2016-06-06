@@ -66,6 +66,11 @@
   []
   (get-in @app-state [:user :token]))
 
+(defn get-template
+  "Returns the current selected template, which should be visible in the main-content-view."
+  []
+  (get-in @app-state [:layout :template]))
+
 (defn get-issues
   "Returns list of dictionaries with all available issues."
   []
