@@ -170,7 +170,7 @@
                                          :onClick   #(com/dispatch-add-action statement (lib/get-selection))}
                                     "Submit"))))))
 
-(defn template-dispatcher
+(defn view-dispatcher
   "Dispatch current template in main view by the app state."
   [data]
   (let [view (lib/current-view)]
@@ -188,7 +188,7 @@
                     (dom/br nil)
                     (dom/strong nil (get-in data [:issues :info])))
            (vlib/panel-wrapper
-             (template-dispatcher data))
+             (view-dispatcher data))
            (when (get-in data [:layout :add?])
              (om/build add-element {}))))
 
