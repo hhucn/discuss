@@ -66,11 +66,6 @@
   []
   (get-in @app-state [:user :token]))
 
-(defn get-template
-  "Returns the current selected template, which should be visible in the main-content-view."
-  []
-  (get-in @app-state [:layout :template]))
-
 (defn get-issues
   "Returns list of dictionaries with all available issues."
   []
@@ -148,6 +143,7 @@
   [csrf]
   (update-state-item! :user :csrf (fn [_] csrf)))
 
+
 (defn loading?
   "Return boolean if app is currently loading content. Provide a boolean to change the app-state."
   ([]
@@ -199,24 +195,30 @@
 
 
 ;; Change views
-(defn change-view!
-  "Switch to a different view."
-  [view]
-  (update-state-item! :layout :template (fn [_] view)))
+(defn hide-add-form!
+  "Hide the user form."
+  []
+  (update-state-item! :layout :add? (fn [_] false)))
 
-(defn show-add-form
+(defn show-add-form!
   "Shows a form to enable user-added content."
   []
   (when (logged-in?)
     (update-state-item! :layout :add? (fn [_] true))))
 
-(defn hide-add-form
-  "Hide the user form."
+(defn current-view
+  "Returns the current selected template, which should be visible in the main-content-view."
   []
-  (update-state-item! :layout :add? (fn [_] false)))
+  (get-in @app-state [:layout :template]))
+
+(defn change-view!
+  "Switch to a different view."
+  [view]
+  (hide-add-form!)
+  (update-state-item! :layout :template (fn [_] view)))
 
 
-;; Mouse interaction
+;;;; Mouse interaction
 (defn get-selection
   "Return the stored selection of the user."
   []
