@@ -13,7 +13,7 @@
             [discuss.tooltip :as tooltip]))
 
 ;;; Listener for mouse clicks
-(defn get-mouse-position
+(defn- get-mouse-position
   "Multi browser support for getting the current mouse position. Returns tuple of x and y: [x y]"
   [e]
   (if (.-pageX e)
@@ -24,7 +24,7 @@
     ;  [x y (.-clientX e) (.-clientY e)])
     ))
 
-(defn listen
+(defn- listen
   "Helper function for mouse-click events."
   [el type]
   (let [out (chan)]
@@ -34,7 +34,7 @@
     out))
 
 ;; http://www.thesoftwaresimpleton.com/blog/2014/12/30/core-dot-async-dot-mouse-dot-down/
-(defn save-selected-text
+(defn- save-selected-text
   "Get the users selection and save it."
   []
   (let [selection (str (.getSelection js/window))]
@@ -49,7 +49,7 @@
         (<! clicks)
         (save-selected-text))))
 
-(defn minify-doms
+(defn- minify-doms
   "Removes dom-elements, which can never be used as a reference."
   [doms]
   (remove #(or (= "script" (lower-case (.-nodeName %)))
@@ -62,7 +62,7 @@
                (= "button" (lower-case (.-nodeName %))))
           doms))
 
-(defn get-parent
+(defn- get-parent
   "Assuming that the last occurence of my reference is the closest parent of it,
    this function will return it."
   [doms ref]
@@ -73,7 +73,7 @@
 
 
 ;;; Integrate references and highlight them in the article
-(defn convert-reference
+(defn- convert-reference
   "Find parent of reference, split it into parts and wrap the original reference for highlighting and interaction."
   [ref]
   (let [ref-text (vlib/html->str (:text ref))
