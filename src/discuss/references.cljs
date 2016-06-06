@@ -9,14 +9,12 @@
 (defn reference-usage-handler
   "Handler to process information about the reference."
   [response]
-  ;; TODO write common wrapper for handlers
-  )
+  (let [res (com/success-handler response)]))
 
-(defn show-usages
-  "Show usages of the provided reference.
-   @TODO"
-  [reference]
-  (let [url (str (:base config/api) (get-in config/api [:get :reference-usages]) "/" reference)]
+(defn get-reference-details
+  "Show usages of the provided reference."
+  [reference-id]
+  (let [url (str (:base config/api) (get-in config/api [:get :reference-usages]) "/" reference-id)]
     (com/ajax-get url {} reference-usage-handler)))
 
 
@@ -35,7 +33,7 @@
                            "Create new Statement with this reference")))))
 
 (defn usages-view
-  "Detail page showing the usages of the given reference."
+  "List with details showing the usages of the given reference."
   []
   (reify om/IRender
     (render [_]
