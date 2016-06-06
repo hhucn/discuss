@@ -78,6 +78,7 @@
   [ref]
   (let [ref-text (vlib/html->str (:text ref))
         ref-url  (:url ref)
+        ref-id   (:uid ref)
         doms-raw (.getElementsByTagName js/document "*")
         doms     (minify-doms doms-raw)
         parent   (get-parent doms ref-text)]
@@ -85,6 +86,7 @@
       (let [dom-parts (split (.-innerHTML parent) (re-pattern ref-text))]
         (om/root discuss.views/reference-view {:text     ref-text
                                                :url      ref-url
+                                               :id       ref-id
                                                :dom-pre  (first dom-parts)
                                                :dom-post (last dom-parts)}
                  {:target parent})))))

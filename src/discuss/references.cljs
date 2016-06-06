@@ -11,12 +11,14 @@
 (defn reference-usage-handler
   "Handler to process information about the reference."
   [response]
-  (let [res (com/success-handler response)]))
+  (let [res (com/success-handler response)]
+    (println res)))
 
 (defn query-reference-details
   "Show usages of the provided reference."
   [reference-id]
   (let [url (str (:base config/api) (get-in config/api [:get :reference-usages]) "/" reference-id)]
+    (println "OMG I am here!")
     (com/ajax-get url {} reference-usage-handler)))
 
 
@@ -24,13 +26,12 @@
 (defn click-reference
   "When clicking on a reference directly in the text, interact with the user to give her the choice of what
    her next steps might be."
-  [ref]
-  #_(com/ajax-get url)
+  [reference]
+  #_(com/ajax-get (:url reference))
   (lib/change-view! :reference-dialog)
-  (lib/save-selected-reference! ref)
-  (println (lib/selected-reference))
+  (lib/save-selected-reference! reference)
   (sidebar/show)
-  (lib/update-state-item! :layout :reference (fn [_] (:text ref))))
+  (lib/update-state-item! :layout :reference (fn [_] (:text reference))))
 
 
 ;;;; Views
@@ -42,7 +43,7 @@
     (render [_]
       (dom/div #js {:className "text-center"}
                (dom/button #js {:className "btn btn-primary"
-                                :onClick   #(query-reference-details 4)}
+                                :onClick   #(query-reference-details (:id (lib/selected-reference)))}
                            "Find usages of this reference")
                " "
                (dom/button #js {:className "btn btn-primary"}
