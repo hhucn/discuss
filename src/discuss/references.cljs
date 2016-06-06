@@ -4,7 +4,9 @@
   (:require [om.core :as om]
             [om.dom :as dom]
             [discuss.communication :as com]
-            [discuss.config :as config]))
+            [discuss.config :as config]
+            [discuss.sidebar :as sidebar]
+            [discuss.utils.common :as lib]))
 
 (defn reference-usage-handler
   "Handler to process information about the reference."
@@ -16,6 +18,17 @@
   [reference-id]
   (let [url (str (:base config/api) (get-in config/api [:get :reference-usages]) "/" reference-id)]
     (com/ajax-get url {} reference-usage-handler)))
+
+
+;;;; Interaction with integrated references
+(defn click-reference
+  "When clicking on a reference directly in the text, make AJAX request with the url to the discussion
+   and show the sidebar to start the discussion."
+  [ref]
+  #_(com/ajax-get url)
+  (lib/change-view! :reference-dialog)
+  (sidebar/show)
+  (lib/update-state-item! :layout :reference (fn [_] (:text ref))))
 
 
 ;;;; Views

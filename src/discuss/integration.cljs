@@ -93,13 +93,3 @@
   "Receives references through the API and prepares them for the next steps."
   [refs]
   (doall (map convert-reference refs)))
-
-
-;;; Interaction with integratet references
-(defn click-reference
-  "When clicking on a reference directly in the text, make AJAX request with the url to the discussion
-   and show the sidebar to start the discussion."
-  [text url]
-  (com/ajax-get url)
-  (sidebar/show)
-  (lib/update-state-item! :layout :reference (fn [_] text)))

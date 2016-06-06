@@ -59,7 +59,7 @@
   [response]
   (let [res (success-handler response)
         url (:url res)]
-    (lib/hide-add-form)
+    (lib/hide-add-form!)
     (lib/update-state-item! :layout :add-type (fn [_] nil))
     (ajax-get url)))
 
@@ -149,12 +149,12 @@
   "Save current add-method and show add form."
   [add-type]
   (lib/update-state-item! :layout :add-type (fn [_] add-type))
-  (lib/show-add-form))
+  (lib/show-add-form!))
 
 (defn item-click
   "Prepare which action has to be done when clicking an item."
   [id url]
-  (lib/hide-add-form)
+  (lib/hide-add-form!)
   (cond
     (= id "item_start_statement") (prepare-add :add-start-statement)
     (= id "item_start_premise") (prepare-add :add-start-premise)
