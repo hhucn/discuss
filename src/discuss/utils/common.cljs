@@ -83,6 +83,11 @@
     (number? issue) (first (filter #(= (str->int (:uid %)) issue) (get-issues)))
     (string? issue) (first (filter #(= (:title %) issue) (get-issues)))))
 
+(defn get-items
+  "Returns list of items from the discussion."
+  []
+  (get-in @app-state [:items]))
+
 (defn get-bubbles
   "Return message bubbles from DBAS."
   []
