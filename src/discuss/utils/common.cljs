@@ -32,6 +32,7 @@
                              :csrf       nil
                              :statement  ""
                              :selection  nil
+                             :selected-reference nil
                              :logged-in? false}
                 :clipboard  {:selections nil
                              :current    nil}
@@ -106,19 +107,6 @@
   (get-in @app-state [:user :logged-in?]))
 
 
-;;;; References
-(defn get-references
-  "Returns a list of references which were received from the discussion system."
-  []
-  (get-in @app-state [:common :references]))
-
-(defn get-reference
-  "Returns a map matching a specific id. This id must be a number."
-  ([id col]
-   (first (filter #(= (str->int id) (:uid %)) col)))
-  ([id]
-    (get-reference id (get-references))))
-
 ;;;; State changing
 (defn update-state-item!
   "Get the cursor for given key and select a field to apply the function to it."
@@ -130,6 +118,30 @@
   [key col]
   (let [state (get-cursor key)]
     (om/transact! state (fn [] col))))
+
+
+;;;; References
+(defn get-references
+  "Returns a list of references which were received from the discussion system."
+  []
+  (get-in @app-state [:common :references]))
+
+(defn get-reference
+  "Returns a map matching a specific id. This id must be a number."
+  ([id col]
+   (first (filter #(= (str->int id) (:uid %)) col)))
+  ([id]
+   (get-reference id (get-references))))
+
+(defn save-selected-reference!
+  "Saves the currently clicked reference for further processing."
+  [ref]
+  (update-state-item! :user :selected-reference (fn [_] ref)))
+
+(defn selected-reference
+  "Returns the currently selected reference."
+  []
+  (get-in @app-state [:user :selected-reference]))
 
 
 ;;;; CSRF Token
