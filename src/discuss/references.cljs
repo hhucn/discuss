@@ -13,7 +13,7 @@
   [response]
   (let [res (com/success-handler response)]))
 
-(defn get-reference-details
+(defn query-reference-details
   "Show usages of the provided reference."
   [reference-id]
   (let [url (str (:base config/api) (get-in config/api [:get :reference-usages]) "/" reference-id)]
@@ -22,11 +22,13 @@
 
 ;;;; Interaction with integrated references
 (defn click-reference
-  "When clicking on a reference directly in the text, make AJAX request with the url to the discussion
-   and show the sidebar to start the discussion."
+  "When clicking on a reference directly in the text, interact with the user to give her the choice of what
+   her next steps might be."
   [ref]
   #_(com/ajax-get url)
   (lib/change-view! :reference-dialog)
+  (lib/save-selected-reference! ref)
+  (println (lib/selected-reference))
   (sidebar/show)
   (lib/update-state-item! :layout :reference (fn [_] (:text ref))))
 
@@ -39,7 +41,8 @@
   (reify om/IRender
     (render [_]
       (dom/div #js {:className "text-center"}
-               (dom/button #js {:className "btn btn-primary"}
+               (dom/button #js {:className "btn btn-primary"
+                                :onClick   #(query-reference-details 4)}
                            "Find usages of this reference")
                " "
                (dom/button #js {:className "btn btn-primary"}
