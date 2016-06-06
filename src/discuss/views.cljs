@@ -173,9 +173,10 @@
 (defn template-dispatcher
   "Dispatch current template in main view by the app state."
   [data]
-  (let [view (lib/get-template)]
+  (let [view (lib/current-view)]
     (cond
       (= view :login) (om/build login-form {})
+      (= view :reference-dialog) (om/build ref/dialog-view {})
       (= view :reference-usages) (om/build ref/usages-view {})
       :else (discussion-elements data))))
 
@@ -212,7 +213,7 @@
       (dom/span nil
                 (dom/span nil (:dom-pre data))
                 (dom/span #js {:className "arguments pointer"
-                               :onClick   #(integration/click-reference (:text data) (:url data))}
+                               :onClick   #(ref/click-reference data)}
                           (:text data)
                           " "
                           (vlib/logo #(om/set-state! owner :show (vlib/toggle-show show))))
