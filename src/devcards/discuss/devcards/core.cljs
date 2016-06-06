@@ -9,6 +9,7 @@
             [discuss.integration :as integration]
             [discuss.references :as ref]
             [discuss.utils.common :as lib]
+            [discuss.utils.views :as vlib]
             [discuss.views :as views]))
 
 (enable-console-print!)
@@ -25,7 +26,7 @@
          (dom/div nil
                   (dom/button #js {:className "btn btn-info"
                                    :onClick   core/main}
-                              (dom/i #js {:className "fa fa-fort-awesome"}))
+                              (vlib/fa-icon "fa-fort-awesome"))
                   (debug/control-buttons lib/app-state)))
 
 (defcard find-form
