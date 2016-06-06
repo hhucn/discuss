@@ -19,7 +19,9 @@
   (let [url (str (:base config/api) (get-in config/api [:get :reference-usages]) "/" reference)]
     (com/ajax-get url {} reference-usage-handler)))
 
-(defn dialog
+
+;;;; Views
+(defn dialog-view
   "Show a dialog to give the user the option to choose, whether she wants to get some information about the statement
    or just wants to construct a new statement."
   []
@@ -31,3 +33,10 @@
                " "
                (dom/button #js {:className "btn btn-primary"}
                            "Create new Statement with this reference")))))
+
+(defn usages-view
+  "Detail page showing the usages of the given reference."
+  []
+  (reify om/IRender
+    (render [_]
+      (dom/h4 nil "foo"))))
