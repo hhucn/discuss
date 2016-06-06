@@ -1,4 +1,4 @@
-(defproject discuss "1.0.0"
+(defproject discuss "0.1.298"
   :description ""
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
