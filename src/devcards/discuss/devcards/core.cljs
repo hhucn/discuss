@@ -39,7 +39,12 @@
 
 (defcard-om click-on-references
             "Show dialog when clicking on a reference."
-            ref/dialog
+            ref/dialog-view
+            lib/app-state)
+
+(defcard-om show-reference-usages
+            "Show usages of the current selected reference."
+            ref/usages-view
             lib/app-state)
 
 (deftest find-tests
