@@ -11,6 +11,7 @@
             [discuss.integration :as integration]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
+            [discuss.references :as ref]
             [discuss.sidebar :as sidebar]))
 
 ;;;; Auxiliary functions
@@ -169,6 +170,15 @@
                                          :onClick   #(com/dispatch-add-action statement (lib/get-selection))}
                                     "Submit"))))))
 
+(defn template-dispatcher
+  "Dispatch current template in main view by the app state."
+  [data]
+  (let [view (lib/get-template)]
+    (cond
+      (= view :login) (om/build login-form {})
+      (= view :reference-usages) (om/build ref/usages-view {})
+      :else (discussion-elements data))))
+
 (defn main-content-view
   [data]
   (dom/div nil
@@ -177,10 +187,7 @@
                     (dom/br nil)
                     (dom/strong nil (get-in data [:issues :info])))
            (vlib/panel-wrapper
-             (let [view (get-in data [:layout :template])]
-               (cond
-                 (= view :login) (om/build login-form {})
-                 :else (discussion-elements data))))
+             (template-dispatcher data))
            (when (get-in data [:layout :add?])
              (om/build add-element {}))))
 
