@@ -29,7 +29,7 @@
            " "
            (dom/button #js {:className "btn btn-default"
                             :onClick   #(discuss.sidebar/toggle)}
-                       (vlibs/fa-icon "fa-clipboard"))
+                       (vlibs/fa-icon "fa-bars"))
            " "
            (dom/button #js {:className "btn btn-default"
                             :onClick   #(discuss.communication/ajax-get (get-in data [:debug :last-api]))}
