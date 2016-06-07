@@ -33,6 +33,8 @@
                            :asset-path "js/compiled/out"
                            :output-to "resources/public/js/compiled/discuss.js"
                            :output-dir "resources/public/js/compiled/out"
+                           :parallel-build true
+                           :compiler-stats true
                            :source-map-timestamp true}}
                {:id "devcards"
                 :source-paths ["src/discuss" "src/devcards"]
@@ -49,8 +51,9 @@
                 :compiler {:output-to "resources/public/js/compiled/discuss.js"
                            :main discuss.core
                            :optimizations :advanced
-                           :pretty-print false}}
-               ]}
+                           :parallel-build true
+                           :compiler-stats true
+                           :pretty-print false}}]}
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
              ;; :server-port 3449 ;; default
              ;; :server-ip "127.0.0.1"
