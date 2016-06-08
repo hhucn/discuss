@@ -3,13 +3,14 @@
             [clojure.walk :refer [keywordize-keys]]
             [cljs.pprint :as pp]
             [cognitect.transit :as transit]
-            [discuss.config :as config]
-            [goog.fx.dom :as fx]))
+            [discuss.config :as config]))
 
 (defn prefix-name
   "Create unique id for DOM elements."
   [name]
   (str config/project "-" name))
+
+(defonce counter (atom 0))
 
 (defonce app-state
          (atom {:discussion {}
@@ -47,6 +48,11 @@
       converted)))
 
 ;; Get
+(defn get-unique-key
+  "Return unique react-key."
+  []
+  (str (:name config/project) "-unique-react-key-" (swap! counter inc)))
+
 (defn get-cursor
   "Return a cursor to the corresponding key in the app-state."
   [key]
