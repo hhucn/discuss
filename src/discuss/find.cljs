@@ -91,4 +91,4 @@
         (dom/div nil
                  (dom/h6 nil (str "Received " (count results) " entries."))
                  (apply dom/div nil
-                        (om/build-all item-view results)))))))
+                        (map #(om/build item-view (lib/merge-react-key %)) results)))))))
