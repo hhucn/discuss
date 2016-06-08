@@ -1,3 +1,8 @@
+## 0.1.327
+
+* Connect to dockerized D-BAS
+* Update to react v15 and fix incompatible functions
+
 ## 0.1.310
 
 * Preparing new interaction with the user to enable multiple choices how to integrate the reference
