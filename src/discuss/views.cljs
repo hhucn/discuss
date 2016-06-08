@@ -115,7 +115,7 @@
 (defn items-view [data]
   (dom/div nil
            (apply dom/ul #js {:id (lib/prefix-name "items-main")}
-                  (om/build-all item-view (:items data)))))
+                  (map #(om/build item-view (lib/merge-react-key %)) (:items data)))))
 
 (defn discussion-elements [data]
   (dom/div nil
