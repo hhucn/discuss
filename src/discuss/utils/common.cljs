@@ -51,7 +51,12 @@
 (defn get-unique-key
   "Return unique react-key."
   []
-  (str (:name config/project) "-unique-react-key-" (swap! counter inc)))
+  (str config/project "-unique-react-key-" (swap! counter inc)))
+
+(defn merge-react-key
+  "Get a unique key, create a small map with :react-key property and merge it with the given collection."
+  [col]
+  (merge {:react-key (get-unique-key)} col))
 
 (defn get-cursor
   "Return a cursor to the corresponding key in the app-state."
