@@ -8,7 +8,6 @@
             [discuss.extensions]
             [discuss.find :as find]
             [discuss.history :as history]
-            [discuss.integration :as integration]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
             [discuss.references :as ref]
