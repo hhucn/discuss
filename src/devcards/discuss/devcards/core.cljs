@@ -2,6 +2,7 @@
   (:require [devcards.core :as dc :refer-macros [defcard deftest defcard-om]]
             [cljs.test :refer-macros [testing is are]]
             [om.dom :as dom]
+            [discuss.devcards.lib]
             [discuss.core :as core]
             [discuss.debug :as debug]
             [discuss.extensions]
