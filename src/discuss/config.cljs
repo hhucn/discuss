@@ -4,7 +4,7 @@
 
 (def user "Q2hyaXN0aWFu")
 
-(def api {:host "http://localhost:4284/"
+(def api {:host "http://172.18.0.3/"
           :init "api/"
           :base "api/"
           :add  {:add-start-statement "add/start_statement"
