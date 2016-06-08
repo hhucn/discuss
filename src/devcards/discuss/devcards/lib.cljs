@@ -34,4 +34,7 @@
              (is (nil? (lib/get-reference "foo" refs)))
              (is (nil? (lib/get-reference -1 refs)))))
 
+         (testing "Generate unique react-key"
+           (is (not= (lib/get-unique-key) (lib/get-unique-key))))
+
          test-state)
