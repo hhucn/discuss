@@ -12,7 +12,7 @@
                  [org.omcljs/om "1.0.0-alpha32"]
                  [cljs-ajax "0.5.5"]                        ; AJAX for om
                  [com.cognitect/transit-cljs "0.8.237"]     ; Better JSON support
-                 [figwheel-sidecar "0.5.3-2"]
+                 [figwheel-sidecar "0.5.3-2" :scope "devcards"]
                  [devcards "0.2.1-7" :scope "devcards" :exclusions [org.clojure/clojurescript]]]
 
   :plugins [[lein-figwheel "0.5.3-2"]
@@ -47,7 +47,7 @@
                            :compiler-stats true
                            :source-map-timestamp true}}
                {:id "min"
-                :source-paths ["src/discuss"]
+                :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/discuss.js"
                            :main discuss.core
                            :optimizations :advanced
