@@ -6,11 +6,10 @@
             [cljs.core.async :refer [put! chan <!]]
             [clojure.string :refer [split lower-case]]
             [discuss.extensions]
-            [discuss.communication :as com]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
-            [discuss.sidebar :as sidebar]
-            [discuss.tooltip :as tooltip]))
+            [discuss.tooltip :as tooltip]
+            [discuss.views :refer [reference-view]]))
 
 ;;; Listener for mouse clicks
 (defn- get-mouse-position
@@ -53,12 +52,12 @@
   "Removes dom-elements, which can never be used as a reference."
   [doms]
   (remove #(or (= "script" (lower-case (.-nodeName %)))
-               (= "path"   (lower-case (.-nodeName %)))
-               (= "svg"    (lower-case (.-nodeName %)))
+               (= "path" (lower-case (.-nodeName %)))
+               (= "svg" (lower-case (.-nodeName %)))
                (= "circle" (lower-case (.-nodeName %)))
-               (= "html"   (lower-case (.-nodeName %)))
-               (= "head"   (lower-case (.-nodeName %)))
-               (= "meta"   (lower-case (.-nodeName %)))
+               (= "html" (lower-case (.-nodeName %)))
+               (= "head" (lower-case (.-nodeName %)))
+               (= "meta" (lower-case (.-nodeName %)))
                (= "button" (lower-case (.-nodeName %))))
           doms))
 
@@ -77,18 +76,18 @@
   "Find parent of reference, split it into parts and wrap the original reference for highlighting and interaction."
   [ref]
   (let [ref-text (vlib/html->str (:text ref))
-        ref-url  (:url ref)
-        ref-id   (:uid ref)
+        ref-url (:url ref)
+        ref-id (:uid ref)
         doms-raw (.getElementsByTagName js/document "*")
-        doms     (minify-doms doms-raw)
-        parent   (get-parent doms ref-text)]
+        doms (minify-doms doms-raw)
+        parent (get-parent doms ref-text)]
     (when parent
       (let [dom-parts (split (.-innerHTML parent) (re-pattern ref-text))]
-        (om/root discuss.views/reference-view {:text     ref-text
-                                               :url      ref-url
-                                               :id       ref-id
-                                               :dom-pre  (first dom-parts)
-                                               :dom-post (last dom-parts)}
+        (om/root reference-view {:text     ref-text
+                                 :url      ref-url
+                                 :id       ref-id
+                                 :dom-pre  (first dom-parts)
+                                 :dom-post (last dom-parts)}
                  {:target parent})))))
 
 (defn process-references

@@ -1,8 +1,7 @@
 (ns discuss.clipboard
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [discuss.utils.common :as lib]
-            [discuss.utils.views :as vlib]))
+            [discuss.utils.common :as lib]))
 
 (def counter (atom 0))
 
@@ -66,4 +65,4 @@
         (dom/div nil
                  (dom/h5 nil "Clipboard")
                  (apply dom/div nil
-                        (om/build-all clipboard-item (get-stored-selections))))))))
+                        (map #(om/build clipboard-item (lib/merge-react-key %)) (get-stored-selections))))))))
