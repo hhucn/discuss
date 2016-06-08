@@ -20,7 +20,8 @@
   (cond
     (:is_user bubble) "bubble-user"
     (:is_system bubble) "bubble-system"
-    (:is_status bubble) "bubble-status text-center"))
+    (:is_status bubble) "bubble-status text-center"
+    (:is_info bubble) "bubble-info text-center"))
 
 
 ;;;; Elements
@@ -97,7 +98,7 @@
 
 (defn bubbles-view []
   (apply dom/ol #js {:className "bubbles"}
-         (om/build-all bubble-view (lib/get-bubbles))))
+         (map #(om/build bubble-view (lib/merge-react-key %)) (lib/get-bubbles))))
 
 (defn item-view [item _owner]
   (reify om/IRender
