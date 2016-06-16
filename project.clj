@@ -8,11 +8,11 @@
 
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.36"]
-                 [org.clojure/core.async "0.2.374" :exclusions [org.clojure/tools.reader]]
+                 [org.clojure/core.async "0.2.382" :exclusions [org.clojure/tools.reader]]
                  [org.omcljs/om "1.0.0-alpha36"]
                  [cljs-ajax "0.5.5"]                        ; AJAX for om
                  [com.cognitect/transit-cljs "0.8.237"]     ; Better JSON support
-                 [figwheel-sidecar "0.5.3-2" :scope "devcards"]
+                 [figwheel-sidecar "0.5.4-3" :scope "devcards"]
                  [devcards "0.2.1-7" :scope "devcards" :exclusions [org.clojure/clojurescript]]]
 
   :plugins [[lein-figwheel "0.5.3-2"]
