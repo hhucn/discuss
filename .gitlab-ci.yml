@@ -1,8 +1,8 @@
 image: clojure
 
 before_script:
-  - lein deps
+  - lein clean
 
-test:
+build:
   script:
     - lein cljsbuild once min
