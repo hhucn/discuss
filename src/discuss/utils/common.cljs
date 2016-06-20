@@ -38,7 +38,8 @@
                 :clipboard  {:selections nil
                              :current    nil}
                 :sidebar    {:show? true}
-                :common     {:references []}}))
+                :common     {:references []
+                             :reference-usages {}}}))
 
 (defn str->int
   "Convert String to Integer."
