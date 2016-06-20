@@ -30,7 +30,6 @@
 (defn ajax-get
   "Make ajax call to dialogue based argumentation system."
   ([url headers handler]
-   (debug/update-debug :last-api url)
    (lib/no-error!)
    (GET (make-url url)
         {:handler       handler
@@ -41,6 +40,12 @@
    (ajax-get url headers lib/update-all-states!))
   ([url]
    (ajax-get url {})))
+
+(defn ajax-get-and-change-view
+    "Make ajax call to jump right into the discussion and change to discussion view."
+    [url view]
+    (ajax-get url)
+    (lib/change-view! view))
 
 (defn success-handler
   "Generic success handler, which sets error handling and returns a cljs-compatible response."
