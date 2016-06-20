@@ -65,7 +65,7 @@
             author (:author data)]
         (dom/div #js {:className "bs-callout bs-callout-info"}
                  (dom/a #js {:href    "javascript:void(0)"
-                             :onClick #(com/ajax-get (:url statement))}
+                             :onClick #(com/ajax-get-and-change-view (:url statement) :default)}
                         (dom/strong nil (:text statement)))
                  (dom/div nil "Issue: " (:title issue))
                  (dom/div nil "Author: " (:nickname author)))))))
@@ -77,6 +77,5 @@
     (render [_]
       (let [usages (get-reference-usages-from-app-state)]
         (dom/div nil
-                 (dom/h6 nil (str "Received " (count usages) " usage(s)."))
                  (apply dom/div nil
                         (map #(om/build usage-view (lib/merge-react-key %)) usages)))))))
