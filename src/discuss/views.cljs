@@ -87,7 +87,8 @@
   (reify om/IRender
     (render [_]
       (let [bubble-class (get-bubble-class bubble)
-            ref (lib/get-reference (:id bubble))]
+            ;; ref (lib/get-reference (:id bubble))
+            ]
         (comment (println bubble)
                  (println (:id bubble)))
         (dom/li #js {:className bubble-class}
@@ -176,6 +177,7 @@
   (let [view (lib/current-view)]
     (cond
       (= view :login) (om/build login-form {})
+      (= view :reference-agree-disagree) (om/build ref/agree-disagree-view {})
       (= view :reference-dialog) (om/build ref/dialog-view {})
       (= view :reference-usages) (om/build ref/usages-view {})
       :else (discussion-elements data))))
