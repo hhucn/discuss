@@ -49,6 +49,11 @@
             ref/usages-view
             lib/app-state)
 
+(defcard-om agree-disagree-reference
+            "Choose your opinion."
+            ref/agree-disagree-view
+            lib/app-state)
+
 (deftest find-tests
          "Testing the small search engine in `discuss.find`"
          (testing "fn statement, sending request and counting results"
