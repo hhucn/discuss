@@ -6,7 +6,8 @@
             [discuss.communication :as com]
             [discuss.config :as config]
             [discuss.sidebar :as sidebar]
-            [discuss.utils.common :as lib]))
+            [discuss.utils.common :as lib]
+            [discuss.utils.views :as vlib]))
 
 (defn- get-reference-usages-from-app-state
   "Return list of reference usages, which were previously stored in the app-state.
@@ -64,8 +65,10 @@
             statement (:statement data)
             author (:author data)]
         (dom/div #js {:className "bs-callout bs-callout-info"}
-                 (dom/a #js {:href    "javascript:void(0)"
-                             :onClick #(com/ajax-get-and-change-view (:url statement) :default)}
+                 (dom/a #js {:href "javascript:void(0)"
+                             :onClick #(lib/change-view! :reference-agree-disagree)
+                             ;:onClick #(com/ajax-get-and-change-view (:url statement) :default)
+                             }
                         (dom/strong nil (:text statement)))
                  (dom/div nil "Issue: " (:title issue))
                  (dom/div nil "Author: " (:nickname author)))))))
@@ -79,3 +82,21 @@
         (dom/div nil
                  (apply dom/div nil
                         (map #(om/build usage-view (lib/merge-react-key %)) usages)))))))
+
+(defn agree-disagree-view
+  "Agree or disagree with the selected reference."
+  []
+  (reify om/IRender
+    (render [_]
+      (dom/div nil
+               (dom/div #js {:className "text-center"}
+                        "Do you agree or disagree with this statement?")
+               (om/build usage-view {})
+               (dom/div #js {:className "text-center"}
+                        (dom/button #js {:className "btn btn-primary"}
+                                    (vlib/fa-icon "fa-thumbs-up")
+                                    " Agree")
+                        " "
+                        (dom/button #js {:className "btn btn-primary"}
+                                    (vlib/fa-icon "fa-thumbs-down")
+                                    " Disagree"))))))
