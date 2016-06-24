@@ -13,34 +13,34 @@
 (defonce counter (atom 0))
 
 (defonce app-state
-         (atom {:discussion {}
-                :issues     {}
-                :items      {}
-                :layout     {:title     "discuss"
-                             :intro     "The current discussion is about:"
-                             :template  :discussion
-                             :add?      false
-                             :add-text  "Let me enter my reason!"
-                             :add-type  nil
-                             :loading?  false
-                             :reference ""
-                             :error?    false
-                             :error-msg nil}
-                :debug      {:last-api ""}
-                :user       {:nickname   "kangaroo"
-                             :token      "razupaltuff"
-                             :avatar     ""
-                             :csrf       nil
-                             :statement  ""
-                             :selection  nil
-                             :selected-reference nil
-                             :selected-statement nil
-                             :logged-in? false}
-                :clipboard  {:selections nil
-                             :current    nil}
-                :sidebar    {:show? true}
-                :common     {:references []
-                             :reference-usages {}}}))
+         (atom {:discussion       {}
+                :issues           {}
+                :items            {}
+                :layout           {:title     "discuss"
+                                   :intro     "The current discussion is about:"
+                                   :template  :discussion
+                                   :add?      false
+                                   :add-text  "Let me enter my reason!"
+                                   :add-type  nil
+                                   :loading?  false
+                                   :reference ""
+                                   :error?    false
+                                   :error-msg nil}
+                :debug            {:last-api ""}
+                :user             {:nickname           "kangaroo"
+                                   :token              "razupaltuff"
+                                   :avatar             ""
+                                   :csrf               nil
+                                   :statement          ""
+                                   :selection          nil
+                                   :logged-in?         false}
+                :reference-usages {:selected-reference nil
+                                   :selected-statement nil}
+                :clipboard        {:selections nil
+                                   :current    nil}
+                :sidebar          {:show? true}
+                :common           {:references       []
+                                   :reference-usages {}}}))
 
 (defn str->int
   "Convert String to Integer."
@@ -149,22 +149,23 @@
 (defn save-selected-reference!
   "Saves the currently clicked reference for further processing."
   [ref]
-  (update-state-item! :user :selected-reference (fn [_] ref)))
+  (update-state-item! :reference-usages :selected-reference (fn [_] ref)))
 
 (defn selected-reference
   "Returns the currently selected reference."
   []
-  (get-in @app-state [:user :selected-reference]))
+  (get-in @app-state [:reference-usages :selected-reference]))
 
 (defn save-selected-statement!
   "Saves the currently clicked reference for further processing."
   [statement]
-  (update-state-item! :user :selected-statement (fn [_] statement)))
+  (update-state-item! :reference-usages :selected-statement (fn [_] statement)))
 
 (defn selected-statement
   "Returns the currently selected reference."
   []
-  (get-in @app-state [:user :selected-statement]))
+  (get-in @app-state [:reference-usages :selected-statement]))
+
 
 ;;;; CSRF Token
 (defn get-csrf
