@@ -44,7 +44,7 @@
   (reify om/IRender
     (render [_]
       (dom/div #js {:className "text-center"}
-               (bs/button-primary #(query-reference-details (:id (rlib/selected-reference)))
+               (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
                                   "Find usages of this reference")
                " "
                (bs/button-primary nil
@@ -73,7 +73,7 @@
   []
   (reify om/IRender
     (render [_]
-      (let [usages (rlib/get-reference-usages-from-app-state)
+      (let [usages (rlib/get-reference-usages)
             ref-title (:title (:reference (first usages)))]
         (dom/div nil
                  (dom/div #js {:className "text-center"}
@@ -88,7 +88,7 @@
   []
   (reify om/IRender
     (render [_]
-      (let [statement (rlib/selected-statement)]
+      (let [statement (rlib/get-selected-statement)]
         (dom/div nil
                  (dom/div #js {:className "text-center"}
                           "Do you agree or disagree with this statement?")
