@@ -3,7 +3,6 @@ image: clojure
 before_script:
   - lein clean
   - lein kibit
-  - lein ancient
 
 build:
   script:
