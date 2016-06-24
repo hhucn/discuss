@@ -93,15 +93,16 @@
   []
   (reify om/IRender
     (render [_]
-      (dom/div nil
-               (dom/div #js {:className "text-center"}
-                        "Do you agree or disagree with this statement?")
-               (om/build usage-view {})
-               (dom/div #js {:className "text-center"}
-                        (bs/button-primary #(println "foo")
-                                           (vlib/fa-icon "fa-thumbs-up")
-                                           " Agree")
-                        " "
-                        (bs/button-primary nil
-                                           (vlib/fa-icon "fa-thumbs-down")
-                                           " Disagree"))))))
+      (let [statement (lib/selected-statement)]
+        (dom/div nil
+                 (dom/div #js {:className "text-center"}
+                          "Do you agree or disagree with this statement?")
+                 (om/build usage-view statement)
+                 (dom/div #js {:className "text-center"}
+                          (bs/button-primary #(println "foo")
+                                             (vlib/fa-icon "fa-thumbs-up")
+                                             " Agree")
+                          " "
+                          (bs/button-primary nil
+                                             (vlib/fa-icon "fa-thumbs-down")
+                                             " Disagree")))))))
