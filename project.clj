@@ -12,7 +12,7 @@
                  [org.omcljs/om "1.0.0-alpha36"]
                  [cljs-ajax "0.5.8"]                        ; AJAX for om
                  [com.cognitect/transit-cljs "0.8.239"]     ; Better JSON support
-                 [figwheel-sidecar "0.5.4-4" :scope "devcards"]
+                 [figwheel-sidecar "0.5.3-2" :scope "devcards"]
                  [devcards "0.2.1-7" :scope "devcards" :exclusions [org.clojure/clojurescript]]]
 
   :plugins [[lein-figwheel "0.5.3-2"]
