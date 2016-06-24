@@ -7,3 +7,7 @@ before_script:
 build:
   script:
     - lein cljsbuild once min
+  artifacts:
+    paths:
+      - resources/public/js/compiled/discuss.js
+    expire_in: 1 week
