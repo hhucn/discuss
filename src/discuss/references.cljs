@@ -76,10 +76,15 @@
   []
   (reify om/IRender
     (render [_]
-      (let [usages (get-reference-usages-from-app-state)]
+      (let [usages (get-reference-usages-from-app-state)
+            ref-title (:title (:reference (first usages)))]
         (dom/div nil
-                 (apply dom/div nil
-                        (map #(om/build usage-view (lib/merge-react-key %)) usages)))))))
+                 (dom/div #js {:className "text-center"}
+                          "Usages of reference: "
+                          ref-title)
+                 (dom/div nil
+                          (apply dom/div nil
+                                 (map #(om/build usage-view (lib/merge-react-key %)) usages))))))))
 
 (defn agree-disagree-view
   "Agree or disagree with the selected reference."
