@@ -31,7 +31,7 @@
                   (debug/control-buttons lib/app-state)))
 
 (defcard find-form
-         ""
+         "*Select issue and search for statements.*"
          (dc/om-root find/form-view))
 
 (defcard-om find-statement
