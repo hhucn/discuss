@@ -6,6 +6,7 @@
             [discuss.communication :as com]
             [discuss.config :as config]
             [discuss.sidebar :as sidebar]
+            [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
 
@@ -48,12 +49,11 @@
   (reify om/IRender
     (render [_]
       (dom/div #js {:className "text-center"}
-               (dom/button #js {:className "btn btn-primary"
-                                :onClick   #(query-reference-details (:id (lib/selected-reference)))}
-                           "Find usages of this reference")
+               (bs/button-primary #(query-reference-details (:id (lib/selected-reference)))
+                                  "Find usages of this reference")
                " "
-               (dom/button #js {:className "btn btn-primary"}
-                           "Create new Statement with this reference")))))
+               (bs/button-primary nil
+                                  "Create new Statement with this reference")))))
 
 (defn usage-view
   "List single usages of reference."
@@ -66,7 +66,7 @@
             author (:author data)]
         (dom/div #js {:className "bs-callout bs-callout-info"}
                  (dom/a #js {:href    "javascript:void(0)"
-                             :onClick #(com/ajax-get-and-change-view (:url statement) :default)}
+                             :onClick #(lib/change-view! :reference-agree-disagree)}
                         (dom/strong nil (:text statement)))
                  (dom/div nil "Issue: " (:title issue))
                  (dom/div nil "Author: " (:nickname author)))))))
@@ -96,10 +96,10 @@
                         "Do you agree or disagree with this statement?")
                (om/build usage-view {})
                (dom/div #js {:className "text-center"}
-                        (dom/button #js {:className "btn btn-primary"}
-                                    (vlib/fa-icon "fa-thumbs-up")
-                                    " Agree")
+                        (bs/button-primary #(println "foo")
+                                           (vlib/fa-icon "fa-thumbs-up")
+                                           " Agree")
                         " "
-                        (dom/button #js {:className "btn btn-primary"}
-                                    (vlib/fa-icon "fa-thumbs-down")
-                                    " Disagree"))))))
+                        (bs/button-primary nil
+                                           (vlib/fa-icon "fa-thumbs-down")
+                                           " Disagree"))))))
