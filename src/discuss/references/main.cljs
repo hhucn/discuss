@@ -6,35 +6,10 @@
             [discuss.communication :as com]
             [discuss.config :as config]
             [discuss.sidebar :as sidebar]
+            [discuss.references.lib :as rlib]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
-
-(defn save-selected-reference!
-  "Saves the currently clicked reference for further processing."
-  [ref]
-  (lib/update-state-item! :reference-usages :selected-reference (fn [_] ref)))
-
-(defn selected-reference
-  "Returns the currently selected reference."
-  []
-  (get-in @lib/app-state [:reference-usages :selected-reference]))
-
-(defn save-selected-statement!
-  "Saves the currently selected statement for further processing."
-  [statement]
-  (lib/update-state-item! :reference-usages :selected-statement (fn [_] statement)))
-
-(defn selected-statement
-  "Returns the currently selected statement from reference usages."
-  []
-  (get-in @lib/app-state [:reference-usages :selected-statement]))
-
-(defn- get-reference-usages-from-app-state
-  "Return list of reference usages, which were previously stored in the app-state.
-   TODO: optimize"
-  []
-  (get-in @lib/app-state [:common :reference-usages]))
 
 (defn reference-usage-handler
   "Handler to process information about the reference. Store results and change view."
@@ -56,7 +31,7 @@
    her next steps might be."
   [reference]
   (lib/change-view! :reference-dialog)
-  (save-selected-reference! reference)
+  (rlib/save-selected-reference! reference)
   (sidebar/show)
   (lib/update-state-item! :layout :reference (fn [_] (:text reference))))
 
@@ -87,7 +62,7 @@
         (dom/div #js {:className "bs-callout bs-callout-info"}
                  (dom/a #js {:href    "javascript:void(0)"
                              :onClick (fn [_]
-                                        (save-selected-statement! data)
+                                        (rlib/save-selected-statement! data)
                                         (lib/change-view! :reference-agree-disagree))}
                         (dom/strong nil (:text statement)))
                  (dom/div nil "Issue: " (:title issue))
@@ -98,22 +73,24 @@
   []
   (reify om/IRender
     (render [_]
-      (let [usages (get-reference-usages-from-app-state)
+      (let [usages (rlib/get-reference-usages-from-app-state)
             ref-title (:title (:reference (first usages)))]
-        (dom/div nil
-                 (dom/div #js {:className "text-center"}
-                          "Usages of reference: "
-                          ref-title)
-                 (dom/div nil
-                          (apply dom/div nil
-                                 (map #(om/build usage-view (lib/merge-react-key %)) usages))))))))
+        (if (= 1 (count usages))
+          (lib/change-view! :reference-agree-disagree)
+          (dom/div nil
+                   (dom/div #js {:className "text-center"}
+                            "Usages of reference: "
+                            ref-title)
+                   (dom/div nil
+                            (apply dom/div nil
+                                   (map #(om/build usage-view (lib/merge-react-key %)) usages)))))))))
 
 (defn agree-disagree-view
   "Agree or disagree with the selected reference."
   []
   (reify om/IRender
     (render [_]
-      (let [statement (selected-statement)]
+      (let [statement (rlib/selected-statement)]
         (dom/div nil
                  (dom/div #js {:className "text-center"}
                           "Do you agree or disagree with this statement?")
