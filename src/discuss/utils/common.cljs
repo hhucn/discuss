@@ -34,6 +34,7 @@
                              :statement  ""
                              :selection  nil
                              :selected-reference nil
+                             :selected-statement nil
                              :logged-in? false}
                 :clipboard  {:selections nil
                              :current    nil}
@@ -155,6 +156,15 @@
   []
   (get-in @app-state [:user :selected-reference]))
 
+(defn save-selected-statement!
+  "Saves the currently clicked reference for further processing."
+  [statement]
+  (update-state-item! :user :selected-statement (fn [_] statement)))
+
+(defn selected-statement
+  "Returns the currently selected reference."
+  []
+  (get-in @app-state [:user :selected-statement]))
 
 ;;;; CSRF Token
 (defn get-csrf
