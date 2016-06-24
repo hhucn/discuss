@@ -1,8 +1,9 @@
 image: clojure
 
 before_script:
+  - lein --version
   - lein clean
-  - lein kibit
+  #- lein kibit
 
 build:
   script:

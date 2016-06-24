@@ -44,7 +44,7 @@
   (reify om/IRender
     (render [_]
       (dom/div #js {:className "text-center"}
-               (bs/button-primary #(query-reference-details (:id (selected-reference)))
+               (bs/button-primary #(query-reference-details (:id (rlib/selected-reference)))
                                   "Find usages of this reference")
                " "
                (bs/button-primary nil
@@ -75,15 +75,13 @@
     (render [_]
       (let [usages (rlib/get-reference-usages-from-app-state)
             ref-title (:title (:reference (first usages)))]
-        (if (= 1 (count usages))
-          (lib/change-view! :reference-agree-disagree)
-          (dom/div nil
-                   (dom/div #js {:className "text-center"}
-                            "Usages of reference: "
-                            ref-title)
-                   (dom/div nil
-                            (apply dom/div nil
-                                   (map #(om/build usage-view (lib/merge-react-key %)) usages)))))))))
+        (dom/div nil
+                 (dom/div #js {:className "text-center"}
+                          "Usages of reference: "
+                          ref-title)
+                 (dom/div nil
+                          (apply dom/div nil
+                                 (map #(om/build usage-view (lib/merge-react-key %)) usages))))))))
 
 (defn agree-disagree-view
   "Agree or disagree with the selected reference."
