@@ -1,4 +1,4 @@
-(ns discuss.references
+(ns discuss.references.main
   "Handle interaction with already existing references, for example showing usages in other statements / arguments
    or providing a form to use it in the own statement."
   (:require [om.core :as om]
@@ -9,6 +9,26 @@
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
+
+(defn save-selected-reference!
+  "Saves the currently clicked reference for further processing."
+  [ref]
+  (lib/update-state-item! :reference-usages :selected-reference (fn [_] ref)))
+
+(defn selected-reference
+  "Returns the currently selected reference."
+  []
+  (get-in @lib/app-state [:reference-usages :selected-reference]))
+
+(defn save-selected-statement!
+  "Saves the currently selected statement for further processing."
+  [statement]
+  (lib/update-state-item! :reference-usages :selected-statement (fn [_] statement)))
+
+(defn selected-statement
+  "Returns the currently selected statement from reference usages."
+  []
+  (get-in @lib/app-state [:reference-usages :selected-statement]))
 
 (defn- get-reference-usages-from-app-state
   "Return list of reference usages, which were previously stored in the app-state.
@@ -36,7 +56,7 @@
    her next steps might be."
   [reference]
   (lib/change-view! :reference-dialog)
-  (lib/save-selected-reference! reference)
+  (save-selected-reference! reference)
   (sidebar/show)
   (lib/update-state-item! :layout :reference (fn [_] (:text reference))))
 
@@ -49,7 +69,7 @@
   (reify om/IRender
     (render [_]
       (dom/div #js {:className "text-center"}
-               (bs/button-primary #(query-reference-details (:id (lib/selected-reference)))
+               (bs/button-primary #(query-reference-details (:id (selected-reference)))
                                   "Find usages of this reference")
                " "
                (bs/button-primary nil
@@ -67,7 +87,7 @@
         (dom/div #js {:className "bs-callout bs-callout-info"}
                  (dom/a #js {:href    "javascript:void(0)"
                              :onClick (fn [_]
-                                        (lib/save-selected-statement! data)
+                                        (save-selected-statement! data)
                                         (lib/change-view! :reference-agree-disagree))}
                         (dom/strong nil (:text statement)))
                  (dom/div nil "Issue: " (:title issue))
@@ -93,7 +113,7 @@
   []
   (reify om/IRender
     (render [_]
-      (let [statement (lib/selected-statement)]
+      (let [statement (selected-statement)]
         (dom/div nil
                  (dom/div #js {:className "text-center"}
                           "Do you agree or disagree with this statement?")

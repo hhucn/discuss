@@ -10,7 +10,7 @@
             [discuss.history :as history]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
-            [discuss.references :as ref]
+            [discuss.references.main :as ref]
             [discuss.sidebar :as sidebar]))
 
 ;;;; Auxiliary functions

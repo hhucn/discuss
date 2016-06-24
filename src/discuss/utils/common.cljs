@@ -146,26 +146,6 @@
   ([id]
    (get-reference id (get-references))))
 
-(defn save-selected-reference!
-  "Saves the currently clicked reference for further processing."
-  [ref]
-  (update-state-item! :reference-usages :selected-reference (fn [_] ref)))
-
-(defn selected-reference
-  "Returns the currently selected reference."
-  []
-  (get-in @app-state [:reference-usages :selected-reference]))
-
-(defn save-selected-statement!
-  "Saves the currently clicked reference for further processing."
-  [statement]
-  (update-state-item! :reference-usages :selected-statement (fn [_] statement)))
-
-(defn selected-statement
-  "Returns the currently selected reference."
-  []
-  (get-in @app-state [:reference-usages :selected-statement]))
-
 
 ;;;; CSRF Token
 (defn get-csrf
