@@ -35,33 +35,33 @@
          (dc/om-root find/form-view))
 
 (defcard-om find-statement
-            "Query database to find statements."
+            "*Query database to find statements.*"
             find/results-view
             lib/app-state)
 
 (defcard-om click-on-references
-            "Show dialog when clicking on a reference."
+            "*Show dialog when clicking on a reference.*"
             ref/dialog-view
             lib/app-state)
 
 (defcard-om show-reference-usages
-            "Show usages of the current selected reference."
+            "*Show usages of the current selected reference.*"
             ref/usages-view
             lib/app-state)
 
 (defcard-om agree-disagree-reference
-            "Choose your opinion."
+            "*Choose your opinion.*"
             ref/agree-disagree-view
             lib/app-state)
 
 (deftest find-tests
-         "Testing the small search engine in `discuss.find`"
+         "*Testing the small search engine in `discuss.find`*"
          (testing "fn statement, sending request and counting results"
            (is (= 4 (count (find/get-search-results)))))
          test-state)
 
 (deftest integration-test
-         "Testing `discuss.integration`"
+         "*Testing `discuss.integration`*"
          (let [doms-raw (.getElementsByTagName js/document "*")]
            (testing "fn get-parent"
              (is (= "test-get-parent" (.-id (integration/get-parent doms-raw "Eine Krise in den neunziger Jahren brachte die Wende für die Stadt"))))
