@@ -24,6 +24,12 @@
   (let [url (str (:base config/api) (get-in config/api [:get :reference-usages]) "/" reference-id)]
     (com/ajax-get url {} reference-usage-handler)))
 
+(defn save-statement-change-view
+  "Saves the current selected statement (or the only one if there is only one available) and changes to
+   the view to configure own attitude."
+  [statement]
+  (rlib/save-selected-statement! statement)
+  (lib/change-view! :reference-agree-disagree))
 
 ;;;; Interaction with integrated references
 (defn click-reference
@@ -61,9 +67,7 @@
             author (:author data)]
         (dom/div #js {:className "bs-callout bs-callout-info"}
                  (dom/a #js {:href    "javascript:void(0)"
-                             :onClick (fn [_]
-                                        (rlib/save-selected-statement! data)
-                                        (lib/change-view! :reference-agree-disagree))}
+                             :onClick #(save-statement-change-view data)}
                         (dom/strong nil (:text statement)))
                  (dom/div nil "Issue: " (:title issue))
                  (dom/div nil "Author: " (:nickname author)))))))
@@ -94,10 +98,10 @@
                           "Do you agree or disagree with this statement?")
                  (om/build usage-view statement)
                  (dom/div #js {:className "text-center"}
-                          (bs/button-primary #(println "foo")
+                          (bs/button-primary #(rlib/supportive? true)
                                              (vlib/fa-icon "fa-thumbs-up")
                                              " Agree")
                           " "
-                          (bs/button-primary nil
+                          (bs/button-primary #(rlib/supportive? false)
                                              (vlib/fa-icon "fa-thumbs-down")
                                              " Disagree")))))))
