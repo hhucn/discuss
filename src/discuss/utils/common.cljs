@@ -35,12 +35,13 @@
                                    :selection          nil
                                    :logged-in?         false}
                 :reference-usages {:selected-reference nil
-                                   :selected-statement nil}
+                                   :selected-statement nil
+                                   :supportive? nil}
                 :clipboard        {:selections nil
                                    :current    nil}
                 :sidebar          {:show? true}
                 :common           {:references       []
-                                   :reference-usages {}}}))
+                                   :reference-usages {}}})) ; Put this into :reference-usages
 
 (defn str->int
   "Convert String to Integer."
