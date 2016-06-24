@@ -70,7 +70,6 @@
     (render-state [_ {:keys [search-value issue-id]}]
       (dom/div nil
                (dom/div #js {:className "form-group"}
-                        (dom/label nil "Select Issue")
                         (dom/select #js {:className "form-control"
                                          :onChange  #(store-selected-issue % owner)}
                                     (map #(issue-selector-view % owner) (lib/get-issues))))
