@@ -2,9 +2,9 @@ image: clojure
 
 before_script:
   - lein clean
+  - lein kibit
+  - lein ancient
 
 build:
   script:
-    - lein kibit
-    - lein ancient
     - lein cljsbuild once min
