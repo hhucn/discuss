@@ -1,3 +1,10 @@
+## WIP
+
+## 0.1.375
+
+* Add GitLab CI support
+* Create reference module to check for usages of reference in the database of D-BAS
+
 ## 0.1.327
 
 * Connect to dockerized D-BAS
