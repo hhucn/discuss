@@ -31,6 +31,7 @@
   (rlib/save-selected-statement! statement)
   (lib/change-view! :reference-agree-disagree))
 
+
 ;;;; Interaction with integrated references
 (defn click-reference
   "When clicking on a reference directly in the text, interact with the user to give her the choice of what
