@@ -1,5 +1,8 @@
 ## WIP
 
+* Differently react to statements
+* Construct arguments based on already selected references
+
 ## 0.1.375
 
 * Add GitLab CI support
