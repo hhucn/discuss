@@ -21,6 +21,13 @@
   []
   (get-in @lib/app-state [:reference-usages :selected-statement]))
 
+(defn supportive?
+  "Store if a user supports the statement or not."
+  ([]
+    (get-in @lib/app-state [:reference-usages :supportive?]))
+  ([bool]
+   (lib/update-state-item! :reference-usages :supportive? (fn [_] bool))))
+
 (defn get-reference-usages
   "Return list of reference usages, which were previously stored in the app-state.
    TODO: optimize"
