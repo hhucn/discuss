@@ -66,7 +66,9 @@
             author (:author data)]
         (dom/div #js {:className "bs-callout bs-callout-info"}
                  (dom/a #js {:href    "javascript:void(0)"
-                             :onClick #(lib/change-view! :reference-agree-disagree)}
+                             :onClick (fn [_]
+                                        (lib/save-selected-statement! data)
+                                        (lib/change-view! :reference-agree-disagree))}
                         (dom/strong nil (:text statement)))
                  (dom/div nil "Issue: " (:title issue))
                  (dom/div nil "Author: " (:nickname author)))))))
