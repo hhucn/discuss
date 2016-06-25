@@ -3,7 +3,6 @@
   (:require [ajax.core :refer [GET POST]]
             [clojure.walk :refer [keywordize-keys]]
             [discuss.config :as config]
-            [discuss.debug :as debug]
             [discuss.utils.common :as lib]))
 
 ;;; Auxiliary functions
@@ -47,7 +46,7 @@
     (ajax-get url)
     (lib/change-view! view))
 
-(defn success-handler
+(defn process-response
   "Generic success handler, which sets error handling and returns a cljs-compatible response."
   [response]
   (let [res (lib/json->clj response)
@@ -62,7 +61,7 @@
 (defn process-url-handler
   "React on response after sending a new statement. Reset atom and call newly received url."
   [response]
-  (let [res (success-handler response)
+  (let [res (process-response response)
         url (:url res)]
     (lib/hide-add-form!)
     (lib/update-state-item! :layout :add-type (fn [_] nil))
