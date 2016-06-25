@@ -14,7 +14,7 @@
 (defn reference-usage-handler
   "Handler to process information about the reference. Store results and change view."
   [response]
-  (let [res (com/success-handler response)]
+  (let [res (com/process-response response)]
     (lib/update-state-item! :common :reference-usages (fn [_] res))
     (lib/change-view! :reference-usages)))
 
@@ -62,8 +62,7 @@
   [data _owner]
   (reify om/IRender
     (render [_]
-      (let [reference (:reference data)
-            issue (:issue data)
+      (let [issue (:issue data)
             statement (:statement data)
             author (:author data)]
         (dom/div #js {:className "bs-callout bs-callout-info"}
@@ -88,6 +87,21 @@
                           (apply dom/div nil
                                  (map #(om/build usage-view (lib/merge-react-key %)) usages))))))))
 
+(defn get-statement-handler
+  ""
+  [response]
+  (let [res (com/process-response response)]
+    (com/ajax-get-and-change-view (:url res) :default)))
+
+(defn get-statement-url
+  "Given an issue-id, statement-id and attitude, query statement url inside the discussion."
+  [statement agree]
+  (let [issue-id (get-in statement [:issue :uid])
+        statement-id (get-in statement [:statement :uid])
+        pre-url (get-in config/api [:get :statement-url])
+        url (clojure.string/join "/" [pre-url issue-id statement-id agree])]
+    (com/ajax-get url {} get-statement-handler)))
+
 (defn agree-disagree-view
   "Agree or disagree with the selected reference."
   []
@@ -99,10 +113,10 @@
                           "Do you agree or disagree with this statement?")
                  (om/build usage-view statement)
                  (dom/div #js {:className "text-center"}
-                          (bs/button-primary #(rlib/supportive? true)
+                          (bs/button-primary #(get-statement-url statement true)
                                              (vlib/fa-icon "fa-thumbs-up")
                                              " Agree")
                           " "
-                          (bs/button-primary #(rlib/supportive? false)
+                          (bs/button-primary #(get-statement-url statement false)
                                              (vlib/fa-icon "fa-thumbs-down")
                                              " Disagree")))))))
