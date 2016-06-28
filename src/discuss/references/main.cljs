@@ -51,6 +51,8 @@
   (reify om/IRender
     (render [_]
       (dom/div #js {:className "text-center"}
+               (dom/div #js {:style #js {:paddingBottom "1em"}}
+                        "You have selected: " (:text (rlib/get-selected-reference)))
                (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
                                   "Find usages of this reference")
                " "
@@ -62,17 +64,18 @@
   [data _owner]
   (reify om/IRender
     (render [_]
-      (let [issue (:issue data)
+      (let [reference (:reference data)
+            issue (:issue data)
             statement (:statement data)
             author (:author data)]
-        (dom/div #js {:className "bs-callout bs-callout-info"}
-                 (dom/a #js {:href    "javascript:void(0)"
-                             :onClick #(save-statement-change-view data)}
-                        (dom/strong nil (:text statement)))
-                 (dom/div nil "Issue: " (:title issue))
-
-                 #_(dom/div nil "Author: " (:nickname author))
-                 )))))
+        (dom/div nil
+                 (dom/div #js {:className "bs-callout bs-callout-info"}
+                          (dom/a #js {:href    "javascript:void(0)"
+                                      :onClick #(save-statement-change-view data)}
+                                 (dom/strong nil (:text statement)))
+                          (dom/div nil "Reference: \"" (:title reference) "\"")
+                          (dom/div nil "Issue: " (:title issue))
+                          (dom/div nil "Author: " (:nickname author))))))))
 
 (defn usages-view
   "List with details showing the usages of the given reference."
