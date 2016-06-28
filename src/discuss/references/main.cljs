@@ -39,7 +39,7 @@
   [reference]
   (lib/change-view! :reference-dialog)
   (rlib/save-selected-reference! reference)
-  (sidebar/show)
+  #_(sidebar/show)
   (lib/update-state-item! :layout :reference (fn [_] (:text reference))))
 
 
@@ -70,7 +70,9 @@
                              :onClick #(save-statement-change-view data)}
                         (dom/strong nil (:text statement)))
                  (dom/div nil "Issue: " (:title issue))
-                 (dom/div nil "Author: " (:nickname author)))))))
+
+                 #_(dom/div nil "Author: " (:nickname author))
+                 )))))
 
 (defn usages-view
   "List with details showing the usages of the given reference."
