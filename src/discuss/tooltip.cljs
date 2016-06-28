@@ -56,22 +56,17 @@
 
 
 ;;;; Creating the view
-(defn safe-space
-  "Create a safed spacer."
-  []
-  (vlib/safe-html "&nbsp;"))
-
 (defn view [data owner]
   (reify om/IRender
     (render [_]
       (dom/div nil
                (vlib/logo)
-               (safe-space) " | " (safe-space)
+               (vlib/safe-space) " | " (vlib/safe-space)
                (dom/span #js {:className "pointer"
                               :onClick clipboard/add-selection}
                          (vlib/fa-icon "fa-bookmark-o")
                          " Save")
-               (safe-space) "  " (safe-space)
+               (vlib/safe-space) "  " (vlib/safe-space)
                (dom/span #js {:className "pointer"
                               :onClick   sidebar/show}
                          (vlib/fa-icon "fa-comment")

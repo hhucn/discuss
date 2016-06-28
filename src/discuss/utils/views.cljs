@@ -24,6 +24,11 @@
   [string]
   (dom/span #js {:dangerouslySetInnerHTML #js {:__html string}}))
 
+(defn safe-space
+  "Create a safed spacer."
+  []
+  (safe-html "&nbsp;"))
+
 (defn html->str
   "Unescape HTML entities and return a string."
   [escaped]
