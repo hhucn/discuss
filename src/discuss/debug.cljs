@@ -20,6 +20,10 @@
 (defn control-buttons [data]
   (dom/div nil
            (dom/button #js {:className "btn btn-default"
+                            :onClick   #(discuss.communication/ajax-get "api/elektroautos")}
+                       (vlibs/fa-icon "fa-car"))
+           " "
+           (dom/button #js {:className "btn btn-default"
                             :onClick   #(discuss.communication/ajax-get "api/cat-or-dog")}
                        (vlibs/fa-icon "fa-paw"))
            " "
