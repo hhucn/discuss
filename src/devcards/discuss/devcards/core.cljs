@@ -59,10 +59,3 @@
          (testing "fn statement, sending request and counting results"
            (is (= 4 (count (find/get-search-results)))))
          test-state)
-
-(deftest integration-test
-         "*Testing `discuss.integration`*"
-         (let [doms-raw (.getElementsByTagName js/document "*")]
-           (testing "fn get-parent"
-             (is (= "test-get-parent" (.-id (integration/get-parent doms-raw "Eine Krise in den neunziger Jahren brachte die Wende für die Stadt"))))
-             (is (= "figwheel-heads-up-content-area" (.-id (integration/get-parent doms-raw "")))))))
