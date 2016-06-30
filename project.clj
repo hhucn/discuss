@@ -6,6 +6,8 @@
 
   :min-lein-version "2.5.3"
 
+  :hooks [leiningen.cljsbuild]
+
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.93"]
                  [org.clojure/core.async "0.2.385" :exclusions [org.clojure/tools.reader]]
@@ -43,6 +45,15 @@
                            :asset-path "../js/compiled/devcards/out"
                            :output-to "resources/public/js/compiled/devcards/discuss.js"
                            :output-dir "resources/public/js/compiled/devcards/out"
+                           :parallel-build true
+                           :compiler-stats true
+                           :source-map-timestamp true}}
+               {:id "test"
+                :source-paths ["src/discuss" "src/devcards"]
+                :compiler {:main discuss.devcards.test
+                           :asset-path "../js/compiled/test/out"
+                           :output-to "resources/public/js/compiled/test/discuss.js"
+                           :output-dir "resources/public/js/compiled/test/out"
                            :parallel-build true
                            :compiler-stats true
                            :source-map-timestamp true}}
