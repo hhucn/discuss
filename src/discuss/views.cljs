@@ -229,6 +229,4 @@
       (dom/div nil
                (vlib/fa-icon "fa-bars" #(sidebar/toggle))
                (om/build main-view data)
-               (om/build find/form-view {})
-               (om/build find/results-view data)
                (om/build clipboard/view data)))))
