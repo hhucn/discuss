@@ -39,9 +39,25 @@
   [reference]
   (lib/change-view! :reference-dialog)
   (rlib/save-selected-reference! reference)
-  #_(sidebar/show)
+  (sidebar/show)
   (lib/update-state-item! :layout :reference (fn [_] (:text reference))))
 
+
+;;;; Handlers
+(defn get-statement-handler
+  "Processes response and changes view with given url."
+  [response]
+  (let [res (com/process-response response)]
+    (com/ajax-get-and-change-view (:url res) :default)))
+
+(defn get-statement-url
+  "Given an issue-id, statement-id and attitude, query statement url inside the discussion."
+  [statement agree]
+  (let [issue-id (get-in statement [:issue :uid])
+        statement-id (get-in statement [:statement :uid])
+        pre-url (get-in config/api [:get :statement-url])
+        url (clojure.string/join "/" [pre-url issue-id statement-id agree])]
+    (com/ajax-get url {} get-statement-handler)))
 
 ;;;; Views
 (defn dialog-view
@@ -91,21 +107,6 @@
                  (dom/div nil
                           (apply dom/div nil
                                  (map #(om/build usage-view (lib/merge-react-key %)) usages))))))))
-
-(defn get-statement-handler
-  ""
-  [response]
-  (let [res (com/process-response response)]
-    (com/ajax-get-and-change-view (:url res) :default)))
-
-(defn get-statement-url
-  "Given an issue-id, statement-id and attitude, query statement url inside the discussion."
-  [statement agree]
-  (let [issue-id (get-in statement [:issue :uid])
-        statement-id (get-in statement [:statement :uid])
-        pre-url (get-in config/api [:get :statement-url])
-        url (clojure.string/join "/" [pre-url issue-id statement-id agree])]
-    (com/ajax-get url {} get-statement-handler)))
 
 (defn agree-disagree-view
   "Agree or disagree with the selected reference."
