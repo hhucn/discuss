@@ -7,18 +7,18 @@
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
 
-(defn get-search-results
+(defn- get-search-results
   "Extract values and create a list of maps."
   []
   (get-in @lib/app-state [:discussion :search :values]))
 
-(defn statement-handler
+(defn- statement-handler
   "Called when received a response in the search."
   [response]
   (let [res (com/process-response response)]
     (lib/update-state-item! :discussion :search (fn [_] res))))
 
-(defn find-statement
+(defn- find-statement
   "Find related statements to given keywords."
   [keywords issue-id]
   (when-not (= keywords "")
@@ -27,13 +27,13 @@
           request-url (clojure.string/join "/" ["api/get/statements" issue-id mode keywords])]
       (com/ajax-get request-url {} statement-handler))))
 
-(defn update-state-find-statement
+(defn- update-state-find-statement
   "Saves current state into object and sends search request to discussion system."
   [key val issue-id owner]
   (vlib/commit-component-state key val owner)
   (find-statement (.. val -target -value) issue-id))
 
-(defn store-selected-issue
+(defn- store-selected-issue
   "Store issue id from current selection into local state of the component. Preparation to find statements
    for selected issue."
   [e owner]
@@ -43,7 +43,7 @@
 
 
 ;;;; Views
-(defn item-view [data _owner]
+(defn- item-view [data _owner]
   (reify om/IRender
     (render [_]
       (dom/div #js {:className "bs-callout bs-callout-info"}
@@ -53,7 +53,7 @@
                                         :onClick #(com/ajax-get (:url data))}
                                    (vlib/safe-html (:text data))))))))
 
-(defn issue-selector-view
+(defn- issue-selector-view
   "Create option items from each issue."
   [issue _owner]
   (dom/option #js {:key      (lib/prefix-name (str "discuss-issue-selector-" (:uid issue)))
