@@ -180,6 +180,7 @@
       (= view :reference-agree-disagree) (om/build ref/agree-disagree-view {})
       (= view :reference-dialog) (om/build ref/dialog-view {})
       (= view :reference-usages) (om/build ref/usages-view {})
+      (= view :reference-create) (om/build ref/create-view {})
       :else (discussion-elements data))))
 
 (defn main-content-view
