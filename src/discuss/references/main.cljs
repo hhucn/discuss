@@ -5,6 +5,7 @@
             [om.dom :as dom]
             [discuss.communication :as com]
             [discuss.config :as config]
+            [discuss.find :as find]
             [discuss.sidebar :as sidebar]
             [discuss.references.lib :as rlib]
             [discuss.utils.bootstrap :as bs]
@@ -43,7 +44,7 @@
   (lib/update-state-item! :layout :reference (fn [_] (:text reference))))
 
 
-;;;; Handlers
+;;;; Handlers & Queries
 (defn get-statement-handler
   "Processes response and changes view with given url."
   [response]
@@ -59,7 +60,26 @@
         url (clojure.string/join "/" [pre-url issue-id statement-id agree])]
     (com/ajax-get url {} get-statement-handler)))
 
+
 ;;;; Views
+(defn current-reference-component
+  "Return DOM element showing which reference is currently selected."
+  []
+  (dom/div #js {:style #js {:paddingBottom "1em"}}
+           "You have selected: " (:text (rlib/get-selected-reference))))
+
+(defn create-view
+  ""
+  []
+  (reify om/IRender
+    (render [_]
+      (dom/div nil
+               (dom/div #js {:className "text-center"}
+                        (dom/h5 nil "Create new Statement with Reference"))
+               (current-reference-component)
+               (om/build find/form-view {})))))
+
+
 (defn dialog-view
   "Show a dialog to give the user the option to choose, whether she wants to get some information about the statement
    or just wants to construct a new statement."
@@ -72,7 +92,7 @@
                (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
                                   "Find usages of this reference")
                " "
-               (bs/button-primary nil
+               (bs/button-primary #(lib/change-view! :reference-create)
                                   "Create new Statement with this reference")))))
 
 (defn usage-view
