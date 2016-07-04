@@ -62,23 +62,24 @@
 
 
 ;;;; Views
-(defn current-reference-component
+(defn- current-reference-component
   "Return DOM element showing which reference is currently selected."
   []
   (dom/div #js {:style #js {:paddingBottom "1em"}}
            "You have selected: " (:text (rlib/get-selected-reference))))
 
 (defn create-view
-  ""
-  []
+  "View containing information about which reference has been chosen and give possibility to find an access point into
+   the discussion."
+  [data]
   (reify om/IRender
     (render [_]
       (dom/div nil
                (dom/div #js {:className "text-center"}
                         (dom/h5 nil "Create new Statement with Reference"))
                (current-reference-component)
-               (om/build find/form-view {})))))
-
+               (om/build find/form-view {})
+               (om/build find/results-view data)))))
 
 (defn dialog-view
   "Show a dialog to give the user the option to choose, whether she wants to get some information about the statement
@@ -87,8 +88,7 @@
   (reify om/IRender
     (render [_]
       (dom/div #js {:className "text-center"}
-               (dom/div #js {:style #js {:paddingBottom "1em"}}
-                        "You have selected: " (:text (rlib/get-selected-reference)))
+               (current-reference-component)
                (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
                                   "Find usages of this reference")
                " "
