@@ -6,6 +6,8 @@ Minimal front-end to include dialogue-based discussion systems into existing web
 
 ## Setup
 
+Pull all bower components with `$ bower install`.
+
 To get an interactive development environment run:
 
     lein figwheel

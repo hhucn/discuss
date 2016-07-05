@@ -1,6 +1,10 @@
 # Development
 
-## Lein Commands
+## Bower Components
+
+First install all bower components with `$ bower install`.
+
+## leiningen Commands
 
 * `$ lein figwheel`: Start development server
 * `$ lein codox`: Create documentation from sources
