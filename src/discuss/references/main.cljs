@@ -68,7 +68,16 @@
   (dom/div #js {:style #js {:paddingBottom "1em"}}
            "You have selected: " (:text (rlib/get-selected-reference))))
 
-(defn create-view
+(defn create-overview
+  "Some interaction with the user is necessary to define what kind of statement she wants to add. This view provides an
+   entry point for this decision."
+  [data]
+  (reify om/IRender
+    (render [_]
+      (dom/div nil
+               "Overview"))))
+
+(defn create-with-reference-view
   "View containing information about which reference has been chosen and give possibility to find an access point into
    the discussion."
   [data]
