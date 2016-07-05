@@ -7,7 +7,6 @@
             [discuss.debug :as debug]
             [discuss.utils.extensions]
             [discuss.find :as find]
-            [discuss.integration :as integration]
             [discuss.references.main :as ref]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
@@ -55,8 +54,12 @@
             ref/agree-disagree-view
             lib/app-state)
 
-(deftest find-tests
-         "*Testing the small search engine in `discuss.find`*"
-         (testing "fn statement, sending request and counting results"
-           (is (= 4 (count (find/get-search-results)))))
-         test-state)
+(defcard-om create-with-reference-overview
+            "*Entrypoint to create new statement with selected reference.*"
+            ref/create-overview
+            lib/app-state)
+
+(defcard-om create-with-reference
+            "*Create new statement with selected reference.*"
+            ref/create-with-reference-view
+            lib/app-state)
