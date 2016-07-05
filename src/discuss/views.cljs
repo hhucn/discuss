@@ -6,7 +6,6 @@
             [discuss.clipboard :as clipboard]
             [discuss.communication :as com]
             [discuss.utils.extensions]
-            [discuss.find :as find]
             [discuss.history :as history]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
@@ -171,16 +170,23 @@
                                          :onClick   #(com/dispatch-add-action statement (lib/get-selection))}
                                     "Submit"))))))
 
+(defn- build-with-buttons
+  "Add navigation buttons to the provided view."
+  [view data]
+  (dom/div nil
+           (om/build view data)
+           (control-elements)))
+
 (defn view-dispatcher
   "Dispatch current template in main view by the app state."
   [data]
   (let [view (lib/current-view)]
     (cond
-      (= view :login) (om/build login-form {})
-      (= view :reference-agree-disagree) (om/build ref/agree-disagree-view {})
-      (= view :reference-dialog) (om/build ref/dialog-view {})
-      (= view :reference-usages) (om/build ref/usages-view {})
-      (= view :reference-create) (om/build ref/create-overview data)
+      (= view :login) (build-with-buttons login-form {})
+      (= view :reference-agree-disagree) (build-with-buttons ref/agree-disagree-view {})
+      (= view :reference-dialog) (build-with-buttons ref/dialog-view {})
+      (= view :reference-usages) (build-with-buttons ref/usages-view {})
+      (= view :reference-create) (build-with-buttons ref/create-overview data)
       :else (discussion-elements data))))
 
 (defn main-content-view
