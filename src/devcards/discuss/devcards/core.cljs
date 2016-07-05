@@ -7,6 +7,7 @@
             [discuss.debug :as debug]
             [discuss.utils.extensions]
             [discuss.find :as find]
+            [discuss.integration]
             [discuss.references.main :as ref]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
