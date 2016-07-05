@@ -93,4 +93,5 @@
 (defn process-references
   "Receives references through the API and prepares them for the next steps."
   [refs]
-  (doall (map convert-reference refs)))
+  (when refs
+    (doall (map convert-reference refs))))
