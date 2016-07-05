@@ -18,6 +18,7 @@
   ],
   "dependencies": {
     "bootstrap": "~3.3.6",
+    "bootswatch-dist": "3.3.6-paper",
     "fontawesome": "~4.6.3"
   }
 }
