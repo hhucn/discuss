@@ -12,19 +12,6 @@
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
 
-(defn reference-usage-handler
-  "Handler to process information about the reference. Store results and change view."
-  [response]
-  (let [res (com/process-response response)]
-    (lib/update-state-item! :common :reference-usages (fn [_] res))
-    (lib/change-view! :reference-usages)))
-
-(defn query-reference-details
-  "Show usages of the provided reference."
-  [reference-id]
-  (let [url (str (:base config/api) (get-in config/api [:get :reference-usages]) "/" reference-id)]
-    (com/ajax-get url {} reference-usage-handler)))
-
 (defn save-statement-change-view
   "Saves the current selected statement (or the only one if there is only one available) and changes to
    the view to configure own attitude."
@@ -45,6 +32,19 @@
 
 
 ;;;; Handlers & Queries
+(defn reference-usage-handler
+  "Handler to process information about the reference. Store results and change view."
+  [response]
+  (let [res (com/process-response response)]
+    (lib/update-state-item! :common :reference-usages (fn [_] res))
+    (lib/change-view! :reference-usages)))
+
+(defn query-reference-details
+  "Show usages of the provided reference."
+  [reference-id]
+  (let [url (str (:base config/api) (get-in config/api [:get :reference-usages]) "/" reference-id)]
+    (com/ajax-get url {} reference-usage-handler)))
+
 (defn get-statement-handler
   "Processes response and changes view with given url."
   [response]

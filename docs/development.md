@@ -2,7 +2,9 @@
 
 ## Bower Components
 
-First install all bower components with `$ bower install`.
+First install all bower components with:
+
+    bower install
 
 ## leiningen Commands
 
