@@ -186,7 +186,8 @@
       (= view :reference-agree-disagree) (build-with-buttons ref/agree-disagree-view {})
       (= view :reference-dialog) (build-with-buttons ref/dialog-view {})
       (= view :reference-usages) (build-with-buttons ref/usages-view {})
-      (= view :reference-create) (build-with-buttons ref/create-overview data)
+      (= view :reference-create-overview) (build-with-buttons ref/create-overview {})
+      (= view :reference-create-with-ref) (build-with-buttons ref/create-with-reference-view data)
       :else (discussion-elements data))))
 
 (defn main-content-view

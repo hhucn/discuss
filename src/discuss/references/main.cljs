@@ -68,15 +68,6 @@
   (dom/div #js {:style #js {:paddingBottom "1em"}}
            "You have selected: " (:text (rlib/get-selected-reference))))
 
-(defn create-overview
-  "Some interaction with the user is necessary to define what kind of statement she wants to add. This view provides an
-   entry point for this decision."
-  [data]
-  (reify om/IRender
-    (render [_]
-      (dom/div nil
-               "Overview"))))
-
 (defn create-with-reference-view
   "View containing information about which reference has been chosen and give possibility to find an access point into
    the discussion."
@@ -90,6 +81,22 @@
                (om/build find/form-view {})
                (om/build find/results-view data)))))
 
+(defn create-overview
+  "Some interaction with the user is necessary to define what kind of statement she wants to add. This view provides an
+entry point for this decision."
+  [data]
+  (reify
+    om/IWillUnmount
+    (will-unmount [this]
+      (println "aaaaaaaaaaahahaha i am going to die!!!!"))
+    om/IRender
+    (render [_]
+      (dom/div nil
+               (dom/div #js {:className "text-center"}
+                        (bs/button-primary #(println "btn show issues") "Show Issues")
+                        " "
+                        (bs/button-primary #(lib/change-view! :reference-create-with-ref) "Jump into the discussion"))))))
+
 (defn dialog-view
   "Show a dialog to give the user the option to choose, whether she wants to get some information about the statement
    or just wants to construct a new statement."
@@ -101,7 +108,7 @@
                (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
                                   "Find usages of this reference")
                " "
-               (bs/button-primary #(lib/change-view! :reference-create)
+               (bs/button-primary #(lib/change-view! :reference-create-overview)
                                   "Create new Statement with this reference")))))
 
 (defn usage-view
@@ -130,9 +137,9 @@
       (let [usages (rlib/get-reference-usages)
             ref-title (:title (:reference (first usages)))]
         (dom/div nil
+                 (dom/h5 nil "Usages of this reference")
                  (dom/div #js {:className "text-center"}
-                          "Usages of reference: "
-                          ref-title)
+                          (dom/em nil "\"" ref-title "\""))
                  (dom/div nil
                           (apply dom/div nil
                                  (map #(om/build usage-view (lib/merge-react-key %)) usages))))))))
