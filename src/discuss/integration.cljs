@@ -5,7 +5,7 @@
             [om.core :as om]
             [cljs.core.async :refer [put! chan <!]]
             [clojure.string :refer [split lower-case]]
-            [discuss.extensions]
+            [discuss.utils.extensions]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
             [discuss.tooltip :as tooltip]

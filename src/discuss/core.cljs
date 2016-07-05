@@ -3,7 +3,7 @@
             [discuss.auth :as auth]
             [discuss.communication :as com]
             [discuss.debug :as debug]
-            [discuss.extensions]
+            [discuss.utils.extensions]
             [discuss.utils.common :as lib]
             [discuss.tooltip :as tooltip]
             [discuss.views :as views]))

@@ -1,4 +1,4 @@
-(ns discuss.extensions
+(ns discuss.utils.extensions
   "Extending JS types to be better accessible in CLJS.")
 
 (def types [js/NodeList

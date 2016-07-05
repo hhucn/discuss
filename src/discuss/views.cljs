@@ -5,7 +5,7 @@
             [discuss.auth :as auth]
             [discuss.clipboard :as clipboard]
             [discuss.communication :as com]
-            [discuss.extensions]
+            [discuss.utils.extensions]
             [discuss.find :as find]
             [discuss.history :as history]
             [discuss.utils.common :as lib]
