@@ -4,6 +4,7 @@
             [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [discuss.communication :as com]
+            [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
 
@@ -79,9 +80,7 @@
                                         :value       search-value
                                         :placeholder "Find Statement"})
                         (dom/span #js {:className "input-group-btn"}
-                                  (dom/button #js {:className "btn btn-primary"
-                                                   :type      "button"}
-                                              (vlib/fa-icon "fa-search fa-fw" #(find-statement search-value issue-id)))))))))
+                                  (bs/button-primary #(find-statement search-value issue-id) (vlib/fa-icon "fa-search fa-fw"))))))))
 
 (defn results-view []
   (reify om/IRender
