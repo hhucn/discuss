@@ -67,7 +67,7 @@
   (dom/div #js {:className "form-group"}
            (dom/select #js {:className "form-control"
                             :onChange  #(store-selected-issue % owner)}
-                       (map #(issue-selector-view % owner) (lib/get-issues)))))
+                       (map #(issue-selector-view (lib/merge-react-key %) owner) (lib/get-issues)))))
 
 (defn form-view [_ owner]
   (reify
