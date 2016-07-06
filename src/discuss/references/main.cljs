@@ -83,7 +83,7 @@
 
 (defn create-overview
   "Some interaction with the user is necessary to define what kind of statement she wants to add. This view provides an
-entry point for this decision."
+   entry point for this decision."
   [data]
   (reify
     om/IWillUnmount

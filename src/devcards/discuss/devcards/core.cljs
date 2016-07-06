@@ -40,7 +40,7 @@
             find/results-view
             lib/app-state)
 
-(defcard-om click-on-references
+(defcard-om click-on-reference
             "*Show dialog when clicking on a reference.*"
             ref/dialog-view
             lib/app-state)
