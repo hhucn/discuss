@@ -61,6 +61,14 @@
                    :onChange #(println (:uid %))}
               (:title issue)))
 
+(defn- issue-component
+  "Issue selector as separate component. Returns DOM elements. Stores selection in its owner."
+  [owner]
+  (dom/div #js {:className "form-group"}
+           (dom/select #js {:className "form-control"
+                            :onChange  #(store-selected-issue % owner)}
+                       (map #(issue-selector-view % owner) (lib/get-issues)))))
+
 (defn form-view [_ owner]
   (reify
     om/IInitState
@@ -70,10 +78,7 @@
     om/IRenderState
     (render-state [_ {:keys [search-value issue-id]}]
       (dom/div nil
-               (dom/div #js {:className "form-group"}
-                        (dom/select #js {:className "form-control"
-                                         :onChange  #(store-selected-issue % owner)}
-                                    (map #(issue-selector-view % owner) (lib/get-issues))))
+               (issue-component owner)
                (dom/div #js {:className "input-group"}
                         (dom/input #js {:className   "form-control"
                                         :onChange    #(update-state-find-statement :search-value % issue-id owner)
