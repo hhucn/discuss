@@ -1,5 +1,6 @@
 (ns discuss.references.lib
-  (:require [discuss.utils.common :as lib]))
+  (:require [discuss.utils.common :as lib]
+            [om.dom :as dom]))
 
 (defn save-selected-reference!
   "Saves the currently clicked reference for further processing."
@@ -33,3 +34,13 @@
    TODO: optimize"
   []
   (get-in @lib/app-state [:common :reference-usages]))
+
+
+;;;; View Components
+(defn- current-reference-component
+  "Return DOM element showing which reference is currently selected."
+  []
+  (dom/div #js {:className "text-center"
+                :style #js {:paddingBottom "1em"}}
+           (let [ref-title (:text (get-selected-reference))]
+             (dom/em nil "\"" ref-title "\""))))
