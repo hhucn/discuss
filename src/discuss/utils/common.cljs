@@ -2,7 +2,9 @@
   (:require [om.core :as om :include-macros true]
             [clojure.walk :refer [keywordize-keys]]
             [cljs.pprint :as pp]
+            [cljs.spec :as s]
             [cognitect.transit :as transit]
+            [inflections.core :refer [plural]]
             [discuss.config :as config]))
 
 (defn prefix-name
@@ -247,22 +249,19 @@
   (update-state-item! :user :mouse-y (fn [_] y)))
 
 
-;;;; Other
-(defn get-value-by-id
-  "Return value of element matching the id."
-  [id]
-  (let [element (.getElementById js/document (prefix-name id))]
-    (when element (.-value element))))
-
-(defn log
-  "Print argument as JS object to be accessible from the console."
-  [arg]
-  (.log js/console arg))
-
+;;;; String Stuff
 (defn substring?
   "Evaluates if a substring is contained in the given string."
   [sub st]
   (not= (.indexOf st sub) -1))
+
+(defn singular->plural
+  "Return pluralized string of word if number is greater than one."
+  [number word]
+  (when (s/valid? string? word)
+    (if (< 1 number)
+      (plural word)
+      word)))
 
 
 ;;;; CSS modifications
@@ -296,3 +295,16 @@
   [response]
   (let [r (transit/reader :json)]
     (keywordize-keys (transit/read r response))))
+
+
+;;;; Other
+(defn get-value-by-id
+  "Return value of element matching the id."
+  [id]
+  (let [element (.getElementById js/document (prefix-name id))]
+    (when element (.-value element))))
+
+(defn log
+  "Print argument as JS object to be accessible from the console."
+  [arg]
+  (.log js/console arg))
