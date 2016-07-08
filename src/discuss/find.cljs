@@ -92,6 +92,6 @@
     (render [_]
       (let [results (get-search-results)]
         (dom/div nil
-                 (dom/h6 nil (str "Received " (count results) " entries."))
+                 (dom/h6 nil (str "Received " (count results) " " (lib/singular->plural (count results) "entry") "."))
                  (apply dom/div nil
                         (map #(om/build item-view (lib/merge-react-key %)) results)))))))
