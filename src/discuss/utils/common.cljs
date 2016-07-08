@@ -1,7 +1,6 @@
 (ns discuss.utils.common
   (:require [om.core :as om :include-macros true]
             [clojure.walk :refer [keywordize-keys]]
-            [cljs.pprint :as pp]
             [cljs.spec :as s]
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]
@@ -29,16 +28,16 @@
                                    :error?    false
                                    :error-msg nil}
                 :debug            {:last-api ""}
-                :user             {:nickname           "kangaroo"
-                                   :token              "razupaltuff"
-                                   :avatar             ""
-                                   :csrf               nil
-                                   :statement          ""
-                                   :selection          nil
-                                   :logged-in?         false}
+                :user             {:nickname   "kangaroo"
+                                   :token      "razupaltuff"
+                                   :avatar     ""
+                                   :csrf       nil
+                                   :statement  ""
+                                   :selection  nil
+                                   :logged-in? false}
                 :reference-usages {:selected-reference nil
                                    :selected-statement nil
-                                   :supportive? nil}
+                                   :supportive?        nil}
                 :clipboard        {:selections nil
                                    :current    nil}
                 :sidebar          {:show? true}
@@ -258,8 +257,10 @@
 (defn singular->plural
   "Return pluralized string of word if number is greater than one."
   [number word]
-  (when (s/valid? string? word)
-    (if (< 1 number)
+  (when (and (s/valid? string? word)
+             (or (s/valid? pos? number)
+                 (s/valid? zero? number)))
+    (if (not= 1 number)
       (plural word)
       word)))
 
