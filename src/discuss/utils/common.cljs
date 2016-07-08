@@ -3,6 +3,7 @@
             [clojure.walk :refer [keywordize-keys]]
             [cljs.spec :as s]
             [cognitect.transit :as transit]
+            [inflections.core :refer [plural]]
             [discuss.config :as config]))
 
 (defn prefix-name
