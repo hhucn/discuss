@@ -9,6 +9,7 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.clojure/clojurescript "1.9.93"]
                  [org.clojure/core.async "0.2.385" :exclusions [org.clojure/tools.reader]]
+                 [org.clojure/test.check "0.9.0"]
                  [org.omcljs/om "1.0.0-alpha36"]
                  [cljs-ajax "0.5.8"]                        ; AJAX for om
                  [com.cognitect/transit-cljs "0.8.239"]     ; Better JSON support
@@ -19,7 +20,8 @@
             [lein-cljsbuild "1.1.3" :exclusions [[org.clojure/clojure]]]
             [lein-codox "0.9.5"]
             [lein-ancient "0.6.10"]
-            [lein-kibit "0.1.2"]]
+            [lein-kibit "0.1.2"]
+            [lein-doo "0.1.6"]]
 
   :source-paths ["src/discuss"]
 
@@ -46,6 +48,11 @@
                            :parallel-build true
                            :compiler-stats true
                            :source-map-timestamp true}}
+               {:id "test"
+                :source-paths ["src/discuss" "src/devcards"]
+                :compiler {:output-to "resources/public/js/testable.js"
+                           :main discuss.test.runner
+                           :optimizations :none}}
                {:id "min"
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/discuss.js"
