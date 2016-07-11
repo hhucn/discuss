@@ -102,7 +102,7 @@
                (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
                                   "Find usages of this reference")
                " "
-               (bs/button-primary #(lib/change-view! :reference-create-overview)
+               (bs/button-primary #(lib/change-view! :reference-create-with-ref)
                                   "Create new Statement with this reference")))))
 
 (defn usage-view
