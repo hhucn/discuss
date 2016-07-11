@@ -85,7 +85,7 @@
   []
   (let [url (:init config/api)]
     (lib/update-state-item! :layout :add? (fn [_] false))
-    (ajax-get url)))
+    (ajax-get-and-change-view url :default)))
 
 
 ;;;; Discussion-related functions
@@ -117,7 +117,7 @@
 (defn request-references
   "When this app is loaded, request all available references from the external discussion system."
   []
-  (let [url "api/get/references"                            ; TODO hardcoded url = bad
+  (let [url (str (:base config/api) (get-in config/api [:get :references]))
         headers {"X-Host" js/location.host
                  "X-Path" js/location.pathname}]
     (ajax-get url headers references-handler)))
