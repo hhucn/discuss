@@ -80,9 +80,6 @@
    entry point for this decision."
   [data]
   (reify
-    om/IWillUnmount
-    (will-unmount [this]
-      (println "aaaaaaaaaaahahaha i am going to die!!!!"))
     om/IRender
     (render [_]
       (dom/div nil
