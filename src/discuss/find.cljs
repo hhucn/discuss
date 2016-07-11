@@ -51,7 +51,7 @@
                (dom/span #js {:className "badge pull-right"}
                          (lib/str->int (:distance data)))
                (dom/div nil (dom/a #js {:href    "javascript:void(0)"
-                                        :onClick #(com/ajax-get (:url data))}
+                                        :onClick #(com/ajax-get-and-change-view (:url data) :default)}
                                    (vlib/safe-html (:text data))))))))
 
 (defn- issue-selector-view
