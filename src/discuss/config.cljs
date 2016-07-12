@@ -5,7 +5,7 @@
 (def user "Q2hyaXN0aWFu")
 
 (def api {:host "http://172.18.0.3/"
-          :init "api/"
+          :init "api/elektroautos"
           :base "api/"
           :add  {:add-start-statement "add/start_statement"
                  :add-start-premise   "add/start_premise"
