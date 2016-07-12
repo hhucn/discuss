@@ -1,6 +1,5 @@
 (ns ^:figwheel-always discuss.core
   (:require [om.core :as om :include-macros true]
-            [discuss.auth :as auth]
             [discuss.communication :as com]
             [discuss.debug :as debug]
             [discuss.utils.extensions]
@@ -14,7 +13,9 @@
 (defn main []
   (com/init!)
   (com/request-references)
-  (auth/one-click-login))
+  #_(auth/one-click-login))
+
+(main)
 
 ;; Register
 (om/root views/main-view lib/app-state
