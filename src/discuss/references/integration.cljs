@@ -1,4 +1,4 @@
-(ns discuss.integration
+(ns discuss.references.integration
   "Listen for mouse clicks, get references and highlight them in the article."
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [goog.events :as events]

@@ -78,7 +78,7 @@
       (do
         (lib/no-error!)
         (lib/update-state-item! :common :references (fn [_] refs))
-        (discuss.integration/process-references refs)))))
+        (discuss.references.integration/process-references refs)))))
 
 (defn init!
   "Initialize initial data from API."
