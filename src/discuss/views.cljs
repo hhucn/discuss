@@ -47,7 +47,8 @@
                                 (vlib/fa-icon "fa-sign-out")))
              (dom/div #js {:className "pointer"
                            :onClick   #(lib/change-view! :login)}
-                      (vlib/fa-icon "fa-sign-in")))))
+                      (vlib/fa-icon "fa-sign-in")
+                      " Login"))))
 
 (defn login-form [_ owner]
   (reify
@@ -76,10 +77,7 @@
                                         :placeholder "password"}))
                (dom/button #js {:className "btn btn-default"
                                 :onClick   #(auth/login nickname password)}
-                           "Login")
-               (dom/div #js {:className "text-center text-muted pointer"
-                             :onClick   #(lib/change-view! :discussion)}
-                        "Back")))))
+                           "Login")))))
 
 ;; Views
 (defn bubble-view [bubble]
