@@ -76,7 +76,7 @@
     (discuss.references.integration/process-references refs)))
 
 (defn init!
-  "Initialize initial data from API."
+  "Request initial data from API."
   []
   (let [url (:init config/api)]
     (lib/update-state-item! :layout :add? (fn [_] false))
