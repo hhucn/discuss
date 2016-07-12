@@ -70,15 +70,10 @@
 (defn references-handler
   "Called when received a response on the reference-query."
   [response]
-  (let [res (keywordize-keys response)
-        refs (:references res)
-        error (:error res)]
-    (if (pos? (count error))
-      (lib/error-msg! error)
-      (do
-        (lib/no-error!)
-        (lib/update-state-item! :common :references (fn [_] refs))
-        (discuss.references.integration/process-references refs)))))
+  (let [res (process-response response)
+        refs (:references res)]
+    (lib/update-state-item! :common :references (fn [_] refs))
+    (discuss.references.integration/process-references refs)))
 
 (defn init!
   "Initialize initial data from API."
