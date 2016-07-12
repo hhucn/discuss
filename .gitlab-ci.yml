@@ -1,10 +1,11 @@
 image: clojure
 
 before_script:
-  - lein --version
+  - echo "Nothing to prepare..."
 
 build:
   script:
+    - lein --version
     - lein cljsbuild once min
   #artifacts:
   #  paths:
