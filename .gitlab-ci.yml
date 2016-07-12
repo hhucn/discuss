@@ -1,7 +1,7 @@
 image: clojure
 
 before_script:
-  - set LEIN_SILENT
+  - LEIN_SILENT=true
   - lein clean
   #- lein kibit
 
