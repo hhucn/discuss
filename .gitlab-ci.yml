@@ -1,9 +1,7 @@
 image: clojure
 
 before_script:
-  - LEIN_SILENT=true
-  - lein clean
-  #- lein kibit
+  - lein --version
 
 build:
   script:
