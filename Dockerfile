@@ -1,8 +1,9 @@
 FROM clojure
 MAINTAINER Christian Meter <meter@cs.uni-duesseldorf.de>
 
-# figwheel WebSocket port
-EXPOSE 3449
+RUN apt-get update
+RUN apt-get install -yqq rubygems
+RUN yes | gem install sass
 
 RUN mkdir ./discuss
 WORKDIR /discuss
