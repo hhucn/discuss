@@ -80,9 +80,6 @@
    entry point for this decision."
   [data]
   (reify
-    om/IWillUnmount
-    (will-unmount [this]
-      (println "aaaaaaaaaaahahaha i am going to die!!!!"))
     om/IRender
     (render [_]
       (dom/div nil
@@ -102,7 +99,7 @@
                (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
                                   "Find usages of this reference")
                " "
-               (bs/button-primary #(lib/change-view! :reference-create-overview)
+               (bs/button-primary #(lib/change-view! :reference-create-with-ref)
                                   "Create new Statement with this reference")))))
 
 (defn usage-view

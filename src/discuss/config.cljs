@@ -4,12 +4,13 @@
 
 (def user "Q2hyaXN0aWFu")
 
-(def api {:host "http://172.18.0.3/"
-          :init "api/"
+(def api {:host "http://dbas/"
+          :init "api/elektroautos"
           :base "api/"
           :add  {:add-start-statement "add/start_statement"
                  :add-start-premise   "add/start_premise"
                  :add-justify-premise "add/justify_premise"}
-          :get  {:reference-usages "get/reference/usages"
+          :get  {:references       "get/references"
+                 :reference-usages "get/reference/usages"
                  :statements       "get/statements"
                  :statement-url    "api/get/statement/url"}})

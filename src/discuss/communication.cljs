@@ -70,22 +70,17 @@
 (defn references-handler
   "Called when received a response on the reference-query."
   [response]
-  (let [res (keywordize-keys response)
-        refs (:references res)
-        error (:error res)]
-    (if (pos? (count error))
-      (lib/error-msg! error)
-      (do
-        (lib/no-error!)
-        (lib/update-state-item! :common :references (fn [_] refs))
-        (discuss.integration/process-references refs)))))
+  (let [res (process-response response)
+        refs (:references res)]
+    (lib/update-state-item! :common :references (fn [_] refs))
+    (discuss.references.integration/process-references refs)))
 
 (defn init!
-  "Initialize initial data from API."
+  "Request initial data from API."
   []
   (let [url (:init config/api)]
     (lib/update-state-item! :layout :add? (fn [_] false))
-    (ajax-get url)))
+    (ajax-get-and-change-view url :default)))
 
 
 ;;;; Discussion-related functions
@@ -117,7 +112,7 @@
 (defn request-references
   "When this app is loaded, request all available references from the external discussion system."
   []
-  (let [url "api/get/references"                            ; TODO hardcoded url = bad
+  (let [url (str (:base config/api) (get-in config/api [:get :references]))
         headers {"X-Host" js/location.host
                  "X-Path" js/location.pathname}]
     (ajax-get url headers references-handler)))

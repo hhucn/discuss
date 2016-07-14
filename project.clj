@@ -44,7 +44,7 @@
                 :figwheel {:devcards true}
                 :compiler {:main discuss.devcards.core
                            :asset-path "../js/compiled/devcards/out"
-                           :output-to "resources/public/js/compiled/devcards/discuss.js"
+                           :output-to "resources/public/js/compiled/discuss.js"
                            :output-dir "resources/public/js/compiled/devcards/out"
                            :parallel-build true
                            :compiler-stats true
