@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 
-# lein cljsbuild once min
-cd resources/public/
+# Build minified js
+lein cljsbuild once min
 
 # Create CSS files
+cd resources/public/
 sass css/discuss.sass css/discuss.css --style compressed
 sass css/zeit.sass css/zeit.css --style compressed
 
