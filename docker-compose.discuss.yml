@@ -6,6 +6,6 @@ services:
     volumes:
       - ../discuss/.:/discuss
     ports:
-      - "3449:3449"
+      - "8000:8000"
     links:
       - web:dbas
