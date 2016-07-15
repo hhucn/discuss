@@ -14,7 +14,7 @@ rm -rf .sass-cache
 
 # Print IP address
 ip=`ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1`
-port=8000
+port=8888
 
 printf "\n###################################################"
 printf "\n# Connect to discuss via http://$ip:$port"
