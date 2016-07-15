@@ -1,9 +1,13 @@
 FROM clojure
 MAINTAINER Christian Meter <meter@cs.uni-duesseldorf.de>
 
-RUN apt-get update
-RUN apt-get install -yqq rubygems
-RUN yes | gem install sass bower
+# Add sources for nodejs
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
+
+RUN apt-get update -qq
+RUN apt-get install -yqq rubygems nodejs
+RUN yes | gem install sass
+RUN npm install bower -g
 
 RUN mkdir ./discuss
 WORKDIR /discuss
@@ -11,5 +15,3 @@ WORKDIR /discuss
 ADD . /discuss
 
 RUN lein deps
-
-RUN bower install
