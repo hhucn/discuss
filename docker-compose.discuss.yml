@@ -1,11 +1,5 @@
 version: '2'
 services:
-  dbas:
-    extends:
-      file: ../dbas/docker-compose.yml
-      service: web
-    ports:
-      - "80:4284"
   discuss:
     build: ../discuss/.
     command: /bin/bash docker_init.sh
