@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Get bower components
+GIT_DIR=/tmp bower install --allow-root
+
 # Build minified js
 lein cljsbuild once min
 
@@ -7,6 +10,7 @@ lein cljsbuild once min
 cd resources/public/
 sass css/discuss.sass css/discuss.css --style compressed
 sass css/zeit.sass css/zeit.css --style compressed
+rm -rf .sass-cache
 
 # Print IP address
 ip=`ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1`
