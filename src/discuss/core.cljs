@@ -15,7 +15,7 @@
   (com/request-references)
   #_(auth/one-click-login))
 
-(main)
+;(main)
 
 ;; Register
 (om/root views/main-view lib/app-state
