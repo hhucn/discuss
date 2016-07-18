@@ -56,7 +56,7 @@
 
 
 ;;;; Creating the view
-(defn view [data owner]
+(defn view []
   (reify om/IRender
     (render [_]
       (dom/div nil

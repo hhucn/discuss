@@ -25,7 +25,7 @@
 (defn supportive?
   "Store if a user supports the statement or not."
   ([]
-    (get-in @lib/app-state [:reference-usages :supportive?]))
+   (get-in @lib/app-state [:reference-usages :supportive?]))
   ([bool]
    (lib/update-state-item! :reference-usages :supportive? (fn [_] bool))))
 
@@ -41,6 +41,6 @@
   "Return DOM element showing which reference is currently selected."
   []
   (dom/div #js {:className "text-center"
-                :style #js {:paddingBottom "1em"}}
+                :style     #js {:paddingBottom "1em"}}
            (let [ref-title (:text (get-selected-reference))]
              (dom/em nil "\"" ref-title "\""))))

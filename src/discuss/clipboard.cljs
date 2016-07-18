@@ -3,8 +3,6 @@
             [om.dom :as dom :include-macros true]
             [discuss.utils.common :as lib]))
 
-(def counter (atom 0))
-
 (defn get-stored-selections
   "Return all stored selections."
   []
