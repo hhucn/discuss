@@ -137,17 +137,18 @@
 (defn- show-selection
   "Shows selected text from website if available."
   []
-  (when-let [selection (lib/get-selection)]
-    (dom/div #js {:className "input-group"}
-             (dom/span #js {:className "input-group-addon"}
-                       (vlib/fa-icon "fa-quote-left"))
-             (dom/input #js {:className "form-control"
-                             :value     selection})
-             (dom/span #js {:className "input-group-addon"}
-                       (vlib/fa-icon "fa-quote-right"))
-             (dom/span #js {:className "input-group-addon pointer"
-                            :onClick   lib/remove-selection}
-                       (vlib/fa-icon "fa-times")))))
+  (let [selection (lib/get-selection)]
+    (when (> (count selection) 1)
+      (dom/div #js {:className "input-group"}
+               (dom/span #js {:className "input-group-addon"}
+                         (vlib/fa-icon "fa-quote-left"))
+               (dom/input #js {:className "form-control"
+                               :value     selection})
+               (dom/span #js {:className "input-group-addon"}
+                         (vlib/fa-icon "fa-quote-right"))
+               (dom/span #js {:className "input-group-addon pointer"
+                              :onClick   lib/remove-selection}
+                         (vlib/fa-icon "fa-times"))))))
 
 (defn add-element
   "Show form to add a new statement."
