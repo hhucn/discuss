@@ -235,4 +235,4 @@
       (dom/div nil
                (vlib/fa-icon "fa-bars" #(sidebar/toggle))
                (om/build main-view data)
-               (om/build clipboard/view data)))))
+               (clipboard/view)))))
