@@ -235,12 +235,19 @@
   (update-state-item! :layout :template (fn [_] view)))
 
 
-;;;; Mouse interaction
+;;;; Selections
 (defn get-selection
   "Return the stored selection of the user."
   []
   (get-in @app-state [:user :selection]))
 
+(defn remove-selection
+  "Remove current selection for a 'clean' statement."
+  []
+  (update-state-item! :user :selection (fn [_] nil)))
+
+
+;;;; Mouse interaction
 (defn save-mouse-position
   "Store mouse position."
   [[x y]]

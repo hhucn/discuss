@@ -32,7 +32,6 @@
     (lib/update-state-item! :user :selection (fn [_] (.. clipboard-item -innerText)))))
 
 (defn allow-drop [ev]
-  (println "fn: allow-drop")
   (.preventDefault ev))
 
 (defn drag-event [ev]

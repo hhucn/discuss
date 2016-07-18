@@ -163,7 +163,10 @@
                                    (dom/input #js {:className "form-control"
                                                    :value     (lib/get-selection)})
                                    (dom/span #js {:className "input-group-addon"}
-                                             (vlib/fa-icon "fa-quote-right"))))
+                                             (vlib/fa-icon "fa-quote-right"))
+                                   (dom/span #js {:className "input-group-addon pointer"
+                                                  :onClick   lib/remove-selection}
+                                             (vlib/fa-icon "fa-times"))))
                         (dom/button #js {:className "btn btn-default"
                                          :onClick   #(com/dispatch-add-action statement (lib/get-selection))}
                                     "Submit"))))))
