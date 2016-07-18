@@ -48,8 +48,7 @@
           doms))
 
 (defn- get-parent
-  "Assuming that the last occurence of my reference is the closest parent of it,
-   this function will return it."
+  "Assuming that the last occurence of my reference is the closest parent of it, this function will return it."
   [doms ref]
   (last
     (filter

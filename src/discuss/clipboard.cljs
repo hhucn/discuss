@@ -47,8 +47,7 @@
       {:selected? false})
     om/IRenderState
     (render-state [_ {:keys [selected?]}]
-      (dom/div #js {:id          (swap! counter inc)
-                    :className   "bs-callout bs-callout-info"
+      (dom/div #js {:className   "bs-callout bs-callout-info"
                     :draggable   true
                     :onDragStart drag-event}
                (dom/div nil (:title data))
