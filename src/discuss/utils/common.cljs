@@ -247,14 +247,6 @@
   (update-state-item! :user :selection (fn [_] nil)))
 
 
-;;;; Mouse interaction
-(defn save-mouse-position
-  "Store mouse position."
-  [[x y]]
-  (update-state-item! :user :mouse-x (fn [_] x))
-  (update-state-item! :user :mouse-y (fn [_] y)))
-
-
 ;;;; String Stuff
 (defn substring?
   "Evaluates if a substring is contained in the given string."

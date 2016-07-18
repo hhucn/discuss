@@ -11,25 +11,11 @@
             [discuss.tooltip :as tooltip]
             [discuss.views :refer [reference-view]]))
 
-;;; Listener for mouse clicks
-(defn- get-mouse-position
-  "Multi browser support for getting the current mouse position. Returns tuple of x and y: [x y]"
-  [e]
-  (if (.-pageX e)
-    [(.-pageX e) (.-pageY e)]
-    [(.-clientX e) (.-clientY e)]
-    ;(let [x (- (+ (.-clientX e) (.. js/document -body -scrollLeft)) (.. js/document -documentElement -scrollLeft))
-    ;      y (- (+ (.-clientY e) (.. js/document -body -scrollTop)) (.. js/document -documentElement -scrollTop))]
-    ;  [x y (.-clientX e) (.-clientY e)])
-    ))
-
 (defn- listen
   "Helper function for mouse-click events."
   [el type]
   (let [out (chan)]
-    (events/listen el type (fn [e]
-                             (put! out e)
-                             (lib/save-mouse-position (get-mouse-position e))))
+    (events/listen el type (fn [e] (put! out e)))
     out))
 
 ;; http://www.thesoftwaresimpleton.com/blog/2014/12/30/core-dot-async-dot-mouse-dot-down/
