@@ -1,6 +1,7 @@
 (ns discuss.communication
   "Functions concerning the communication with the remote discussion system."
   (:require [ajax.core :refer [GET POST]]
+            [goog.string :refer [htmlEscape]]
             [clojure.walk :refer [keywordize-keys]]
             [discuss.config :as config]
             [discuss.utils.common :as lib]))
@@ -120,8 +121,8 @@
 (defn post-statement [statement reference add-type]
   (let [url (str (:base config/api) (get-in config/api [:add add-type]))
         headers (merge {"Content-Type" "application/json"} (token-header))
-        body {:statement     statement
-              :reference     reference
+        body {:statement     (htmlEscape statement)
+              :reference     (htmlEscape reference)
               :conclusion_id (get-conclusion-id)            ; Relevant for add-start-premise
               :supportive    (get-in @lib/app-state [:discussion :is_supportive])
               :arg_uid       (get-in @lib/app-state [:discussion :arg_uid]) ; For premisses for arguments
