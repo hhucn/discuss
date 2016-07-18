@@ -197,8 +197,7 @@
       (= view :reference-create-with-ref) (build-with-buttons ref/create-with-reference-view data)
       :else (discussion-elements data))))
 
-(defn main-content-view
-  [data]
+(defn main-content-view [data]
   (dom/div nil
            (dom/div #js {:className "text-center"}
                     (get-in data [:layout :intro])
@@ -209,7 +208,7 @@
            (when (get-in data [:layout :add?])
              (om/build add-element {}))))
 
-(defn main-view [data _owner]
+(defn main-view [data]
   (reify om/IRender
     (render [_]
       (dom/div #js {:id (lib/prefix-name "dialogue-main")}
@@ -220,7 +219,7 @@
                        (get-in data [:layout :title]))
                (main-content-view data)))))
 
-(defn reference-view [data owner]
+(defn reference-view [reference owner]
   (reify
     om/IInitState
     (init-state [_]
@@ -228,17 +227,17 @@
     om/IRenderState
     (render-state [_ {:keys [show]}]
       (dom/span nil
-                (dom/span nil (:dom-pre data))
+                (dom/span nil (:dom-pre reference))
                 (dom/span #js {:className "arguments pointer"
-                               :onClick   #(ref/click-reference data)}
-                          (:text data)
+                               :onClick   #(ref/click-reference reference)}
+                          (:text reference)
                           " "
                           (vlib/logo #(om/set-state! owner :show (vlib/toggle-show show))))
-                (dom/span nil (:dom-post data))))))
+                (dom/span nil (:dom-post reference))))))
 
 
 ;;;; Sidebar
-(defn sidebar-view [data _owner]
+(defn sidebar-view [data]
   (reify om/IRender
     (render [_]
       (dom/div nil
