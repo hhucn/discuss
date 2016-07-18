@@ -4,7 +4,7 @@
 
 (def user "Q2hyaXN0aWFu")
 
-(def api {:host "http://localhost:4284/"
+(def api {:host "https://mayweather.cn.uni-duesseldorf.de/dbas/"
           :init "api/elektroautos"
           :base "api/"
           :add  {:add-start-statement "add/start_statement"
