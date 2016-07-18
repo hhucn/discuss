@@ -16,7 +16,7 @@
   []
   (let [selections (get-stored-selections)
         current (lib/get-selection)
-        with-current (distinct (conj selections current))]
+        with-current (distinct (merge selections {:title current}))]
     (lib/update-state-item! :clipboard :selections (fn [_] with-current))))
 
 
@@ -41,7 +41,7 @@
 
 
 ;;;; Views
-(defn clipboard-item [data owner]
+(defn clipboard-item [data]
   (reify
     om/IInitState
     (init-state [_]
@@ -52,17 +52,15 @@
                     :className   "bs-callout bs-callout-info"
                     :draggable   true
                     :onDragStart drag-event}
-               (dom/div nil data)
+               (dom/div nil (:title data))
                #_(dom/button #js {:className "btn btn-sm btn-default"
                                 :onClick   #(discuss.communication/ajax-get "api/cat-or-dog")
                                 :title     "Select this reference for your statement"}
                            (vlib/fa-icon "fa-check"))))))
 
-(defn view [data owner]
-  (reify om/IRender
-    (render [_]
-      (when (pos? (count (get-stored-selections)))
-        (dom/div nil
-                 (dom/h5 nil "Clipboard")
-                 (apply dom/div nil
-                        (map #(om/build clipboard-item (lib/merge-react-key %)) (get-stored-selections))))))))
+(defn view []
+  (when (pos? (count (get-stored-selections)))
+    (dom/div nil
+             (dom/h5 nil "Clipboard")
+             (apply dom/div nil
+                    (map #(om/build clipboard-item (lib/merge-react-key %)) (get-stored-selections))))))
