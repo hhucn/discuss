@@ -64,7 +64,7 @@
                                                           :className   "form-control"
                                                           :placeholder (get-in data [:debug :last-api])}))
                                  (dom/button #js {:className "btn btn-default"
-                                                  :onClick   #(discuss.communication/ajax-get (lib/get-value-by-id "debug-api-call"))}
+                                                  :onClick   #(when-not (empty? (lib/get-value-by-id "debug-api-call")) (discuss.communication/ajax-get (lib/get-value-by-id "debug-api-call")))}
                                              "Do the magic"))
 
                         (dom/h6 nil "Control")
@@ -73,9 +73,6 @@
                                     (dom/i #js {:className "fa fa-fort-awesome"}))
                         " "
                         (control-buttons data)
-                        ;(dom/button #js {:className "btn btn-default"
-                        ;                 :onClick   #(test/run)}
-                        ;            "Run all tests")
 
                         (dom/h6 nil "Token")
                         (dom/pre nil (get-in data [:user :token]))
