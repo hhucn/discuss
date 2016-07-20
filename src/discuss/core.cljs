@@ -15,7 +15,6 @@
 ;; Initialization
 (defn main []
   (com/init!)
-  (com/request-references)
   (auth/one-click-login))
 
 ;(main)
