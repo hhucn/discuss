@@ -39,7 +39,7 @@
                             :onClick   #(discuss.communication/ajax-get (get-in data [:debug :last-api]))}
                        "Resend API Call")
            " "
-           (dom/button #js {:className "btn btn-default"
+           #_(dom/button #js {:className "btn btn-default"
                             :onClick   discuss.auth/one-click-login}
                        "One-Click Login")))
 

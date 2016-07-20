@@ -16,7 +16,8 @@
 (defn main []
   (com/init!)
   (com/request-references)
-  (auth/one-click-login))
+  ;(auth/one-click-login)
+  )
 
 ;(main)
 
