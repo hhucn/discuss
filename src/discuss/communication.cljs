@@ -76,13 +76,6 @@
     (lib/update-state-item! :common :references (fn [_] refs))
     (discuss.references.integration/process-references refs)))
 
-(defn init!
-  "Request initial data from API."
-  []
-  (let [url (:init config/api)]
-    (lib/update-state-item! :layout :add? (fn [_] false))
-    (ajax-get-and-change-view url :default)))
-
 
 ;;;; Discussion-related functions
 (defn get-conclusion-id
@@ -162,3 +155,13 @@
     (= url "add") (prepare-add "add")
     (= url "login") (lib/change-view! :login)
     :else (ajax-get url)))
+
+
+;;;; Get things started!
+(defn init!
+  "Request initial data from API."
+  []
+  (let [url (:init config/api)]
+    (lib/update-state-item! :layout :add? (fn [_] false))
+    (ajax-get-and-change-view url :default)
+    (request-references)))

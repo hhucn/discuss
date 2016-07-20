@@ -10,7 +10,8 @@
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
             [discuss.references.main :as ref]
-            [discuss.sidebar :as sidebar]))
+            [discuss.sidebar :as sidebar]
+            [discuss.utils.bootstrap :as bs]))
 
 ;;;; Auxiliary functions
 (defn get-bubble-class [bubble]
@@ -115,11 +116,19 @@
            (apply dom/ul #js {:id (lib/prefix-name "items-main")}
                   (map #(om/build item-view (lib/merge-react-key %)) (:items data)))))
 
+(defn init-view
+  "Show button if discussion has not been initialized yet."
+  []
+  (dom/div #js {:className "text-center"}
+           (bs/button-primary com/init! "Load discussion!")))
+
 (defn discussion-elements [data]
-  (dom/div nil
-           (bubbles-view)
-           (items-view data)
-           (control-elements)))
+  (if-not (empty? (:discussion @lib/app-state))
+    (dom/div nil
+             (bubbles-view)
+             (items-view data)
+             (control-elements))
+    (init-view)))
 
 (defn error-view
   "Display error message if there are errors."
