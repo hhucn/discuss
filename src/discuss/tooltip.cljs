@@ -63,7 +63,7 @@
                (vlib/logo)
                (vlib/safe-space) " | " (vlib/safe-space)
                (dom/span #js {:className "pointer"
-                              :onClick clipboard/add-selection}
+                              :onClick   clipboard/add-selection}
                          (vlib/fa-icon "fa-bookmark-o")
                          " Save")
                (vlib/safe-space) "  " (vlib/safe-space)
