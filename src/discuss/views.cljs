@@ -1,9 +1,8 @@
 (ns discuss.views
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [goog.dom :as gdom]
             [clojure.string :as string]
-            [discuss.auth :as auth]
+            [discuss.communication.auth :as auth]
             [discuss.clipboard :as clipboard]
             [discuss.communication.main :as com]
             [discuss.utils.extensions]

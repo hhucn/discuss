@@ -36,7 +36,7 @@
                        (vlibs/fa-icon "fa-bars"))
            " "
            (dom/button #js {:className "btn btn-default"
-                            :onClick   discuss.auth/one-click-login}
+                            :onClick   discuss.communication.auth/one-click-login}
                        "One-Click Login")))
 
 (defn debug-view [data _owner]

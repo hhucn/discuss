@@ -1,4 +1,4 @@
-(ns discuss.auth
+(ns discuss.communication.auth
   (:require [ajax.core :refer [POST]]
             [goog.crypt.base64 :as gtfo]
             [discuss.communication.main :as com]
