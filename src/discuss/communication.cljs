@@ -122,7 +122,9 @@
               :path          js/location.pathname
               :issue_id      (get-in @lib/app-state [:issues :uid])
               :slug          (get-in @lib/app-state [:issues :slug])}]
-    (post-json url body process-url-handler headers)))
+    (post-json url body process-url-handler headers)
+    (println reference)
+    (discuss.references.integration/convert-reference reference)))
 
 
 ;;;; For preparation
@@ -161,5 +163,10 @@
   []
   (let [url (:init config/api)]
     (lib/update-state-item! :layout :add? (fn [_] false))
-    (ajax-get-and-change-view url :default)
-    (request-references)))
+    (ajax-get-and-change-view url :default)))
+
+(defn init-with-references!
+  "Load discussion and initially get reference to include them in the discussion."
+  []
+  (request-references)
+  (init!))
