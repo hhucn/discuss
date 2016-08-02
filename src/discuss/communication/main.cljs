@@ -1,4 +1,4 @@
-(ns discuss.communication
+(ns discuss.communication.main
   "Functions concerning the communication with the remote discussion system."
   (:require [ajax.core :refer [GET POST]]
             [goog.string :refer [htmlEscape]]
@@ -31,15 +31,14 @@
   "Make ajax call to dialogue based argumentation system."
   ([url headers handler]
    (lib/no-error!)
+   (lib/last-api! url)
    (GET (make-url url)
         {:handler       handler
          :headers       (merge (token-header) headers)
          :error-handler error-handler})
    (lib/loading? true))
-  ([url headers]
-   (ajax-get url headers lib/update-all-states!))
-  ([url]
-   (ajax-get url {})))
+  ([url headers] (ajax-get url headers lib/update-all-states!))
+  ([url] (ajax-get url {})))
 
 (defn ajax-get-and-change-view
     "Make ajax call to jump right into the discussion and change to discussion view."
@@ -124,7 +123,9 @@
               :path          js/location.pathname
               :issue_id      (get-in @lib/app-state [:issues :uid])
               :slug          (get-in @lib/app-state [:issues :slug])}]
-    (post-json url body process-url-handler headers)))
+    (post-json url body process-url-handler headers)
+    (println reference)
+    (discuss.references.integration/convert-reference reference)))
 
 
 ;;;; For preparation
@@ -163,5 +164,15 @@
   []
   (let [url (:init config/api)]
     (lib/update-state-item! :layout :add? (fn [_] false))
-    (ajax-get-and-change-view url :default)
-    (request-references)))
+    (ajax-get-and-change-view url :default)))
+
+(defn init-with-references!
+  "Load discussion and initially get reference to include them in the discussion."
+  []
+  (request-references)
+  (init!))
+
+(defn resend-last-api
+  "Resends stored url from last api call."
+  []
+  (ajax-get (lib/get-last-api)))

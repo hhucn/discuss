@@ -20,15 +20,15 @@
 (defn control-buttons [data]
   (dom/div nil
            (dom/button #js {:className "btn btn-default"
-                            :onClick   #(discuss.communication/ajax-get "api/elektroautos")}
+                            :onClick   #(discuss.communication.main/ajax-get "api/elektroautos")}
                        (vlibs/fa-icon "fa-car"))
            " "
            (dom/button #js {:className "btn btn-default"
-                            :onClick   #(discuss.communication/ajax-get "api/cat-or-dog")}
+                            :onClick   #(discuss.communication.main/ajax-get "api/cat-or-dog")}
                        (vlibs/fa-icon "fa-paw"))
            " "
            (dom/button #js {:className "btn btn-default"
-                            :onClick   #(discuss.communication/ajax-get "api/town-has-to-cut-spending")}
+                            :onClick   #(discuss.communication.main/ajax-get "api/town-has-to-cut-spending")}
                        (vlibs/fa-icon "fa-building"))
            " "
            (dom/button #js {:className "btn btn-default"
@@ -36,10 +36,6 @@
                        (vlibs/fa-icon "fa-bars"))
            " "
            (dom/button #js {:className "btn btn-default"
-                            :onClick   #(discuss.communication/ajax-get (get-in data [:debug :last-api]))}
-                       "Resend API Call")
-           " "
-           #_(dom/button #js {:className "btn btn-default"
                             :onClick   discuss.auth/one-click-login}
                        "One-Click Login")))
 
@@ -55,18 +51,16 @@
                        "Debug")
                (dom/div #js {:className "collapse in well"
                              :id        "collapse-debug"}
-
                         (dom/h6 nil "API Calls")
-                        (dom/pre nil (get-in data [:debug :last-api]))
-                        (dom/div #js {:className "padding-bottom"}
+                        (dom/pre nil (get-in data [:common :last-api]))
+                        #_(dom/div #js {:className "padding-bottom"}
                                  (dom/div #js {:className "form-group"}
                                           (dom/input #js {:id          (lib/prefix-name "debug-api-call")
                                                           :className   "form-control"
-                                                          :placeholder (get-in data [:debug :last-api])}))
+                                                          :placeholder (:last-api data)}))
                                  (dom/button #js {:className "btn btn-default"
-                                                  :onClick   #(when-not (empty? (lib/get-value-by-id "debug-api-call")) (discuss.communication/ajax-get (lib/get-value-by-id "debug-api-call")))}
+                                                  :onClick   #(when-not (empty? (lib/get-value-by-id "debug-api-call")) (discuss.communication.main/ajax-get (lib/get-value-by-id "debug-api-call")))}
                                              "Do the magic"))
-
                         (dom/h6 nil "Control")
                         (dom/button #js {:className "btn btn-info"
                                          :onClick   discuss.core/main}

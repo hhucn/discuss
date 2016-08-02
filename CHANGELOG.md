@@ -1,7 +1,10 @@
-## WIP
+# Changelog
 
+## WIP
+### 0.2.0
 * Differently react to statements
 * Construct arguments based on already selected references
+* Increase usability and fix issues to start a first public test
 
 ## 0.1.375
 

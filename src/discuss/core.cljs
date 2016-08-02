@@ -2,7 +2,7 @@
   "Entrypoint to this application. Loads all requirements, and bootstraps the application."
   (:require [om.core :as om :include-macros true]
             [discuss.auth :as auth]
-            [discuss.communication :as com]
+            [discuss.communication.main :as com]
             [discuss.debug :as debug]
             [discuss.references.integration]
             [discuss.utils.extensions]

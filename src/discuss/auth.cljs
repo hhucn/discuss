@@ -1,9 +1,8 @@
 (ns discuss.auth
   (:require [ajax.core :refer [POST]]
             [goog.crypt.base64 :as gtfo]
-            [discuss.communication :as com]
+            [discuss.communication.main :as com]
             [discuss.config :as config]
-            [discuss.debug :as debug]
             [discuss.utils.common :as lib]))
 
 (defn success-login
@@ -15,13 +14,12 @@
                                   :token      token
                                   :logged-in? true})
     (lib/change-view! :discussion)
-    (com/init!)))
+    (com/resend-last-api)))
 
 (defn ajax-login
   "Get cleaned data and send ajax request."
   [nickname password]
   (let [url (str (:base config/api) "login")]
-    (debug/update-debug :last-api url)
     (POST (com/make-url url)
           {:body            (lib/clj->json {:nickname nickname
                                             :password password})

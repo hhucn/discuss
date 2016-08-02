@@ -27,7 +27,6 @@
                                    :reference ""
                                    :error?    false
                                    :error-msg nil}
-                :debug            {:last-api ""}
                 :user             {:nickname   "kangaroo"
                                    :token      "razupaltuff"
                                    :avatar     ""
@@ -42,7 +41,8 @@
                                    :current    nil}
                 :sidebar          {:show? true}
                 :common           {:references       []
-                                   :reference-usages {}}})) ; Put this into :reference-usages
+                                   :reference-usages {}
+                                   :last-api         ""}}))
 
 (defn str->int
   "Convert String to Integer."
@@ -163,10 +163,8 @@
 
 (defn loading?
   "Return boolean if app is currently loading content. Provide a boolean to change the app-state."
-  ([]
-   (get-in @app-state [:layout :loading?]))
-  ([bool]
-   (update-state-item! :layout :loading? (fn [_] bool))))
+  ([] (get-in @app-state [:layout :loading?]))
+  ([bool] (update-state-item! :layout :loading? (fn [_] bool))))
 
 (defn update-all-states!
   "Update item list with the data provided by the API.
@@ -181,16 +179,13 @@
     (update-state-map! :items items)
     (update-state-map! :discussion discussion)
     (update-state-map! :issues issues)
-    (update-state-item! :user :avatar (fn [_] (get-in res [:extras :users_avatar])))
-    (update-state-item! :debug :response (fn [_] res))))
+    (update-state-item! :user :avatar (fn [_] (get-in res [:extras :users_avatar])))))
 
 ;; Show error messages
 (defn error?
   "Return boolean indicating if there are errors or not. Provide a boolean to change the app-state."
-  ([]
-   (get-in @app-state [:layout :error?]))
-  ([bool]
-   (update-state-item! :layout :error? (fn [_] bool))))
+  ([] (get-in @app-state [:layout :error?]))
+  ([bool] (update-state-item! :layout :error? (fn [_] bool))))
 
 (defn error-msg!
   "Set error message."
@@ -233,6 +228,19 @@
   [view]
   (hide-add-form!)
   (update-state-item! :layout :template (fn [_] view)))
+
+
+;;;; Last-api
+(defn last-api!
+  "Keep last-api call. Useful to login and then re-request the url to jump to the same position in the discussion,
+   but this time as a logged in user."
+  [url]
+  (update-state-item! :common :last-api (fn [_] url)))
+
+(defn get-last-api
+  "Return url of last API call."
+  []
+  (get-in @app-state [:common :last-api]))
 
 
 ;;;; Selections
