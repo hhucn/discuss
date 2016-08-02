@@ -179,8 +179,7 @@
     (update-state-map! :items items)
     (update-state-map! :discussion discussion)
     (update-state-map! :issues issues)
-    (update-state-item! :user :avatar (fn [_] (get-in res [:extras :users_avatar])))
-    (update-state-item! :debug :response (fn [_] res))))
+    (update-state-item! :user :avatar (fn [_] (get-in res [:extras :users_avatar])))))
 
 ;; Show error messages
 (defn error?

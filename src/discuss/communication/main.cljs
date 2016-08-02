@@ -169,10 +169,10 @@
 (defn init-with-references!
   "Load discussion and initially get reference to include them in the discussion."
   []
-  (request-references) (init!))
+  (request-references)
+  (init!))
 
 (defn resend-last-api
   "Resends stored url from last api call."
   []
-  (let [url (lib/get-last-api)]
-    (ajax-get url)))
+  (ajax-get (lib/get-last-api)))
