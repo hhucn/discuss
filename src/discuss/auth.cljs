@@ -14,7 +14,7 @@
                                   :token      token
                                   :logged-in? true})
     (lib/change-view! :discussion)
-    (com/init!)))
+    (com/resend-last-api)))
 
 (defn ajax-login
   "Get cleaned data and send ajax request."
