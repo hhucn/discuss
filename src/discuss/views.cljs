@@ -1,6 +1,7 @@
 (ns discuss.views
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
+            [goog.dom :as gdom]
             [clojure.string :as string]
             [discuss.auth :as auth]
             [discuss.clipboard :as clipboard]
@@ -95,8 +96,14 @@
                        (vlib/safe-html (:message bubble))))))))
 
 (defn bubbles-view []
-  (apply dom/ol #js {:className "bubbles"}
-         (map #(om/build bubble-view (lib/merge-react-key %)) (lib/get-bubbles))))
+  (reify
+    om/IDidUpdate
+    (did-update [_this _prev-props _prev-state]
+      (vlib/scroll-divs-to-bottom "bubbles"))
+    om/IRender
+    (render [_]
+      (apply dom/ol #js {:className (lib/prefix-name "bubbles")}
+             (map #(om/build bubble-view (lib/merge-react-key %)) (lib/get-bubbles))))))
 
 (defn item-view [item _owner]
   (reify om/IRender
@@ -111,10 +118,14 @@
                           " "
                           (vlib/safe-html (string/join " <i>and</i> " (map :title (:premises item))))))))) ; get all premises of item and add an "and" between them
 
-(defn items-view [data]
-  (dom/div nil
-           (apply dom/ul #js {:id (lib/prefix-name "items-main")}
-                  (map #(om/build item-view (lib/merge-react-key %)) (:items data)))))
+(defn items-view
+  "Show discussion items."
+  [data]
+  (reify om/IRender
+    (render [_]
+      (dom/div nil
+               (apply dom/ul #js {:id (lib/prefix-name "items-main")}
+                      (map #(om/build item-view (lib/merge-react-key %)) (:items data)))))))
 
 (defn init-view
   "Show button if discussion has not been initialized yet."
@@ -125,8 +136,8 @@
 (defn discussion-elements [data]
   (if-not (empty? (:discussion @lib/app-state))
     (dom/div nil
-             (bubbles-view)
-             (items-view data)
+             (om/build bubbles-view data)
+             (om/build items-view data)
              (control-elements))
     (init-view)))
 
