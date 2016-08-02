@@ -168,5 +168,4 @@
 (defn init-with-references!
   "Load discussion and initially get reference to include them in the discussion."
   []
-  (request-references)
-  (init!))
+  (request-references) (init!))

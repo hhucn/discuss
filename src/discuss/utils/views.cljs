@@ -62,7 +62,7 @@
 (defn loading-element
   "Show spinning loading icon when app is loading."
   []
-  (when (discuss.utils.common/loading?)
+  (when (lib/loading?)
     (dom/div #js {:className "loader"}
              (dom/svg #js {:className "circular" :viewBox "25 25 50 50"}
                       (dom/circle #js {:className "path" :cx "50" :cy "50" :r "20" :fill "none" :strokeWidth "5" :strokeMiterlimit "10"})))))

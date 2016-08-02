@@ -131,7 +131,7 @@
   "Show button if discussion has not been initialized yet."
   []
   (dom/div #js {:className "text-center"}
-           (bs/button-primary com/init! "Load discussion!")))
+           (bs/button-primary com/init-with-references! "Load discussion!")))
 
 (defn discussion-elements [data]
   (if-not (empty? (:discussion @lib/app-state))
