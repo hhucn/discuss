@@ -163,10 +163,8 @@
 
 (defn loading?
   "Return boolean if app is currently loading content. Provide a boolean to change the app-state."
-  ([]
-   (get-in @app-state [:layout :loading?]))
-  ([bool]
-   (update-state-item! :layout :loading? (fn [_] bool))))
+  ([] (get-in @app-state [:layout :loading?]))
+  ([bool] (update-state-item! :layout :loading? (fn [_] bool))))
 
 (defn update-all-states!
   "Update item list with the data provided by the API.
@@ -187,10 +185,8 @@
 ;; Show error messages
 (defn error?
   "Return boolean indicating if there are errors or not. Provide a boolean to change the app-state."
-  ([]
-   (get-in @app-state [:layout :error?]))
-  ([bool]
-   (update-state-item! :layout :error? (fn [_] bool))))
+  ([] (get-in @app-state [:layout :error?]))
+  ([bool] (update-state-item! :layout :error? (fn [_] bool))))
 
 (defn error-msg!
   "Set error message."
