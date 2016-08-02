@@ -1,7 +1,7 @@
 (ns discuss.auth
   (:require [ajax.core :refer [POST]]
             [goog.crypt.base64 :as gtfo]
-            [discuss.communication :as com]
+            [discuss.communication.main :as com]
             [discuss.config :as config]
             [discuss.utils.common :as lib]))
 

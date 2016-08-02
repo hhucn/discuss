@@ -5,7 +5,7 @@
             [clojure.string :as string]
             [discuss.auth :as auth]
             [discuss.clipboard :as clipboard]
-            [discuss.communication :as com]
+            [discuss.communication.main :as com]
             [discuss.utils.extensions]
             [discuss.history :as history]
             [discuss.utils.common :as lib]

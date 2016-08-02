@@ -3,7 +3,7 @@
    or providing a form to use it in the own statement."
   (:require [om.core :as om]
             [om.dom :as dom]
-            [discuss.communication :as com]
+            [discuss.communication.main :as com]
             [discuss.config :as config]
             [discuss.find :as find]
             [discuss.sidebar :as sidebar]

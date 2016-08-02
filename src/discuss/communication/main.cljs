@@ -1,4 +1,4 @@
-(ns discuss.communication
+(ns discuss.communication.main
   "Functions concerning the communication with the remote discussion system."
   (:require [ajax.core :refer [GET POST]]
             [goog.string :refer [htmlEscape]]

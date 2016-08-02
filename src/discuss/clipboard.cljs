@@ -50,8 +50,8 @@
                     :onDragStart drag-event}
                (dom/div nil (:title data))
                #_(dom/button #js {:className "btn btn-sm btn-default"
-                                :onClick   #(discuss.communication/ajax-get "api/cat-or-dog")
-                                :title     "Select this reference for your statement"}
+                                  :onClick   #(discuss.communication.main/ajax-get "api/cat-or-dog")
+                                  :title     "Select this reference for your statement"}
                            (vlib/fa-icon "fa-check"))))))
 
 (defn view []

@@ -20,15 +20,15 @@
 (defn control-buttons [data]
   (dom/div nil
            (dom/button #js {:className "btn btn-default"
-                            :onClick   #(discuss.communication/ajax-get "api/elektroautos")}
+                            :onClick   #(discuss.communication.main/ajax-get "api/elektroautos")}
                        (vlibs/fa-icon "fa-car"))
            " "
            (dom/button #js {:className "btn btn-default"
-                            :onClick   #(discuss.communication/ajax-get "api/cat-or-dog")}
+                            :onClick   #(discuss.communication.main/ajax-get "api/cat-or-dog")}
                        (vlibs/fa-icon "fa-paw"))
            " "
            (dom/button #js {:className "btn btn-default"
-                            :onClick   #(discuss.communication/ajax-get "api/town-has-to-cut-spending")}
+                            :onClick   #(discuss.communication.main/ajax-get "api/town-has-to-cut-spending")}
                        (vlibs/fa-icon "fa-building"))
            " "
            (dom/button #js {:className "btn btn-default"
@@ -59,7 +59,7 @@
                                                           :className   "form-control"
                                                           :placeholder (:last-api data)}))
                                  (dom/button #js {:className "btn btn-default"
-                                                  :onClick   #(when-not (empty? (lib/get-value-by-id "debug-api-call")) (discuss.communication/ajax-get (lib/get-value-by-id "debug-api-call")))}
+                                                  :onClick   #(when-not (empty? (lib/get-value-by-id "debug-api-call")) (discuss.communication.main/ajax-get (lib/get-value-by-id "debug-api-call")))}
                                              "Do the magic"))
                         (dom/h6 nil "Control")
                         (dom/button #js {:className "btn btn-info"

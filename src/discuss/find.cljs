@@ -3,7 +3,7 @@
   (:require [clojure.walk :refer [keywordize-keys]]
             [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [discuss.communication :as com]
+            [discuss.communication.main :as com]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
