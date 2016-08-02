@@ -27,7 +27,6 @@
                                    :reference ""
                                    :error?    false
                                    :error-msg nil}
-                :debug            {:last-api ""}
                 :user             {:nickname   "kangaroo"
                                    :token      "razupaltuff"
                                    :avatar     ""
@@ -42,7 +41,8 @@
                                    :current    nil}
                 :sidebar          {:show? true}
                 :common           {:references       []
-                                   :reference-usages {}}})) ; Put this into :reference-usages
+                                   :reference-usages {}}
+                :last-api         ""}))
 
 (defn str->int
   "Convert String to Integer."
