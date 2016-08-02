@@ -41,8 +41,8 @@
                                    :current    nil}
                 :sidebar          {:show? true}
                 :common           {:references       []
-                                   :reference-usages {}}
-                :last-api         ""}))
+                                   :reference-usages {}
+                                   :last-api         ""}}))
 
 (defn str->int
   "Convert String to Integer."
@@ -229,6 +229,19 @@
   [view]
   (hide-add-form!)
   (update-state-item! :layout :template (fn [_] view)))
+
+
+;;;; Last-api
+(defn last-api!
+  "Keep last-api call. Useful to login and then re-request the url to jump to the same position in the discussion,
+   but this time as a logged in user."
+  [url]
+  (update-state-item! :common :last-api (fn [_] url)))
+
+(defn get-last-api
+  "Return url of last API call."
+  []
+  (get-in @app-state [:common :last-api]))
 
 
 ;;;; Selections

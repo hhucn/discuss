@@ -51,8 +51,8 @@
                        "Debug")
                (dom/div #js {:className "collapse in well"
                              :id        "collapse-debug"}
-                        #_(dom/h6 nil "API Calls")
-                        #_(dom/pre nil (:last-api data))
+                        (dom/h6 nil "API Calls")
+                        (dom/pre nil (get-in data [:common :last-api]))
                         #_(dom/div #js {:className "padding-bottom"}
                                  (dom/div #js {:className "form-group"}
                                           (dom/input #js {:id          (lib/prefix-name "debug-api-call")

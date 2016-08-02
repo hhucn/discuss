@@ -31,6 +31,7 @@
   "Make ajax call to dialogue based argumentation system."
   ([url headers handler]
    (lib/no-error!)
+   (lib/last-api! url)
    (GET (make-url url)
         {:handler       handler
          :headers       (merge (token-header) headers)
@@ -169,3 +170,9 @@
   "Load discussion and initially get reference to include them in the discussion."
   []
   (request-references) (init!))
+
+(defn resend-last-api
+  "Resends stored url from last api call."
+  []
+  (let [url (lib/get-last-api)]
+    (ajax-get url)))
