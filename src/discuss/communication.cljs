@@ -36,10 +36,8 @@
          :headers       (merge (token-header) headers)
          :error-handler error-handler})
    (lib/loading? true))
-  ([url headers]
-   (ajax-get url headers lib/update-all-states!))
-  ([url]
-   (ajax-get url {})))
+  ([url headers] (ajax-get url headers lib/update-all-states!))
+  ([url] (ajax-get url {})))
 
 (defn ajax-get-and-change-view
     "Make ajax call to jump right into the discussion and change to discussion view."
