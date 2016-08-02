@@ -1,17 +1,20 @@
 (ns discuss.utils.views
-  (:require [goog.string :as gstring]
+  (:require [goog.dom :as gdom]
+            [goog.string :as gstring]
             [om.core :as om :include-macros true]
-            [om.dom :as dom :include-macros true]))
+            [om.dom :as dom :include-macros true]
+            [discuss.utils.extensions]
+            [discuss.utils.common :as lib]))
 
 (defn fa-icon
   "Wrapper for font-awesome icons."
   ([class]
    (dom/i #js {:react-key (discuss.utils.common/get-unique-key)
-               :key (discuss.utils.common/get-unique-key)
+               :key       (discuss.utils.common/get-unique-key)
                :className (str "fa " class)}))
   ([class f]
    (dom/i #js {:react-key (discuss.utils.common/get-unique-key)
-               :key (discuss.utils.common/get-unique-key)
+               :key       (discuss.utils.common/get-unique-key)
                :className (str "pointer fa " class)
                :onClick   f})))
 
@@ -70,3 +73,9 @@
   (dom/div #js {:className "panel panel-default"}
            (dom/div #js {:className "panel-body"}
                     content)))
+
+(defn scroll-divs-to-bottom
+  "Align divs to bottom. Scrolls down the complete content of each div."
+  [class]
+  (let [divs (gdom/getElementsByClass (lib/prefix-name class))]
+    (doall (map #(set! (.. % -scrollTop) (.. % -scrollHeight)) divs))))
