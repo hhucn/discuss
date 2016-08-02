@@ -63,11 +63,11 @@
                (vlib/logo)
                (vlib/safe-space) " | " (vlib/safe-space)
                (dom/span #js {:className "pointer"
-                              :onClick   clipboard/add-selection}
+                              :onClick   (fn [] (clipboard/add-selection) (sidebar/show))}
                          (vlib/fa-icon "fa-bookmark-o")
                          " Save")
                (vlib/safe-space) "  " (vlib/safe-space)
                (dom/span #js {:className "pointer"
                               :onClick   sidebar/show}
                          (vlib/fa-icon "fa-comment")
-                         " Discuss")))))
+                         " Show Discuss")))))

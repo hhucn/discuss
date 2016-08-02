@@ -58,5 +58,6 @@
   (when (pos? (count (get-stored-selections)))
     (dom/div nil
              (dom/h5 nil "Clipboard")
+             (dom/p nil "Drag and drop these arguments to the reference field when adding a new statement.")
              (apply dom/div nil
                     (map #(om/build clipboard-item (lib/merge-react-key %)) (get-stored-selections))))))
