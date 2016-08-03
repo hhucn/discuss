@@ -53,7 +53,7 @@
            (is (= "entries" (lib/singular->plural 2 "entry")))
            (is (= "entry" (lib/singular->plural 1 "entry")))
            (is (= "entries" (lib/singular->plural 0 "entry")))
-           (is (= nil (lib/singular->plural -1 "entry")))
+           (is (nil? (lib/singular->plural -1 "entry")))
            (is (= "may-the-force-be-with-you" (lib/singular->plural 1 "may-the-force-be-with-you")))
            (is (= "may-the-force-be-with-yous" (lib/singular->plural 101000 "may-the-force-be-with-you"))) ;; Strange :D
-           (is (= nil (lib/singular->plural -1 -1)))))
+           (is (nil? (lib/singular->plural -1 -1)))))
