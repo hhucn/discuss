@@ -1,4 +1,4 @@
-(ns discuss.clipboard
+(ns discuss.components.clipboard
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [discuss.utils.common :as lib]))

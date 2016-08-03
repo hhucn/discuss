@@ -2,7 +2,7 @@
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [goog.dom :as gdom]
-            [discuss.clipboard :as clipboard]
+            [discuss.components.clipboard :as clipboard]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
             [discuss.components.sidebar :as sidebar]))

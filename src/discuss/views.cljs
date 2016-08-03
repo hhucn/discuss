@@ -4,7 +4,7 @@
             [clojure.string :as string]
             [discuss.components.bubbles :as bubbles]
             [discuss.communication.auth :as auth]
-            [discuss.clipboard :as clipboard]
+            [discuss.components.clipboard :as clipboard]
             [discuss.communication.main :as com]
             [discuss.history :as history]
             [discuss.utils.common :as lib]
@@ -148,8 +148,8 @@
     (render-state [_ {:keys [statement]}]
       (om/observe owner (lib/get-cursor :user))
       (dom/div #js {:className  "panel panel-default"
-                    :onDragOver discuss.clipboard/allow-drop
-                    :onDrop     discuss.clipboard/update-reference-drop}
+                    :onDragOver discuss.components.clipboard/allow-drop
+                    :onDrop     discuss.components.clipboard/update-reference-drop}
                (dom/div #js {:className "panel-body"}
                         (dom/h4 #js {:className "text-center"} (lib/get-add-text))
                         (dom/h5 #js {:className "text-center"} (vlib/safe-html (lib/get-add-premise-text)))

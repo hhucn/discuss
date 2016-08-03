@@ -4,7 +4,7 @@
             [om.dom :as dom]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
-            [discuss.clipboard :as clipboard]))
+            [discuss.components.clipboard :as clipboard]))
 
 (def id (lib/prefix-name "sidebar"))
 
