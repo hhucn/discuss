@@ -14,7 +14,7 @@
 ;; Initialization
 (defn main []
   (com/init-with-references!))
-(main)
+;(main)
 
 ;; Register
 (om/root views/main-view lib/app-state

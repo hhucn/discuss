@@ -10,7 +10,7 @@
                  [org.clojure/clojurescript "1.9.93"]
                  [org.clojure/core.async "0.2.385" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
-                 [org.omcljs/om "1.0.0-alpha36"]
+                 [org.omcljs/om "1.0.0-alpha41"]
                  [cljs-ajax "0.5.8"]                        ; AJAX for om
                  [com.cognitect/transit-cljs "0.8.239"]     ; Better JSON support
                  [figwheel-sidecar "0.5.3-2" :scope "devcards"]

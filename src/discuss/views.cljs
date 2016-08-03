@@ -92,6 +92,10 @@
         (dom/li #js {:className bubble-class}
                 (dom/div #js {:className "avatar"})
                 (dom/p #js {:className "messages"}
+                       #_(.log js/console (vlib/safe-html (:message bubble)))
+                       (println (om/children (vlib/safe-html (:message bubble))))
+
+
                        (vlib/safe-html (:message bubble))))))))
 
 (defn bubbles-view []

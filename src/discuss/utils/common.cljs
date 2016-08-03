@@ -60,7 +60,7 @@
 (defn merge-react-key
   "Get a unique key, create a small map with :react-key property and merge it with the given collection."
   [col]
-  (merge {:react-key (get-unique-key)} col))
+  (merge {:key (get-unique-key)} col))
 
 (defn get-cursor
   "Return a cursor to the corresponding key in the app-state."

@@ -8,5 +8,5 @@
   [fn & strs]
   (dom/button #js {:className "btn btn-primary"
                    :onClick   fn
-                   :react-key (lib/get-unique-key)}
+                   :key       (lib/get-unique-key)}
               strs))
