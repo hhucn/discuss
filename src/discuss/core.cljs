@@ -13,7 +13,7 @@
 
 ;; Initialization
 (defn main []
-  (com/init!))
+  (com/init-with-references!))
 (main)
 
 ;; Register

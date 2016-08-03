@@ -17,7 +17,7 @@
                  [devcards "0.2.1-7" :scope "devcards" :exclusions [org.clojure/clojurescript]]
                  [inflections "0.12.2"]]
 
-  :plugins [[lein-figwheel "0.5.3-2"]
+  :plugins [[lein-figwheel "0.5.4-7"]
             [lein-cljsbuild "1.1.3" :exclusions [[org.clojure/clojure]]]
             [lein-codox "0.9.5"]
             [lein-ancient "0.6.10"]
