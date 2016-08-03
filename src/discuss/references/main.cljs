@@ -6,7 +6,7 @@
             [discuss.communication.main :as com]
             [discuss.config :as config]
             [discuss.find :as find]
-            [discuss.sidebar :as sidebar]
+            [discuss.components.sidebar :as sidebar]
             [discuss.references.lib :as rlib]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]

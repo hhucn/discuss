@@ -32,7 +32,7 @@
                        (vlibs/fa-icon "fa-building"))
            " "
            (dom/button #js {:className "btn btn-default"
-                            :onClick   #(discuss.sidebar/toggle)}
+                            :onClick   #(discuss.components.sidebar/toggle)}
                        (vlibs/fa-icon "fa-bars"))
            " "
            (dom/button #js {:className "btn btn-default"

@@ -11,7 +11,7 @@
             [discuss.utils.extensions]
             [discuss.utils.views :as vlib]
             [discuss.references.main :as ref]
-            [discuss.sidebar :as sidebar]
+            [discuss.components.sidebar :as sidebar]
             [discuss.utils.bootstrap :as bs]))
 
 ;;;; Elements
@@ -221,13 +221,3 @@
                           " "
                           (vlib/logo #(om/set-state! owner :show (vlib/toggle-show show))))
                 (dom/span nil (:dom-post reference))))))
-
-
-;;;; Sidebar
-(defn sidebar-view [data]
-  (reify om/IRender
-    (render [_]
-      (dom/div nil
-               (vlib/fa-icon "fa-bars" #(sidebar/toggle))
-               (om/build main-view data)
-               (clipboard/view)))))

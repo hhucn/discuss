@@ -1,6 +1,10 @@
-(ns discuss.sidebar
+(ns discuss.components.sidebar
   "Controlling the sidebar."
-  (:require [discuss.utils.common :as lib]))
+  (:require [om.core :as om]
+            [om.dom :as dom]
+            [discuss.utils.common :as lib]
+            [discuss.utils.views :as vlib]
+            [discuss.clipboard :as clipboard]))
 
 (def id (lib/prefix-name "sidebar"))
 
@@ -26,3 +30,13 @@
   "Hide sidebar."
   []
   (toggle false))
+
+
+;;;; Sidebar
+(defn view [data]
+  (reify om/IRender
+    (render [_]
+      (dom/div nil
+               (vlib/fa-icon "fa-bars" toggle)
+               (om/build discuss.views/main-view data)
+               (clipboard/view)))))

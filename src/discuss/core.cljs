@@ -2,6 +2,8 @@
   "Entrypoint to this application. Loads all requirements, and bootstraps the application."
   (:require [om.core :as om :include-macros true]
             [discuss.communication.main :as com]
+            [discuss.components.sidebar :as sidebar]
+            [discuss.components.bubbles]
             [discuss.debug :as debug]
             [discuss.references.integration]
             [discuss.utils.extensions]
@@ -20,7 +22,7 @@
 (om/root views/main-view lib/app-state
          {:target (.getElementById js/document (lib/prefix-name "main"))})
 
-(om/root views/sidebar-view lib/app-state
+(om/root sidebar/view lib/app-state
          {:target (.getElementById js/document (lib/prefix-name "sidebar"))})
 
 (om/root tooltip/view {}

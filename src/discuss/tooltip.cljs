@@ -4,7 +4,7 @@
             [discuss.clipboard :as clipboard]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
-            [discuss.sidebar :as sidebar]))
+            [discuss.components.sidebar :as sidebar]))
 
 (defn show
   "Show tooltip by removing a class."
