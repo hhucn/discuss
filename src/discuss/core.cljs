@@ -8,7 +8,7 @@
             [discuss.references.integration]
             [discuss.utils.extensions]
             [discuss.utils.common :as lib]
-            [discuss.tooltip :as tooltip]
+            [discuss.components.tooltip :as tooltip]
             [discuss.views :as views]))
 
 (enable-console-print!)

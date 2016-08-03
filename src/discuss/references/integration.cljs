@@ -8,7 +8,7 @@
             [discuss.utils.extensions]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
-            [discuss.tooltip :as tooltip]
+            [discuss.components.tooltip :as tooltip]
             [discuss.views :refer [reference-view]]))
 
 (defn- listen

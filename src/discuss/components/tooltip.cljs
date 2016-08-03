@@ -1,22 +1,28 @@
-(ns discuss.tooltip
+(ns discuss.components.tooltip
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
+            [goog.dom :as gdom]
             [discuss.clipboard :as clipboard]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
             [discuss.components.sidebar :as sidebar]))
 
+(defn- get-tooltip
+  "Return DOM element of tooltip"
+  []
+  (gdom/getElement (lib/prefix-name "tooltip")))
+
 (defn show
   "Show tooltip by removing a class."
   []
-  (let [tooltip (.getElementById js/document (lib/prefix-name "tooltip"))]
+  (let [tooltip (get-tooltip)]
     ;(utils/remove-class tooltip "hidden")
     (set! (.. tooltip -style -visibility) "visible")))
 
 (defn hide
   "Hide tooltip by adding a class."
   []
-  (let [tooltip (.getElementById js/document (lib/prefix-name "tooltip"))]
+  (let [tooltip (get-tooltip)]
     ;(utils/add-class tooltip "hidden")
     (set! (.. tooltip -style -visibility) "hidden")))
 
@@ -48,7 +54,7 @@
 (defn move-to-selection
   "Sets CSS position of tooltip and move it to the mouse selection."
   []
-  (let [tooltip (.getElementById js/document (lib/prefix-name "tooltip"))
+  (let [tooltip (get-tooltip)
         [top left] (calc-position tooltip.offsetWidth tooltip.offsetHeight)]
     (set! (.. tooltip -style -top) (str top "px"))
     (set! (.. tooltip -style -left) (str left "px"))
