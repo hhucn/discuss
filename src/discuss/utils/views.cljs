@@ -27,7 +27,8 @@
 (defn safe-html
   "Creates DOM element with interpreted HTML."
   [string]
-  (dom/span #js {:dangerouslySetInnerHTML #js {:__html string}}))
+  (dom/span #js {:className (lib/prefix-name "converted-bubbles")
+                 :dangerouslySetInnerHTML #js {:__html string}}))
 
 (defn safe-space
   "Create a safed spacer."

@@ -2,6 +2,7 @@
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [clojure.string :as string]
+            [goog.dom :as gdom]
             [discuss.communication.auth :as auth]
             [discuss.clipboard :as clipboard]
             [discuss.communication.main :as com]
@@ -81,27 +82,51 @@
                            "Login")))))
 
 ;; Views
+(defn- dispatch-link-destination
+  "Dispatch which link should be set."
+  [anchor]
+  (let [data-href (.getAttribute anchor "data-href")]
+    (cond
+      (= data-href "back") history/back!
+      (= data-href "login") #(lib/change-view! :login)
+      (= data-href "restart") com/init!)))
+
+(defn- convert-link
+  "Given a DOM element, search for anchor-children and correctly set onClick and href properties."
+  [dom-node]
+  (let [children (gdom/getChildren dom-node)
+        anchors (filter #(= "a" (string/lower-case (.-nodeName %))) children)]
+    (when (pos? (count anchors))
+      (doall (map (fn [anchor]
+                    (set! (.-href anchor) "javascript:void(0)")
+                    (set! (.-onclick anchor) (dispatch-link-destination anchor)))
+                  anchors)))))
+
+(defn convert-links-in-bubbles
+  "Reads data attributes and set correct links."
+  []
+  (let [messages (gdom/getElementsByClass (lib/prefix-name "converted-bubbles"))]
+    (doall (map convert-link messages))))
+
 (defn bubble-view [bubble]
-  (reify om/IRender
+  (reify
+    om/IDidUpdate
+    (did-update [_ _ _]
+      (convert-links-in-bubbles))
+    om/IRender
     (render [_]
-      (let [bubble-class (get-bubble-class bubble)
-            ;; ref (lib/get-reference (:id bubble))
-            ]
+      (let [bubble-class (get-bubble-class bubble)]
         (comment (println bubble)
                  (println (:id bubble)))
         (dom/li #js {:className bubble-class}
                 (dom/div #js {:className "avatar"})
                 (dom/p #js {:className "messages"}
-                       #_(.log js/console (vlib/safe-html (:message bubble)))
-                       (println (om/children (vlib/safe-html (:message bubble))))
-
-
                        (vlib/safe-html (:message bubble))))))))
 
 (defn bubbles-view []
   (reify
     om/IDidUpdate
-    (did-update [_this _prev-props _prev-state]
+    (did-update [_ _ _]
       (vlib/scroll-divs-to-bottom "bubbles"))
     om/IRender
     (render [_]
