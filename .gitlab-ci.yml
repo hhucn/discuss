@@ -3,6 +3,13 @@ image: clojure
 before_script:
   - echo "Nothing to prepare..."
 
+linting:
+  stage: test
+  script:
+    - lein ancient
+    - lein kibit
+  allow_failure: true
+
 build:
   script:
     - lein --version
