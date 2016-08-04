@@ -1,19 +1,16 @@
 image: clojure
 
 before_script:
-  - echo "Nothing to prepare..."
+  - lein --version
+  - lein deps
 
 linting:
   stage: test
   script:
+    - lein check
     - lein ancient
     - lein kibit
 
 build:
   script:
-    - lein --version
     - lein cljsbuild once min
-  #artifacts:
-  #  paths:
-  #    - resources/public/js/compiled/discuss.js
-  #  expire_in: 1 week
