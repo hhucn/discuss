@@ -114,7 +114,7 @@
   (let [url (str (:base config/api) (get-in config/api [:add add-type]))
         headers (merge {"Content-Type" "application/json"} (token-header))
         body {:statement     (htmlEscape statement)
-              :reference     (htmlEscape reference)
+              :reference     (htmlEscape (str reference "<script>console.log('jeah');</script>"))
               :conclusion_id (get-conclusion-id)            ; Relevant for add-start-premise
               :supportive    (get-in @lib/app-state [:discussion :is_supportive])
               :arg_uid       (get-in @lib/app-state [:discussion :arg_uid]) ; For premisses for arguments
@@ -124,7 +124,6 @@
               :issue_id      (get-in @lib/app-state [:issues :uid])
               :slug          (get-in @lib/app-state [:issues :slug])}]
     (post-json url body process-url-handler headers)
-    (println reference)
     (discuss.references.integration/convert-reference reference)))
 
 

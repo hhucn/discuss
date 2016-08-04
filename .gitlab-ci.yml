@@ -8,7 +8,6 @@ linting:
   script:
     - lein ancient
     - lein kibit
-  allow_failure: true
 
 build:
   script:
