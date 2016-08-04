@@ -29,7 +29,7 @@
           (lib/update-state-item! :user :selection (fn [_] selection)))
       (tooltip/hide))))
 
-(let [clicks (listen (.getElementById js/document "discuss-text") "click")]
+(let [clicks (listen (.getElementById js/document "main-wrapper") "click")]
   (go (while true                                           ;; TODO Set a reasonable timeout
         (<! clicks)
         (save-selected-text))))
