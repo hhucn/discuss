@@ -4,7 +4,7 @@
   (:require [goog.events :as events]
             [om.core :as om]
             [cljs.core.async :refer [put! chan <!]]
-            [clojure.string :refer [split lower-case]]
+            [clojure.string :refer [split lower-case trim]]
             [discuss.utils.extensions]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
@@ -53,26 +53,28 @@
   (last
     (filter
       identity
-      (map #(when (lib/substring? ref (.-innerHTML %)) %) doms))))
+      (map #(when (lib/substring? ref (trim (.-innerHTML %))) %) doms))))
 
 
 ;;; Integrate references and highlight them in the article
 (defn- convert-reference
   "Find parent of reference, split it into parts and wrap the original reference for highlighting and interaction."
   [ref]
-  (let [ref-text (vlib/html->str (:text ref))
+  (let [ref-text (trim (vlib/html->str (:text ref)))
         ref-url (:url ref)
         ref-id (:uid ref)
         doms-raw (.getElementsByTagName js/document "*")
         doms (minify-doms doms-raw)
         parent (get-parent doms ref-text)]
     (when parent
-      (let [dom-parts (split (.-innerHTML parent) (re-pattern ref-text))]
+      (let [dom-parts (split (.-innerHTML parent) (re-pattern ref-text))
+            first-part (first dom-parts)
+            last-part (last dom-parts)]
         (om/root reference-view {:text     ref-text
                                  :url      ref-url
                                  :id       ref-id
-                                 :dom-pre  (first dom-parts)
-                                 :dom-post (last dom-parts)}
+                                 :dom-pre  first-part
+                                 :dom-post (when (and (< 1 (count dom-parts)) (not= last-part ref-text)) last-part)}
                  {:target parent})))))
 
 (defn process-references
