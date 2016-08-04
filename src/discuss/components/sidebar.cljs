@@ -38,5 +38,4 @@
     (render [_]
       (dom/div nil
                (vlib/fa-icon "fa-bars" toggle)
-               (om/build discuss.views/main-view data)
-               (clipboard/view)))))
+               (om/build discuss.views/main-view data)))))

@@ -193,7 +193,8 @@
            (vlib/panel-wrapper
              (view-dispatcher data))
            (when (get-in data [:layout :add?])
-             (om/build add-element {}))))
+             (om/build add-element {}))
+           (clipboard/view)))
 
 (defn main-view [data]
   (reify om/IRender
