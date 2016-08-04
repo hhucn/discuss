@@ -1,8 +1,8 @@
 image: clojure
 
 before_script:
+  - lein deps > /dev/null 2>&1
   - lein --version
-  - lein deps
 
 linting:
   stage: test
