@@ -2,7 +2,7 @@
   :description ""
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
+            :url  "http://www.eclipse.org/legal/epl-v10.html"}
 
   :min-lein-version "2.5.3"
 
@@ -30,45 +30,45 @@
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
   :cljsbuild {:builds
-              [{:id "dev"
+              [{:id           "dev"
                 :source-paths ["src/discuss"]
-                :figwheel {:on-jsload "discuss.core/on-js-reload"}
-                :compiler {:main discuss.core
-                           :preloads [devtools.preload]
-                           :asset-path "js/compiled/out"
-                           :output-to "resources/public/js/compiled/discuss.js"
-                           :output-dir "resources/public/js/compiled/out"
-                           :parallel-build true
-                           :compiler-stats true
-                           :source-map-timestamp true}}
-               {:id "devcards"
+                :figwheel     {:on-jsload "discuss.core/on-js-reload"}
+                :compiler     {:main                 discuss.core
+                               :preloads             [devtools.preload]
+                               :asset-path           "js/compiled/out"
+                               :output-to            "resources/public/js/compiled/discuss.js"
+                               :output-dir           "resources/public/js/compiled/out"
+                               :parallel-build       true
+                               :compiler-stats       true
+                               :source-map-timestamp true}}
+               {:id           "devcards"
                 :source-paths ["src/discuss" "src/devcards"]
-                :figwheel {:devcards true}
-                :compiler {:main discuss.devcards.core
-                           :asset-path "../js/compiled/devcards/out"
-                           :output-to "resources/public/js/compiled/discuss.js"
-                           :output-dir "resources/public/js/compiled/devcards/out"
-                           :parallel-build true
-                           :compiler-stats true
-                           :source-map-timestamp true}}
-               {:id "test"
+                :figwheel     {:devcards true}
+                :compiler     {:main                 discuss.devcards.core
+                               :asset-path           "../js/compiled/devcards/out"
+                               :output-to            "resources/public/js/compiled/discuss.js"
+                               :output-dir           "resources/public/js/compiled/devcards/out"
+                               :parallel-build       true
+                               :compiler-stats       true
+                               :source-map-timestamp true}}
+               {:id           "test"
                 :source-paths ["src/discuss" "src/devcards"]
-                :compiler {:output-to "resources/public/js/testable.js"
-                           :main discuss.test.runner
-                           :optimizations :none}}
-               {:id "min"
+                :compiler     {:output-to     "resources/public/js/testable.js"
+                               :main          discuss.test.runner
+                               :optimizations :none}}
+               {:id           "min"
                 :source-paths ["src"]
-                :compiler {:output-to "resources/public/js/compiled/discuss.js"
-                           :main discuss.core
-                           :optimizations :advanced
-                           :parallel-build true
-                           :compiler-stats true
-                           :pretty-print false}}]}
+                :compiler     {:output-to      "resources/public/js/compiled/discuss.js"
+                               :main           discuss.core
+                               :optimizations  :advanced
+                               :parallel-build true
+                               :compiler-stats true
+                               :pretty-print   false}}]}
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
              ;; :server-port 3449 ;; default
              ;; :server-ip "127.0.0.1"
 
-             :css-dirs ["resources/public/css"] ;; watch and update CSS
+             :css-dirs ["resources/public/css"]             ;; watch and update CSS
 
              ;; Start an nREPL server into the running figwheel process
              ;; :nrepl-port 7888
