@@ -97,10 +97,10 @@
       (dom/div #js {:className "text-center"}
                (rlib/current-reference-component)
                (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
-                                  "Find usages of this reference")
+                                  "Wo wird diese Referenz verwendet?")
                " "
                (bs/button-primary #(lib/change-view! :reference-create-with-ref)
-                                  "Create new Statement with this reference")))))
+                                  "Neues Argument mit Referenz erstellen")))))
 
 (defn usage-view
   "List single usages of reference."
@@ -116,9 +116,9 @@
                           (dom/a #js {:href    "javascript:void(0)"
                                       :onClick #(save-statement-change-view data)}
                                  (dom/strong nil (:text statement)))
-                          (dom/div nil "Reference: \"" (:title reference) "\"")
+                          (dom/div nil "Referenz: \"" (:title reference) "\"")
                           (dom/div nil "Issue: " (:title issue))
-                          (dom/div nil "Author: " (:nickname author))))))))
+                          (dom/div nil "Autor: " (:nickname author))))))))
 
 (defn usages-view
   "List with details showing the usages of the given reference."
@@ -141,13 +141,13 @@
       (let [statement (rlib/get-selected-statement)]
         (dom/div nil
                  (dom/div #js {:className "text-center"}
-                          "Do you agree or disagree with this statement?")
+                          "Stimmen Sie dem Argument zu oder lehnen Sie es ab?")
                  (om/build usage-view statement)
                  (dom/div #js {:className "text-center"}
                           (bs/button-primary #(get-statement-url statement true)
                                              (vlib/fa-icon "fa-thumbs-up")
-                                             " Agree")
+                                             " Zustimmen")
                           " "
                           (bs/button-primary #(get-statement-url statement false)
                                              (vlib/fa-icon "fa-thumbs-down")
-                                             " Disagree")))))))
+                                             " Ablehnen")))))))

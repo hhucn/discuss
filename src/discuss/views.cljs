@@ -21,8 +21,7 @@
                    (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-double-left fa-border") com/init!)
                    " "
                    (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-left fa-border") history/back!)
-                   " "
-                   (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-right fa-border pointer")))))
+                   #_(vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-right fa-border pointer")))))
 
 (defn avatar-view
   "Get the user's avatar and add login + logout functions to it."
@@ -104,7 +103,7 @@
   "Show button if discussion has not been initialized yet."
   []
   (dom/div #js {:className "text-center"}
-           (bs/button-primary com/init-with-references! "Load discussion!")))
+           (bs/button-primary com/init-with-references! "Starte Diskussion!")))
 
 (defn discussion-elements [data]
   (if-not (empty? (:discussion @lib/app-state))
