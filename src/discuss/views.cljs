@@ -191,7 +191,7 @@
 
 (defn main-content-view [data]
   (dom/div nil
-           (when-not (empty? (:discussion @lib/app-state))
+           (when (seq (:discussion @lib/app-state))
              (dom/div #js {:className "text-center"}
                       (get-in data [:layout :intro])
                       (dom/br nil)
