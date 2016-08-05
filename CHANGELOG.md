@@ -5,7 +5,7 @@
 * Fix reference storing #8
 * Fix unauthorized users #4 #3
 
-## 0.2.0 [05.08.2016]
+## 0.2 [05.08.2016]
 * Differently react to statements
 * Construct arguments based on already selected references
 * Increase usability and fix issues to start a first public test
