@@ -17,16 +17,17 @@
          (atom {:discussion       {}
                 :issues           {}
                 :items            {}
-                :layout           {:title     "discuss"
-                                   :intro     "The current discussion is about:"
-                                   :template  :discussion
-                                   :add?      false
-                                   :add-text  "Let me enter my reason!"
-                                   :add-type  nil
-                                   :loading?  false
-                                   :reference ""
-                                   :error?    false
-                                   :error-msg nil}
+                :layout           {:title         "discuss"
+                                   :intro         "The current discussion is about:"
+                                   :template      :discussion
+                                   :next-template :discussion
+                                   :add?          false
+                                   :add-text      "Let me enter my reason!"
+                                   :add-type      nil
+                                   :loading?      false
+                                   :reference     ""
+                                   :error?        false
+                                   :error-msg     nil}
                 :user             {:nickname   "kangaroo"
                                    :token      "razupaltuff"
                                    :avatar     ""
@@ -228,6 +229,17 @@
   [view]
   (hide-add-form!)
   (update-state-item! :layout :template (fn [_] view)))
+
+(defn next-view!
+  "Set the next view, which should be loaded after the ajax call has finished."
+  [view]
+  (hide-add-form!)
+  (update-state-item! :layout :next-template (fn [_] view)))
+
+(defn change-to-next-view!
+  "Set next view to current view."
+  []
+  (change-view! (get-in @app-state [:layout :next-template])))
 
 
 ;;;; Last-api

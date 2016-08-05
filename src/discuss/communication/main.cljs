@@ -18,34 +18,6 @@
   (when (lib/logged-in?)
     {"X-Messaging-Token" (lib/get-token)}))
 
-
-;;;; Handlers
-(defn error-handler
-  "Generic error handler for ajax requests."
-  [{:keys [status status-text]}]
-  (.log js/console (str "I feel a disturbance in the Force... " status " " status-text))
-  (lib/error-msg! (str status " " status-text))
-  (lib/loading? false))
-
-(defn ajax-get
-  "Make ajax call to dialogue based argumentation system."
-  ([url headers handler]
-   (lib/no-error!)
-   (lib/last-api! url)
-   (GET (make-url url)
-        {:handler       handler
-         :headers       (merge (token-header) headers)
-         :error-handler error-handler})
-   (lib/loading? true))
-  ([url headers] (ajax-get url headers lib/update-all-states!))
-  ([url] (ajax-get url {})))
-
-(defn ajax-get-and-change-view
-    "Make ajax call to jump right into the discussion and change to discussion view."
-    [url view]
-    (ajax-get url)
-    (lib/change-view! view))
-
 (defn process-response
   "Generic success handler, which sets error handling and returns a cljs-compatible response."
   [response]
@@ -57,6 +29,42 @@
       (do
         (lib/no-error!)
         res))))
+
+
+;;;; Handlers
+(defn error-handler
+  "Generic error handler for ajax requests."
+  [{:keys [status status-text]}]
+  (.log js/console (str "I feel a disturbance in the Force... " status " " status-text))
+  (lib/error-msg! (str status " " status-text))
+  (lib/loading? false))
+
+(defn success-handler-next-view
+  "After the successful ajax call, change the view to the previously saved next view."
+  [response]
+  (lib/change-to-next-view!)
+  (lib/update-all-states! response))
+
+
+;;;; Calls
+(defn ajax-get
+  "Make ajax call to dialogue based argumentation system."
+  ([url headers handler]
+   (lib/no-error!)
+   (lib/last-api! url)
+   (lib/loading? true)
+   (GET (make-url url)
+        {:handler       handler
+         :headers       (merge (token-header) headers)
+         :error-handler error-handler}))
+  ([url headers] (ajax-get url headers lib/update-all-states!))
+  ([url] (ajax-get url {})))
+
+(defn ajax-get-and-change-view
+    "Make ajax call to jump right into the discussion and change to discussion view."
+    [url view]
+    (lib/next-view! view)
+    (ajax-get url {} success-handler-next-view))
 
 (defn process-url-handler
   "React on response after sending a new statement. Reset atom and call newly received url."
