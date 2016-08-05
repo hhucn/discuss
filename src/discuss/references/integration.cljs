@@ -30,7 +30,7 @@
       (tooltip/hide))))
 
 (let [clicks (listen (.getElementById js/document "discuss-text") "click")]
-  (go (while true                                           ;; TODO Set a reasonable timeout
+  (go (while true
         (<! clicks)
         (save-selected-text))))
 
