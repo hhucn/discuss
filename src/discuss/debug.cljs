@@ -19,6 +19,10 @@
 
 (defn control-buttons [data]
   (dom/div nil
+           (dom/button #js {:className "btn btn-info"
+                            :onClick   discuss.core/main}
+                       (dom/i #js {:className "fa fa-fort-awesome"}))
+           " "
            (dom/button #js {:className "btn btn-default"
                             :onClick   #(discuss.communication.main/ajax-get "api/elektroautos")}
                        (vlibs/fa-icon "fa-car"))
@@ -53,7 +57,7 @@
                             :aria-expanded "true"
                             :aria-controls "collapse-debug"}
                        "Debug")
-               (dom/div #js {:className "collapse in well"
+               (dom/div #js {:className "collapse well"
                              :id        "collapse-debug"}
                         (dom/h6 nil "API Calls")
                         (dom/pre nil (get-in data [:common :last-api]))
@@ -66,10 +70,7 @@
                                                   :onClick   #(when-not (empty? (lib/get-value-by-id "debug-api-call")) (discuss.communication.main/ajax-get (lib/get-value-by-id "debug-api-call")))}
                                              "Do the magic"))
                         (dom/h6 nil "Control")
-                        (dom/button #js {:className "btn btn-info"
-                                         :onClick   discuss.core/main}
-                                    (dom/i #js {:className "fa fa-fort-awesome"}))
-                        " "
+
                         (control-buttons data)
 
                         (dom/h6 nil "Token")

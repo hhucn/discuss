@@ -186,10 +186,11 @@
 
 (defn main-content-view [data]
   (dom/div nil
-           (dom/div #js {:className "text-center"}
-                    (get-in data [:layout :intro])
-                    (dom/br nil)
-                    (dom/strong nil (get-in data [:issues :info])))
+           (when-not (empty? (:discussion @lib/app-state))
+             (dom/div #js {:className "text-center"}
+                      (get-in data [:layout :intro])
+                      (dom/br nil)
+                      (dom/strong nil (get-in data [:issues :info]))))
            (vlib/panel-wrapper
              (view-dispatcher data))
            (when (get-in data [:layout :add?])
