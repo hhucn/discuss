@@ -14,4 +14,4 @@
                            :target "_blank"
                            :className (lib/prefix-name "buttons")}
                         (vlib/fa-icon "fa-exclamation-circle")
-                        "Problem")))))
+                        "Problem melden")))))
