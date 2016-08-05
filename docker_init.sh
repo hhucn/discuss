@@ -4,7 +4,6 @@
 GIT_DIR=/tmp bower install --allow-root > /dev/null 2>&1
 
 # Build minified js
-lein deps > /dev/null 2>&1
 lein cljsbuild once min
 
 # Create CSS files

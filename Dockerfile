@@ -14,4 +14,4 @@ WORKDIR /discuss
 
 ADD . /discuss
 
-RUN lein deps
+RUN lein deps > /dev/null 2>&1
