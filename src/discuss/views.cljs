@@ -3,16 +3,16 @@
             [om.dom :as dom :include-macros true]
             [clojure.string :as string]
             [discuss.components.bubbles :as bubbles]
-            [discuss.communication.auth :as auth]
+            [discuss.components.contribute :as contribute]
             [discuss.components.clipboard :as clipboard]
+            [discuss.communication.auth :as auth]
             [discuss.communication.main :as com]
             [discuss.history :as history]
+            [discuss.references.main :as ref]
+            [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
             [discuss.utils.extensions]
-            [discuss.utils.views :as vlib]
-            [discuss.references.main :as ref]
-            [discuss.components.sidebar :as sidebar]
-            [discuss.utils.bootstrap :as bs]))
+            [discuss.utils.views :as vlib]))
 
 ;;;; Elements
 (defn control-elements []
