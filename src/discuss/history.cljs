@@ -12,6 +12,6 @@
   "Travel one unit back in time!"
   []
   (when (> (count @discussion-history) 1)
-    (dotimes [_ 3]                                          ; Workaround, because one action are currently x atom changes
+    (dotimes [_ 2]                                          ; Workaround, because one action are currently x atom changes
       (swap! discussion-history pop))
     (reset! lib/app-state (last @discussion-history))))
