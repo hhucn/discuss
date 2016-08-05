@@ -57,9 +57,11 @@
 (defn- issue-selector-view
   "Create option items from each issue."
   [issue _owner]
-  (dom/option #js {:key      (lib/prefix-name (str "discuss-issue-selector-" (:uid issue)))
-                   :onChange #(println (:uid %))}
-              (:title issue)))
+  (let [current-issue (get-in @lib/app-state [:issues :uid])
+        option-issue (lib/str->int (:uid issue))]
+    (dom/option #js {:key      (lib/prefix-name (str "discuss-issue-selector-" option-issue))
+                     :selected (= current-issue option-issue)}
+                (:title issue))))
 
 (defn- issue-component
   "Issue selector as separate component. Returns DOM elements. Stores selection in its owner."
@@ -74,7 +76,7 @@
     om/IInitState
     (init-state [_]
       {:search-value ""
-       :issue-id     1})
+       :issue-id     (get-in @lib/app-state [:issues :uid])})
     om/IRenderState
     (render-state [_ {:keys [search-value issue-id]}]
       (dom/div nil

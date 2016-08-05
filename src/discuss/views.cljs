@@ -31,7 +31,7 @@
              (dom/div nil
                       (dom/img #js {:src       (lib/get-avatar)
                                     :className "discuss-avatar-main img-responsive img-circle"})
-                      (dom/span nil (str "Hello " (lib/get-nickname) "!"))
+                      (dom/span nil (str "Hallo " (lib/get-nickname) "!"))
                       " "
                       (dom/span #js {:className "pointer"
                                      :onClick   auth/logout}

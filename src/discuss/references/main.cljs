@@ -70,7 +70,7 @@
     (render [_]
       (dom/div nil
                (dom/div #js {:className "text-center"}
-                        (dom/h5 nil "Create new Statement with Reference"))
+                        (dom/h5 nil "Neues Argument mit dieser Referenz erzeugen"))
                (rlib/current-reference-component)
                (om/build find/form-view {})
                (om/build find/results-view data)))))
