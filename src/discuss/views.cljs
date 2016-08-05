@@ -2,17 +2,17 @@
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [clojure.string :as string]
+            [goog.dom :as gdom]
             [discuss.components.bubbles :as bubbles]
-            [discuss.communication.auth :as auth]
             [discuss.components.clipboard :as clipboard]
+            [discuss.communication.auth :as auth]
             [discuss.communication.main :as com]
             [discuss.history :as history]
+            [discuss.references.main :as ref]
+            [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
             [discuss.utils.extensions]
-            [discuss.utils.views :as vlib]
-            [discuss.references.main :as ref]
-            [discuss.components.sidebar :as sidebar]
-            [discuss.utils.bootstrap :as bs]))
+            [discuss.utils.views :as vlib]))
 
 ;;;; Elements
 (defn control-elements []
@@ -73,11 +73,17 @@
 
 ;; Views
 (defn item-view [item _owner]
-  (reify om/IRender
+  (reify
+    om/IDidUpdate
+    (did-update [_ _ _]
+      (let [radio (gdom/getElement (lib/prefix-name (str "item-list-radio-" (:id item))))]
+        (set! (.-checked radio) false))) ;; Uncheck radio button on reload
+    om/IRender
     (render [_]
       (dom/div #js {:className "radio"}
                (dom/label #js {}
-                          (dom/input #js {:type      "radio"
+                          (dom/input #js {:id        (lib/prefix-name (str "item-list-radio-" (:id item)))
+                                          :type      "radio"
                                           :className (lib/prefix-name "dialogue-items")
                                           :name      (lib/prefix-name "dialogue-items-group")
                                           :onClick   #(com/item-click (:id item) (:url item))
@@ -186,10 +192,11 @@
 
 (defn main-content-view [data]
   (dom/div nil
-           (dom/div #js {:className "text-center"}
-                    (get-in data [:layout :intro])
-                    (dom/br nil)
-                    (dom/strong nil (get-in data [:issues :info])))
+           (when-not (empty? (:discussion @lib/app-state))
+             (dom/div #js {:className "text-center"}
+                      (get-in data [:layout :intro])
+                      (dom/br nil)
+                      (dom/strong nil (get-in data [:issues :info]))))
            (vlib/panel-wrapper
              (view-dispatcher data))
            (when (get-in data [:layout :add?])

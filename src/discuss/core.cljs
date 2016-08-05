@@ -8,6 +8,7 @@
             [discuss.references.integration]
             [discuss.utils.extensions]
             [discuss.utils.common :as lib]
+            [discuss.components.contribute :as contribute]
             [discuss.components.tooltip :as tooltip]
             [discuss.views :as views]))
 
@@ -27,6 +28,9 @@
 
 (om/root tooltip/view {}
          {:target (.getElementById js/document (lib/prefix-name "tooltip"))})
+
+(om/root contribute/view {}
+         {:target (.getElementById js/document (lib/prefix-name "contribute"))})
 
 (om/root debug/debug-view lib/app-state
          {:target (.getElementById js/document "debug")})

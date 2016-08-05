@@ -18,11 +18,11 @@
                 :issues           {}
                 :items            {}
                 :layout           {:title         "discuss"
-                                   :intro         "The current discussion is about:"
+                                   :intro         "Aktuelle Diskussion:"
                                    :template      :discussion
                                    :next-template :discussion
                                    :add?          false
-                                   :add-text      "Let me enter my reason!"
+                                   :add-text      "Ein neues Argument hinzufügen"
                                    :add-type      nil
                                    :loading?      false
                                    :reference     ""

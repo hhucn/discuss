@@ -3,8 +3,7 @@
   (:require [om.core :as om]
             [om.dom :as dom]
             [discuss.utils.common :as lib]
-            [discuss.utils.views :as vlib]
-            [discuss.components.clipboard :as clipboard]))
+            [discuss.utils.views :as vlib]))
 
 (def id (lib/prefix-name "sidebar"))
 
@@ -37,5 +36,5 @@
   (reify om/IRender
     (render [_]
       (dom/div nil
-               (vlib/fa-icon "fa-bars" toggle)
+               (vlib/fa-icon "fa-bars" hide)
                (om/build discuss.views/main-view data)))))

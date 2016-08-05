@@ -1,7 +1,8 @@
 (ns discuss.components.clipboard
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [discuss.utils.common :as lib]))
+            [discuss.utils.common :as lib]
+            [discuss.utils.views :as vlib]))
 
 (defn get-stored-selections
   "Return all stored selections."
@@ -52,12 +53,13 @@
                #_(dom/button #js {:className "btn btn-sm btn-default"
                                   :onClick   #(discuss.communication.main/ajax-get "api/cat-or-dog")
                                   :title     "Select this reference for your statement"}
-                           (vlib/fa-icon "fa-check"))))))
+                             (vlib/fa-icon "fa-check"))))))
 
 (defn view []
   (when (pos? (count (get-stored-selections)))
     (dom/div nil
              (dom/h5 nil "Clipboard")
-             (dom/p nil "Drag and drop these arguments to the reference field when adding a new statement.")
+             (dom/p nil "Ziehe diese Referenzen in das Textfeld beim Erzeugen eines neuen Arguments, um die Referenz zu
+                         nutzen.")
              (apply dom/div nil
                     (map #(om/build clipboard-item (lib/merge-react-key %)) (get-stored-selections))))))
