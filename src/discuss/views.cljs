@@ -25,6 +25,19 @@
 
 
 ;;;; Elements
+(defn error-view
+  "Display error message if there are errors."
+  []
+  (when (lib/error?)
+    (dom/div #js {:className "alert alert-info alert-dismissable"
+                  :role      "alert"}
+             (dom/button #js {:className    "close"
+                              :data-dismiss "alert"
+                              :aria-label   "Close"}
+                         (dom/span #js {:aria-hidden "true"}
+                                   (vlib/safe-html "&times;")))
+             (lib/get-error))))
+
 (defn control-elements []
   (dom/div #js {:className "text-center"}
            (dom/h4 nil
@@ -60,6 +73,7 @@
     om/IRenderState
     (render-state [_ {:keys [nickname password]}]
       (dom/div nil
+               (error-view)
                (dom/h5 #js {:className "text-center"} "Login")
                (dom/div #js {:className "input-group"}
                         (dom/span #js {:className "input-group-addon"}
@@ -125,19 +139,6 @@
              (control-elements))
     (init-view)))
 
-(defn error-view
-  "Display error message if there are errors."
-  []
-  (when (lib/error?)
-    (dom/div #js {:className "alert alert-info alert-dismissable"
-                  :role      "alert"}
-             (dom/button #js {:className    "close"
-                              :data-dismiss "alert"
-                              :aria-label   "Close"}
-                         (dom/span #js {:aria-hidden "true"}
-                                   (vlib/safe-html "&times;")))
-             (lib/get-error))))
-
 (defn- show-selection
   "Shows selected text from website if available."
   []
@@ -154,9 +155,7 @@
                               :onClick   lib/remove-selection}
                          (vlib/fa-icon "fa-times")))
       (dom/p #js {:className "text-center"}
-             "Möchten Sie Ihre Aussage durch eine Referenz von dieser Seite stützen? Dann markieren Sie einfach einen Teil des Textes mit der Maus."
-             (dom/br nil)
-             "Das Markieren von Textpassagen über mehrere Absätze hinweg und das doppelte markieren schon markierter Textstellen wurde noch nicht implementiert."))))
+             "Möchten Sie Ihre Aussage durch eine Referenz von dieser Seite stützen? Dann markieren Sie einfach einen Teil des Textes mit der Maus."))))
 
 (defn add-element
   "Show form to add a new statement."
@@ -182,12 +181,13 @@
                                                  :onChange  #(vlib/commit-component-state :statement % owner)
                                                  :value     statement}))
                         (show-selection)
-
                         (dom/button #js {:className "btn btn-default"
                                          :onClick   #(com/dispatch-add-action statement (lib/get-selection))
                                          :disabled  (> 10 (count statement))}
                                     (remaining-characters statement))
-                        )))))
+                        (dom/p #js {:className "text-muted text-center"}
+                               (dom/hr nil)
+                               "Das Markieren von Textpassagen über mehrere Absätze hinweg und das doppelte markieren schon markierter Textstellen wurde noch nicht implementiert."))))))
 
 (defn- build-with-buttons
   "Add navigation buttons to the provided view."
