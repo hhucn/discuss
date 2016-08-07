@@ -27,7 +27,7 @@
   [_ev]
   (let [clipboard-item (get-in @lib/app-state [:clipboard :current])]
     (lib/remove-class clipboard-item "bs-callout-info")
-    (lib/add-class clipboard-item "bs-callout-success")
+    #_(lib/add-class clipboard-item "bs-callout-success")
     (lib/update-state-item! :user :selection (fn [_] (.. clipboard-item -innerText)))))
 
 (defn allow-drop [ev]
