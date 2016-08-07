@@ -151,7 +151,10 @@
                (dom/span #js {:className "input-group-addon pointer"
                               :onClick   lib/remove-selection}
                          (vlib/fa-icon "fa-times")))
-      (dom/p #js {:className "text-center"} "Möchtest du deine Aussage durch eine Referenz von dieser Seite stützen? Dann markiere einfach einen Teil des Textes mit der Maus."))))
+      (dom/p #js {:className "text-center"}
+             "Möchten Sie Ihre Aussage durch eine Referenz von dieser Seite stützen? Dann markieren Sie einfach einen Teil des Textes mit der Maus."
+             (dom/br nil)
+             "Das Markieren von Textpassagen über mehrere Absätze hinweg und das doppelte markieren schon markierter Textstellen wurde noch nicht implementiert."))))
 
 (defn add-element
   "Show form to add a new statement."
