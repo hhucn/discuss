@@ -14,6 +14,16 @@
             [discuss.utils.extensions]
             [discuss.utils.views :as vlib]))
 
+;;;; Auxiliary
+(defn- remaining-characters
+  "Show remaining characters needed to submit a post."
+  [statement]
+  (let [remaining (- 10 (count statement))]
+    (if (pos? remaining)
+      (str "Noch " remaining " Zeichen")
+      "Abschicken")))
+
+
 ;;;; Elements
 (defn control-elements []
   (dom/div #js {:className "text-center"}
@@ -130,7 +140,7 @@
   "Shows selected text from website if available."
   []
   (let [selection (lib/get-selection)]
-    (when (> (count selection) 1)
+    (if (> (count selection) 1)
       (dom/div #js {:className "input-group"}
                (dom/span #js {:className "input-group-addon"}
                          (vlib/fa-icon "fa-quote-left"))
@@ -140,7 +150,8 @@
                          (vlib/fa-icon "fa-quote-right"))
                (dom/span #js {:className "input-group-addon pointer"
                               :onClick   lib/remove-selection}
-                         (vlib/fa-icon "fa-times"))))))
+                         (vlib/fa-icon "fa-times")))
+      (dom/p #js {:className "text-center"} "Möchtest du deine Aussage durch eine Referenz von dieser Seite stützen? Dann markiere einfach einen Teil des Textes mit der Maus."))))
 
 (defn add-element
   "Show form to add a new statement."
@@ -166,9 +177,12 @@
                                                  :onChange  #(vlib/commit-component-state :statement % owner)
                                                  :value     statement}))
                         (show-selection)
+
                         (dom/button #js {:className "btn btn-default"
-                                         :onClick   #(com/dispatch-add-action statement (lib/get-selection))}
-                                    "Submit"))))))
+                                         :onClick   #(com/dispatch-add-action statement (lib/get-selection))
+                                         :disabled  (> 10 (count statement))}
+                                    (remaining-characters statement))
+                        )))))
 
 (defn- build-with-buttons
   "Add navigation buttons to the provided view."
