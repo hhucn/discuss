@@ -77,7 +77,9 @@
                                         :type        "password"
                                         :placeholder "password"}))
                (dom/button #js {:className "btn btn-default"
-                                :onClick   #(auth/login nickname password)}
+                                :onClick   #(auth/login nickname password)
+                                :disabled  (not (and (pos? (count nickname))
+                                                     (pos? (count password))))}
                            "Login")))))
 
 ;; Views

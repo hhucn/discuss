@@ -26,7 +26,7 @@
   "Use text from clipboard item as reference for own statement."
   [_ev]
   (let [clipboard-item (get-in @lib/app-state [:clipboard :current])]
-    (lib/remove-class clipboard-item "bs-callout-info")
+    #_(lib/remove-class clipboard-item "bs-callout-info")
     #_(lib/add-class clipboard-item "bs-callout-success")
     (lib/update-state-item! :user :selection (fn [_] (.. clipboard-item -innerText)))))
 
