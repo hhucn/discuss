@@ -23,6 +23,8 @@
   "Create dom element of a bootstrap default small button."
   [fn & strs] (button fn "btn-default btn-sm" strs))
 
+
+;;;; Wrapper
 (defn panel-wrapper
   "Wrap content into bootstrap's panel class."
   [& content]
@@ -34,4 +36,10 @@
   "Wrap content into bootstrap callout."
   [& content]
   (dom/div #js {:className "bs-callout bs-callout-info"}
+           content))
+
+(defn center
+  "Use text-center to align text."
+  [& content]
+  (dom/div #js {:className "text-center"}
            content))
