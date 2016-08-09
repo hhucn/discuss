@@ -27,16 +27,20 @@
 ;;;; Elements
 (defn error-view
   "Display error message if there are errors."
-  []
-  (when (lib/error?)
-    (dom/div #js {:className "alert alert-info alert-dismissable"
-                  :role      "alert"}
-             (dom/button #js {:className    "close"
-                              :data-dismiss "alert"
-                              :aria-label   "Close"}
-                         (dom/span #js {:aria-hidden "true"}
-                                   (vlib/safe-html "&times;")))
-             (lib/get-error))))
+  [data owner]
+  (reify
+    om/IRender
+    (render [_]
+      (om/observe owner (lib/get-cursor :layout))
+      (when (lib/error?)
+        (dom/div #js {:className "alert alert-info alert-dismissable"
+                      :role      "alert"}
+                 (dom/button #js {:className    "close"
+                                  :data-dismiss "alert"
+                                  :aria-label   "Close"}
+                             (dom/span #js {:aria-hidden "true"}
+                                       (vlib/safe-html "&times;")))
+                 (lib/get-error))))))
 
 (defn control-elements []
   (bs/center
@@ -73,7 +77,7 @@
     om/IRenderState
     (render-state [_ {:keys [nickname password]}]
       (dom/div nil
-               (error-view)
+               (om/build error-view {})
                (bs/center "Login")
                (dom/div #js {:className "input-group"}
                         (dom/span #js {:className "input-group-addon"}
@@ -166,12 +170,12 @@
     (render-state [_ {:keys [statement]}]
       (om/observe owner (lib/get-cursor :user))
       (dom/div #js {:className  "panel panel-default"
-                    :onDragOver discuss.components.clipboard/allow-drop
-                    :onDrop     discuss.components.clipboard/update-reference-drop}
+                    :onDragOver clipboard/allow-drop
+                    :onDrop     clipboard/update-reference-drop}
                (dom/div #js {:className "panel-body"}
                         (dom/h4 #js {:className "text-center"} (lib/get-add-text))
                         (dom/h5 #js {:className "text-center"} (vlib/safe-html (lib/get-add-premise-text)))
-                        (error-view)
+                        (om/build error-view {})
                         (dom/div #js {:className "input-group"}
                                  (dom/span #js {:className "input-group-addon"}
                                            (vlib/fa-icon "fa-comment"))
