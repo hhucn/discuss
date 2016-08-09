@@ -108,17 +108,34 @@
   (reify om/IRender
     (render [_]
       (let [issue (:issue data)
+            reference (:reference data)
             statement (:statement data)
             author (:author data)]
-        (dom/div nil
-                 (dom/div #js {:className "bs-callout bs-callout-info"}
-                          (dom/div #js {:className "pull-right"}
-                                   (bs/button-default-sm #(save-statement-change-view data) (vlib/fa-icon "fa-check") " Auswählen"))
-                          (dom/a #js {:href    "javascript:void(0)"
-                                      :onClick #(save-statement-change-view data)}
-                                 (dom/strong nil (:text statement)))
-                          (dom/div nil "Issue: " (:title issue))
-                          (dom/div nil "Autor: " (:nickname author))))))))
+        (bs/callout-info
+          (dom/strong nil (:text statement))
+          (dom/div nil
+                   "Reference:"
+                   (dom/br nil)
+                   (dom/i nil "\"" (:title reference) "\""))
+          (dom/div nil "Issue: " (:title issue))
+          (dom/div nil "Autor: " (:nickname author)))))))
+
+(defn usage-list-view
+  "List single usages of reference."
+  [data _owner]
+  (reify om/IRender
+    (render [_]
+      (let [issue (:issue data)
+            statement (:statement data)
+            author (:author data)]
+        (bs/callout-info
+          (dom/div #js {:className "pull-right"}
+                   (bs/button-default-sm #(save-statement-change-view data) (vlib/fa-icon "fa-check") " Auswählen"))
+          (dom/a #js {:href    "javascript:void(0)"
+                      :onClick #(save-statement-change-view data)}
+                 (dom/strong nil (:text statement)))
+          (dom/div nil "Issue: " (:title issue))
+          (dom/div nil "Autor: " (:nickname author)))))))
 
 (defn usages-view
   "List with details showing the usages of the given reference."
@@ -129,9 +146,8 @@
         (dom/div nil
                  (dom/h5 nil "Wo wird diese Referenz verwendet?")
                  (rlib/current-reference-component)
-                 (dom/div nil
-                          (apply dom/div nil
-                                 (map #(om/build usage-view (lib/merge-react-key %)) usages))))))))
+                 (apply dom/div nil
+                        (map #(om/build usage-list-view (lib/merge-react-key %)) usages)))))))
 
 (defn agree-disagree-view
   "Agree or disagree with the selected reference."
