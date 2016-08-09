@@ -107,16 +107,16 @@
   [data _owner]
   (reify om/IRender
     (render [_]
-      (let [reference (:reference data)
-            issue (:issue data)
+      (let [issue (:issue data)
             statement (:statement data)
             author (:author data)]
         (dom/div nil
                  (dom/div #js {:className "bs-callout bs-callout-info"}
+                          (dom/div #js {:className "pull-right"}
+                                   (bs/button-default-sm #(save-statement-change-view data) (vlib/fa-icon "fa-check") " Auswählen"))
                           (dom/a #js {:href    "javascript:void(0)"
                                       :onClick #(save-statement-change-view data)}
                                  (dom/strong nil (:text statement)))
-                          (dom/div nil "Referenz: \"" (:title reference) "\"")
                           (dom/div nil "Issue: " (:title issue))
                           (dom/div nil "Autor: " (:nickname author))))))))
 
@@ -127,7 +127,7 @@
     (render [_]
       (let [usages (rlib/get-reference-usages)]
         (dom/div nil
-                 (dom/h5 nil "Usages of this reference")
+                 (dom/h5 nil "Wo wird diese Referenz verwendet?")
                  (rlib/current-reference-component)
                  (dom/div nil
                           (apply dom/div nil
