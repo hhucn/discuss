@@ -66,13 +66,6 @@
              (dom/svg #js {:className "circular" :viewBox "25 25 50 50"}
                       (dom/circle #js {:className "path" :cx "50" :cy "50" :r "20" :fill "none" :strokeWidth "5" :strokeMiterlimit "10"})))))
 
-(defn panel-wrapper
-  "Wrap content into bootstrap's panel class."
-  [content]
-  (dom/div #js {:className "panel panel-default"}
-           (dom/div #js {:className "panel-body"}
-                    content)))
-
 (defn scroll-divs-to-bottom
   "Align divs to bottom. Scrolls down the complete content of each div."
   [class]
