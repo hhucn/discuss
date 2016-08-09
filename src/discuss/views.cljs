@@ -215,8 +215,7 @@
                       (get-in data [:layout :intro])
                       (dom/br nil)
                       (dom/strong nil (get-in data [:issues :info]))))
-           (vlib/panel-wrapper
-             (view-dispatcher data))
+           (bs/panel-wrapper (view-dispatcher data))
            (when (get-in data [:layout :add?])
              (om/build add-element {}))
            (clipboard/view)))
