@@ -69,8 +69,7 @@
   (reify om/IRender
     (render [_]
       (dom/div nil
-               (dom/div #js {:className "text-center"}
-                        (dom/h5 nil "Neues Argument mit dieser Referenz erzeugen"))
+               (bs/center (dom/h5 nil "Neues Argument mit dieser Referenz erzeugen"))
                (rlib/current-reference-component)
                (om/build find/form-view {})
                (om/build find/results-view data)))))
@@ -78,15 +77,14 @@
 (defn create-overview
   "Some interaction with the user is necessary to define what kind of statement she wants to add. This view provides an
    entry point for this decision."
-  [data]
+  []
   (reify
     om/IRender
     (render [_]
-      (dom/div nil
-               (dom/div #js {:className "text-center"}
-                        (bs/button-primary #(println "btn show issues") "Show Issues")
-                        " "
-                        (bs/button-primary #(lib/change-view! :reference-create-with-ref) "Jump into the discussion"))))))
+      (bs/center
+        (bs/button-primary #(println "btn show issues") "Show Issues")
+        " "
+        (bs/button-primary #(lib/change-view! :reference-create-with-ref) "Jump into the discussion")))))
 
 (defn dialog-view
   "Show a dialog to give the user the option to choose, whether she wants to get some information about the statement
@@ -94,17 +92,17 @@
   []
   (reify om/IRender
     (render [_]
-      (dom/div #js {:className "text-center"}
-               (rlib/current-reference-component)
-               (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
-                                  "Wo wird diese Referenz verwendet?")
-               " "
-               (bs/button-primary #(lib/change-view! :reference-create-with-ref)
-                                  "Neues Argument mit Referenz erstellen")))))
+      (bs/center
+        (rlib/current-reference-component)
+        (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
+                           "Wo wird diese Referenz verwendet?")
+        " "
+        (bs/button-primary #(lib/change-view! :reference-create-with-ref)
+                           "Neues Argument mit Referenz erstellen")))))
 
 (defn usage-view
   "List single usages of reference."
-  [data _owner]
+  [data]
   (reify om/IRender
     (render [_]
       (let [issue (:issue data)
@@ -113,16 +111,14 @@
             author (:author data)]
         (bs/callout-info
           (dom/strong nil (:text statement))
-          (dom/div nil
-                   "Reference:"
-                   (dom/br nil)
+          (dom/div nil "Reference:" (dom/br nil)
                    (dom/i nil "\"" (:title reference) "\""))
           (dom/div nil "Issue: " (:title issue))
           (dom/div nil "Autor: " (:nickname author)))))))
 
 (defn usage-list-view
   "List single usages of reference."
-  [data _owner]
+  [data]
   (reify om/IRender
     (render [_]
       (let [issue (:issue data)
@@ -156,14 +152,13 @@
     (render [_]
       (let [statement (rlib/get-selected-statement)]
         (dom/div nil
-                 (dom/div #js {:className "text-center"}
-                          "Stimmen Sie dem Argument zu oder lehnen Sie es ab?")
+                 (bs/center "Stimmen Sie der Aussage zu oder lehnen Sie es ab?")
                  (om/build usage-view statement)
-                 (dom/div #js {:className "text-center"}
-                          (bs/button-primary #(get-statement-url statement true)
-                                             (vlib/fa-icon "fa-thumbs-up")
-                                             " Zustimmen")
-                          " "
-                          (bs/button-primary #(get-statement-url statement false)
-                                             (vlib/fa-icon "fa-thumbs-down")
-                                             " Ablehnen")))))))
+                 (bs/center
+                   (bs/button-primary #(get-statement-url statement true)
+                                      (vlib/fa-icon "fa-thumbs-up")
+                                      " Zustimmen")
+                   " "
+                   (bs/button-primary #(get-statement-url statement false)
+                                      (vlib/fa-icon "fa-thumbs-down")
+                                      " Ablehnen")))))))
