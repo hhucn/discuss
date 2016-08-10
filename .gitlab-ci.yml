@@ -7,9 +7,8 @@ before_script:
 linting:
   stage: test
   script:
-    - lein check
-    - lein ancient
-    - lein kibit
+    - lein do check, ancient, kibit
+  allow_failure: true
 
 build:
   script:
