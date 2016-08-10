@@ -1,6 +1,7 @@
 (ns discuss.references.lib
   (:require [discuss.utils.common :as lib]
-            [om.dom :as dom]))
+            [om.dom :as dom]
+            [om.core :as om]))
 
 (defn save-selected-reference!
   "Saves the currently clicked reference for further processing."
@@ -39,8 +40,12 @@
 ;;;; View Components
 (defn- current-reference-component
   "Return DOM element showing which reference is currently selected."
-  []
-  (dom/div #js {:className "text-center"
-                :style     #js {:paddingBottom "1em"}}
-           (let [ref-title (:text (get-selected-reference))]
-             (dom/em nil "\"" ref-title "\""))))
+  [_ owner]
+  (reify
+    om/IRender
+    (render [_]
+      (om/observe owner (lib/get-cursor :layout))
+      (dom/div #js {:className "text-center"
+                    :style     #js {:paddingBottom "1em"}}
+               (let [ref-title (:text (get-selected-reference))]
+                 (dom/em nil "\"" ref-title "\""))))))
