@@ -2,6 +2,7 @@
   "Controlling the sidebar."
   (:require [om.core :as om]
             [om.dom :as dom]
+            [goog.dom :as gdom]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
 
@@ -10,13 +11,13 @@
 (defn toggle
   "Toggle visibility of sidebar."
   ([]
-   (let [sidebar-dom (.getElementById js/document id)
-         main-wrapper (.getElementById js/document "main-wrapper")]
+   (let [sidebar-dom (gdom/getElement id)
+         main-wrapper (gdom/getElement "main-wrapper")]
      (lib/toggle-class sidebar-dom "active")
      (lib/toggle-class main-wrapper "active")))
   ([bool]
-   (let [sidebar-dom (.getElementById js/document id)
-         main-wrapper (.getElementById js/document "main-wrapper")]
+   (let [sidebar-dom (gdom/getElement id)
+         main-wrapper (gdom/getElement "main-wrapper")]
      (lib/toggle-class sidebar-dom "active" bool)
      (lib/toggle-class main-wrapper "active" bool))))
 
