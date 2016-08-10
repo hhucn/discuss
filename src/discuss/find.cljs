@@ -59,8 +59,8 @@
   [issue _owner]
   (let [current-issue (get-in @lib/app-state [:issues :uid])
         option-issue (lib/str->int (:uid issue))]
-    (dom/option #js {:key      (lib/prefix-name (str "discuss-issue-selector-" option-issue))
-                     :selected (= current-issue option-issue)}
+    (dom/option #js {:key          (lib/prefix-name (str "discuss-issue-selector-" option-issue))
+                     :defaultValue (= current-issue option-issue)}
                 (:title issue))))
 
 (defn- issue-component
