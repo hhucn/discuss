@@ -70,7 +70,7 @@
     (render [_]
       (dom/div nil
                (bs/center (dom/h5 nil "Neues Argument mit dieser Referenz erzeugen"))
-               (rlib/current-reference-component)
+               (om/build rlib/current-reference-component {})
                (om/build find/form-view {})
                (om/build find/results-view data)))))
 
@@ -93,7 +93,7 @@
   (reify om/IRender
     (render [_]
       (bs/center
-        (rlib/current-reference-component)
+        (om/build rlib/current-reference-component {})
         (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
                            "Wo wird diese Referenz verwendet?")
         " "
@@ -141,7 +141,7 @@
       (let [usages (rlib/get-reference-usages)]
         (dom/div nil
                  (dom/h5 nil "Wo wird diese Referenz verwendet?")
-                 (rlib/current-reference-component)
+                 (om/build rlib/current-reference-component {})
                  (apply dom/div nil
                         (map #(om/build usage-list-view (lib/merge-react-key %)) usages)))))))
 
