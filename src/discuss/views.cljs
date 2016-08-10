@@ -187,8 +187,8 @@
                                          :onClick   #(com/dispatch-add-action statement (lib/get-selection))
                                          :disabled  (> 10 (count statement))}
                                     (remaining-characters statement))
+                        (dom/hr nil)
                         (dom/p #js {:className "text-muted text-center"}
-                               (dom/hr nil)
                                "Das Markieren von Textpassagen über mehrere Absätze hinweg und das doppelte markieren schon markierter Textstellen wurde noch nicht implementiert."))))))
 
 (defn- build-with-buttons
