@@ -145,7 +145,7 @@
 (defn- show-selection
   "Shows selected text from website if available."
   []
-  (let [selection (lib/get-selection)]
+  (let [selection (if (lib/get-selection) (lib/get-selection) (:text (discuss.references.lib/get-selected-reference)))]
     (if (> (count selection) 1)
       (dom/div #js {:className "input-group"}
                (dom/span #js {:className "input-group-addon"}
