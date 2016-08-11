@@ -69,7 +69,7 @@
   (reify om/IRender
     (render [_]
       (dom/div nil
-               (bs/center (dom/h5 nil "Neues Argument mit dieser Referenz erzeugen"))
+               (bs/center (dom/h5 nil "Finde Aussage in der Diskussion"))
                (om/build rlib/current-reference-component {})
                (om/build find/form-view {})
                (om/build find/results-view data)))))
@@ -98,7 +98,7 @@
                            "Wo wird diese Referenz verwendet?")
         " "
         (bs/button-primary #(lib/change-view! :reference-create-with-ref)
-                           "Neues Argument mit Referenz erstellen")))))
+                           "Springe in die Diskussion")))))
 
 (defn usage-view
   "List single usages of reference."
