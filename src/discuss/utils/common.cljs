@@ -2,6 +2,7 @@
   (:require [om.core :as om :include-macros true]
             [clojure.walk :refer [keywordize-keys]]
             [cljs.spec :as s]
+            [goog.dom :as gdom]
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]
             [discuss.config :as config]))
