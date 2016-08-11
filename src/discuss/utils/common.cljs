@@ -57,7 +57,7 @@
 (defn get-unique-key
   "Return unique react-key."
   []
-  (str config/project "-unique-react-key-" (swap! counter inc)))
+  (str (prefix-name "unique-react-key-") (swap! counter inc)))
 
 (defn merge-react-key
   "Get a unique key, create a small map with :react-key property and merge it with the given collection."

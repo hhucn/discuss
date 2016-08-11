@@ -57,10 +57,8 @@
 (defn- issue-selector-view
   "Create option items from each issue."
   [issue _owner]
-  (let [current-issue (get-in @lib/app-state [:issues :uid])
-        option-issue (lib/str->int (:uid issue))]
-    (dom/option #js {:key          (lib/prefix-name (str "discuss-issue-selector-" option-issue))
-                     :defaultValue (= current-issue option-issue)}
+  (let [option-issue (lib/str->int (:uid issue))]
+    (dom/option #js {:value (str (lib/prefix-name "issue-selector-") option-issue)}
                 (:title issue))))
 
 (defn- issue-component
@@ -68,7 +66,8 @@
   [owner]
   (dom/div #js {:className "form-group"}
            (dom/select #js {:className "form-control"
-                            :onChange  #(store-selected-issue % owner)}
+                            :onChange  #(store-selected-issue % owner)
+                            :value     (str (lib/prefix-name "issue-selector-") (get-in @lib/app-state [:issues :uid]))}
                        (map #(issue-selector-view (lib/merge-react-key %) owner) (lib/get-issues)))))
 
 (defn form-view [_ owner]
