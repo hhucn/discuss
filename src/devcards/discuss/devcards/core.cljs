@@ -24,11 +24,8 @@
 
 (defcard control-buttons
          ""
-         (dom/div nil
-                  (dom/button #js {:className "btn btn-info"
-                                   :onClick   core/main}
-                              (vlib/fa-icon "fa-fort-awesome"))
-                  (debug/control-buttons lib/app-state)))
+         debug/control-buttons
+         lib/app-state)
 
 (defcard-om find-form
             "*Select issue and search for statements.*"
