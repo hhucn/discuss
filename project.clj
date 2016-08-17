@@ -7,11 +7,11 @@
   :min-lein-version "2.5.3"
 
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.198"]
+                 [org.clojure/clojurescript "1.9.216"]
                  [org.clojure/core.async "0.2.385" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
                  [org.omcljs/om "1.0.0-alpha41"]
-                 [binaryage/devtools "0.8.1" :scope "dev"]
+                 [binaryage/devtools "0.8.1"]
                  [cljs-ajax "0.5.8"]                        ; AJAX for om
                  [com.cognitect/transit-cljs "0.8.239"]     ; Better JSON support
                  [figwheel-sidecar "0.5.4-7" :scope "devcards"]
@@ -45,6 +45,7 @@
                 :source-paths ["src/discuss" "src/devcards"]
                 :figwheel     {:devcards true}
                 :compiler     {:main                 discuss.devcards.core
+                               :preloads             [devtools.preload]
                                :asset-path           "../js/compiled/devcards/out"
                                :output-to            "resources/public/js/compiled/discuss.js"
                                :output-dir           "resources/public/js/compiled/devcards/out"
