@@ -1,8 +1,8 @@
 (ns discuss.utils.views
   (:require [goog.dom :as gdom]
             [goog.string :as gstring]
-            [om.core :as om :include-macros true]
-            [om.dom :as dom :include-macros true]
+            [om.core :as om]
+            [om.dom :as dom]
             [discuss.utils.extensions]
             [discuss.utils.common :as lib]))
 
