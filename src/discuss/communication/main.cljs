@@ -26,9 +26,8 @@
     (lib/loading? false)
     (if (pos? (count error))
       (lib/error-msg! error)
-      (do
-        (lib/no-error!)
-        res))))
+      (do (lib/no-error!)
+          res))))
 
 
 ;;;; Handlers
