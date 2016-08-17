@@ -8,8 +8,9 @@
 (defn success-login
   "Callback function when login was successful. Set attributes of user."
   [response]
-  (let [nickname (first (clojure.string/split (:token response) "-"))
-        token (:token response)]
+  (let [res (com/process-response response)
+        nickname (first (clojure.string/split (:token res) "-"))
+        token (:token res)]
     (lib/update-state-map! :user {:nickname   nickname
                                   :token      token
                                   :logged-in? true})
