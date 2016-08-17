@@ -173,7 +173,7 @@
 
   ** Needs optimizations **"
   [response]
-  (let [res (keywordize-keys response)
+  (let [res (discuss.communication.main/process-response response)
         items (:items res)
         discussion (:discussion res)
         issues (:issues res)]
