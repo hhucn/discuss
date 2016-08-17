@@ -107,10 +107,10 @@
     (render [_]
       (let [issue (:issue data)
             reference (:reference data)
-            statement (:statement data)
+            argument (first (:arguments data))              ; TODO this should not be only the first one
             author (:author data)]
         (bs/callout-info
-          (dom/strong nil (:text statement))
+          (dom/strong nil (:text argument))
           (dom/div nil "Reference:" (dom/br nil)
                    (dom/i nil "\"" (:title reference) "\""))
           (dom/div nil "Issue: " (:title issue))
@@ -122,14 +122,14 @@
   (reify om/IRender
     (render [_]
       (let [issue (:issue data)
-            statement (:statement data)
+            argument (first (:arguments data))
             author (:author data)]
         (bs/callout-info
           (dom/div #js {:className "pull-right"}
                    (bs/button-default-sm #(save-statement-change-view data) (vlib/fa-icon "fa-check") " Auswählen"))
           (dom/a #js {:href    "javascript:void(0)"
                       :onClick #(save-statement-change-view data)}
-                 (dom/strong nil (:text statement)))
+                 (dom/strong nil (:text argument)))         ; TODO this should not be only the first one
           (dom/div nil "Issue: " (:title issue))
           (dom/div nil "Autor: " (:nickname author)))))))
 
