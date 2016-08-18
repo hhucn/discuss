@@ -177,7 +177,6 @@
         items (:items res)
         discussion (:discussion res)
         issues (:issues res)]
-    (loading? false)
     (update-state-map! :items items)
     (update-state-map! :discussion discussion)
     (update-state-map! :issues issues)
