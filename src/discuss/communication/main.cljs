@@ -189,4 +189,4 @@
    ** TODO: Update route **"
   [slug arg-id]
   (let [url (clojure.string/join "/" ["api" slug "jump" arg-id])]
-    (ajax-get url)))
+    (ajax-get-and-change-view url :discussion)))
