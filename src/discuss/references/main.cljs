@@ -126,9 +126,9 @@
             author (:author data)]
         (bs/callout-info
           (dom/div #js {:className "pull-right"}
-                   (bs/button-default-sm #(save-statement-change-view data) (vlib/fa-icon "fa-check") " Auswählen"))
+                   (bs/button-default-sm #(com/jump-to-argument (:slug issue) (:uid argument)) (vlib/fa-icon "fa-check") " Auswählen"))
           (dom/a #js {:href    "javascript:void(0)"
-                      :onClick #(save-statement-change-view data)}
+                      :onClick #(com/jump-to-argument (:slug issue) (:uid argument))}
                  (dom/strong nil (:text argument)))         ; TODO this should not be only the first one
           (dom/div nil "Issue: " (:title issue))
           (dom/div nil "Autor: " (:nickname author)))))))
