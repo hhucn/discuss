@@ -101,7 +101,7 @@
                            "Springe in die Diskussion")))))
 
 (defn usage-view
-  "List single usages of reference."
+  "A single item showing the usage of the currently selected reference."
   [data]
   (reify om/IRender
     (render [_]
