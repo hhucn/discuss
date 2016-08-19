@@ -228,8 +228,15 @@
                (dom/h4 nil
                        (vlib/logo)
                        " "
-                       (get-in data [:layout :title]))
-               (main-content-view data)))))
+                       (dom/span #js {:className     "pointer"
+                                      :data-toggle   "collapse"
+                                      :data-target   (str "#" (lib/prefix-name "dialogue-collapse"))
+                                      :aria-expanded "true"
+                                      :aria-controls (lib/prefix-name "dialogue-collapse")}
+                                 (get-in data [:layout :title])))
+               (dom/div #js {:className "collapse in"
+                             :id        (lib/prefix-name "dialogue-collapse")}
+                        (main-content-view data))))))
 
 (defn reference-view [reference owner]
   (reify
