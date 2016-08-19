@@ -82,9 +82,9 @@
     om/IRender
     (render [_]
       (dom/div #js {:className "text-center"}
-        (bs/button-primary #(println "btn show issues") "Show Issues")
-        " "
-        (bs/button-primary #(lib/change-view! :reference-create-with-ref) "Jump into the discussion")))))
+               (bs/button-primary #(println "btn show issues") "Show Issues")
+               " "
+               (bs/button-primary #(lib/change-view! :reference-create-with-ref) "Jump into the discussion")))))
 
 (defn dialog-view
   "Show a dialog to give the user the option to choose, whether she wants to get some information about the statement
@@ -93,13 +93,13 @@
   (reify om/IRender
     (render [_]
       (dom/div #js {:className "text-center"}
-        (om/build rlib/current-reference-component {})
-        (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
-                           "Wo wird diese Referenz verwendet?")
-        " "
-        (dom/button #js {:className "btn btn-primary"
-                         :onClick   #(lib/change-view! :reference-create-with-ref)}
-                    "Springe in die Diskussion")))))
+               (om/build rlib/current-reference-component {})
+               (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
+                                  "Wo wird diese Referenz verwendet?")
+               " "
+               (dom/button #js {:className "btn btn-primary"
+                                :onClick   #(lib/change-view! :reference-create-with-ref)}
+                           "Springe in die Diskussion")))))
 
 (defn usage-view
   "A single item showing the usage of the currently selected reference."
