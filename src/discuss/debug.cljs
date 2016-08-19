@@ -40,6 +40,10 @@
                        (vlibs/fa-icon "fa-bars"))
            " "
            (dom/button #js {:className "btn btn-default"
+                            :onClick   #(discuss.communication.main/ajax-get (lib/get-last-api))}
+                       (vlibs/fa-icon "fa-repeat") " Resend last API Call")
+           " "
+           (dom/button #js {:className "btn btn-default"
                             :onClick   #(discuss.references.integration/process-references (lib/get-references))}
                        (vlibs/fa-icon "fa-file-text") " Request references")
            " "

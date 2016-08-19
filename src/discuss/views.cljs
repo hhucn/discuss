@@ -11,7 +11,6 @@
             [discuss.references.main :as ref]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
-            [discuss.utils.extensions]
             [discuss.utils.views :as vlib]))
 
 ;;;; Auxiliary
@@ -43,12 +42,15 @@
                  (lib/get-error))))))
 
 (defn control-elements []
-  (bs/center
-    (dom/h4 nil
-            (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-double-left fa-border") com/init!)
-            " "
-            (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-left fa-border") history/back!)
-            #_(vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-right fa-border pointer")))))
+  (reify
+    om/IRender
+    (render [_]
+      (dom/div #js {:className "text-center"}
+               (dom/h4 nil
+                       (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-double-left fa-border") com/init!)
+                       " "
+                       (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-left fa-border") history/back!)
+                       #_(vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-right fa-border pointer")))))))
 
 (defn avatar-view
   "Get the user's avatar and add login + logout functions to it."
@@ -78,7 +80,7 @@
     (render-state [_ {:keys [nickname password]}]
       (dom/div nil
                (om/build error-view {})
-               (bs/center "Login")
+               (dom/div #js {:className "text-center"} "Login")
                (dom/div #js {:className "input-group"}
                         (dom/span #js {:className "input-group-addon"}
                                   (vlib/fa-icon "fa-user fa-fw"))
@@ -132,20 +134,20 @@
 (defn init-view
   "Show button if discussion has not been initialized yet."
   []
-  (bs/center (bs/button-primary com/init-with-references! "Starte Diskussion!")))
+  (dom/div #js {:className "text-center"} (bs/button-primary com/init-with-references! "Starte Diskussion!")))
 
 (defn discussion-elements [data]
   (if-not (empty? (:discussion @lib/app-state))
-    (dom/div nil
+    (dom/div #js {:key (lib/get-unique-key)}
              (om/build bubbles/view data)
              (om/build items-view data)
-             (control-elements))
+             (om/build control-elements data))
     (init-view)))
 
 (defn- show-selection
   "Shows selected text from website if available."
   []
-  (let [selection (lib/get-selection)]
+  (let [selection (or (lib/get-selection) (:text (discuss.references.lib/get-selected-reference)))]
     (if (> (count selection) 1)
       (dom/div #js {:className "input-group"}
                (dom/span #js {:className "input-group-addon"}
@@ -157,7 +159,7 @@
                (dom/span #js {:className "input-group-addon pointer"
                               :onClick   lib/remove-selection}
                          (vlib/fa-icon "fa-times")))
-      (bs/center "Möchten Sie Ihre Aussage durch eine Referenz von dieser Seite stützen? Dann markieren Sie einfach einen Teil des Textes mit der Maus."))))
+      (dom/div #js {:className "text-center"} "Möchten Sie Ihre Aussage durch eine Referenz von dieser Seite stützen? Dann markieren Sie einfach einen Teil des Textes mit der Maus."))))
 
 (defn add-element
   "Show form to add a new statement."
@@ -196,7 +198,7 @@
   [view data]
   (dom/div nil
            (om/build view data)
-           (control-elements)))
+           (om/build control-elements data)))
 
 (defn view-dispatcher
   "Dispatch current template in main view by the app state."
@@ -204,7 +206,6 @@
   (let [view (lib/current-view)]
     (cond
       (= view :login) (build-with-buttons login-form {})
-      (= view :reference-agree-disagree) (build-with-buttons ref/agree-disagree-view {})
       (= view :reference-dialog) (build-with-buttons ref/dialog-view {})
       (= view :reference-usages) (build-with-buttons ref/usages-view {})
       (= view :reference-create-with-ref) (build-with-buttons ref/create-with-reference-view data)
@@ -213,7 +214,7 @@
 (defn main-content-view [data]
   (dom/div nil
            (when (seq (:discussion @lib/app-state))
-             (bs/center
+             (dom/div #js {:className "text-center"}
                (get-in data [:layout :intro])
                (dom/br nil)
                (dom/strong nil (get-in data [:issues :info]))))
@@ -230,8 +231,15 @@
                (dom/h4 nil
                        (vlib/logo)
                        " "
-                       (get-in data [:layout :title]))
-               (main-content-view data)))))
+                       (dom/span #js {:className     "pointer"
+                                      :data-toggle   "collapse"
+                                      :data-target   (str "#" (lib/prefix-name "dialogue-collapse"))
+                                      :aria-expanded "true"
+                                      :aria-controls (lib/prefix-name "dialogue-collapse")}
+                                 (get-in data [:layout :title])))
+               (dom/div #js {:className "collapse in"
+                             :id        (lib/prefix-name "dialogue-collapse")}
+                        (main-content-view data))))))
 
 (defn reference-view [reference owner]
   (reify

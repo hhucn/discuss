@@ -5,7 +5,6 @@
             [discuss.devcards.lib]
             [discuss.core :as core]
             [discuss.debug :as debug]
-            [discuss.utils.extensions]
             [discuss.find :as find]
             [discuss.references.integration]
             [discuss.references.main :as ref]
@@ -24,11 +23,8 @@
 
 (defcard control-buttons
          ""
-         (dom/div nil
-                  (dom/button #js {:className "btn btn-info"
-                                   :onClick   core/main}
-                              (vlib/fa-icon "fa-fort-awesome"))
-                  (debug/control-buttons lib/app-state)))
+         debug/control-buttons
+         lib/app-state)
 
 (defcard-om find-form
             "*Select issue and search for statements.*"
@@ -48,11 +44,6 @@
 (defcard-om show-reference-usages
             "*Show usages of the current selected reference.*"
             ref/usages-view
-            lib/app-state)
-
-(defcard-om agree-disagree-reference
-            "*Choose your opinion.*"
-            ref/agree-disagree-view
             lib/app-state)
 
 (defcard-om create-with-reference-overview

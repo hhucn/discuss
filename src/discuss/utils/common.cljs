@@ -2,6 +2,7 @@
   (:require [om.core :as om :include-macros true]
             [clojure.walk :refer [keywordize-keys]]
             [cljs.spec :as s]
+            [goog.dom :as gdom]
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]
             [discuss.config :as config]))
@@ -56,7 +57,7 @@
 (defn get-unique-key
   "Return unique react-key."
   []
-  (str config/project "-unique-react-key-" (swap! counter inc)))
+  (str (prefix-name "unique-react-key-") (swap! counter inc)))
 
 (defn merge-react-key
   "Get a unique key, create a small map with :react-key property and merge it with the given collection."
@@ -161,7 +162,6 @@
   [csrf]
   (update-state-item! :user :csrf (fn [_] csrf)))
 
-
 (defn loading?
   "Return boolean if app is currently loading content. Provide a boolean to change the app-state."
   ([] (get-in @app-state [:layout :loading?]))
@@ -172,15 +172,15 @@
 
   ** Needs optimizations **"
   [response]
-  (let [res (keywordize-keys response)
+  (let [res (discuss.communication.main/process-response response)
         items (:items res)
         discussion (:discussion res)
         issues (:issues res)]
-    (loading? false)
     (update-state-map! :items items)
     (update-state-map! :discussion discussion)
     (update-state-map! :issues issues)
     (update-state-item! :user :avatar (fn [_] (get-in res [:extras :users_avatar])))))
+
 
 ;; Show error messages
 (defn error?

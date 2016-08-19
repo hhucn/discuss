@@ -1,8 +1,7 @@
 (ns discuss.find
   "Search engine."
-  (:require [clojure.walk :refer [keywordize-keys]]
-            [om.core :as om :include-macros true]
-            [om.dom :as dom :include-macros true]
+  (:require [om.core :as om]
+            [om.dom :as dom]
             [discuss.communication.main :as com]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
@@ -47,29 +46,32 @@
 (defn- item-view [data _owner]
   (reify om/IRender
     (render [_]
-      (dom/div #js {:className "bs-callout bs-callout-info"}
-               (dom/span #js {:className "badge pull-right"}
-                         (lib/str->int (:distance data)))
-               (dom/div nil (dom/a #js {:href    "javascript:void(0)"
-                                        :onClick #(com/ajax-get-and-change-view (:url data) :default)}
-                                   (vlib/safe-html (:text data))))))))
+      (let [distance (lib/str->int (:distance data))
+            argument (first (:arguments data))
+            issue (:issue data)]
+        (when (:text argument)
+          (dom/div #js {:className "bs-callout bs-callout-info"}
+                   (dom/span #js {:className "badge pull-right"} distance)
+                   (dom/a #js {:href    "javascript:void(0)"
+                               :onClick #(com/jump-to-argument (:slug issue) (:uid argument))}
+                          (vlib/safe-html (:text argument)))))))))
 
 (defn- issue-selector-view
   "Create option items from each issue."
   [issue _owner]
-  (let [current-issue (get-in @lib/app-state [:issues :uid])
-        option-issue (lib/str->int (:uid issue))]
-    (dom/option #js {:key          (lib/prefix-name (str "discuss-issue-selector-" option-issue))
-                     :defaultValue (= current-issue option-issue)}
+  (let [option-issue (lib/str->int (:uid issue))]
+    (dom/option #js {:value (str (lib/prefix-name "issue-selector-") option-issue)}
                 (:title issue))))
 
 (defn- issue-component
   "Issue selector as separate component. Returns DOM elements. Stores selection in its owner."
   [owner]
-  (dom/div #js {:className "form-group"}
-           (dom/select #js {:className "form-control"
-                            :onChange  #(store-selected-issue % owner)}
-                       (map #(issue-selector-view (lib/merge-react-key %) owner) (lib/get-issues)))))
+  (let [issue-id (:issue-id (om/get-state owner))]
+    (dom/div #js {:className "form-group"}
+             (dom/select #js {:className "form-control"
+                              :onChange  #(store-selected-issue % owner)
+                              :value     (str (lib/prefix-name "issue-selector-") issue-id)}
+                         (map #(issue-selector-view (lib/merge-react-key %) owner) (lib/get-issues))))))
 
 (defn form-view [_ owner]
   (reify
@@ -83,7 +85,7 @@
                (issue-component owner)
                (dom/div #js {:className "input-group"}
                         (dom/input #js {:className   "form-control"
-                                        :onChange    #(update-state-find-statement :search-value % issue-id owner)
+                                        :onChange    #(vlib/commit-component-state :search-value % owner)
                                         :value       search-value
                                         :placeholder "Find Statement"})
                         (dom/span #js {:className "input-group-btn"}

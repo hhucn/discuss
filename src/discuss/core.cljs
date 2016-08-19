@@ -6,7 +6,6 @@
             [discuss.components.bubbles]
             [discuss.debug :as debug]
             [discuss.references.integration]
-            [discuss.utils.extensions]
             [discuss.utils.common :as lib]
             [discuss.components.contribute :as contribute]
             [discuss.components.tooltip :as tooltip]

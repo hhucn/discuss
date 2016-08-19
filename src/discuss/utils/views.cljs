@@ -1,18 +1,17 @@
 (ns discuss.utils.views
   (:require [goog.dom :as gdom]
             [goog.string :as gstring]
-            [om.core :as om :include-macros true]
-            [om.dom :as dom :include-macros true]
-            [discuss.utils.extensions]
+            [om.core :as om]
+            [om.dom :as dom]
             [discuss.utils.common :as lib]))
 
 (defn fa-icon
   "Wrapper for font-awesome icons."
   ([class]
-   (dom/i #js {:key       (discuss.utils.common/get-unique-key)
+   (dom/i #js {:key       (lib/get-unique-key)
                :className (str "fa " class)}))
   ([class f]
-   (dom/i #js {:key       (discuss.utils.common/get-unique-key)
+   (dom/i #js {:key       (lib/get-unique-key)
                :className (str "pointer fa " class)
                :onClick   f})))
 

@@ -26,9 +26,8 @@
     (lib/loading? false)
     (if (pos? (count error))
       (lib/error-msg! error)
-      (do
-        (lib/no-error!)
-        res))))
+      (do (lib/no-error!)
+          res))))
 
 
 ;;;; Handlers
@@ -183,3 +182,11 @@
   "Resends stored url from last api call."
   []
   (ajax-get (lib/get-last-api)))
+
+(defn jump-to-argument
+  "Jump directly into the discussion to let the user argue about the given argument.
+
+   ** TODO: Update route **"
+  [slug arg-id]
+  (let [url (clojure.string/join "/" ["api" slug "jump" arg-id])]
+    (ajax-get-and-change-view url :discussion)))
