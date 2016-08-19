@@ -42,12 +42,15 @@
                  (lib/get-error))))))
 
 (defn control-elements []
-  (bs/center
-    (dom/h4 nil
-            (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-double-left fa-border") com/init!)
-            " "
-            (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-left fa-border") history/back!)
-            #_(vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-right fa-border pointer")))))
+  (reify
+    om/IRender
+    (render [_]
+      (dom/div #js {:className "text-center"}
+               (dom/h4 nil
+                       (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-double-left fa-border") com/init!)
+                       " "
+                       (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-left fa-border") history/back!)
+                       #_(vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-right fa-border pointer")))))))
 
 (defn avatar-view
   "Get the user's avatar and add login + logout functions to it."
@@ -77,7 +80,7 @@
     (render-state [_ {:keys [nickname password]}]
       (dom/div nil
                (om/build error-view {})
-               (bs/center "Login")
+               (dom/div #js {:className "text-center"} "Login")
                (dom/div #js {:className "input-group"}
                         (dom/span #js {:className "input-group-addon"}
                                   (vlib/fa-icon "fa-user fa-fw"))
@@ -131,14 +134,14 @@
 (defn init-view
   "Show button if discussion has not been initialized yet."
   []
-  (bs/center (bs/button-primary com/init-with-references! "Starte Diskussion!")))
+  (dom/div #js {:className "text-center"} (bs/button-primary com/init-with-references! "Starte Diskussion!")))
 
 (defn discussion-elements [data]
   (if-not (empty? (:discussion @lib/app-state))
-    (dom/div nil
+    (dom/div #js {:key (lib/get-unique-key)}
              (om/build bubbles/view data)
              (om/build items-view data)
-             (control-elements))
+             (om/build control-elements data))
     (init-view)))
 
 (defn- show-selection
@@ -156,7 +159,7 @@
                (dom/span #js {:className "input-group-addon pointer"
                               :onClick   lib/remove-selection}
                          (vlib/fa-icon "fa-times")))
-      (bs/center "Möchten Sie Ihre Aussage durch eine Referenz von dieser Seite stützen? Dann markieren Sie einfach einen Teil des Textes mit der Maus."))))
+      (dom/div #js {:className "text-center"} "Möchten Sie Ihre Aussage durch eine Referenz von dieser Seite stützen? Dann markieren Sie einfach einen Teil des Textes mit der Maus."))))
 
 (defn add-element
   "Show form to add a new statement."
@@ -195,7 +198,7 @@
   [view data]
   (dom/div nil
            (om/build view data)
-           (control-elements)))
+           (om/build control-elements data)))
 
 (defn view-dispatcher
   "Dispatch current template in main view by the app state."
@@ -211,7 +214,7 @@
 (defn main-content-view [data]
   (dom/div nil
            (when (seq (:discussion @lib/app-state))
-             (bs/center
+             (dom/div #js {:className "text-center"}
                (get-in data [:layout :intro])
                (dom/br nil)
                (dom/strong nil (get-in data [:issues :info]))))

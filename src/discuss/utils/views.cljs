@@ -8,10 +8,10 @@
 (defn fa-icon
   "Wrapper for font-awesome icons."
   ([class]
-   (dom/i #js {:key       (discuss.utils.common/get-unique-key)
+   (dom/i #js {:key       (lib/get-unique-key)
                :className (str "fa " class)}))
   ([class f]
-   (dom/i #js {:key       (discuss.utils.common/get-unique-key)
+   (dom/i #js {:key       (lib/get-unique-key)
                :className (str "pointer fa " class)
                :onClick   f})))
 
