@@ -1,7 +1,7 @@
 (ns discuss.find
   "Search engine."
-  (:require [om.core :as om :include-macros true]
-            [om.dom :as dom :include-macros true]
+  (:require [om.core :as om]
+            [om.dom :as dom]
             [discuss.communication.main :as com]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
@@ -63,11 +63,12 @@
 (defn- issue-component
   "Issue selector as separate component. Returns DOM elements. Stores selection in its owner."
   [owner]
-  (dom/div #js {:className "form-group"}
-           (dom/select #js {:className "form-control"
-                            :onChange  #(store-selected-issue % owner)
-                            :value     (str (lib/prefix-name "issue-selector-") (get-in @lib/app-state [:issues :uid]))}
-                       (map #(issue-selector-view (lib/merge-react-key %) owner) (lib/get-issues)))))
+  (let [issue-id (:issue-id (om/get-state owner))]
+    (dom/div #js {:className "form-group"}
+             (dom/select #js {:className "form-control"
+                              :onChange  #(store-selected-issue % owner)
+                              :value     (str (lib/prefix-name "issue-selector-") issue-id)}
+                         (map #(issue-selector-view (lib/merge-react-key %) owner) (lib/get-issues))))))
 
 (defn form-view [_ owner]
   (reify

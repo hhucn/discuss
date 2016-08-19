@@ -98,9 +98,7 @@
                            "Wo wird diese Referenz verwendet?")
         " "
         (dom/button #js {:className "btn btn-primary"
-                         :disabled  true
-                         :onClick   #(lib/change-view! :reference-create-with-ref)
-                         :title     "Reimplementing this feature..."} ; TODO
+                         :onClick   #(lib/change-view! :reference-create-with-ref)}
                     "Springe in die Diskussion")))))
 
 (defn usage-view
