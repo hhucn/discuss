@@ -5,7 +5,6 @@
             [discuss.devcards.lib]
             [discuss.core :as core]
             [discuss.debug :as debug]
-            [discuss.utils.extensions]
             [discuss.find :as find]
             [discuss.references.integration]
             [discuss.references.main :as ref]

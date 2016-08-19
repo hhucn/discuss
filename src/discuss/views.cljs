@@ -11,7 +11,6 @@
             [discuss.references.main :as ref]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
-            [discuss.utils.extensions]
             [discuss.utils.views :as vlib]))
 
 ;;;; Auxiliary

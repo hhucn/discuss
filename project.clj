@@ -34,7 +34,7 @@
                 :source-paths ["src/discuss"]
                 :figwheel     {:on-jsload "discuss.core/on-js-reload"}
                 :compiler     {:main                 discuss.core
-                               :preloads             [devtools.preload]
+                               :preloads             [discuss.utils.extensions devtools.preload]
                                :asset-path           "js/compiled/out"
                                :output-to            "resources/public/js/compiled/discuss.js"
                                :output-dir           "resources/public/js/compiled/out"
@@ -45,7 +45,7 @@
                 :source-paths ["src/discuss" "src/devcards"]
                 :figwheel     {:devcards true}
                 :compiler     {:main                 discuss.devcards.core
-                               :preloads             [devtools.preload]
+                               :preloads             [discuss.utils.extensions devtools.preload]
                                :asset-path           "../js/compiled/devcards/out"
                                :output-to            "resources/public/js/compiled/discuss.js"
                                :output-dir           "resources/public/js/compiled/devcards/out"
@@ -56,11 +56,13 @@
                 :source-paths ["src/discuss" "src/devcards"]
                 :compiler     {:output-to     "resources/public/js/testable.js"
                                :main          discuss.test.runner
+                               :preloads      [discuss.utils.extensions]
                                :optimizations :none}}
                {:id           "min"
                 :source-paths ["src"]
                 :compiler     {:output-to      "resources/public/js/compiled/discuss.js"
                                :main           discuss.core
+                               :preloads       [discuss.utils.extensions]
                                :optimizations  :advanced
                                :parallel-build true
                                :compiler-stats true

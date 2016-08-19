@@ -3,7 +3,6 @@
             [goog.string :as gstring]
             [om.core :as om]
             [om.dom :as dom]
-            [discuss.utils.extensions]
             [discuss.utils.common :as lib]))
 
 (defn fa-icon
