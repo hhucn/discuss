@@ -97,8 +97,11 @@
         (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
                            "Wo wird diese Referenz verwendet?")
         " "
-        (bs/button-primary #(lib/change-view! :reference-create-with-ref)
-                           "Springe in die Diskussion")))))
+        (dom/button #js {:className "btn btn-primary"
+                         :disabled  true
+                         :onClick   #(lib/change-view! :reference-create-with-ref)
+                         :title     "Reimplementing this feature..."} ; TODO
+                    "Springe in die Diskussion")))))
 
 (defn usage-view
   "A single item showing the usage of the currently selected reference."
@@ -144,21 +147,3 @@
                  (om/build rlib/current-reference-component {})
                  (apply dom/div nil
                         (map #(om/build usage-list-view (lib/merge-react-key %)) usages)))))))
-
-(defn agree-disagree-view
-  "Agree or disagree with the selected reference."
-  []
-  (reify om/IRender
-    (render [_]
-      (let [statement (rlib/get-selected-statement)]
-        (dom/div nil
-                 (bs/center "Stimmen Sie der Aussage zu oder lehnen Sie es ab?")
-                 (om/build usage-view statement)
-                 (bs/center
-                   (bs/button-primary #(get-statement-url statement true)
-                                      (vlib/fa-icon "fa-thumbs-up")
-                                      " Zustimmen")
-                   " "
-                   (bs/button-primary #(get-statement-url statement false)
-                                      (vlib/fa-icon "fa-thumbs-down")
-                                      " Ablehnen")))))))

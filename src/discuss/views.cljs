@@ -203,7 +203,6 @@
   (let [view (lib/current-view)]
     (cond
       (= view :login) (build-with-buttons login-form {})
-      (= view :reference-agree-disagree) (build-with-buttons ref/agree-disagree-view {})
       (= view :reference-dialog) (build-with-buttons ref/dialog-view {})
       (= view :reference-usages) (build-with-buttons ref/usages-view {})
       (= view :reference-create-with-ref) (build-with-buttons ref/create-with-reference-view data)

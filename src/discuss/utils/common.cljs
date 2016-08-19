@@ -162,7 +162,6 @@
   [csrf]
   (update-state-item! :user :csrf (fn [_] csrf)))
 
-
 (defn loading?
   "Return boolean if app is currently loading content. Provide a boolean to change the app-state."
   ([] (get-in @app-state [:layout :loading?]))
@@ -181,6 +180,7 @@
     (update-state-map! :discussion discussion)
     (update-state-map! :issues issues)
     (update-state-item! :user :avatar (fn [_] (get-in res [:extras :users_avatar])))))
+
 
 ;; Show error messages
 (defn error?

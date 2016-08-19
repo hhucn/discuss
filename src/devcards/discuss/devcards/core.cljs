@@ -46,11 +46,6 @@
             ref/usages-view
             lib/app-state)
 
-(defcard-om agree-disagree-reference
-            "*Choose your opinion.*"
-            ref/agree-disagree-view
-            lib/app-state)
-
 (defcard-om create-with-reference-overview
             "*Entrypoint to create new statement with selected reference.*"
             ref/create-overview
