@@ -46,12 +46,15 @@
 (defn- item-view [data _owner]
   (reify om/IRender
     (render [_]
-      (dom/div #js {:className "bs-callout bs-callout-info"}
-               (dom/span #js {:className "badge pull-right"}
-                         (lib/str->int (:distance data)))
-               (dom/div nil (dom/a #js {:href    "javascript:void(0)"
-                                        :onClick #(com/ajax-get-and-change-view (:url data) :default)}
-                                   (vlib/safe-html (:text data))))))))
+      (let [distance (lib/str->int (:distance data))
+            argument (first (:arguments data))
+            issue (:issue data)]
+        (when (:text argument)
+          (dom/div #js {:className "bs-callout bs-callout-info"}
+                   (dom/span #js {:className "badge pull-right"} distance)
+                   (dom/a #js {:href    "javascript:void(0)"
+                               :onClick #(com/jump-to-argument (:slug issue) (:uid argument))}
+                          (vlib/safe-html (:text argument)))))))))
 
 (defn- issue-selector-view
   "Create option items from each issue."
@@ -82,7 +85,7 @@
                (issue-component owner)
                (dom/div #js {:className "input-group"}
                         (dom/input #js {:className   "form-control"
-                                        :onChange    #(update-state-find-statement :search-value % issue-id owner)
+                                        :onChange    #(vlib/commit-component-state :search-value % owner)
                                         :value       search-value
                                         :placeholder "Find Statement"})
                         (dom/span #js {:className "input-group-btn"}
