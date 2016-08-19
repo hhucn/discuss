@@ -1,7 +1,6 @@
 (ns discuss.find
   "Search engine."
-  (:require [clojure.walk :refer [keywordize-keys]]
-            [om.core :as om :include-macros true]
+  (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
             [discuss.communication.main :as com]
             [discuss.utils.bootstrap :as bs]

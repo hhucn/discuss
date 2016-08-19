@@ -69,7 +69,7 @@
   (reify om/IRender
     (render [_]
       (dom/div nil
-               (bs/center (dom/h5 nil "Finde Aussage in der Diskussion"))
+               (dom/h5 #js {:className "text-center"} "Finde Aussage in der Diskussion")
                (om/build rlib/current-reference-component {})
                (om/build find/form-view {})
                (om/build find/results-view data)))))
@@ -81,7 +81,7 @@
   (reify
     om/IRender
     (render [_]
-      (bs/center
+      (dom/div #js {:className "text-center"}
         (bs/button-primary #(println "btn show issues") "Show Issues")
         " "
         (bs/button-primary #(lib/change-view! :reference-create-with-ref) "Jump into the discussion")))))
@@ -92,7 +92,7 @@
   []
   (reify om/IRender
     (render [_]
-      (bs/center
+      (dom/div #js {:className "text-center"}
         (om/build rlib/current-reference-component {})
         (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
                            "Wo wird diese Referenz verwendet?")
