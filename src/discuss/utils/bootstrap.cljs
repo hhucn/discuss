@@ -28,18 +28,21 @@
 (defn panel-wrapper
   "Wrap content into bootstrap's panel class."
   [& content]
-  (dom/div #js {:className "panel panel-default"}
+  (dom/div #js {:className "panel panel-default"
+                :key       (lib/get-unique-key)}
            (dom/div #js {:className "panel-body"}
                     content)))
 
 (defn callout-info
   "Wrap content into bootstrap callout."
   [& content]
-  (dom/div #js {:className "bs-callout bs-callout-info"}
+  (dom/div #js {:className "bs-callout bs-callout-info"
+                :key       (lib/get-unique-key)}
            content))
 
 (defn center
   "Use text-center to align text."
   [& content]
-  (dom/div #js {:className "text-center"}
+  (dom/div #js {:className "text-center"
+                :key       (lib/get-unique-key)}
            content))
