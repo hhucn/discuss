@@ -101,19 +101,18 @@
                                 :onClick   #(lib/change-view! :reference-create-with-ref)}
                            "Springe in die Diskussion")))))
 
-(defn usage-view
-  "A single item showing the usage of the currently selected reference."
+(defn argument-usage
+  ""
   [data]
   (reify om/IRender
     (render [_]
-      (let [issue (:issue data)
-            reference (:reference data)
-            argument (first (:arguments data))              ; TODO this should not be only the first one
-            author (:author data)]
+      (let [{:keys [issue argument author]} data]
         (bs/callout-info
-          (dom/strong nil (:text argument))
-          (dom/div nil "Reference:" (dom/br nil)
-                   (dom/i nil "\"" (:title reference) "\""))
+          (dom/div #js {:className "pull-right"}
+                   (bs/button-default-sm #(com/jump-to-argument (:slug issue) (:uid argument)) (vlib/fa-icon "fa-check") " Auswählen"))
+          (dom/a #js {:href    "javascript:void(0)"
+                      :onClick #(com/jump-to-argument (:slug issue) (:uid argument))}
+                 (dom/strong nil (:text argument)))
           (dom/div nil "Issue: " (:title issue))
           (dom/div nil "Autor: " (:nickname author)))))))
 
@@ -122,17 +121,9 @@
   [data]
   (reify om/IRender
     (render [_]
-      (let [issue (:issue data)
-            argument (first (:arguments data))
-            author (:author data)]
-        (bs/callout-info
-          (dom/div #js {:className "pull-right"}
-                   (bs/button-default-sm #(com/jump-to-argument (:slug issue) (:uid argument)) (vlib/fa-icon "fa-check") " Auswählen"))
-          (dom/a #js {:href    "javascript:void(0)"
-                      :onClick #(com/jump-to-argument (:slug issue) (:uid argument))}
-                 (dom/strong nil (:text argument)))         ; TODO this should not be only the first one
-          (dom/div nil "Issue: " (:title issue))
-          (dom/div nil "Autor: " (:nickname author)))))))
+      (let [{:keys [issue arguments author]} data]
+        (apply dom/div nil
+               (map #(om/build argument-usage {:issue issue, :argument %, :author author}) arguments))))))
 
 (defn usages-view
   "List with details showing the usages of the given reference."
