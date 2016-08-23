@@ -102,7 +102,7 @@
                            "Springe in die Diskussion")))))
 
 (defn argument-usage
-  ""
+  "Display callout with the argument, where the reference has been assigned to."
   [data]
   (reify om/IRender
     (render [_]
@@ -117,7 +117,7 @@
           (dom/div nil "Autor: " (:nickname author)))))))
 
 (defn usage-list-view
-  "List single usages of reference."
+  "Extract information about the reference from data and create a list of reference usages within an argument."
   [data]
   (reify om/IRender
     (render [_]
@@ -134,5 +134,6 @@
         (dom/div nil
                  (dom/h5 nil "Wo wird diese Referenz verwendet?")
                  (om/build rlib/current-reference-component {})
+                 (dom/p nil "Hier ist eine Liste von Argumenten, in denen die ausgewählte Referenz ausgewählt wurde.")
                  (apply dom/div nil
                         (map #(om/build usage-list-view (lib/merge-react-key %)) usages)))))))
