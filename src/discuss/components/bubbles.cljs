@@ -46,6 +46,7 @@
   (reify
     om/IDidUpdate
     (did-update [_ _ _]
+      (vlib/scroll-divs-to-bottom "bubbles")
       (convert-links-in-bubbles))
     om/IRender
     (render [_]
