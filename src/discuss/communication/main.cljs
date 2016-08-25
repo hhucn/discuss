@@ -70,7 +70,11 @@
   "React on response after sending a new statement. Reset atom and call newly received url."
   [response]
   (let [res (process-response response)
-        url (:url res)]
+        url (:url res)
+        refs (:references res)]
+    (discuss.references.integration/process-references refs)
+    (println "process-url-handler")
+    (lib/log refs)
     (lib/hide-add-form!)
     (lib/update-state-item! :layout :add-type (fn [_] nil))
     (ajax-get url)))
@@ -81,6 +85,8 @@
   (let [res (process-response response)
         refs (:references res)]
     (lib/update-state-item! :common :references (fn [_] refs))
+    (println "references-handler")
+    (lib/log refs)
     (discuss.references.integration/process-references refs)))
 
 

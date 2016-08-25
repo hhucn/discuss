@@ -43,7 +43,8 @@
                (= "html" (lower-case (.-nodeName %)))
                (= "head" (lower-case (.-nodeName %)))
                (= "meta" (lower-case (.-nodeName %)))
-               (= "button" (lower-case (.-nodeName %))))
+               (= "button" (lower-case (.-nodeName %)))
+               (= "input" (lower-case (.-nodeName %))))
           doms))
 
 (defn- get-parent
@@ -69,6 +70,8 @@
       (let [dom-parts (split (.-innerHTML parent) (re-pattern ref-text))
             first-part (first dom-parts)
             last-part (last dom-parts)]
+        ;(lib/log "before om-root")
+        ;(lib/log dom-parts)
         (om/root reference-view {:text     ref-text
                                  :url      ref-url
                                  :id       ref-id
