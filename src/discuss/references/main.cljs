@@ -102,7 +102,7 @@
     (render [_]
       (let [usages (rlib/get-reference-usages)]
         (dom/div nil
-                 (dom/h5 nil "An welchen Stellen wird dieser Textausschnitt verwendet?")
+                 (dom/h5 nil "In welchen Argumenten wird dieser Textausschnitt verwendet?")
                  (om/build rlib/current-reference-component {})
                  (apply dom/div nil
                         (map #(om/build usage-list-view (lib/merge-react-key %)) usages)))))))
