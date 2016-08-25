@@ -7,7 +7,7 @@
   :min-lein-version "2.5.3"
 
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.216"]
+                 [org.clojure/clojurescript "1.9.225"]
                  [org.clojure/core.async "0.2.385" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
                  [org.omcljs/om "1.0.0-alpha41"]
@@ -18,7 +18,7 @@
                  [devcards "0.2.1-7" :scope "devcards" :exclusions [org.clojure/clojurescript]]
                  [inflections "0.12.2"]]
 
-  :plugins [[lein-figwheel "0.5.4-7"]
+  :plugins [[lein-figwheel "0.5.5"]
             [lein-cljsbuild "1.1.3" :exclusions [[org.clojure/clojure]]]
             [lein-codox "0.9.5"]
             [lein-ancient "0.6.10"]
