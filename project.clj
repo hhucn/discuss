@@ -18,7 +18,7 @@
                  [devcards "0.2.1-7" :scope "devcards" :exclusions [org.clojure/clojurescript]]
                  [inflections "0.12.2"]]
 
-  :plugins [[lein-figwheel "0.5.4-7"]
+  :plugins [[lein-figwheel "0.5.5"]
             [lein-cljsbuild "1.1.3" :exclusions [[org.clojure/clojure]]]
             [lein-codox "0.9.5"]
             [lein-ancient "0.6.10"]
@@ -55,12 +55,14 @@
                {:id           "test"
                 :source-paths ["src/discuss" "src/devcards"]
                 :compiler     {:output-to     "resources/public/js/testable.js"
+                               :output-dir    "resources/public/js/compiled/test/out"
                                :main          discuss.test.runner
                                :preloads      [discuss.utils.extensions]
                                :optimizations :none}}
                {:id           "min"
                 :source-paths ["src"]
                 :compiler     {:output-to      "resources/public/js/compiled/discuss.js"
+                               :output-dir     "resources/public/js/compiled/min/out"
                                :main           discuss.core
                                :preloads       [discuss.utils.extensions]
                                :optimizations  :advanced
