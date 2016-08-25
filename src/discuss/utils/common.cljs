@@ -26,7 +26,6 @@
                              :add-text      "Ein neues Argument hinzufügen"
                              :add-type      nil
                              :loading?      false
-                             :reference     ""
                              :error?        false
                              :error-msg     nil}
                 :user       {:nickname   "kangaroo"

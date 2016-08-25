@@ -51,18 +51,6 @@
                (om/build find/form-view {})
                (om/build find/results-view data)))))
 
-(defn create-overview
-  "Some interaction with the user is necessary to define what kind of statement she wants to add. This view provides an
-   entry point for this decision."
-  []
-  (reify
-    om/IRender
-    (render [_]
-      (dom/div #js {:className "text-center"}
-               (bs/button-primary #(println "btn show issues") "Show Issues")
-               " "
-               (bs/button-primary #(lib/change-view! :reference-create-with-ref) "Jump into the discussion")))))
-
 (defn dialog-view
   "Show a dialog to give the user the option to choose, whether she wants to get some information about the statement
    or just wants to construct a new statement."
@@ -92,8 +80,8 @@
           (dom/a #js {:href    "javascript:void(0)"
                       :onClick #(com/jump-to-argument (:slug issue) (:uid argument))}
                  (dom/strong nil (:text argument)))         ; TODO this should not be only the first one
-          (dom/div nil "Issue: " (:title issue))
-          (dom/div nil "Autor: " (:nickname author)))))))
+          (dom/div nil "Autor: " (:nickname author))
+          (dom/div nil "Diskussionsthema: " (:title issue)))))))
 
 (defn usages-view
   "List with details showing the usages of the given reference."
