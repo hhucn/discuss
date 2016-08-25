@@ -18,7 +18,7 @@
   "Handler to process information about the reference. Store results and change view."
   [response]
   (let [res (com/process-response response)]
-    (lib/update-state-item! :common :reference-usages (fn [_] res))
+    (rlib/save-reference-usages! res)
     (lib/change-view! :reference-usages)))
 
 (defn query-reference-details

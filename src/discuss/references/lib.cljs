@@ -13,28 +13,15 @@
   []
   (get-in @lib/app-state [:reference-usages :selected-reference]))
 
-(defn save-selected-statement!
+(defn save-reference-usages!
   "Saves the currently selected statement for further processing."
-  [statement]
-  (lib/update-state-item! :reference-usages :selected-statement (fn [_] statement)))
-
-(defn get-selected-statement
-  "Returns the currently selected statement from reference usages."
-  []
-  (get-in @lib/app-state [:reference-usages :selected-statement]))
-
-(defn supportive?
-  "Store if a user supports the statement or not."
-  ([]
-   (get-in @lib/app-state [:reference-usages :supportive?]))
-  ([bool]
-   (lib/update-state-item! :reference-usages :supportive? (fn [_] bool))))
+  [reference]
+  (lib/update-state-item! :reference-usages :usages (fn [_] reference)))
 
 (defn get-reference-usages
-  "Return list of reference usages, which were previously stored in the app-state.
-   TODO: optimize"
+  "Return list of reference usages, which were previously stored in the app-state."
   []
-  (get-in @lib/app-state [:common :reference-usages]))
+  (get-in @lib/app-state [:reference-usages :usages]))
 
 
 ;;;; View Components

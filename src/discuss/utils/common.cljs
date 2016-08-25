@@ -42,9 +42,7 @@
                 :clipboard        {:selections nil
                                    :current    nil}
                 :sidebar          {:show? true}
-                :common           {:references       []
-                                   :reference-usages {}
-                                   :last-api         ""}}))
+                :common           {:last-api         ""}}))
 
 (defn str->int
   "Convert String to Integer."
