@@ -1,15 +1,11 @@
-FROM clojure
+FROM clojure:alpine
 MAINTAINER Christian Meter <meter@cs.uni-duesseldorf.de>
 
-# Add sources for nodejs
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
+RUN apk add --no-cache ruby nodejs python && \
+    (gem install sass; exit 0) && \
+    npm install bower -g && \
+    mkdir /discuss
 
-RUN apt-get update -qq
-RUN apt-get install -yqq rubygems nodejs
-RUN yes | gem install sass
-RUN npm install bower -g
-
-RUN mkdir ./discuss
 WORKDIR /discuss
 
 ADD . /discuss

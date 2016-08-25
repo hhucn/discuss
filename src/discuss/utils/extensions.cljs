@@ -36,4 +36,4 @@
       ([array f start]
        (ci-reduce array f start)))))
 
-(doall (map extend-type-fn types))
+(run! extend-type-fn types)
