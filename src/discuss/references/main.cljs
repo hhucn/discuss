@@ -34,21 +34,6 @@
   (let [url (str (:base config/api) (get-in config/api [:get :reference-usages]) "/" reference-id)]
     (com/ajax-get url {} reference-usage-handler)))
 
-(defn get-statement-handler
-  "Processes response and changes view with given url."
-  [response]
-  (let [res (com/process-response response)]
-    (com/ajax-get-and-change-view (:url res) :default)))
-
-(defn get-statement-url
-  "Given an issue-id, statement-id and attitude, query statement url inside the discussion."
-  [statement agree]
-  (let [issue-id (get-in statement [:issue :uid])
-        statement-id (get-in statement [:statement :uid])
-        pre-url (get-in config/api [:get :statement-url])
-        url (clojure.string/join "/" [pre-url issue-id statement-id agree])]
-    (com/ajax-get url {} get-statement-handler)))
-
 
 ;;;; Interaction with integrated references
 (defn click-reference
