@@ -46,11 +46,6 @@
             ref/usages-view
             lib/app-state)
 
-(defcard-om create-with-reference-overview
-            "*Entrypoint to create new statement with selected reference.*"
-            ref/create-overview
-            lib/app-state)
-
 (defcard-om create-with-reference
             "*Create new statement with selected reference.*"
             ref/create-with-reference-view
