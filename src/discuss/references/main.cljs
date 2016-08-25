@@ -12,13 +12,6 @@
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
 
-(defn save-statement-change-view
-  "Saves the current selected statement (or the only one if there is only one available) and changes to
-   the view to configure own attitude."
-  [statement]
-  (rlib/save-selected-statement! statement)
-  (lib/change-view! :reference-agree-disagree))
-
 
 ;;;; Handlers & Queries
 (defn reference-usage-handler
@@ -42,8 +35,7 @@
   [reference]
   (rlib/save-selected-reference! reference)
   (query-reference-details (:id reference))
-  (sidebar/show)
-  (lib/update-state-item! :layout :reference (fn [_] (:text reference))))
+  (sidebar/show))
 
 
 ;;;; Views
