@@ -5,7 +5,7 @@
             [om.dom :as dom]
             [discuss.communication.main :as com]
             [discuss.config :as config]
-            [discuss.find :as find]
+            [discuss.components.find :as find]
             [discuss.components.sidebar :as sidebar]
             [discuss.references.lib :as rlib]
             [discuss.utils.bootstrap :as bs]

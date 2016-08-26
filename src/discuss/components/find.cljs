@@ -1,4 +1,4 @@
-(ns discuss.find
+(ns discuss.components.find
   "Search engine."
   (:require [om.core :as om]
             [om.dom :as dom]
