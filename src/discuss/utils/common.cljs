@@ -256,7 +256,7 @@
   []
   (get-in @app-state [:user :selection]))
 
-(defn remove-selection
+(defn remove-selection!
   "Remove current selection for a 'clean' statement."
   []
   (update-state-item! :user :selection (fn [_] nil)))

@@ -8,6 +8,11 @@
   [ref]
   (lib/update-state-item! :references :selected (fn [_] ref)))
 
+(defn remove-selected-reference!
+  "Remove the previously selected reference."
+  []
+  (lib/update-state-item! :references :selected (fn [_] nil)))
+
 (defn get-selected-reference
   "Returns the currently selected reference."
   []

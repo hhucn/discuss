@@ -8,6 +8,7 @@
             [discuss.communication.auth :as auth]
             [discuss.communication.main :as com]
             [discuss.history :as history]
+            [discuss.references.lib :as rlib]
             [discuss.references.main :as ref]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
@@ -144,10 +145,19 @@
              (om/build control-elements data))
     (init-view)))
 
+(defn- remove-selection-then-reference!
+  "Remove selection on first click, then the reference if available."
+  []
+  (let [selection (lib/get-selection)
+        sel-ref (rlib/get-selected-reference)]
+    (cond
+      selection (lib/remove-selection!)
+      sel-ref (rlib/remove-selected-reference!))))
+
 (defn- show-selection
   "Shows selected text from website if available."
   []
-  (let [selection (or (lib/get-selection) "" #_(:text (discuss.references.lib/get-selected-reference)))]
+  (let [selection (or (lib/get-selection) (:text (discuss.references.lib/get-selected-reference)) "")]
     (if (> (count selection) 1)
       (dom/div #js {:className "input-group"}
                (dom/span #js {:className "input-group-addon"}
@@ -157,7 +167,7 @@
                (dom/span #js {:className "input-group-addon"}
                          (vlib/fa-icon "fa-quote-right"))
                (dom/span #js {:className "input-group-addon pointer"
-                              :onClick   lib/remove-selection}
+                              :onClick   remove-selection-then-reference!}
                          (vlib/fa-icon "fa-times")))
       (dom/div #js {:className "text-center"} "Möchten Sie Ihre Aussage durch eine Referenz von dieser Seite stützen? Dann markieren Sie einfach einen Teil des Textes mit der Maus."))))
 
@@ -171,6 +181,7 @@
     om/IRenderState
     (render-state [_ {:keys [statement]}]
       (om/observe owner (lib/get-cursor :user))
+      (om/observe owner (lib/get-cursor :references))
       (dom/div #js {:className  "panel panel-default"
                     :onDragOver clipboard/allow-drop
                     :onDrop     clipboard/update-reference-drop}
