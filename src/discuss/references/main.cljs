@@ -66,22 +66,31 @@
                                 :onClick   #(lib/change-view! :reference-create-with-ref)}
                            "Springe in die Diskussion")))))
 
+(defn single-reference-usage
+  "Show single usage of a reference."
+  [data]
+  (reify om/IRender
+    (render [_]
+      (let [{:keys [issue argument author]} data]           ; TODO I think this should be the author of the argument
+        (bs/callout-info
+          (dom/div #js {:className "pull-right"}
+                   (bs/button-default-sm #(com/jump-to-argument (:slug issue) (:uid argument)) (vlib/fa-icon "fa-check") " Auswählen"))
+          (dom/a #js {:href    "javascript:void(0)"
+                      :onClick #(com/jump-to-argument (:slug issue) (:uid argument))}
+                 (dom/strong nil (vlib/safe-html (:text argument))))
+          (dom/div nil "Autor: " (:nickname author))
+          (dom/div nil "Diskussionsthema: " (:title issue)))))))
+
 (defn usage-list-view
   "List single usages of reference."
   [data]
   (reify om/IRender
     (render [_]
       (let [issue (:issue data)
-            argument (first (:arguments data))
+            arguments (:arguments data)
             author (:author data)]
-        (bs/callout-info
-          (dom/div #js {:className "pull-right"}
-                   (bs/button-default-sm #(com/jump-to-argument (:slug issue) (:uid argument)) (vlib/fa-icon "fa-check") " Auswählen"))
-          (dom/a #js {:href    "javascript:void(0)"
-                      :onClick #(com/jump-to-argument (:slug issue) (:uid argument))}
-                 (dom/strong nil (:text argument)))         ; TODO this should not be only the first one
-          (dom/div nil "Autor: " (:nickname author))
-          (dom/div nil "Diskussionsthema: " (:title issue)))))))
+        (apply dom/div nil
+               (map #(om/build single-reference-usage (lib/merge-react-key {:issue issue, :argument %, :author author})) arguments))))))
 
 (defn usages-view
   "List with details showing the usages of the given reference."
