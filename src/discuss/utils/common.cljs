@@ -5,6 +5,7 @@
             [goog.dom :as gdom]
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]
+            [alandipert.storage-atom :refer [local-storage]]
             [discuss.config :as config]))
 
 (defn prefix-name
@@ -14,32 +15,33 @@
 
 (defonce counter (atom 0))
 
-(defonce app-state
-         (atom {:discussion {}
-                :issues     {}
-                :items      {}
-                :layout     {:title         "discuss"
-                             :intro         "Aktuelle Diskussion:"
-                             :template      :discussion
-                             :next-template :discussion
-                             :add?          false
-                             :add-text      "Ein neues Argument hinzufügen"
-                             :add-type      nil
-                             :loading?      false
-                             :error?        false
-                             :error-msg     nil}
-                :user       {:nickname   "kangaroo"
-                             :token      "razupaltuff"
-                             :avatar     ""
-                             :csrf       nil
-                             :statement  ""
-                             :selection  nil
-                             :logged-in? false}
-                :references {:selected nil}
-                :clipboard  {:selections nil
-                             :current    nil}
-                :sidebar    {:show? true}
-                :common     {:last-api ""}}))
+(defonce app-state (local-storage
+                     (atom {:discussion {}
+                            :issues     {}
+                            :items      {}
+                            :layout     {:title         "discuss"
+                                         :intro         "Aktuelle Diskussion:"
+                                         :template      :discussion
+                                         :next-template :discussion
+                                         :add?          false
+                                         :add-text      "Ein neues Argument hinzufügen"
+                                         :add-type      nil
+                                         :loading?      false
+                                         :error?        false
+                                         :error-msg     nil}
+                            :user       {:nickname   "kangaroo"
+                                         :token      "razupaltuff"
+                                         :avatar     ""
+                                         :csrf       nil
+                                         :statement  ""
+                                         :selection  nil
+                                         :logged-in? false}
+                            :references {:selected nil}
+                            :clipboard  {:selections nil
+                                         :current    nil}
+                            :sidebar    {:show? true}
+                            :common     {:last-api ""}})
+                     :discuss))
 
 (defn str->int
   "Convert String to Integer."

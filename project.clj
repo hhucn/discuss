@@ -16,7 +16,8 @@
                  [com.cognitect/transit-cljs "0.8.239"]     ; Better JSON support
                  [figwheel-sidecar "0.5.6" :scope "devcards"]
                  [devcards "0.2.1-7" :scope "devcards" :exclusions [org.clojure/clojurescript]]
-                 [inflections "0.12.2"]]
+                 [inflections "0.12.2"]
+                 [alandipert/storage-atom "2.0.1"]]         ; local storage support
 
   :plugins [[lein-figwheel "0.5.6"]
             [lein-cljsbuild "1.1.3" :exclusions [[org.clojure/clojure]]]
