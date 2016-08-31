@@ -46,12 +46,13 @@
   (reify
     om/IRender
     (render [_]
-      (dom/div #js {:className "text-center"}
-               (dom/h4 nil
-                       (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-double-left fa-border") com/init!)
-                       " "
-                       (vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-left fa-border") history/back!)
-                       #_(vlib/fa-icon (str (lib/prefix-name "control-buttons") " fa-angle-right fa-border pointer")))))))
+      (dom/div nil
+               (dom/hr nil)
+               (dom/div #js {:className "row"}
+                        (dom/div #js {:className "col-md-offset-4 col-md-4 text-center"}
+                                 (bs/button-default-sm history/back! (vlib/fa-icon "fa-step-backward") "Zurück"))
+                        (dom/div #js {:className "col-md-4 text-right"}
+                                 (bs/button-default-sm com/init! (vlib/fa-icon "fa-refresh") "Neustarten")))))))
 
 (defn avatar-view
   "Get the user's avatar and add login + logout functions to it."
@@ -225,9 +226,9 @@
   (dom/div nil
            (when (seq (:discussion @lib/app-state))
              (dom/div #js {:className "text-center"}
-               (get-in data [:layout :intro])
-               (dom/br nil)
-               (dom/strong nil (get-in data [:issues :info]))))
+                      (get-in data [:layout :intro])
+                      (dom/br nil)
+                      (dom/strong nil (get-in data [:issues :info]))))
            (bs/panel-wrapper (view-dispatcher data))
            (when (get-in data [:layout :add?])
              (om/build add-element {}))

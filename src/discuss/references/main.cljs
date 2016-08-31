@@ -74,7 +74,7 @@
       (let [{:keys [issue argument author]} data]           ; TODO I think this should be the author of the argument
         (bs/callout-info
           (dom/div #js {:className "pull-right"}
-                   (bs/button-default-sm #(com/jump-to-argument (:slug issue) (:uid argument)) (vlib/fa-icon "fa-check") " Auswählen"))
+                   (bs/button-default-sm #(com/jump-to-argument (:slug issue) (:uid argument)) (vlib/fa-icon "fa-search")))
           (dom/a #js {:href    "javascript:void(0)"
                       :onClick #(com/jump-to-argument (:slug issue) (:uid argument))}
                  (dom/strong nil (vlib/safe-html (:text argument))))
