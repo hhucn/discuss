@@ -78,7 +78,7 @@
                         (control-buttons data)
 
                         (dom/h6 nil "Token")
-                        (dom/pre nil (get-in data [:user :token]))
+                        (dom/pre nil (get-in @lib/user-state [:token]))
 
                         (dom/h6 #js {:className     "pointer"
                                      :data-toggle   "collapse"

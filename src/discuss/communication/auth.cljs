@@ -11,9 +11,10 @@
   (let [res (com/process-response response)
         nickname (first (clojure.string/split (:token res) "-"))
         token (:token res)]
-    (lib/update-state-map! :user {:nickname   nickname
-                                  :token      token
-                                  :logged-in? true})
+    (lib/log "jep")
+    (lib/update-user-map! {:nickname   nickname
+                           :token      token
+                           :logged-in? true})
     (com/ajax-get-and-change-view (lib/get-last-api) :discussion)))
 
 (defn ajax-login
@@ -46,6 +47,6 @@
 (defn logout
   "Reset user credentials."
   []
-  (lib/update-state-map! :user {:nickname   ""
-                                :token      ""
-                                :logged-in? false}))
+  (lib/update-user-map! {:nickname   ""
+                         :token      ""
+                         :logged-in? false}))

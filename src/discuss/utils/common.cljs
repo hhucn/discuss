@@ -15,6 +15,16 @@
 
 (defonce counter (atom 0))
 
+(defonce user-state
+         (local-storage (atom {:nickname   "kangaroo"
+                               :token      "razupaltuff"
+                               :avatar     ""
+                               :csrf       nil
+                               :statement  ""
+                               :selection  nil
+                               :logged-in? false})
+                        :user))
+
 (defonce app-state
          (atom {:discussion {}
                 :issues     {}
@@ -29,13 +39,6 @@
                              :loading?      false
                              :error?        false
                              :error-msg     nil}
-                :user       {:nickname   "kangaroo"
-                             :token      "razupaltuff"
-                             :avatar     ""
-                             :csrf       nil
-                             :statement  ""
-                             :selection  nil
-                             :logged-in? false}
                 :references {:selected nil}
                 :clipboard  {:selections nil
                              :current    nil}
@@ -68,17 +71,17 @@
 (defn get-nickname
   "Return the user's nickname, with whom she logged in."
   []
-  (get-in @app-state [:user :nickname]))
+  (get-in @user-state [:user :nickname]))
 
 (defn get-avatar
   "Return the URL of the user's avatar."
   []
-  (get-in @app-state [:user :avatar]))
+  (get-in @user-state [:user :avatar]))
 
 (defn get-token
   "Return the user's token for discussion system."
   []
-  (get-in @app-state [:user :token]))
+  (get-in @user-state [:user :token]))
 
 (defn get-issues
   "Returns list of dictionaries with all available issues."
@@ -117,7 +120,7 @@
 (defn logged-in?
   "Return true if user is logged in."
   []
-  (get-in @app-state [:user :logged-in?]))
+  (get-in @user-state [:user :logged-in?]))
 
 
 ;;;; State changing
@@ -131,6 +134,16 @@
   [key col]
   (let [state (get-cursor key)]
     (om/transact! state (fn [] col))))
+
+(defn update-user!
+  "Update key with value for this user."
+  [key value]
+  (swap! user-state assoc key value))
+
+(defn update-user-map!
+  "Take a map and apply all changes at once for the user. Keeps the old values, which are not overwritten by the map."
+  [col]
+  (swap! user-state (fn [old-state new-state] (merge old-state new-state)) col))
 
 
 ;;;; References
@@ -151,12 +164,12 @@
 (defn get-csrf
   "Return the user's csrf token for discussion system."
   []
-  (get-in @app-state [:user :csrf]))
+  (get-in @user-state [:user :csrf]))
 
 (defn set-csrf!
   "Set the newly received CSRF token."
   [csrf]
-  (update-state-item! :user :csrf (fn [_] csrf)))
+  (update-user! :csrf csrf))
 
 (defn loading?
   "Return boolean if app is currently loading content. Provide a boolean to change the app-state."
@@ -175,7 +188,7 @@
     (update-state-map! :items items)
     (update-state-map! :discussion discussion)
     (update-state-map! :issues issues)
-    (update-state-item! :user :avatar (fn [_] (get-in res [:extras :users_avatar])))))
+    (update-user! :avatar (get-in res [:extras :users_avatar]))))
 
 
 ;; Show error messages
@@ -255,12 +268,12 @@
 (defn get-selection
   "Return the stored selection of the user."
   []
-  (get-in @app-state [:user :selection]))
+  (get-in @user-state [:user :selection]))
 
 (defn remove-selection!
   "Remove current selection for a 'clean' statement."
   []
-  (update-state-item! :user :selection (fn [_] nil)))
+  (update-user! :selection nil))
 
 
 ;;;; String Stuff

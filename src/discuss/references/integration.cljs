@@ -25,7 +25,7 @@
     (if (and (pos? (count selection))
              (not= selection (lib/get-selection)))
       (do (tooltip/move-to-selection)
-          (lib/update-state-item! :user :selection (fn [_] selection)))
+          (lib/update-user! :selection selection))
       (tooltip/hide))))
 
 (let [clicks (listen (.getElementById js/document "discuss-text") "click")]
