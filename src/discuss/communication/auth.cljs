@@ -19,7 +19,7 @@
 (defn ajax-login
   "Get cleaned data and send ajax request."
   [nickname password]
-  (let [url (str (:base config/api) "login")]
+  (let [url (:login config/api)]
     (POST (com/make-url url)
           {:body            (lib/clj->json {:nickname nickname
                                             :password password})

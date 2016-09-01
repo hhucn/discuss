@@ -114,13 +114,13 @@
 (defn request-references
   "When this app is loaded, request all available references from the external discussion system."
   []
-  (let [url (str (:base config/api) (get-in config/api [:get :references]))
+  (let [url (get-in config/api [:get :references])
         headers {"X-Host" js/location.host
                  "X-Path" js/location.pathname}]
     (ajax-get url headers references-handler)))
 
 (defn post-statement [statement reference add-type]
-  (let [url (str (:base config/api) (get-in config/api [:add add-type]))
+  (let [url (get-in config/api [:add add-type])
         headers (merge {"Content-Type" "application/json"} (token-header))
         body {:statement     (htmlEscape statement)
               :reference     (htmlEscape reference)

@@ -24,7 +24,7 @@
 (defn query-reference-details
   "Show usages of the provided reference."
   [reference-id]
-  (let [url (str (:base config/api) (get-in config/api [:get :reference-usages]) "/" reference-id)]
+  (let [url (str (get-in config/api [:get :reference-usages]) "/" reference-id)]
     (com/ajax-get url {} reference-usage-handler)))
 
 
