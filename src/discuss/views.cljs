@@ -50,7 +50,11 @@
                (dom/hr nil)
                (dom/div #js {:className "row"}
                         (dom/div #js {:className "col-md-offset-4 col-md-4 text-center"}
-                                 (bs/button-default-sm history/back! (vlib/fa-icon "fa-step-backward") "Zurück"))
+                                 (dom/button #js {:className "btn btn-default btn-sm"
+                                                  :onClick   history/back!
+                                                  :disabled  (> 2 (count (re-seq #"/" (lib/get-last-api))))}
+                                             (vlib/fa-icon "fa-step-backward")
+                                             "Zurück"))
                         (dom/div #js {:className "col-md-4 text-right"}
                                  (bs/button-default-sm com/init! (vlib/fa-icon "fa-refresh") "Neustarten")))))))
 
