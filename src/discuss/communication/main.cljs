@@ -3,6 +3,7 @@
   (:require [ajax.core :refer [GET POST]]
             [goog.string :refer [htmlEscape]]
             [clojure.walk :refer [keywordize-keys]]
+            [clojure.string :refer [join]]
             [discuss.config :as config]
             [discuss.utils.common :as lib]))
 
@@ -188,5 +189,5 @@
 
    ** TODO: Update route **"
   [slug arg-id]
-  (let [url (clojure.string/join "/" ["api" slug "jump" arg-id])]
+  (let [url (join "/" ["api" slug "jump" arg-id])]
     (ajax-get-and-change-view url :discussion)))
