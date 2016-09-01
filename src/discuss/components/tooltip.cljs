@@ -16,15 +16,13 @@
   "Show tooltip by removing a class."
   []
   (let [tooltip (get-tooltip)]
-    ;(utils/remove-class tooltip "hidden")
-    (set! (.. tooltip -style -visibility) "visible")))
+    (lib/add-class tooltip "discuss-tooltip-active")))
 
 (defn hide
   "Hide tooltip by adding a class."
   []
   (let [tooltip (get-tooltip)]
-    ;(utils/add-class tooltip "hidden")
-    (set! (.. tooltip -style -visibility) "hidden")))
+    (lib/remove-class tooltip "discuss-tooltip-active")))
 
 (defn x-position
   "Center tooltip at mouse selection."
