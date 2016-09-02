@@ -4,6 +4,11 @@ before_script:
   - lein deps > /dev/null 2>&1
   - lein --version
 
+test:
+  stage: test
+  script:
+    - lein phantomtest
+
 linting:
   stage: test
   script:
