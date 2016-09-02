@@ -18,20 +18,12 @@
 
 (defn add-item!
   "Store current selection in clipboard."
-<<<<<<< Updated upstream:src/discuss/clipboard.cljs
-  []
-  (let [selections (get-stored-selections)
-        current (lib/get-selection)
-        with-current (distinct (merge selections {:title current}))]
-    (lib/update-state-item! :clipboard :selections (fn [_] with-current))))
-=======
   ([current]
    (let [selections (get-stored-selections)
          current current
          with-current (distinct (merge selections {:title current}))]
      (lib/update-state-item! :clipboard :selections (fn [_] with-current))))
   ([] (add-item! (lib/get-selection))))
->>>>>>> Stashed changes:src/discuss/components/clipboard.cljs
 
 
 ;;;; Drag n Drop stuff
