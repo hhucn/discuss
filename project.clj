@@ -26,7 +26,7 @@
             [lein-kibit "0.1.2"]
             [lein-doo "0.1.6"]]
 
-  :source-paths ["src/discuss"]
+  :source-paths ["src/discuss" "script"]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
