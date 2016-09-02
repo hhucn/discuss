@@ -59,7 +59,7 @@
                                :source-map-timestamp true}}
                {:id           "test"
                 :source-paths ["src/discuss" "src/devcards" "src/test" "script"]
-                :compiler     {:output-to     "resources/public/js/testable.js"
+                :compiler     {:output-to     "resources/public/js/compiled/testable.js"
                                :output-dir    "resources/public/js/compiled/test/out"
                                :main          discuss.tests
                                ;:preloads      [discuss.utils.extensions]
