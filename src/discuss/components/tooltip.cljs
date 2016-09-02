@@ -72,6 +72,6 @@
                          " Speichern")
                (vlib/safe-space) "  " (vlib/safe-space)
                (dom/span #js {:className "pointer"
-                              :onClick   sidebar/show}
+                              :onClick   (fn [] (sidebar/show) (hide))}
                          (vlib/fa-icon "fa-comment")
                          " Zeige Discuss")))))
