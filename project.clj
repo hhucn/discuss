@@ -32,6 +32,8 @@
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
+  :aliases {"phantomtest" ["do" "clean" ["doo" "phantom" "test" "once"]]}
+
   :cljsbuild {:builds
               [{:id           "dev"
                 :source-paths ["src/discuss" "src/test" "script"]
@@ -60,7 +62,7 @@
                 :compiler     {:output-to     "resources/public/js/testable.js"
                                :output-dir    "resources/public/js/compiled/test/out"
                                :main          discuss.tests
-                               :preloads      [discuss.utils.extensions]
+                               ;:preloads      [discuss.utils.extensions]
                                :optimizations :none}}
                {:id           "min"
                 :source-paths ["src"]
