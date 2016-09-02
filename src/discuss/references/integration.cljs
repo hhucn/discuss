@@ -1,35 +1,20 @@
-(ns discuss.integration
+(ns discuss.references.integration
   "Listen for mouse clicks, get references and highlight them in the article."
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [goog.events :as events]
             [om.core :as om]
             [cljs.core.async :refer [put! chan <!]]
-            [clojure.string :refer [split lower-case]]
-            [discuss.extensions]
+            [clojure.string :refer [split lower-case trim]]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
-            [discuss.tooltip :as tooltip]
+            [discuss.components.tooltip :as tooltip]
             [discuss.views :refer [reference-view]]))
-
-;;; Listener for mouse clicks
-(defn- get-mouse-position
-  "Multi browser support for getting the current mouse position. Returns tuple of x and y: [x y]"
-  [e]
-  (if (.-pageX e)
-    [(.-pageX e) (.-pageY e)]
-    [(.-clientX e) (.-clientY e)]
-    ;(let [x (- (+ (.-clientX e) (.. js/document -body -scrollLeft)) (.. js/document -documentElement -scrollLeft))
-    ;      y (- (+ (.-clientY e) (.. js/document -body -scrollTop)) (.. js/document -documentElement -scrollTop))]
-    ;  [x y (.-clientX e) (.-clientY e)])
-    ))
 
 (defn- listen
   "Helper function for mouse-click events."
   [el type]
   (let [out (chan)]
-    (events/listen el type (fn [e]
-                             (put! out e)
-                             (lib/save-mouse-position (get-mouse-position e))))
+    (events/listen el type (fn [e] (put! out e)))
     out))
 
 ;; http://www.thesoftwaresimpleton.com/blog/2014/12/30/core-dot-async-dot-mouse-dot-down/
@@ -62,35 +47,37 @@
           doms))
 
 (defn- get-parent
-  "Assuming that the last occurence of my reference is the closest parent of it,
-   this function will return it."
+  "Assuming that the last occurence of my reference is the closest parent of it, this function will return it."
   [doms ref]
   (last
     (filter
       identity
-      (map #(when (lib/substring? ref (.-innerHTML %)) %) doms))))
+      (map #(when (lib/substring? ref (trim (.-innerHTML %))) %) doms))))
 
 
 ;;; Integrate references and highlight them in the article
 (defn- convert-reference
   "Find parent of reference, split it into parts and wrap the original reference for highlighting and interaction."
   [ref]
-  (let [ref-text (vlib/html->str (:text ref))
+  (let [ref-text (trim (vlib/html->str (:text ref)))
         ref-url (:url ref)
         ref-id (:uid ref)
         doms-raw (.getElementsByTagName js/document "*")
         doms (minify-doms doms-raw)
         parent (get-parent doms ref-text)]
     (when parent
-      (let [dom-parts (split (.-innerHTML parent) (re-pattern ref-text))]
+      (let [dom-parts (split (.-innerHTML parent) (re-pattern ref-text))
+            first-part (first dom-parts)
+            last-part (last dom-parts)]
         (om/root reference-view {:text     ref-text
                                  :url      ref-url
                                  :id       ref-id
-                                 :dom-pre  (first dom-parts)
-                                 :dom-post (last dom-parts)}
+                                 :dom-pre  first-part
+                                 :dom-post (when (and (< 1 (count dom-parts)) (not= last-part ref-text)) last-part)}
                  {:target parent})))))
 
 (defn process-references
   "Receives references through the API and prepares them for the next steps."
   [refs]
-  (doall (map convert-reference refs)))
+  (when refs
+    (doall (map convert-reference refs))))

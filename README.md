@@ -1,10 +1,14 @@
 # discuss-cljs
 
-![Build Status](https://gitlab.cs.uni-duesseldorf.de/project/discuss/badges/branch/build.svg)
+[![build status](https://gitlab.cs.uni-duesseldorf.de/project/discuss/badges/master/build.svg)](https://gitlab.cs.uni-duesseldorf.de/project/discuss/commits/master)
 
 Minimal front-end to include dialogue-based discussion systems into existing websites. Compatible to [D-BAS](https://gitlab.cs.uni-duesseldorf.de/project/dbas).
 
 ## Setup
+
+Pull all bower components with:
+
+    bower install
 
 To get an interactive development environment run:
 

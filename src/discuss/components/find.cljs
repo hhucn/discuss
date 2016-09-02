@@ -1,24 +1,24 @@
-(ns discuss.find
+(ns discuss.components.find
   "Search engine."
-  (:require [clojure.walk :refer [keywordize-keys]]
-            [om.core :as om :include-macros true]
-            [om.dom :as dom :include-macros true]
-            [discuss.communication :as com]
+  (:require [om.core :as om]
+            [om.dom :as dom]
+            [discuss.communication.main :as com]
+            [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
 
-(defn get-search-results
+(defn- get-search-results
   "Extract values and create a list of maps."
   []
   (get-in @lib/app-state [:discussion :search :values]))
 
-(defn statement-handler
+(defn- statement-handler
   "Called when received a response in the search."
   [response]
   (let [res (com/process-response response)]
     (lib/update-state-item! :discussion :search (fn [_] res))))
 
-(defn find-statement
+(defn- find-statement
   "Find related statements to given keywords."
   [keywords issue-id]
   (when-not (= keywords "")
@@ -27,13 +27,13 @@
           request-url (clojure.string/join "/" ["api/get/statements" issue-id mode keywords])]
       (com/ajax-get request-url {} statement-handler))))
 
-(defn update-state-find-statement
+(defn- update-state-find-statement
   "Saves current state into object and sends search request to discussion system."
   [key val issue-id owner]
   (vlib/commit-component-state key val owner)
   (find-statement (.. val -target -value) issue-id))
 
-(defn store-selected-issue
+(defn- store-selected-issue
   "Store issue id from current selection into local state of the component. Preparation to find statements
    for selected issue."
   [e owner]
@@ -43,51 +43,59 @@
 
 
 ;;;; Views
-(defn item-view [data _owner]
+(defn- item-view [data _owner]
   (reify om/IRender
     (render [_]
-      (dom/div #js {:className "bs-callout bs-callout-info"}
-               (dom/span #js {:className "badge pull-right"}
-                         (lib/str->int (:distance data)))
-               (dom/div nil (dom/a #js {:href    "javascript:void(0)"
-                                        :onClick #(com/ajax-get (:url data))}
-                                   (vlib/safe-html (:text data))))))))
+      (let [distance (lib/str->int (:distance data))
+            argument (first (:arguments data))
+            issue (:issue data)]
+        (when (:text argument)
+          (dom/div #js {:className "bs-callout bs-callout-info"}
+                   (dom/span #js {:className "badge pull-right"} distance)
+                   (dom/a #js {:href    "javascript:void(0)"
+                               :onClick #(com/jump-to-argument (:slug issue) (:uid argument))}
+                          (vlib/safe-html (:text argument)))))))))
 
-(defn issue-selector-view
+(defn- issue-selector-view
   "Create option items from each issue."
   [issue _owner]
-  (dom/option #js {:key      (lib/prefix-name (str "discuss-issue-selector-" (:uid issue)))
-                   :onChange #(println (:uid %))}
-              (:title issue)))
+  (let [option-issue (lib/str->int (:uid issue))]
+    (dom/option #js {:value (str (lib/prefix-name "issue-selector-") option-issue)}
+                (:title issue))))
+
+(defn- issue-component
+  "Issue selector as separate component. Returns DOM elements. Stores selection in its owner."
+  [owner]
+  (let [issue-id (:issue-id (om/get-state owner))]
+    (dom/div #js {:className "form-group"}
+             (dom/select #js {:className "form-control"
+                              :onChange  #(store-selected-issue % owner)
+                              :value     (str (lib/prefix-name "issue-selector-") issue-id)}
+                         (map #(issue-selector-view (lib/merge-react-key %) owner) (lib/get-issues))))))
 
 (defn form-view [_ owner]
   (reify
     om/IInitState
     (init-state [_]
       {:search-value ""
-       :issue-id     1})
+       :issue-id     (get-in @lib/app-state [:issues :uid])})
     om/IRenderState
     (render-state [_ {:keys [search-value issue-id]}]
       (dom/div nil
-               (dom/div #js {:className "form-group"}
-                        (dom/select #js {:className "form-control"
-                                         :onChange  #(store-selected-issue % owner)}
-                                    (map #(issue-selector-view % owner) (lib/get-issues))))
+               (issue-component owner)
                (dom/div #js {:className "input-group"}
                         (dom/input #js {:className   "form-control"
-                                        :onChange    #(update-state-find-statement :search-value % issue-id owner)
+                                        :onChange    #(vlib/commit-component-state :search-value % owner)
                                         :value       search-value
                                         :placeholder "Find Statement"})
                         (dom/span #js {:className "input-group-btn"}
-                                  (dom/button #js {:className "btn btn-primary"
-                                                   :type      "button"}
-                                              (vlib/fa-icon "fa-search fa-fw" #(find-statement search-value issue-id)))))))))
+                                  (bs/button-primary #(find-statement search-value issue-id) (vlib/fa-icon "fa-search fa-fw"))))))))
 
 (defn results-view []
   (reify om/IRender
     (render [_]
       (let [results (get-search-results)]
         (dom/div nil
-                 (dom/h6 nil (str "Received " (count results) " entries."))
+                 (dom/h6 nil (str "Received " (count results) " " (lib/singular->plural (count results) "entry") "."))
                  (apply dom/div nil
                         (map #(om/build item-view (lib/merge-react-key %)) results)))))))

@@ -19,33 +19,37 @@
 
 (defn control-buttons [data]
   (dom/div nil
+           (dom/button #js {:className "btn btn-info"
+                            :onClick   discuss.core/main}
+                       (dom/i #js {:className "fa fa-fort-awesome"}))
+           " "
            (dom/button #js {:className "btn btn-default"
-                            :onClick   #(discuss.communication/ajax-get "api/elektroautos")}
+                            :onClick   #(discuss.communication.main/ajax-get "api/elektroautos")}
                        (vlibs/fa-icon "fa-car"))
            " "
            (dom/button #js {:className "btn btn-default"
-                            :onClick   #(discuss.communication/ajax-get "api/cat-or-dog")}
+                            :onClick   #(discuss.communication.main/ajax-get "api/cat-or-dog")}
                        (vlibs/fa-icon "fa-paw"))
            " "
            (dom/button #js {:className "btn btn-default"
-                            :onClick   #(discuss.communication/ajax-get "api/town-has-to-cut-spending")}
+                            :onClick   #(discuss.communication.main/ajax-get "api/town-has-to-cut-spending")}
                        (vlibs/fa-icon "fa-building"))
            " "
            (dom/button #js {:className "btn btn-default"
-                            :onClick   #(discuss.sidebar/toggle)}
+                            :onClick   #(discuss.components.sidebar/toggle)}
                        (vlibs/fa-icon "fa-bars"))
            " "
            (dom/button #js {:className "btn btn-default"
-                            :onClick   #(discuss.communication/ajax-get (get-in data [:debug :last-api]))}
-                       "Resend API Call")
+                            :onClick   #(discuss.communication.main/ajax-get (lib/get-last-api))}
+                       (vlibs/fa-icon "fa-repeat") " Resend last API Call")
            " "
            (dom/button #js {:className "btn btn-default"
-                            :onClick   discuss.auth/one-click-login}
-                       "One-Click Login")
+                            :onClick   #(discuss.references.integration/process-references (lib/get-references))}
+                       (vlibs/fa-icon "fa-file-text") " Request references")
            " "
            (dom/button #js {:className "btn btn-default"
-                            :onClick   #(discuss.communication/request-references)}
-                       "Get references")))
+                            :onClick   discuss.communication.auth/one-click-login}
+                       "One-Click Login")))
 
 (defn debug-view [data _owner]
   (reify om/IRender
@@ -57,29 +61,21 @@
                             :aria-expanded "true"
                             :aria-controls "collapse-debug"}
                        "Debug")
-               (dom/div #js {:className "collapse in well"
+               (dom/div #js {:className "collapse well"
                              :id        "collapse-debug"}
-
                         (dom/h6 nil "API Calls")
-                        (dom/pre nil (get-in data [:debug :last-api]))
-                        (dom/div #js {:className "padding-bottom"}
+                        (dom/pre nil (get-in data [:common :last-api]))
+                        #_(dom/div #js {:className "padding-bottom"}
                                  (dom/div #js {:className "form-group"}
                                           (dom/input #js {:id          (lib/prefix-name "debug-api-call")
                                                           :className   "form-control"
-                                                          :placeholder (get-in data [:debug :last-api])}))
+                                                          :placeholder (:last-api data)}))
                                  (dom/button #js {:className "btn btn-default"
-                                                  :onClick   #(discuss.communication/ajax-get (lib/get-value-by-id "debug-api-call"))}
+                                                  :onClick   #(when-not (empty? (lib/get-value-by-id "debug-api-call")) (discuss.communication.main/ajax-get (lib/get-value-by-id "debug-api-call")))}
                                              "Do the magic"))
-
                         (dom/h6 nil "Control")
-                        (dom/button #js {:className "btn btn-info"
-                                         :onClick   discuss.core/main}
-                                    (dom/i #js {:className "fa fa-fort-awesome"}))
-                        " "
+
                         (control-buttons data)
-                        ;(dom/button #js {:className "btn btn-default"
-                        ;                 :onClick   #(test/run)}
-                        ;            "Run all tests")
 
                         (dom/h6 nil "Token")
                         (dom/pre nil (get-in data [:user :token]))

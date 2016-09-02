@@ -1,5 +1,8 @@
 (ns discuss.devcards.lib
   (:require [cljs.test :refer-macros [testing is are]]
+            [clojure.test.check :as tc]
+            [clojure.test.check.generators :as gen]
+            [clojure.test.check.properties :as prop :include-macros true]
             [devcards.core :as dc :refer-macros [defcard deftest defcard-om]]
             [discuss.utils.common :as lib]))
 
@@ -44,3 +47,13 @@
 
          (testing "Add :react-key to given dictionary with a unique key."
            (is (not (nil? (:react-key (lib/merge-react-key {:foo "bar"})))))))
+
+(deftest string-conversions
+         (testing "Pluralize words if input is greater one."
+           (is (= "entries" (lib/singular->plural 2 "entry")))
+           (is (= "entry" (lib/singular->plural 1 "entry")))
+           (is (= "entries" (lib/singular->plural 0 "entry")))
+           (is (nil? (lib/singular->plural -1 "entry")))
+           (is (= "may-the-force-be-with-you" (lib/singular->plural 1 "may-the-force-be-with-you")))
+           (is (= "may-the-force-be-with-yous" (lib/singular->plural 101000 "may-the-force-be-with-you"))) ;; Strange :D
+           (is (nil? (lib/singular->plural -1 -1)))))

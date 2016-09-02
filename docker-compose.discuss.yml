@@ -1,0 +1,11 @@
+version: '2'
+services:
+  discuss:
+    build: ../discuss/.
+    command: /bin/bash docker_init.sh
+    volumes:
+      - ../discuss/.:/discuss
+    ports:
+      - "8888:8888"
+    links:
+      - web:dbas

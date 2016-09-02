@@ -1,30 +1,35 @@
 (ns ^:figwheel-always discuss.core
+  "Entrypoint to this application. Loads all requirements, and bootstraps the application."
   (:require [om.core :as om :include-macros true]
-            [discuss.auth :as auth]
-            [discuss.communication :as com]
+            [discuss.communication.main :as com]
+            [discuss.components.sidebar :as sidebar]
+            [discuss.components.bubbles]
             [discuss.debug :as debug]
-            [discuss.extensions]
+            [discuss.references.integration]
             [discuss.utils.common :as lib]
-            [discuss.tooltip :as tooltip]
+            [discuss.components.contribute :as contribute]
+            [discuss.components.tooltip :as tooltip]
             [discuss.views :as views]))
 
 (enable-console-print!)
 
 ;; Initialization
 (defn main []
-  (com/init!)
-  (com/request-references)
-  (auth/one-click-login))
+  (com/init-with-references!))
+;(main)
 
 ;; Register
 (om/root views/main-view lib/app-state
          {:target (.getElementById js/document (lib/prefix-name "main"))})
 
-(om/root views/sidebar-view lib/app-state
+(om/root sidebar/view lib/app-state
          {:target (.getElementById js/document (lib/prefix-name "sidebar"))})
 
 (om/root tooltip/view {}
          {:target (.getElementById js/document (lib/prefix-name "tooltip"))})
+
+(om/root contribute/view {}
+         {:target (.getElementById js/document (lib/prefix-name "contribute"))})
 
 (om/root debug/debug-view lib/app-state
          {:target (.getElementById js/document "debug")})

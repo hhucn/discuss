@@ -1,24 +1,28 @@
-(ns discuss.tooltip
+(ns discuss.components.tooltip
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [discuss.clipboard :as clipboard]
+            [goog.dom :as gdom]
+            [discuss.components.clipboard :as clipboard]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
-            [discuss.sidebar :as sidebar]))
+            [discuss.components.sidebar :as sidebar]))
+
+(defn- get-tooltip
+  "Return DOM element of tooltip"
+  []
+  (gdom/getElement (lib/prefix-name "tooltip")))
 
 (defn show
   "Show tooltip by removing a class."
   []
-  (let [tooltip (.getElementById js/document (lib/prefix-name "tooltip"))]
-    ;(utils/remove-class tooltip "hidden")
-    (set! (.. tooltip -style -visibility) "visible")))
+  (let [tooltip (get-tooltip)]
+    (lib/add-class tooltip "discuss-tooltip-active")))
 
 (defn hide
   "Hide tooltip by adding a class."
   []
-  (let [tooltip (.getElementById js/document (lib/prefix-name "tooltip"))]
-    ;(utils/add-class tooltip "hidden")
-    (set! (.. tooltip -style -visibility) "hidden")))
+  (let [tooltip (get-tooltip)]
+    (lib/remove-class tooltip "discuss-tooltip-active")))
 
 (defn x-position
   "Center tooltip at mouse selection."
@@ -48,7 +52,7 @@
 (defn move-to-selection
   "Sets CSS position of tooltip and move it to the mouse selection."
   []
-  (let [tooltip (.getElementById js/document (lib/prefix-name "tooltip"))
+  (let [tooltip (get-tooltip)
         [top left] (calc-position tooltip.offsetWidth tooltip.offsetHeight)]
     (set! (.. tooltip -style -top) (str top "px"))
     (set! (.. tooltip -style -left) (str left "px"))
@@ -56,22 +60,26 @@
 
 
 ;;;; Creating the view
-(defn view [data owner]
+(defn view []
   (reify om/IRender
     (render [_]
       (dom/div nil
                (vlib/logo)
                (vlib/safe-space) " | " (vlib/safe-space)
                (dom/span #js {:className "pointer"
+<<<<<<< HEAD:src/discuss/tooltip.cljs
 <<<<<<< Updated upstream:src/discuss/tooltip.cljs
                               :onClick clipboard/add-selection}
 =======
                               :onClick   (fn [] (clipboard/add-item!) (sidebar/show) (hide))}
 >>>>>>> Stashed changes:src/discuss/components/tooltip.cljs
+=======
+                              :onClick   (fn [] (clipboard/add-selection) (sidebar/show) (hide))}
+>>>>>>> develop:src/discuss/components/tooltip.cljs
                          (vlib/fa-icon "fa-bookmark-o")
-                         " Save")
+                         " Speichern")
                (vlib/safe-space) "  " (vlib/safe-space)
                (dom/span #js {:className "pointer"
-                              :onClick   sidebar/show}
+                              :onClick   (fn [] (sidebar/show) (hide))}
                          (vlib/fa-icon "fa-comment")
-                         " Discuss")))))
+                         " Zeige Discuss")))))

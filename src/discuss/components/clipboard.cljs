@@ -1,9 +1,8 @@
-(ns discuss.clipboard
+(ns discuss.components.clipboard
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [discuss.utils.common :as lib]))
-
-(def counter (atom 0))
+            [discuss.utils.common :as lib]
+            [discuss.utils.views :as vlib]))
 
 (defn get-stored-selections
   "Return all stored selections."
@@ -23,7 +22,7 @@
   []
   (let [selections (get-stored-selections)
         current (lib/get-selection)
-        with-current (distinct (conj selections current))]
+        with-current (distinct (merge selections {:title current}))]
     (lib/update-state-item! :clipboard :selections (fn [_] with-current))))
 =======
   ([current]
@@ -42,12 +41,11 @@
   "Use text from clipboard item as reference for own statement."
   [_ev]
   (let [clipboard-item (get-in @lib/app-state [:clipboard :current])]
-    (lib/remove-class clipboard-item "bs-callout-info")
-    (lib/add-class clipboard-item "bs-callout-success")
+    #_(lib/remove-class clipboard-item "bs-callout-info")
+    #_(lib/add-class clipboard-item "bs-callout-success")
     (lib/update-state-item! :user :selection (fn [_] (.. clipboard-item -innerText)))))
 
 (defn allow-drop [ev]
-  (println "fn: allow-drop")
   (.preventDefault ev))
 
 (defn drag-event [ev]
@@ -56,28 +54,27 @@
 
 
 ;;;; Views
-(defn clipboard-item [data owner]
+(defn clipboard-item [data]
   (reify
     om/IInitState
     (init-state [_]
       {:selected? false})
     om/IRenderState
     (render-state [_ {:keys [selected?]}]
-      (dom/div #js {:id          (swap! counter inc)
-                    :className   "bs-callout bs-callout-info"
+      (dom/div #js {:className   "bs-callout bs-callout-info"
                     :draggable   true
                     :onDragStart drag-event}
-               (dom/div nil data)
+               (dom/div nil (:title data))
                #_(dom/button #js {:className "btn btn-sm btn-default"
-                                :onClick   #(discuss.communication/ajax-get "api/cat-or-dog")
-                                :title     "Select this reference for your statement"}
-                           (vlib/fa-icon "fa-check"))))))
+                                  :onClick   #(discuss.communication.main/ajax-get "api/cat-or-dog")
+                                  :title     "Select this reference for your statement"}
+                             (vlib/fa-icon "fa-check"))))))
 
-(defn view [data owner]
-  (reify om/IRender
-    (render [_]
-      (when (pos? (count (get-stored-selections)))
-        (dom/div nil
-                 (dom/h5 nil "Clipboard")
-                 (apply dom/div nil
-                        (map #(om/build clipboard-item (lib/merge-react-key %)) (get-stored-selections))))))))
+(defn view []
+  (when (pos? (count (get-stored-selections)))
+    (dom/div nil
+             (dom/h5 nil "Clipboard")
+             (dom/p nil "Ziehe diese Referenzen in das Textfeld beim Erzeugen eines neuen Arguments, um die Referenz zu
+                         nutzen.")
+             (apply dom/div nil
+                    (map #(om/build clipboard-item (lib/merge-react-key %)) (get-stored-selections))))))

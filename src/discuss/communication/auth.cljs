@@ -1,27 +1,25 @@
-(ns discuss.auth
+(ns discuss.communication.auth
   (:require [ajax.core :refer [POST]]
             [goog.crypt.base64 :as gtfo]
-            [discuss.communication :as com]
+            [discuss.communication.main :as com]
             [discuss.config :as config]
-            [discuss.debug :as debug]
             [discuss.utils.common :as lib]))
 
 (defn success-login
   "Callback function when login was successful. Set attributes of user."
   [response]
-  (let [nickname (first (clojure.string/split (:token response) "-"))
-        token (:token response)]
+  (let [res (com/process-response response)
+        nickname (first (clojure.string/split (:token res) "-"))
+        token (:token res)]
     (lib/update-state-map! :user {:nickname   nickname
                                   :token      token
                                   :logged-in? true})
-    (lib/change-view! :discussion)
-    (com/init!)))
+    (com/ajax-get-and-change-view (lib/get-last-api) :discussion)))
 
 (defn ajax-login
   "Get cleaned data and send ajax request."
   [nickname password]
-  (let [url (str (:base config/api) "login")]
-    (debug/update-debug :last-api url)
+  (let [url (:login config/api)]
     (POST (com/make-url url)
           {:body            (lib/clj->json {:nickname nickname
                                             :password password})

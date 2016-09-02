@@ -1,13 +1,15 @@
 image: clojure
 
 before_script:
-  - lein clean
-  #- lein kibit
+  - lein deps > /dev/null 2>&1
+  - lein --version
+
+linting:
+  stage: test
+  script:
+    - lein do check, ancient, kibit
+  allow_failure: true
 
 build:
   script:
     - lein cljsbuild once min
-  #artifacts:
-  #  paths:
-  #    - resources/public/js/compiled/discuss.js
-  #  expire_in: 1 week

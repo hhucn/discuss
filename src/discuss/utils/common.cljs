@@ -1,8 +1,11 @@
 (ns discuss.utils.common
   (:require [om.core :as om :include-macros true]
             [clojure.walk :refer [keywordize-keys]]
-            [cljs.pprint :as pp]
+            [cljs.spec :as s]
+            [goog.dom :as gdom]
             [cognitect.transit :as transit]
+            [inflections.core :refer [plural]]
+            [alandipert.storage-atom :refer [local-storage]]
             [discuss.config :as config]))
 
 (defn prefix-name
@@ -13,35 +16,31 @@
 (defonce counter (atom 0))
 
 (defonce app-state
-         (atom {:discussion       {}
-                :issues           {}
-                :items            {}
-                :layout           {:title     "discuss"
-                                   :intro     "The current discussion is about:"
-                                   :template  :discussion
-                                   :add?      false
-                                   :add-text  "Let me enter my reason!"
-                                   :add-type  nil
-                                   :loading?  false
-                                   :reference ""
-                                   :error?    false
-                                   :error-msg nil}
-                :debug            {:last-api ""}
-                :user             {:nickname           "kangaroo"
-                                   :token              "razupaltuff"
-                                   :avatar             ""
-                                   :csrf               nil
-                                   :statement          ""
-                                   :selection          nil
-                                   :logged-in?         false}
-                :reference-usages {:selected-reference nil
-                                   :selected-statement nil
-                                   :supportive? nil}
-                :clipboard        {:selections nil
-                                   :current    nil}
-                :sidebar          {:show? true}
-                :common           {:references       []
-                                   :reference-usages {}}})) ; Put this into :reference-usages
+         (atom {:discussion {}
+                :issues     {}
+                :items      {}
+                :layout     {:title         "discuss"
+                             :intro         "Aktuelle Diskussion:"
+                             :template      :discussion
+                             :next-template :discussion
+                             :add?          false
+                             :add-text      "Ein neues Argument hinzufügen"
+                             :add-type      nil
+                             :loading?      false
+                             :error?        false
+                             :error-msg     nil}
+                :user       {:nickname   "kangaroo"
+                             :token      "razupaltuff"
+                             :avatar     ""
+                             :csrf       nil
+                             :statement  ""
+                             :selection  nil
+                             :logged-in? false}
+                :references {:selected nil}
+                :clipboard  {:selections nil
+                             :current    nil}
+                :sidebar    {:show? true}
+                :common     {:last-api ""}}))
 
 (defn str->int
   "Convert String to Integer."
@@ -54,12 +53,12 @@
 (defn get-unique-key
   "Return unique react-key."
   []
-  (str config/project "-unique-react-key-" (swap! counter inc)))
+  (str (prefix-name "unique-react-key-") (swap! counter inc)))
 
 (defn merge-react-key
   "Get a unique key, create a small map with :react-key property and merge it with the given collection."
   [col]
-  (merge {:react-key (get-unique-key)} col))
+  (merge {:key (get-unique-key)} col))
 
 (defn get-cursor
   "Return a cursor to the corresponding key in the app-state."
@@ -159,37 +158,31 @@
   [csrf]
   (update-state-item! :user :csrf (fn [_] csrf)))
 
-
 (defn loading?
   "Return boolean if app is currently loading content. Provide a boolean to change the app-state."
-  ([]
-   (get-in @app-state [:layout :loading?]))
-  ([bool]
-   (update-state-item! :layout :loading? (fn [_] bool))))
+  ([] (get-in @app-state [:layout :loading?]))
+  ([bool] (update-state-item! :layout :loading? (fn [_] bool))))
 
 (defn update-all-states!
   "Update item list with the data provided by the API.
 
   ** Needs optimizations **"
   [response]
-  (let [res (keywordize-keys response)
+  (let [res (discuss.communication.main/process-response response)
         items (:items res)
         discussion (:discussion res)
         issues (:issues res)]
-    (loading? false)
     (update-state-map! :items items)
     (update-state-map! :discussion discussion)
     (update-state-map! :issues issues)
-    (update-state-item! :user :avatar (fn [_] (get-in res [:extras :users_avatar])))
-    (update-state-item! :debug :response (fn [_] res))))
+    (update-state-item! :user :avatar (fn [_] (get-in res [:extras :users_avatar])))))
+
 
 ;; Show error messages
 (defn error?
   "Return boolean indicating if there are errors or not. Provide a boolean to change the app-state."
-  ([]
-   (get-in @app-state [:layout :error?]))
-  ([bool]
-   (update-state-item! :layout :error? (fn [_] bool))))
+  ([] (get-in @app-state [:layout :error?]))
+  ([bool] (update-state-item! :layout :error? (fn [_] bool))))
 
 (defn error-msg!
   "Set error message."
@@ -233,36 +226,58 @@
   (hide-add-form!)
   (update-state-item! :layout :template (fn [_] view)))
 
+(defn next-view!
+  "Set the next view, which should be loaded after the ajax call has finished."
+  [view]
+  (hide-add-form!)
+  (update-state-item! :layout :next-template (fn [_] view)))
 
-;;;; Mouse interaction
+(defn change-to-next-view!
+  "Set next view to current view."
+  []
+  (change-view! (get-in @app-state [:layout :next-template])))
+
+
+;;;; Last-api
+(defn last-api!
+  "Keep last-api call. Useful to login and then re-request the url to jump to the same position in the discussion,
+   but this time as a logged in user."
+  [url]
+  (update-state-item! :common :last-api (fn [_] url)))
+
+(defn get-last-api
+  "Return url of last API call."
+  []
+  (get-in @app-state [:common :last-api]))
+
+
+;;;; Selections
 (defn get-selection
   "Return the stored selection of the user."
   []
   (get-in @app-state [:user :selection]))
 
-(defn save-mouse-position
-  "Store mouse position."
-  [[x y]]
-  (update-state-item! :user :mouse-x (fn [_] x))
-  (update-state-item! :user :mouse-y (fn [_] y)))
+(defn remove-selection!
+  "Remove current selection for a 'clean' statement."
+  []
+  (update-state-item! :user :selection (fn [_] nil)))
 
 
-;;;; Other
-(defn get-value-by-id
-  "Return value of element matching the id."
-  [id]
-  (let [element (.getElementById js/document (prefix-name id))]
-    (when element (.-value element))))
-
-(defn log
-  "Print argument as JS object to be accessible from the console."
-  [arg]
-  (.log js/console arg))
-
+;;;; String Stuff
 (defn substring?
   "Evaluates if a substring is contained in the given string."
   [sub st]
   (not= (.indexOf st sub) -1))
+
+(defn singular->plural
+  "Return pluralized string of word if number is greater than one."
+  [number word]
+  (when (and (s/valid? string? word)
+             (or (s/valid? pos? number)
+                 (s/valid? zero? number)))
+    (if (not= 1 number)
+      (plural word)
+      word)))
 
 
 ;;;; CSS modifications
@@ -296,3 +311,16 @@
   [response]
   (let [r (transit/reader :json)]
     (keywordize-keys (transit/read r response))))
+
+
+;;;; Other
+(defn get-value-by-id
+  "Return value of element matching the id."
+  [id]
+  (let [element (.getElementById js/document (prefix-name id))]
+    (when element (.-value element))))
+
+(defn log
+  "Print argument as JS object to be accessible from the console."
+  [arg]
+  (.log js/console arg))

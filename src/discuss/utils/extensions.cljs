@@ -1,4 +1,4 @@
-(ns discuss.extensions
+(ns discuss.utils.extensions
   "Extending JS types to be better accessible in CLJS.")
 
 (def types [js/NodeList
@@ -36,4 +36,4 @@
       ([array f start]
        (ci-reduce array f start)))))
 
-(doall (map extend-type-fn types))
+(run! extend-type-fn types)

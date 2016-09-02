@@ -1,12 +1,15 @@
-@import 'bubbles'
-@import 'loading'
-@import 'sidebar'
-@import 'keyframes'
-
 $discuss-width: 250px
 $discuss-height: 400px
 $lightgreen: #e0f2f1
 $fadetime: 1s
+
+@import 'bubbles'
+@import 'contribute'
+@import 'colorcoding'
+@import 'keyframes'
+@import 'loading'
+@import 'sidebar'
+@import 'tooltip'
 
 #discuss
   position: fixed
@@ -24,86 +27,28 @@ $fadetime: 1s
   hr
     margin: 0.5em 0
 
-#discuss-arguments
-  //max-height: discuss-height - 70px
-  //overflow: auto
-  resize: vertical
-
 .arguments
   background-color: $lightgreen
 
-#discuss-control
-  padding-bottom: 0.5em
-
-.highlight-text
-  background-color: $lightgreen
-
-.line-double
-  border-top: 3px double #ddd
 
 // Paddings
 .padding-bottom
   padding-bottom: 1em
 
-// Configure inline dialogue
-#discuss-dialogue-wrapper
-  padding-bottom: 5em
-
-#discuss-dialogue-dropzone
-  .well
-    margin-bottom: 0 !important
-
 
 // Optical text customization
-.discuss-underline
-  background-color: $lightgreen
-  &:hover
-    cursor: pointer
-
 .pointer
   cursor: pointer
 
-#discuss-items-main
-  list-style-type: none
+.btn .fa
+  padding-right: 0.5em
 
 .discuss-control-buttons
   width: 30px
 
-
 // Forms
 .input-group
   padding-bottom: 1em
-
-
-// Tooltip
-#discuss-tooltip
-  position: absolute
-  color: #fff
-  text-align: center
-  padding: 0.25em 1em 0.2em 1em
-  border-radius: 6px
-  background-color: black
-  opacity: 0.8
-  //-webkit-animation: fadein $fadetime
-  //-moz-animation: fadein $fadetime
-  //-o-animation: fadein $fadetime
-  //animation: fadein $fadetime
-  ::after
-    // Create small arrow at bottom of tooltip
-    content: " "
-    position: absolute
-    top: 100%
-    left: 50%
-    margin-left: -5px
-    border: 5px solid transparent
-    border-top-color: black
-
-  .hidden
-    -webkit-animation: fadeout $fadetime
-    -moz-animation: fadeout $fadetime
-    -o-animation: fadeout $fadetime
-    animation: fadeout $fadetime
-
 
 .discuss-avatar-main-wrapper
   max-width: 8em
@@ -112,10 +57,6 @@ $fadetime: 1s
 .discuss-avatar-main
   margin: 0 auto
   max-height: 4em
-
-
-.btn .fa
-  line-height: 1.9em
 
 
 // Callouts as in the bootstrap documentation

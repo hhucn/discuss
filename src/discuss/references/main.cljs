@@ -3,33 +3,29 @@
    or providing a form to use it in the own statement."
   (:require [om.core :as om]
             [om.dom :as dom]
-            [discuss.communication :as com]
+            [discuss.communication.main :as com]
             [discuss.config :as config]
-            [discuss.sidebar :as sidebar]
+            [discuss.components.find :as find]
+            [discuss.components.sidebar :as sidebar]
             [discuss.references.lib :as rlib]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
 
+
+;;;; Handlers & Queries
 (defn reference-usage-handler
   "Handler to process information about the reference. Store results and change view."
   [response]
   (let [res (com/process-response response)]
-    (lib/update-state-item! :common :reference-usages (fn [_] res))
+    (rlib/save-reference-usages! res)
     (lib/change-view! :reference-usages)))
 
 (defn query-reference-details
   "Show usages of the provided reference."
   [reference-id]
-  (let [url (str (:base config/api) (get-in config/api [:get :reference-usages]) "/" reference-id)]
+  (let [url (str (get-in config/api [:get :reference-usages]) "/" reference-id)]
     (com/ajax-get url {} reference-usage-handler)))
-
-(defn save-statement-change-view
-  "Saves the current selected statement (or the only one if there is only one available) and changes to
-   the view to configure own attitude."
-  [statement]
-  (rlib/save-selected-statement! statement)
-  (lib/change-view! :reference-agree-disagree))
 
 
 ;;;; Interaction with integrated references
@@ -37,13 +33,24 @@
   "When clicking on a reference directly in the text, interact with the user to give her the choice of what
    her next steps might be."
   [reference]
-  (lib/change-view! :reference-dialog)
   (rlib/save-selected-reference! reference)
-  #_(sidebar/show)
-  (lib/update-state-item! :layout :reference (fn [_] (:text reference))))
+  (query-reference-details (:id reference))
+  (sidebar/show))
 
 
 ;;;; Views
+(defn create-with-reference-view
+  "View containing information about which reference has been chosen and give possibility to find an access point into
+   the discussion."
+  [data]
+  (reify om/IRender
+    (render [_]
+      (dom/div nil
+               (dom/h5 #js {:className "text-center"} "Finde Aussage in der Diskussion")
+               (om/build rlib/current-reference-component {})
+               (om/build find/form-view {})
+               (om/build find/results-view data)))))
+
 (defn dialog-view
   "Show a dialog to give the user the option to choose, whether she wants to get some information about the statement
    or just wants to construct a new statement."
@@ -51,77 +58,48 @@
   (reify om/IRender
     (render [_]
       (dom/div #js {:className "text-center"}
-               (dom/div #js {:style #js {:paddingBottom "1em"}}
-                        "You have selected: " (:text (rlib/get-selected-reference)))
+               (om/build rlib/current-reference-component {})
                (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
-                                  "Find usages of this reference")
+                                  "Wo wird diese Referenz verwendet?")
                " "
-               (bs/button-primary nil
-                                  "Create new Statement with this reference")))))
+               (dom/button #js {:className "btn btn-primary"
+                                :onClick   #(lib/change-view! :reference-create-with-ref)}
+                           "Springe in die Diskussion")))))
 
-(defn usage-view
-  "List single usages of reference."
-  [data _owner]
+(defn single-reference-usage
+  "Show single usage of a reference."
+  [data]
   (reify om/IRender
     (render [_]
-      (let [reference (:reference data)
-            issue (:issue data)
-            statement (:statement data)
+      (let [{:keys [issue argument author]} data]           ; TODO I think this should be the author of the argument
+        (bs/callout-info
+          (dom/div #js {:className "pull-right"}
+                   (bs/button-default-sm #(com/jump-to-argument (:slug issue) (:uid argument)) (vlib/fa-icon "fa-search")))
+          (dom/a #js {:href    "javascript:void(0)"
+                      :onClick #(com/jump-to-argument (:slug issue) (:uid argument))}
+                 (dom/strong nil (vlib/safe-html (:text argument))))
+          (dom/div nil "Autor: " (:nickname author))
+          (dom/div nil "Diskussionsthema: " (:title issue)))))))
+
+(defn usage-list-view
+  "List single usages of reference."
+  [data]
+  (reify om/IRender
+    (render [_]
+      (let [issue (:issue data)
+            arguments (:arguments data)
             author (:author data)]
-        (dom/div nil
-                 (dom/div #js {:className "bs-callout bs-callout-info"}
-                          (dom/a #js {:href    "javascript:void(0)"
-                                      :onClick #(save-statement-change-view data)}
-                                 (dom/strong nil (:text statement)))
-                          (dom/div nil "Reference: \"" (:title reference) "\"")
-                          (dom/div nil "Issue: " (:title issue))
-                          (dom/div nil "Author: " (:nickname author))))))))
+        (apply dom/div nil
+               (map #(om/build single-reference-usage (lib/merge-react-key {:issue issue, :argument %, :author author})) arguments))))))
 
 (defn usages-view
   "List with details showing the usages of the given reference."
   []
   (reify om/IRender
     (render [_]
-      (let [usages (rlib/get-reference-usages)
-            ref-title (:title (:reference (first usages)))]
+      (let [usages (rlib/get-reference-usages)]
         (dom/div nil
-                 (dom/div #js {:className "text-center"}
-                          "Usages of reference: "
-                          ref-title)
-                 (dom/div nil
-                          (apply dom/div nil
-                                 (map #(om/build usage-view (lib/merge-react-key %)) usages))))))))
-
-(defn get-statement-handler
-  ""
-  [response]
-  (let [res (com/process-response response)]
-    (com/ajax-get-and-change-view (:url res) :default)))
-
-(defn get-statement-url
-  "Given an issue-id, statement-id and attitude, query statement url inside the discussion."
-  [statement agree]
-  (let [issue-id (get-in statement [:issue :uid])
-        statement-id (get-in statement [:statement :uid])
-        pre-url (get-in config/api [:get :statement-url])
-        url (clojure.string/join "/" [pre-url issue-id statement-id agree])]
-    (com/ajax-get url {} get-statement-handler)))
-
-(defn agree-disagree-view
-  "Agree or disagree with the selected reference."
-  []
-  (reify om/IRender
-    (render [_]
-      (let [statement (rlib/get-selected-statement)]
-        (dom/div nil
-                 (dom/div #js {:className "text-center"}
-                          "Do you agree or disagree with this statement?")
-                 (om/build usage-view statement)
-                 (dom/div #js {:className "text-center"}
-                          (bs/button-primary #(get-statement-url statement true)
-                                             (vlib/fa-icon "fa-thumbs-up")
-                                             " Agree")
-                          " "
-                          (bs/button-primary #(get-statement-url statement false)
-                                             (vlib/fa-icon "fa-thumbs-down")
-                                             " Disagree")))))))
+                 (dom/h5 nil "In welchen Argumenten wird dieser Textausschnitt verwendet?")
+                 (om/build rlib/current-reference-component {})
+                 (apply dom/div nil
+                        (map #(om/build usage-list-view (lib/merge-react-key %)) usages)))))))
