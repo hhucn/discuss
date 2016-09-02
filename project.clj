@@ -32,7 +32,7 @@
 
   :cljsbuild {:builds
               [{:id           "dev"
-                :source-paths ["src/discuss"]
+                :source-paths ["src/discuss" "script"]
                 :figwheel     {:on-jsload "discuss.core/on-js-reload"}
                 :compiler     {:main                 discuss.core
                                :preloads             [discuss.utils.extensions devtools.preload]
@@ -43,7 +43,7 @@
                                :compiler-stats       true
                                :source-map-timestamp true}}
                {:id           "devcards"
-                :source-paths ["src/discuss" "src/devcards"]
+                :source-paths ["src/discuss" "src/devcards" "script"]
                 :figwheel     {:devcards true}
                 :compiler     {:main                 discuss.devcards.core
                                :preloads             [discuss.utils.extensions devtools.preload]
@@ -54,7 +54,7 @@
                                :compiler-stats       true
                                :source-map-timestamp true}}
                {:id           "test"
-                :source-paths ["src/discuss" "src/devcards"]
+                :source-paths ["src/discuss" "src/devcards" "script"]
                 :compiler     {:output-to     "resources/public/js/testable.js"
                                :output-dir    "resources/public/js/compiled/test/out"
                                :main          discuss.test.runner
