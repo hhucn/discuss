@@ -63,7 +63,11 @@
                (vlib/logo)
                (vlib/safe-space) " | " (vlib/safe-space)
                (dom/span #js {:className "pointer"
+<<<<<<< Updated upstream:src/discuss/tooltip.cljs
                               :onClick clipboard/add-selection}
+=======
+                              :onClick   (fn [] (clipboard/add-item!) (sidebar/show) (hide))}
+>>>>>>> Stashed changes:src/discuss/components/tooltip.cljs
                          (vlib/fa-icon "fa-bookmark-o")
                          " Save")
                (vlib/safe-space) "  " (vlib/safe-space)

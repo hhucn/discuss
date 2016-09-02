@@ -23,11 +23,16 @@
             [lein-ancient "0.6.10"]
             [lein-kibit "0.1.2"]]
 
+<<<<<<< Updated upstream
   :source-paths ["src/discuss"]
+=======
+  :source-paths ["src/discuss" "src/test" "script"]
+>>>>>>> Stashed changes
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
   :cljsbuild {:builds
+<<<<<<< Updated upstream
               [{:id "dev"
                 :source-paths ["src/discuss"]
                 :figwheel {:on-jsload "discuss.core/on-js-reload"}
@@ -58,6 +63,38 @@
                            :compiler-stats true
                            :source-map-timestamp true}}
                {:id "min"
+=======
+              [{:id           "dev"
+                :source-paths ["src/discuss" "src/test" "script"]
+                :figwheel     {:on-jsload "discuss.core/on-js-reload"}
+                :compiler     {:main                 discuss.core
+                               :preloads             [discuss.utils.extensions devtools.preload]
+                               :asset-path           "js/compiled/out"
+                               :output-to            "resources/public/js/compiled/discuss.js"
+                               :output-dir           "resources/public/js/compiled/out"
+                               :parallel-build       true
+                               :compiler-stats       true
+                               :source-map-timestamp true}}
+               {:id           "devcards"
+                :source-paths ["src/discuss" "src/devcards" "src/test" "script"]
+                :figwheel     {:devcards true}
+                :compiler     {:main                 discuss.devcards.core
+                               :preloads             [discuss.utils.extensions devtools.preload]
+                               :asset-path           "../js/compiled/devcards/out"
+                               :output-to            "resources/public/js/compiled/discuss.js"
+                               :output-dir           "resources/public/js/compiled/devcards/out"
+                               :parallel-build       true
+                               :compiler-stats       true
+                               :source-map-timestamp true}}
+               {:id           "test"
+                :source-paths ["src/discuss" "src/devcards" "src/test" "script"]
+                :compiler     {:output-to     "resources/public/js/testable.js"
+                               :output-dir    "resources/public/js/compiled/test/out"
+                               :main          discuss.test.runner
+                               :preloads      [discuss.utils.extensions]
+                               :optimizations :none}}
+               {:id           "min"
+>>>>>>> Stashed changes
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/discuss.js"
                            :main discuss.core
