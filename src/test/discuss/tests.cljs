@@ -1,7 +1,9 @@
 (ns discuss.tests
-  (:require [cljs.test :refer-macros [is are deftest run-tests]]
-            [doo.runner :refer-macros [doo-tests]]
+  "Test runner to execute all tests."
+  (:require [doo.runner :refer-macros [doo-tests]]
             [discuss.clipboard-test]))
+
+(enable-console-print!)
 
 (doo-tests 'discuss.clipboard-test)
 
