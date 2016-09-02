@@ -67,15 +67,7 @@
                (vlib/logo)
                (vlib/safe-space) " | " (vlib/safe-space)
                (dom/span #js {:className "pointer"
-<<<<<<< HEAD:src/discuss/tooltip.cljs
-<<<<<<< Updated upstream:src/discuss/tooltip.cljs
-                              :onClick clipboard/add-selection}
-=======
                               :onClick   (fn [] (clipboard/add-item!) (sidebar/show) (hide))}
->>>>>>> Stashed changes:src/discuss/components/tooltip.cljs
-=======
-                              :onClick   (fn [] (clipboard/add-selection) (sidebar/show) (hide))}
->>>>>>> develop:src/discuss/components/tooltip.cljs
                          (vlib/fa-icon "fa-bookmark-o")
                          " Speichern")
                (vlib/safe-space) "  " (vlib/safe-space)

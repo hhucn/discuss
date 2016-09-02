@@ -59,7 +59,7 @@
                 :source-paths ["src/discuss" "src/devcards" "src/test" "script"]
                 :compiler     {:output-to     "resources/public/js/testable.js"
                                :output-dir    "resources/public/js/compiled/test/out"
-                               :main          discuss.test.runner
+                               :main          discuss.tests
                                :preloads      [discuss.utils.extensions]
                                :optimizations :none}}
                {:id           "min"
