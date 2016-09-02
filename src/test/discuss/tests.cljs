@@ -6,4 +6,3 @@
 (enable-console-print!)
 
 (doo-tests 'discuss.clipboard-test)
-
