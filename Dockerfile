@@ -1,4 +1,4 @@
-FROM hhucn/docker-discuss
+FROM clojure:alpine
 MAINTAINER Christian Meter <meter@cs.uni-duesseldorf.de>
 
 RUN apk update && apk add --no-cache fontconfig curl && \

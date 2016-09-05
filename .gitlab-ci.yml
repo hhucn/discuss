@@ -1,4 +1,4 @@
-image: clojure
+image: hhucn/docker-discuss
 
 before_script:
   - lein deps > /dev/null 2>&1
