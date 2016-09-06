@@ -9,11 +9,11 @@ test:
   script:
     - lein phantomtest
 
-linting:
-  stage: test
-  script:
-    - lein do check, ancient, kibit
-  allow_failure: true
+#linting:
+#  stage: test
+#  script:
+#    - lein do check, ancient, kibit
+#  allow_failure: true
 
 build:
   script:
