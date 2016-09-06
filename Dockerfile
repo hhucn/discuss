@@ -1,16 +1,14 @@
-FROM clojure:alpine
+FROM clojure
 MAINTAINER Christian Meter <meter@cs.uni-duesseldorf.de>
 
-RUN apk update && apk add --no-cache fontconfig curl && \
-  mkdir -p /usr/share && \
-  cd /usr/share && \
-  curl -L https://github.com/Overbryd/docker-phantomjs-alpine/releases/download/2.11/phantomjs-alpine-x86_64.tar.bz2 | tar xj && \
-  ln -s /usr/share/phantomjs/phantomjs /usr/bin/phantomjs
+# Add sources for nodejs
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
 
-RUN apk add --no-cache ruby nodejs python && \
-    (gem install sass; exit 0) && \
-    npm install bower -g && \
-    mkdir /discuss
+RUN apt-get update -qq && \
+    apt-get install -yqq rubygems nodejs && \
+    yes | gem install sass && \
+    npm install bower phantomjs-prebuilt -g && \
+    mkdir ./discuss
 
 WORKDIR /discuss
 
