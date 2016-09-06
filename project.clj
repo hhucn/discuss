@@ -19,6 +19,7 @@
                  [figwheel-sidecar "0.5.6" :scope "devcards"]
                  [devcards "0.2.1-7" :scope "devcards" :exclusions [org.clojure/clojurescript]]
                  [inflections "0.12.2"]
+                 [lein-doo "0.1.7"]
                  [alandipert/storage-atom "2.0.1"]]         ; local storage support
 
   :plugins [[lein-figwheel "0.5.6"]
@@ -26,7 +27,7 @@
             [lein-codox "0.9.5"]
             [lein-ancient "0.6.10"]
             [lein-kibit "0.1.2"]
-            [lein-doo "0.1.6"]]
+            [lein-doo "0.1.7"]]
 
   :source-paths ["src/discuss" "src/test" "script"]
 
