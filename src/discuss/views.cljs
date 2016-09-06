@@ -10,6 +10,7 @@
             [discuss.history :as history]
             [discuss.references.lib :as rlib]
             [discuss.references.main :as ref]
+            [discuss.translations :refer [translate]]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
@@ -21,7 +22,7 @@
   (let [remaining (- 10 (count statement))]
     (if (pos? remaining)
       (str "Noch " remaining " Zeichen")
-      "Abschicken")))
+      (translate :views :submit))))
 
 
 ;;;; Elements

@@ -28,7 +28,8 @@
                              :add-type      nil
                              :loading?      false
                              :error?        false
-                             :error-msg     nil}
+                             :error-msg     nil
+                             :language      :en}
                 :user       {:nickname   "kangaroo"
                              :token      "razupaltuff"
                              :avatar     ""
@@ -298,6 +299,18 @@
   "Add a specific class to a DOM element."
   [dom-element class]
   (toggle-class dom-element class true))
+
+
+;;;; Language
+(defn get-language
+  "Returns currently selected language."
+  []
+  (get-in @app-state [:layout :language]))
+
+(defn set-language!
+  "Set new language."
+  [lang]
+  (update-state-item! :layout :language (fn [] lang)))
 
 
 ;;;; CLJS to JS
