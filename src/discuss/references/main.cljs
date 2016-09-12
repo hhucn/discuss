@@ -8,6 +8,7 @@
             [discuss.components.find :as find]
             [discuss.components.sidebar :as sidebar]
             [discuss.references.lib :as rlib]
+            [discuss.translations :refer [translate]]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
@@ -60,11 +61,11 @@
       (dom/div #js {:className "text-center"}
                (om/build rlib/current-reference-component {})
                (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
-                                  "Wo wird diese Referenz verwendet?")
+                                  (translate :references :where-used))
                " "
                (dom/button #js {:className "btn btn-primary"
                                 :onClick   #(lib/change-view! :reference-create-with-ref)}
-                           "Springe in die Diskussion")))))
+                           (translate :references :jump))))))
 
 (defn single-reference-usage
   "Show single usage of a reference."
@@ -78,8 +79,8 @@
           (dom/a #js {:href    "javascript:void(0)"
                       :onClick #(com/jump-to-argument (:slug issue) (:uid argument))}
                  (dom/strong nil (vlib/safe-html (:text argument))))
-          (dom/div nil "Autor: " (:nickname author))
-          (dom/div nil "Diskussionsthema: " (:title issue)))))))
+          (dom/div nil (translate :common :author) ": " (:nickname author))
+          (dom/div nil (translate :common :issue) ": " (:title issue)))))))
 
 (defn usage-list-view
   "List single usages of reference."
@@ -99,7 +100,7 @@
     (render [_]
       (let [usages (rlib/get-reference-usages)]
         (dom/div nil
-                 (dom/h5 nil "In welchen Argumenten wird dieser Textausschnitt verwendet?")
+                 (dom/h5 nil (translate :references :usages))
                  (om/build rlib/current-reference-component {})
                  (apply dom/div nil
                         (map #(om/build usage-list-view (lib/merge-react-key %)) usages)))))))
