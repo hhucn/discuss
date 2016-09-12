@@ -21,8 +21,8 @@
   [statement]
   (let [remaining (- 10 (count statement))]
     (if (pos? remaining)
-      (str "Noch " remaining " Zeichen")
-      (translate :views :submit))))
+      (str remaining " " (translate :common :chars-remaining))
+      (translate :discussion :submit))))
 
 
 ;;;; Elements
@@ -55,9 +55,9 @@
                                                   :onClick   history/back!
                                                   :disabled  (> 2 (count (re-seq #"/" (lib/get-last-api))))}
                                              (vlib/fa-icon "fa-step-backward")
-                                             "Zurück"))
+                                             (translate :common :back)))
                         (dom/div #js {:className "col-md-4 text-right"}
-                                 (bs/button-default-sm com/init! (vlib/fa-icon "fa-refresh") "Neustarten")))))))
+                                 (bs/button-default-sm com/init! (vlib/fa-icon "fa-refresh") (translate :discussion :restart))))))))
 
 (defn avatar-view
   "Get the user's avatar and add login + logout functions to it."
@@ -67,7 +67,7 @@
              (dom/div nil
                       (dom/img #js {:src       (lib/get-avatar)
                                     :className "discuss-avatar-main img-responsive img-circle"})
-                      (dom/span nil (str "Hallo " (lib/get-nickname) "!"))
+                      (dom/span nil (str (translate :common :hello) " " (lib/get-nickname) "!"))
                       " "
                       (dom/span #js {:className "pointer"
                                      :onClick   auth/logout}
@@ -127,7 +127,7 @@
                                           :onClick   #(com/item-click (:id item) (:url item))
                                           :value     (:url item)})
                           " "
-                          (vlib/safe-html (string/join " <i>and</i> " (map :title (:premises item))))))))) ; get all premises of item and add an "and" between them
+                          (vlib/safe-html (string/join (str " <i>" (translate :common :and) "</i> ") (map :title (:premises item))))))))) ; get all premises of item and add an "and" between them
 
 (defn items-view
   "Show discussion items."
@@ -192,7 +192,7 @@
                     :onDragOver clipboard/allow-drop
                     :onDrop     clipboard/update-reference-drop}
                (dom/div #js {:className "panel-body"}
-                        (dom/h4 #js {:className "text-center"} (lib/get-add-text))
+                        (dom/h4 #js {:className "text-center"} (translate :discussion :add-argument))
                         (dom/h5 #js {:className "text-center"} (vlib/safe-html (lib/get-add-premise-text)))
                         (om/build error-view {})
                         (dom/div #js {:className "input-group"}
@@ -231,7 +231,7 @@
   (dom/div nil
            (when (seq (:discussion @lib/app-state))
              (dom/div #js {:className "text-center"}
-                      (get-in data [:layout :intro])
+                      (translate :discussion :current)
                       (dom/br nil)
                       (dom/strong nil (get-in data [:issues :info]))))
            (bs/panel-wrapper (view-dispatcher data))
