@@ -20,7 +20,6 @@
                 :issues     {}
                 :items      {}
                 :layout     {:title         "discuss"
-                             :intro         "Aktuelle Diskussion:"
                              :template      :discussion
                              :next-template :discussion
                              :add?          false
@@ -102,11 +101,6 @@
   "Return message bubbles from DBAS."
   []
   (get-in @app-state [:discussion :bubbles]))
-
-(defn get-add-text
-  "Return message for adding new statements."
-  []
-  (get-in @app-state [:layout :add-text]))
 
 (defn get-add-premise-text
   "Return text for adding new premise."
