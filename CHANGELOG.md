@@ -1,6 +1,7 @@
 # Changelog
 
 ## 0.3 [WIP]
+* Add translations
 * Fix double assigned references #10
 * Fix reference storing #8
 * Fix unauthorized users #4 #3
