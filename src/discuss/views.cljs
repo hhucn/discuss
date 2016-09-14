@@ -55,9 +55,9 @@
                                                   :onClick   history/back!
                                                   :disabled  (> 2 (count (re-seq #"/" (lib/get-last-api))))}
                                              (vlib/fa-icon "fa-step-backward")
-                                             (translate :common :back)))
+                                             (translate :common :back :space)))
                         (dom/div #js {:className "col-md-4 text-right"}
-                                 (bs/button-default-sm com/init! (vlib/fa-icon "fa-refresh") (translate :discussion :restart))))))))
+                                 (bs/button-default-sm com/init! (vlib/fa-icon "fa-refresh") (translate :discussion :restart :space))))))))
 
 (defn avatar-view
   "Get the user's avatar and add login + logout functions to it."
@@ -75,7 +75,7 @@
              (dom/div #js {:className "pointer"
                            :onClick   #(lib/change-view! :login)}
                       (vlib/fa-icon "fa-sign-in")
-                      " Login"))))
+                      (translate :common :login :space)))))
 
 (defn login-form [_ owner]
   (reify
