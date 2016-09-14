@@ -3,6 +3,7 @@
             [om.dom :as dom :include-macros true]
             [goog.dom :as gdom]
             [discuss.components.clipboard :as clipboard]
+            [discuss.translations :refer [translate]]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
             [discuss.components.sidebar :as sidebar]))
@@ -69,9 +70,9 @@
                (dom/span #js {:className "pointer"
                               :onClick   (fn [] (clipboard/add-item!) (sidebar/show) (hide))}
                          (vlib/fa-icon "fa-bookmark-o")
-                         " Speichern")
+                         (translate :common :save))
                (vlib/safe-space) "  " (vlib/safe-space)
                (dom/span #js {:className "pointer"
                               :onClick   (fn [] (sidebar/show) (hide))}
                          (vlib/fa-icon "fa-comment")
-                         " Zeige Discuss")))))
+                         (translate :common :show-discuss))))))
