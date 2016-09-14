@@ -6,7 +6,11 @@
                                      :back            "Zurück"
                                      :chars-remaining "Zeichen verbleibend"
                                      :hello           "Hallo"
-                                     :issue           "Diskussionsthema"}
+                                     :issue           "Diskussionsthema"
+                                     :login           "Login"
+                                     :logout          "Logout"
+                                     :save            "Speichern"
+                                     :show-discuss    "Zeige discuss"}
                         :discussion {:add-argument "Ein neues Argument hinzufügen"
                                      :current      "Aktuelle Diskussion"
                                      :restart      "Neustarten"
@@ -19,7 +23,11 @@
                                      :back            "Back"
                                      :chars-remaining "characters remaining"
                                      :hello           "Hello"
-                                     :issue           "Issue"}
+                                     :issue           "Issue"
+                                     :login           "Login"
+                                     :logout          "Logout"
+                                     :save            "Save"
+                                     :show-discuss    "Show discuss"}
                         :discussion {:add-argument "Add a new argument"
                                      :current      "Current Discussion"
                                      :restart      "Restart"
@@ -28,10 +36,18 @@
                                      :usages     "In which arguments has this reference been used?"
                                      :where-used "Where has this reference been used?"}}})
 
+(defn- prepend-translation
+  "Lookup given key and prepend some string to it."
+  [group key prepend]
+  (str prepend (get-in translations [(lib/get-language) group key])))
+
 (defn translate
   "Get translation string according to currently configured language."
-  [group key]
-  (get-in translations [(lib/get-language) group key]))
+  ([group key & options]
+   (let [option (first options)]
+     (cond
+       (= :space option) (prepend-translation group key " ")
+       :default (prepend-translation group key "")))))
 
 (translate :example :foo)
 
