@@ -10,7 +10,8 @@
                                      :login           "Login"
                                      :logout          "Logout"
                                      :save            "Speichern"
-                                     :show-discuss    "Zeige discuss"}
+                                     :show-discuss    "Zeige discuss"
+                                     :start-discussion "Starte die Diskussion"}
                         :discussion {:add-argument "Ein neues Argument hinzufügen"
                                      :current      "Aktuelle Diskussion"
                                      :restart      "Neustarten"
@@ -27,7 +28,8 @@
                                      :login           "Login"
                                      :logout          "Logout"
                                      :save            "Save"
-                                     :show-discuss    "Show discuss"}
+                                     :show-discuss    "Show discuss"
+                                     :start-discussion "Start Discussion"}
                         :discussion {:add-argument "Add a new argument"
                                      :current      "Current Discussion"
                                      :restart      "Restart"
@@ -48,6 +50,3 @@
      (cond
        (= :space option) (prepend-translation group key " ")
        :default (prepend-translation group key "")))))
-
-(translate :example :foo)
-

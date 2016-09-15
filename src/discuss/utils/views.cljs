@@ -18,10 +18,8 @@
 (defn logo
   "If no function is provided, show logo as is. Else bind function to onClick-event and add
    pointer-class."
-  ([]
-   (fa-icon "fa-comments"))
-  ([f]
-   (fa-icon "fa-comments" f)))
+  ([] (fa-icon "fa-comments"))
+  ([f] (fa-icon "fa-comments" f)))
 
 (defn safe-html
   "Creates DOM element with interpreted HTML."

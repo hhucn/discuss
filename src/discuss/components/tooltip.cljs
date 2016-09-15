@@ -70,9 +70,9 @@
                (dom/span #js {:className "pointer"
                               :onClick   (fn [] (clipboard/add-item!) (sidebar/show) (hide))}
                          (vlib/fa-icon "fa-bookmark-o")
-                         (translate :common :save))
+                         (translate :common :save :space))
                (vlib/safe-space) "  " (vlib/safe-space)
                (dom/span #js {:className "pointer"
                               :onClick   (fn [] (sidebar/show) (hide))}
                          (vlib/fa-icon "fa-comment")
-                         (translate :common :show-discuss))))))
+                         (translate :common :show-discuss :space))))))

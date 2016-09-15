@@ -141,7 +141,7 @@
 (defn init-view
   "Show button if discussion has not been initialized yet."
   []
-  (dom/div #js {:className "text-center"} (bs/button-primary com/init-with-references! "Starte Diskussion!")))
+  (dom/div #js {:className "text-center"} (bs/button-primary com/init-with-references! (translate :common :start-discussion))))
 
 (defn discussion-elements [data]
   (if-not (empty? (:discussion @lib/app-state))
@@ -205,10 +205,7 @@
                         (dom/button #js {:className "btn btn-default"
                                          :onClick   #(com/dispatch-add-action statement (lib/get-selection))
                                          :disabled  (> 10 (count statement))}
-                                    (remaining-characters statement))
-                        (dom/hr nil)
-                        (dom/p #js {:className "text-muted text-center"}
-                               "Das Markieren von Textpassagen über mehrere Absätze hinweg und das doppelte markieren schon markierter Textstellen wurde noch nicht implementiert."))))))
+                                    (remaining-characters statement)))))))
 
 (defn- build-with-buttons
   "Add navigation buttons to the provided view."
