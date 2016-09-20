@@ -35,7 +35,7 @@
                 (bs/button-default-sm #(lib/language! (first language)) (second language))
                 " "))))
 
-(defn- languages
+(defn- language-row
   "Language Chooser."
   []
   (option-row (dom/span nil (vlib/fa-icon "fa-flag") (translate :options :lang :space))
@@ -50,4 +50,4 @@
     (render [_]
       (dom/div nil
                (vlib/view-header (translate :options :heading))
-               (languages)))))
+               (language-row)))))
