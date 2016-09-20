@@ -16,8 +16,7 @@
                :onClick   f})))
 
 (defn logo
-  "If no function is provided, show logo as is. Else bind function to onClick-event and add
-   pointer-class."
+  "If no function is provided, show logo as is. Else bind function to onClick-event and add pointer-class."
   ([] (fa-icon "fa-comments"))
   ([f] (fa-icon "fa-comments" f)))
 
@@ -69,3 +68,8 @@
   [class]
   (let [divs (gdom/getElementsByClass (lib/prefix-name class))]
     (doall (map #(set! (.. % -scrollTop) (.. % -scrollHeight)) divs))))
+
+(defn view-header
+  "Function to create a header for the views."
+  [heading]
+  (dom/h4 #js {:className "text-center"} heading))
