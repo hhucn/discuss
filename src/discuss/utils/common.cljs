@@ -295,13 +295,13 @@
 
 
 ;;;; Language
-(defn get-language
+(defn language
   "Returns currently selected language."
   []
   (get-in @app-state [:layout :language]))
 
-(defn set-language!
-  "Set new language."
+(defn language!
+  "Set new language. Should be a keyword."
   [lang]
   (update-state-item! :layout :language (fn [] lang)))
 
