@@ -5,6 +5,7 @@
             [goog.dom :as gdom]
             [discuss.components.bubbles :as bubbles]
             [discuss.components.clipboard :as clipboard]
+            [discuss.components.options :as options]
             [discuss.communication.auth :as auth]
             [discuss.communication.main :as com]
             [discuss.history :as history]
@@ -87,7 +88,7 @@
     (render-state [_ {:keys [nickname password]}]
       (dom/div nil
                (om/build error-view {})
-               (dom/div #js {:className "text-center"} "Login")
+               (vlib/view-header (translate :common :login))
                (dom/div #js {:className "input-group"}
                         (dom/span #js {:className "input-group-addon"}
                                   (vlib/fa-icon "fa-user fa-fw"))
@@ -222,6 +223,7 @@
       (= view :login) (build-with-buttons login-form {})
       (= view :reference-usages) (build-with-buttons ref/usages-view {})
       (= view :reference-create-with-ref) (build-with-buttons ref/create-with-reference-view data)
+      (= view :options) (build-with-buttons options/view data)
       :else (discussion-elements data))))
 
 (defn main-content-view [data]
@@ -234,6 +236,7 @@
            (bs/panel-wrapper (view-dispatcher data))
            (when (get-in data [:layout :add?])
              (om/build add-element {}))
+           (options/entry)
            (clipboard/view)))
 
 (defn main-view [data]

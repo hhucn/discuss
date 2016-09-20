@@ -1,6 +1,13 @@
 (ns discuss.translations
   (:require [discuss.utils.common :as lib]))
 
+(def available [[:de "deutsch"]
+                [:en "english"]])
+#_(def available [{:keyword :de
+                   :string  "deutsch"}
+                  {:keyword :en
+                   :string  "english"}])
+
 (def translations {:de {:common     {:and              "und"
                                      :author           "Autor"
                                      :back             "Zurück"
@@ -17,6 +24,8 @@
                                      :current      "Aktuelle Diskussion"
                                      :restart      "Neustarten"
                                      :submit       "Abschicken"}
+                        :options    {:heading "Einstellungen"
+                                     :lang    "Sprache"}
                         :references {:jump       "Springe in die Diskussion"
                                      :usages     "In welchen Argumenten wird dieser Textausschnitt verwendet?"
                                      :where-used "Wo wird diese Referenz verwendet?"}}
@@ -36,6 +45,8 @@
                                      :current      "Current Discussion"
                                      :restart      "Restart"
                                      :submit       "Submit"}
+                        :options    {:heading "Options"
+                                     :lang    "Language"}
                         :references {:jump       "Jump into the discussion"
                                      :usages     "In which arguments has this reference been used?"
                                      :where-used "Where has this reference been used?"}}})
@@ -43,7 +54,7 @@
 (defn- prepend-translation
   "Lookup given key and prepend some string to it."
   [group key prepend]
-  (str prepend (get-in translations [(lib/get-language) group key])))
+  (str prepend (get-in translations [(lib/language) group key])))
 
 (defn translate
   "Get translation string according to currently configured language."
