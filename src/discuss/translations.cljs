@@ -3,15 +3,12 @@
 
 (def available [[:de "deutsch"]
                 [:en "english"]])
-#_(def available [{:keyword :de
-                   :string  "deutsch"}
-                  {:keyword :en
-                   :string  "english"}])
 
 (def translations {:de {:common     {:and              "und"
                                      :author           "Autor"
                                      :back             "Zurück"
                                      :chars-remaining  "Zeichen verbleibend"
+                                     :close            "Schließen"
                                      :hello            "Hallo"
                                      :issue            "Diskussionsthema"
                                      :login            "Login"
@@ -33,6 +30,7 @@
                                      :author           "Author"
                                      :back             "Back"
                                      :chars-remaining  "characters remaining"
+                                     :close            "Close"
                                      :hello            "Hello"
                                      :issue            "Issue"
                                      :login            "Login"

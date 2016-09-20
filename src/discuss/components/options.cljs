@@ -11,7 +11,9 @@
   []
   (dom/div #js {:className "text-muted pull-right"}
            (dom/div #js {:className "pointer"
-                         :onClick   #(lib/change-view! :options)}
+                         :onClick   (fn []
+                                      (lib/next-view! (lib/current-view))
+                                      (lib/change-view! :options))}
                     (vlib/fa-icon "fa-cog")
                     " "
                     (translate :options :heading))))

@@ -60,6 +60,14 @@
                         (dom/div #js {:className "col-md-4 text-right"}
                                  (bs/button-default-sm com/init! (vlib/fa-icon "fa-refresh") (translate :discussion :restart :space))))))))
 
+(defn close-button []
+  (reify om/IRender
+    (render [_]
+      (dom/div nil
+               (dom/hr nil)
+               (dom/div #js {:className "text-center"}
+                        (bs/button-default-sm lib/change-to-next-view! (vlib/fa-icon "fa-times") (translate :common :close :space)))))))
+
 (defn avatar-view
   "Get the user's avatar and add login + logout functions to it."
   []
@@ -215,15 +223,22 @@
            (om/build view data)
            (om/build control-elements data)))
 
+(defn- build-with-close-button
+  "Add navigation buttons to the provided view."
+  [view data]
+  (dom/div nil
+           (om/build view data)
+           (om/build close-button data)))
+
 (defn view-dispatcher
   "Dispatch current template in main view by the app state."
   [data]
   (let [view (lib/current-view)]
     (cond
-      (= view :login) (build-with-buttons login-form {})
+      (= view :login) (build-with-close-button login-form {})
       (= view :reference-usages) (build-with-buttons ref/usages-view {})
       (= view :reference-create-with-ref) (build-with-buttons ref/create-with-reference-view data)
-      (= view :options) (build-with-buttons options/view data)
+      (= view :options) (build-with-close-button options/view data)
       :else (discussion-elements data))))
 
 (defn main-content-view [data]
