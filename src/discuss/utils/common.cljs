@@ -23,12 +23,11 @@
                              :template      :discussion
                              :next-template :discussion
                              :add?          false
-                             :add-text      "Ein neues Argument hinzufügen"
                              :add-type      nil
                              :loading?      false
                              :error?        false
                              :error-msg     nil
-                             :language      :en}
+                             :language      :de}
                 :user       {:nickname   "kangaroo"
                              :token      "razupaltuff"
                              :avatar     ""
