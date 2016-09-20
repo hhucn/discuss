@@ -22,8 +22,8 @@
   "Generic row for multiple settings."
   [description content]
   (dom/div #js {:className "row"}
-           (dom/div #js {:className "col-md-offset-1 col-md-3"} description)
-           (dom/div #js {:className "col-md-7"} content)))
+           (dom/div #js {:className "col-md-offset-1 col-md-2"} description)
+           (dom/div #js {:className "col-md-8"} content)))
 
 (defn- language
   "Component for a single language selection."
@@ -38,7 +38,7 @@
 (defn- languages
   "Language Chooser."
   []
-  (option-row (translate :options :lang)
+  (option-row (dom/span nil (vlib/fa-icon "fa-flag") (translate :options :lang :space))
               (apply dom/div nil
                      (map #(om/build language %) translations/available))))
 
