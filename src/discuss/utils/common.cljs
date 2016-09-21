@@ -231,6 +231,12 @@
   []
   (change-view! (get-in @app-state [:layout :next-template])))
 
+(defn save-current-and-change-view!
+  "Saves the current view and changes to the next specified view. Used for the 'close' button in some views."
+  [view]
+  (next-view! (current-view))
+  (change-view! view))
+
 
 ;;;; Last-api
 (defn last-api!
