@@ -73,7 +73,9 @@
                               :value     (str (lib/prefix-name "issue-selector-") issue-id)}
                          (map #(issue-selector-view (lib/merge-react-key %) owner) (lib/get-issues))))))
 
-(defn form-view [_ owner]
+(defn form-view
+  "Create form to select issue and place the search."
+  [_ owner]
   (reify
     om/IInitState
     (init-state [_]
@@ -81,17 +83,20 @@
        :issue-id     (get-in @lib/app-state [:issues :uid])})
     om/IRenderState
     (render-state [_ {:keys [search-value issue-id]}]
-      (dom/div nil
-               (issue-component owner)
-               (dom/div #js {:className "input-group"}
-                        (dom/input #js {:className   "form-control"
-                                        :onChange    #(vlib/commit-component-state :search-value % owner)
-                                        :value       search-value
-                                        :placeholder "Find Statement"})
-                        (dom/span #js {:className "input-group-btn"}
-                                  (bs/button-primary #(find-statement search-value issue-id) (vlib/fa-icon "fa-search fa-fw"))))))))
+      (dom/div #js {:className "row"}
+               (dom/div #js {:className "col-md-offset-1 col-md-10"}
+                        (issue-component owner)
+                        (dom/div #js {:className "input-group"}
+                                 (dom/input #js {:className   "form-control"
+                                                 :onChange    #(vlib/commit-component-state :search-value % owner)
+                                                 :value       search-value
+                                                 :placeholder "Find Statement"})
+                                 (dom/span #js {:className "input-group-btn"}
+                                           (bs/button-primary #(find-statement search-value issue-id) (vlib/fa-icon "fa-search fa-fw")))))))))
 
-(defn results-view []
+(defn results-view
+  "Show results from the search."
+  []
   (reify om/IRender
     (render [_]
       (let [results (get-search-results)]
@@ -99,3 +104,13 @@
                  (dom/h6 nil (str "Received " (count results) " " (lib/singular->plural (count results) "entry") "."))
                  (apply dom/div nil
                         (map #(om/build item-view (lib/merge-react-key %)) results)))))))
+
+(defn view
+  "Return combined view with form and results."
+  [data]
+  (reify om/IRender
+    (render [_]
+      (dom/div nil
+               (vlib/view-header "Find Statements")
+               (dom/div nil (om/build form-view data))
+               (dom/div nil (om/build results-view data))))))
