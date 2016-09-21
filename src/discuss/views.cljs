@@ -5,6 +5,7 @@
             [goog.dom :as gdom]
             [discuss.components.bubbles :as bubbles]
             [discuss.components.clipboard :as clipboard]
+            [discuss.components.find :as find]
             [discuss.components.navigation :as nav]
             [discuss.components.options :as options]
             [discuss.communication.auth :as auth]
@@ -229,9 +230,10 @@
   (let [view (lib/current-view)]
     (cond
       (= view :login) (build-with-close-button login-form {})
+      (= view :options) (build-with-close-button options/view data)
       (= view :reference-usages) (build-with-buttons ref/usages-view {})
       (= view :reference-create-with-ref) (build-with-buttons ref/create-with-reference-view data)
-      (= view :options) (build-with-close-button options/view data)
+      (= view :find) (build-with-close-button find/view data)
       :else (discussion-elements data))))
 
 (defn main-content-view [data]

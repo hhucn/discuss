@@ -18,24 +18,29 @@
 
 
 ;;;; Elements
-(def home
+(defn- home
   "Show home screen and initialize discussion."
+  []
   (element "fa-home" [:nav :home] com/init!))
 
-(def find-arg
+(defn- find-arg
   "Open view to find statements inside of the discussion."
-  (element "fa-search" [:nav :find] nil))
+  []
+  (element "fa-search" [:nav :find] #(lib/save-current-and-change-view! :find)))
 
-(def login
+(defn- login
   "Login switch."
+  []
   (element "fa-sign-in" [:common :login] #(lib/save-current-and-change-view! :login) true))
 
-(def logout
+(defn- logout
   "Login switch."
+  []
   (element "fa-sign-out" [:common :logout] auth/logout true))
 
-(def options
+(defn- options
   "Entrypoint to show options. Should be something like a onclick handler."
+  []
   (element "fa-cog" [:options :heading] #(lib/save-current-and-change-view! :options)))
 
 
@@ -47,8 +52,8 @@
     (render [_]
       (dom/div #js {:className "text-muted row"}
                (dom/div #js {:className "col-md-6"}
-                        home
-                        find-arg
-                        options)
+                        (home)
+                        (find-arg)
+                        (options))
                (dom/div #js {:className "col-md-6 text-right"}
-                        (if (lib/logged-in?) logout login))))))
+                        (if (lib/logged-in?) (logout) (login)))))))
