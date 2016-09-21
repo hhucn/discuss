@@ -10,10 +10,13 @@
 (defn- element
   "Create one element for the navigation."
   ([icon [group key] fn left?]
-   (dom/span #js {:className "hover-underline pointer"
+   (dom/span #js {:className "pointer"
                   :onClick   fn
                   :style     (if left? #js {:paddingLeft "1em"} #js {:paddingRight "1em"})}
-             (vlib/fa-icon icon) (translate group key :space)))
+             (vlib/fa-icon icon)
+             " "
+             (dom/span #js {:className "hover-underline"}
+                       (translate group key))))
   ([icon [group key] fn] (element icon [group key] fn false)))
 
 
