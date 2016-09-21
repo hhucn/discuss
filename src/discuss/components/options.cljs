@@ -6,18 +6,6 @@
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
 
-(defn entry
-  "Entrypoint to show options. Should be something like a onclick handler."
-  []
-  (dom/div #js {:className "text-muted pull-right"}
-           (dom/div #js {:className "pointer"
-                         :onClick   (fn []
-                                      (lib/next-view! (lib/current-view))
-                                      (lib/change-view! :options))}
-                    (vlib/fa-icon "fa-cog")
-                    " "
-                    (translate :options :heading))))
-
 (defn- option-row
   "Generic row for multiple settings."
   [description content]
