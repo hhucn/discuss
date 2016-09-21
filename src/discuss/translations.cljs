@@ -21,6 +21,10 @@
                                      :current      "Aktuelle Diskussion"
                                      :restart      "Neustarten"
                                      :submit       "Abschicken"}
+                        :login      {:nickname "Benutzername"
+                                     :password "Passwort"}
+                        :nav        {:home "Start"
+                                     :find "Suchen"}
                         :options    {:heading "Einstellungen"
                                      :lang    "Sprache"}
                         :references {:jump       "Springe in die Diskussion"
@@ -43,6 +47,10 @@
                                      :current      "Current Discussion"
                                      :restart      "Restart"
                                      :submit       "Submit"}
+                        :login      {:nickname "Nickname"
+                                     :password "Password"}
+                        :nav        {:home "Home"
+                                     :find "Find"}
                         :options    {:heading "Options"
                                      :lang    "Language"}
                         :references {:jump       "Jump into the discussion"

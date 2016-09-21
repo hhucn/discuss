@@ -5,6 +5,7 @@
             [goog.dom :as gdom]
             [discuss.components.bubbles :as bubbles]
             [discuss.components.clipboard :as clipboard]
+            [discuss.components.navigation :as nav]
             [discuss.components.options :as options]
             [discuss.communication.auth :as auth]
             [discuss.communication.main :as com]
@@ -103,7 +104,7 @@
                         (dom/input #js {:className   "form-control"
                                         :onChange    #(vlib/commit-component-state :nickname % owner)
                                         :value       nickname
-                                        :placeholder "nickname"}))
+                                        :placeholder (translate :login :nickname)}))
                (dom/div #js {:className "input-group"}
                         (dom/span #js {:className "input-group-addon"}
                                   (vlib/fa-icon "fa-key fa-fw"))
@@ -111,7 +112,7 @@
                                         :onChange    #(vlib/commit-component-state :password % owner)
                                         :value       password
                                         :type        "password"
-                                        :placeholder "password"}))
+                                        :placeholder (translate :login :password)}))
                (dom/button #js {:className "btn btn-default"
                                 :onClick   #(auth/login nickname password)
                                 :disabled  (not (and (pos? (count nickname))
@@ -251,7 +252,7 @@
            (bs/panel-wrapper (view-dispatcher data))
            (when (get-in data [:layout :add?])
              (om/build add-element {}))
-           (options/entry)
+           (dom/div nil (om/build nav/main data))
            (clipboard/view)))
 
 (defn main-view [data]
