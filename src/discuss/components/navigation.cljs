@@ -4,15 +4,20 @@
             [discuss.communication.main :as com]
             [discuss.translations :refer [translate]]
             [discuss.utils.common :as lib]
-            [discuss.utils.views :as vlib]))
+            [discuss.utils.views :as vlib]
+            [discuss.communication.auth :as auth]))
 
 (defn- element
   "Create one element for the navigation."
-  [icon [group key] fn]
-  (dom/span #js {:className "pointer"
-                :onClick   fn}
-           (vlib/fa-icon icon) " " (translate group key)))
+  ([icon [group key] fn left?]
+   (dom/span #js {:className "hover-underline pointer"
+                  :onClick   fn
+                  :style     (if left? #js {:paddingLeft "1em"} #js {:paddingRight "1em"})}
+             (vlib/fa-icon icon) (translate group key :space)))
+  ([icon [group key] fn] (element icon [group key] fn false)))
 
+
+;;;; Elements
 (def home
   "Show home screen and initialize discussion."
   (element "fa-home" [:nav :home] com/init!))
@@ -21,18 +26,29 @@
   "Open view to find statements inside of the discussion."
   (element "fa-search" [:nav :find] nil))
 
+(def login
+  "Login switch."
+  (element "fa-sign-in" [:common :login] #(lib/save-current-and-change-view! :login) true))
+
+(def logout
+  "Login switch."
+  (element "fa-sign-out" [:common :logout] auth/logout true))
+
 (def options
   "Entrypoint to show options. Should be something like a onclick handler."
-  (element "fa-cog" [:options :heading] (fn []
-                                          (lib/next-view! (lib/current-view))
-                                          (lib/change-view! :options))))
+  (element "fa-cog" [:options :heading] #(lib/save-current-and-change-view! :options)))
 
+
+;;;; Main component
 (defn main
   "Create main navigation with general elements."
-  [data owner]
+  []
   (reify om/IRender
     (render [_]
-      (dom/div #js {:className "text-muted"}
-               home
-               find-arg
-               options))))
+      (dom/div #js {:className "text-muted row"}
+               (dom/div #js {:className "col-md-6"}
+                        home
+                        find-arg
+                        options)
+               (dom/div #js {:className "col-md-6 text-right"}
+                        (if (lib/logged-in?) logout login))))))
