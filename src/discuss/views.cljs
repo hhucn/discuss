@@ -73,19 +73,11 @@
   "Get the user's avatar and add login + logout functions to it."
   []
   (dom/div #js {:className "discuss-avatar-main-wrapper pull-right text-muted text-center"}
-           (if (lib/logged-in?)
+           (when (lib/logged-in?)
              (dom/div nil
                       (dom/img #js {:src       (lib/get-avatar)
                                     :className "discuss-avatar-main img-responsive img-circle"})
-                      (dom/span nil (str (translate :common :hello) " " (lib/get-nickname) "!"))
-                      " "
-                      (dom/span #js {:className "pointer"
-                                     :onClick   auth/logout}
-                                (vlib/fa-icon "fa-sign-out")))
-             (dom/div #js {:className "pointer"
-                           :onClick   #(lib/change-view! :login)}
-                      (vlib/fa-icon "fa-sign-in")
-                      (translate :common :login :space)))))
+                      (dom/span nil (str (translate :common :hello) " " (lib/get-nickname) "!"))))))
 
 (defn login-form [_ owner]
   (reify
