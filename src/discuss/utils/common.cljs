@@ -227,9 +227,13 @@
   (update-state-item! :layout :next-template (fn [_] view)))
 
 (defn change-to-next-view!
-  "Set next view to current view."
+  "Set next view to current view. Falls back to default if there is no different next view."
   []
-  (change-view! (get-in @app-state [:layout :next-template])))
+  (let [current-view (current-view)
+        next-view (get-in @app-state [:layout :next-template])]
+    (if (= current-view next-view)
+      (change-view! :default)
+      (change-view! next-view!))))
 
 (defn save-current-and-change-view!
   "Saves the current view and changes to the next specified view. Used for the 'close' button in some views."
