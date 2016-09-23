@@ -59,10 +59,12 @@
 
 (defn- issue-selector-view
   "Create option items from each issue."
-  [issue _owner]
-  (let [option-issue (lib/str->int (:uid issue))]
-    (dom/option #js {:value (str (lib/prefix-name "issue-selector-") option-issue)}
-                (:title issue))))
+  [issue]
+  (reify om/IRender
+    (render [_]
+      (let [option-issue (lib/str->int (:uid issue))]
+        (dom/option #js {:value (str (lib/prefix-name "issue-selector-") option-issue)}
+                    (:title issue))))))
 
 (defn- issue-component
   "Issue selector as separate component. Returns DOM elements. Stores selection in its owner."
@@ -72,7 +74,7 @@
              (dom/select #js {:className "form-control"
                               :onChange  #(store-selected-issue % owner)
                               :value     (str (lib/prefix-name "issue-selector-") issue-id)}
-                         (map #(issue-selector-view (lib/merge-react-key %) owner) (lib/get-issues))))))
+                         (map #(om/build issue-selector-view % {:react-key (lib/get-unique-key)}) (lib/get-issues))))))
 
 (defn form-view
   "Create form to select issue and place the search."

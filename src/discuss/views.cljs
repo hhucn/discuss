@@ -144,7 +144,9 @@
 (defn init-view
   "Show button if discussion has not been initialized yet."
   []
-  (dom/div #js {:className "text-center"} (bs/button-primary com/init-with-references! (translate :common :start-discussion))))
+  (dom/div #js {:key (lib/get-unique-key)
+                :className "text-center"}
+           (bs/button-primary com/init-with-references! (translate :common :start-discussion))))
 
 (defn discussion-elements [data]
   (if-not (empty? (:discussion @lib/app-state))
@@ -210,17 +212,33 @@
                                          :disabled  (> 10 (count statement))}
                                     (remaining-characters statement)))))))
 
+(defn reference-view [reference owner]
+  (reify
+    om/IInitState
+    (init-state [_]
+      {:show false})
+    om/IRenderState
+    (render-state [_ {:keys [show]}]
+      (dom/span nil
+                (dom/span nil (:dom-pre reference))
+                (dom/span #js {:className "arguments pointer"
+                               :onClick   #(ref/click-reference reference)}
+                          (:text reference)
+                          " "
+                          (vlib/logo #(om/set-state! owner :show (vlib/toggle-show show))))
+                (dom/span nil (:dom-post reference))))))
+
 (defn- build-with-buttons
   "Add navigation buttons to the provided view."
   [view data]
-  (dom/div nil
+  (dom/div #js {:key (lib/get-unique-key)}
            (om/build view data)
            (om/build control-elements data)))
 
 (defn- build-with-close-button
   "Add navigation buttons to the provided view."
   [view data]
-  (dom/div nil
+  (dom/div #js {:key (lib/get-unique-key)}
            (om/build view data)
            (om/build close-button data)))
 
@@ -233,21 +251,23 @@
       (= view :options) (build-with-close-button options/view data)
       (= view :reference-usages) (build-with-buttons ref/usages-view {})
       (= view :reference-create-with-ref) (build-with-buttons ref/create-with-reference-view data)
-      (= view :find) (build-with-close-button find/view data)
+      (= view :find) (build-with-close-button find/view {})
       :else (discussion-elements data))))
 
 (defn main-content-view [data]
-  (dom/div nil
-           (when (seq (:discussion @lib/app-state))
-             (dom/div #js {:className "text-center"}
-                      (translate :discussion :current)
-                      (dom/br nil)
-                      (dom/strong nil (get-in data [:issues :info]))))
-           (bs/panel-wrapper (view-dispatcher data))
-           (when (get-in data [:layout :add?])
-             (om/build add-element {}))
-           (dom/div nil (om/build nav/main data))
-           (clipboard/view)))
+  (reify om/IRender
+    (render [_]
+      (dom/div nil
+               (when (seq (:discussion @lib/app-state))
+                 (dom/div #js {:className "text-center"}
+                          (translate :discussion :current)
+                          (dom/br nil)
+                          (dom/strong nil (get-in data [:issues :info]))))
+               (bs/panel-wrapper (view-dispatcher data))
+               (when (get-in data [:layout :add?])
+                 (om/build add-element {}))
+               (dom/div nil (om/build nav/main data))
+               (clipboard/view)))))
 
 (defn main-view [data]
   (reify om/IRender
@@ -265,20 +285,4 @@
                                  (get-in data [:layout :title])))
                (dom/div #js {:className "collapse in"
                              :id        (lib/prefix-name "dialogue-collapse")}
-                        (main-content-view data))))))
-
-(defn reference-view [reference owner]
-  (reify
-    om/IInitState
-    (init-state [_]
-      {:show false})
-    om/IRenderState
-    (render-state [_ {:keys [show]}]
-      (dom/span nil
-                (dom/span nil (:dom-pre reference))
-                (dom/span #js {:className "arguments pointer"
-                               :onClick   #(ref/click-reference reference)}
-                          (:text reference)
-                          " "
-                          (vlib/logo #(om/set-state! owner :show (vlib/toggle-show show))))
-                (dom/span nil (:dom-post reference))))))
+                        (om/build main-content-view data))))))
