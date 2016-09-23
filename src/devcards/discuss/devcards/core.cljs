@@ -28,12 +28,7 @@
 
 (defcard-om find-form
             "*Select issue and search for statements.*"
-            find/form-view
-            lib/app-state)
-
-(defcard-om find-statement
-            "*Query database to find statements.*"
-            find/results-view
+            find/view
             lib/app-state)
 
 (defcard-om click-on-reference
