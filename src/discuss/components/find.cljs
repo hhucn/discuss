@@ -74,7 +74,7 @@
              (dom/select #js {:className "form-control"
                               :onChange  #(store-selected-issue % owner)
                               :value     (str (lib/prefix-name "issue-selector-") issue-id)}
-                         (map #(om/build issue-selector-view % {:react-key (lib/get-unique-key)}) (lib/get-issues))))))
+                         (map #(om/build issue-selector-view % (lib/unique-react-key-dict)) (lib/get-issues))))))
 
 (defn form-view
   "Create form to select issue and place the search."

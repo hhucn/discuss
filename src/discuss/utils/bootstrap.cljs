@@ -22,14 +22,3 @@
 (defn button-default-sm
   "Create dom element of a bootstrap default small button."
   [fn & strs] (button fn "btn-default btn-sm" strs))
-
-
-;;;; Wrapper
-(defn panel-wrapper
-  "Wrap content into bootstrap's panel class."
-  [& content]
-  (dom/div #js {:className "panel panel-default"
-                :key       (lib/get-unique-key)}
-           (dom/div #js {:className "panel-body"
-                         :key       (lib/get-unique-key)}
-                    content)))

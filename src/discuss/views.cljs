@@ -245,14 +245,18 @@
 (defn view-dispatcher
   "Dispatch current template in main view by the app state."
   [data]
-  (let [view (lib/current-view)]
-    (cond
-      (= view :login) (build-with-close-button login-form {})
-      (= view :options) (build-with-close-button options/view data)
-      (= view :reference-usages) (build-with-buttons ref/usages-view {})
-      (= view :reference-create-with-ref) (build-with-buttons ref/create-with-reference-view data)
-      (= view :find) (build-with-close-button find/view {})
-      :else (discussion-elements data))))
+  (reify om/IRender
+    (render [_]
+      (let [view (lib/current-view)]
+        (dom/div #js {:className "panel panel-default"}
+                 (dom/div #js {:className "panel-body"}
+                          (cond
+                            (= view :login) (build-with-close-button login-form {})
+                            (= view :options) (build-with-close-button options/view data)
+                            (= view :reference-usages) (build-with-buttons ref/usages-view {})
+                            (= view :reference-create-with-ref) (build-with-buttons ref/create-with-reference-view data)
+                            (= view :find) (build-with-close-button find/view {})
+                            :else (discussion-elements data))))))))
 
 (defn main-content-view [data]
   (reify om/IRender
@@ -263,11 +267,11 @@
                           (translate :discussion :current)
                           (dom/br nil)
                           (dom/strong nil (get-in data [:issues :info]))))
-               (bs/panel-wrapper (view-dispatcher data))
+               (om/build view-dispatcher data)
                (when (get-in data [:layout :add?])
                  (om/build add-element {}))
-               (dom/div nil (om/build nav/main data))
-               (clipboard/view)))))
+               (om/build nav/main data)
+               (om/build clipboard/view {})))))
 
 (defn main-view [data]
   (reify om/IRender

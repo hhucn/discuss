@@ -63,10 +63,12 @@
                              (vlib/fa-icon "fa-check"))))))
 
 (defn view []
-  (when (pos? (count (get-stored-selections)))
-    (dom/div nil
-             (dom/h5 nil "Clipboard")
-             (dom/p nil "Ziehe diese Referenzen in das Textfeld beim Erzeugen eines neuen Arguments, um die Referenz zu
+  (reify om/IRender
+    (render [_]
+      (when (pos? (count (get-stored-selections)))
+        (dom/div nil
+                 (dom/h5 nil "Clipboard")
+                 (dom/p nil "Ziehe diese Referenzen in das Textfeld beim Erzeugen eines neuen Arguments, um die Referenz zu
                          nutzen.")
-             (apply dom/div nil
-                    (map #(om/build clipboard-item (lib/merge-react-key %)) (get-stored-selections))))))
+                 (apply dom/div nil
+                        (map #(om/build clipboard-item (lib/merge-react-key %)) (get-stored-selections))))))))

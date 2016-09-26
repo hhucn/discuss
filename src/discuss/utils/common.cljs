@@ -48,17 +48,28 @@
     (when-not (js/isNaN converted)
       converted)))
 
-;; Get
+
+;;;; React Key Generation
 (defn get-unique-key
   "Return unique react-key."
   []
   (str (prefix-name "unique-react-key-") (swap! counter inc)))
 
+(defn unique-key-dict
+  "Generate a dictionary with unique key."
+  [] {:key (get-unique-key)})
+
+(defn unique-react-key-dict
+  "Generate a dictionary with unique react-key."
+  [] {:react-key (get-unique-key)})
+
 (defn merge-react-key
   "Get a unique key, create a small map with :react-key property and merge it with the given collection."
   [col]
-  (merge {:key (get-unique-key)} col))
+  (merge (unique-key-dict) col))
 
+
+;;;; Getter
 (defn get-cursor
   "Return a cursor to the corresponding key in the app-state."
   [key]
