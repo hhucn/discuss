@@ -1,4 +1,4 @@
-(ns ^:figwheel-always discuss.core
+(ns discuss.core
   "Entrypoint to this application. Loads all requirements, and bootstraps the application."
   (:require [om.core :as om :include-macros true]
             [discuss.communication.main :as com]

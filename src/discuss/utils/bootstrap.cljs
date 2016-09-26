@@ -33,10 +33,3 @@
            (dom/div #js {:className "panel-body"
                          :key       (lib/get-unique-key)}
                     content)))
-
-(defn callout-info
-  "Wrap content into bootstrap callout."
-  [& content]
-  (dom/div #js {:className "bs-callout bs-callout-info"
-                :key       (lib/get-unique-key)}
-           content))
