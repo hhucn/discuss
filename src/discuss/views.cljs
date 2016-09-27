@@ -259,7 +259,7 @@
                (when (get-in data [:layout :add?])
                  (om/build add-element {}))
                (om/build nav/main data)
-               (om/build clipboard/view {})))))
+               (om/build clipboard/view data)))))
 
 (defn main-view [data]
   (reify om/IRender
