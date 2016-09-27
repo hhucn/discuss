@@ -152,8 +152,7 @@
   (if-not (empty? (:discussion @lib/app-state))
     (dom/div #js {:key (lib/get-unique-key)}
              (om/build bubbles/view data)
-             (om/build items-view data)
-             (om/build control-elements data))
+             (om/build items-view data))
     (init-view)))
 
 (defn- remove-selection-then-reference!
@@ -228,22 +227,8 @@
                           (vlib/logo #(om/set-state! owner :show (vlib/toggle-show show))))
                 (dom/span nil (:dom-post reference))))))
 
-(defn- build-with-buttons
-  "Add navigation buttons to the provided view."
-  [view data]
-  (dom/div #js {:key (lib/get-unique-key)}
-           (om/build view data)
-           (om/build control-elements data)))
-
-(defn- build-with-close-button
-  "Add navigation buttons to the provided view."
-  [view data]
-  (dom/div #js {:key (lib/get-unique-key)}
-           (om/build view data)
-           (om/build close-button data)))
-
 (defn view-dispatcher
-  "Dispatch current template in main view by the app state."
+  "Dispatch current template in main view by the app state. "
   [data]
   (reify om/IRender
     (render [_]
@@ -251,12 +236,15 @@
         (dom/div #js {:className "panel panel-default"}
                  (dom/div #js {:className "panel-body"}
                           (cond
-                            (= view :login) (build-with-close-button login-form {})
-                            (= view :options) (build-with-close-button options/view data)
-                            (= view :reference-usages) (build-with-buttons ref/usages-view {})
-                            (= view :reference-create-with-ref) (build-with-buttons ref/create-with-reference-view data)
-                            (= view :find) (build-with-close-button find/view {})
-                            :else (discussion-elements data))))))))
+                            (= view :login) (om/build login-form {})
+                            (= view :options) (om/build options/view data)
+                            (= view :reference-usages) (om/build ref/usages-view {})
+                            (= view :reference-create-with-ref) (om/build ref/create-with-reference-view data)
+                            (= view :find) (om/build find/view data)
+                            :else (discussion-elements data))
+                          (if (or (= view :login) (= view :options) (= view :find))
+                            (om/build close-button data)
+                            (om/build control-elements data))))))))
 
 (defn main-content-view [data]
   (reify om/IRender

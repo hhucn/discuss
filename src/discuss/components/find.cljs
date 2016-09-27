@@ -91,7 +91,7 @@
                         (issue-component owner)
                         (dom/div #js {:className "input-group"}
                                  (dom/input #js {:className   "form-control"
-                                                 :onChange    #(vlib/commit-component-state :search-value % owner)
+                                                 :onChange    #(update-state-find-statement :search-value % issue-id owner)
                                                  :value       search-value
                                                  :placeholder "Find Statement"})
                                  (dom/span #js {:className "input-group-btn"}
@@ -106,7 +106,7 @@
         (dom/div nil
                  (dom/h6 nil (str "Received " (count results) " " (lib/singular->plural (count results) "entry") "."))
                  (apply dom/div nil
-                        (map #(om/build item-view (lib/merge-react-key %)) results)))))))
+                        (map #(om/build item-view % (lib/unique-key-dict)) results)))))))
 
 (defn view
   "Return combined view with form and results."
@@ -115,5 +115,5 @@
     (render [_]
       (dom/div nil
                (vlib/view-header "Find Statements")
-               (dom/div nil (om/build form-view data))
-               (dom/div nil (om/build results-view data))))))
+               (om/build form-view {})
+               (om/build results-view data)))))
