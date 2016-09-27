@@ -299,10 +299,8 @@
 (defn toggle-class
   "Toggle CSS class of provided DOM element. A third paramenter as boolean can be provided to
    force removing or adding the class."
-  ([dom-element class]
-   (.classList/toggle dom-element class))
-  ([dom-element class bool]
-   (.classList/toggle dom-element class bool)))
+  ([dom-element class] (.classList/toggle dom-element class))
+  ([dom-element class bool] (.classList/toggle dom-element class bool)))
 
 (defn remove-class
   "Remove a specific class of a DOM element."
