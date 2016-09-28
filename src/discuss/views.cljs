@@ -125,8 +125,8 @@
                (dom/label #js {}
                           (dom/input #js {:id        (lib/prefix-name (str "item-list-radio-" (:id item)))
                                           :type      "radio"
-                                          :className (lib/prefix-name "dialogue-items")
-                                          :name      (lib/prefix-name "dialogue-items-group")
+                                          :className (lib/prefix-name "dialog-items")
+                                          :name      (lib/prefix-name "dialog-items-group")
                                           :onClick   #(com/item-click (:id item) (:url item))
                                           :value     (:url item)})
                           " "
@@ -264,17 +264,17 @@
 (defn main-view [data]
   (reify om/IRender
     (render [_]
-      (dom/div #js {:id (lib/prefix-name "dialogue-main")}
+      (dom/div #js {:id (lib/prefix-name "dialog-main")}
                (avatar-view)
                (dom/h4 nil
                        (vlib/logo)
                        " "
                        (dom/span #js {:className     "pointer"
                                       :data-toggle   "collapse"
-                                      :data-target   (str "#" (lib/prefix-name "dialogue-collapse"))
+                                      :data-target   (str "#" (lib/prefix-name "dialog-collapse"))
                                       :aria-expanded "true"
-                                      :aria-controls (lib/prefix-name "dialogue-collapse")}
+                                      :aria-controls (lib/prefix-name "dialog-collapse")}
                                  (get-in data [:layout :title])))
                (dom/div #js {:className "collapse in"
-                             :id        (lib/prefix-name "dialogue-collapse")}
+                             :id        (lib/prefix-name "dialog-collapse")}
                         (om/build main-content-view data))))))

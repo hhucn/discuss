@@ -24,13 +24,13 @@
 (defn show
   "Show sidebar."
   []
-  (lib/remove-class (gdom/getElement (lib/prefix-name "dialogue-collapse")) "in")
+  (lib/remove-class (gdom/getElement (lib/prefix-name "dialog-collapse")) "in")
   (toggle true))
 
 (defn hide
   "Hide sidebar."
   []
-  (lib/add-class (gdom/getElement (lib/prefix-name "dialogue-collapse")) "in")
+  (lib/add-class (gdom/getElement (lib/prefix-name "dialog-collapse")) "in")
   (toggle false))
 
 

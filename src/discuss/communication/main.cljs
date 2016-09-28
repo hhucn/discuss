@@ -49,7 +49,7 @@
 
 ;;;; Calls
 (defn ajax-get
-  "Make ajax call to dialogue based argumentation system."
+  "Make ajax call to dialog based argumentation system."
   ([url headers handler]
    (lib/no-error!)
    (lib/last-api! url)
