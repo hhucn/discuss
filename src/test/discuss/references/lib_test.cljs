@@ -12,6 +12,6 @@
   (testing "Given a reference, only highlight it in text if this has not been done yet."
     (let [highlighted (rlib/get-highlighted)
           input "\"Wenn man ein 0:2 kassiert, dann ist ein 1:1 nicht mehr möglich\" - Satz des Pythagoras"]
-      (is (s/def highlighted set?))
+      (is (set? highlighted))
       (rlib/highlight! input)
       (is (rlib/highlighted? input)))))
