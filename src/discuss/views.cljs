@@ -242,7 +242,7 @@
                             (= view :reference-create-with-ref) (om/build ref/create-with-reference-view data)
                             (= view :find) (om/build find/view data)
                             :else (discussion-elements data))
-                          (if (or (= view :login) (= view :options) (= view :find))
+                          (if (or (= view :login) (= view :options) (= view :find) (= view :reference-usages))
                             (om/build close-button data)
                             (om/build control-elements data))))))))
 
