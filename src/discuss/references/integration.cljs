@@ -8,6 +8,7 @@
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
             [discuss.components.tooltip :as tooltip]
+            [discuss.references.lib :as rlib]
             [discuss.views :refer [reference-view]]))
 
 (defn- listen
@@ -65,7 +66,7 @@
         doms-raw (.getElementsByTagName js/document "*")
         doms (minify-doms doms-raw)
         parent (get-parent doms ref-text)]
-    (when parent
+    (when (and parent (not (rlib/highlighted? ref-text)))
       (let [dom-parts (split (.-innerHTML parent) (re-pattern ref-text))
             first-part (first dom-parts)
             last-part (last dom-parts)]
@@ -74,11 +75,11 @@
                                  :id       ref-id
                                  :dom-pre  first-part
                                  :dom-post (when (and (< 1 (count dom-parts)) (not= last-part ref-text)) last-part)}
-                 {:target parent})))))
+                 {:target parent})
+        (rlib/highlight! ref-text)))))
 
 (defn process-references
   "Receives references through the API and prepares them for the next steps."
   [refs]
   (when refs
-    (lib/log refs)
     (doall (map convert-reference refs))))
