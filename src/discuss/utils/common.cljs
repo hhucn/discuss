@@ -35,7 +35,8 @@
                              :statement  ""
                              :selection  nil
                              :logged-in? false}
-                :references {:selected nil}
+                :references {:selected nil
+                             :highlighted #{}}
                 :clipboard  {:selections nil
                              :current    nil}
                 :sidebar    {:show? true}
@@ -57,11 +58,13 @@
 
 (defn unique-key-dict
   "Generate a dictionary with unique key."
-  [] {:key (get-unique-key)})
+  []
+  {:key (get-unique-key)})
 
 (defn unique-react-key-dict
   "Generate a dictionary with unique react-key."
-  [] {:react-key (get-unique-key)})
+  []
+  {:react-key (get-unique-key)})
 
 (defn merge-react-key
   "Get a unique key, create a small map with :react-key property and merge it with the given collection."
