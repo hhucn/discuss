@@ -33,7 +33,7 @@
   (testing "Generate unique react-key"
     (is (not= (lib/get-unique-key) (lib/get-unique-key))))
 
-  (testing "Add :react-key to given dictionary with a unique key."
+  (testing "Add :key to given dictionary with a unique key."
     (is (not (nil? (:key (lib/merge-react-key {:foo "bar"})))))))
 
 (deftest string-conversions
