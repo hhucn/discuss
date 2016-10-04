@@ -74,13 +74,13 @@
     (render [_]
       (let [{:keys [issue argument author]} data]           ; TODO I think this should be the author of the argument
         (dom/div #js {:className "bs-callout bs-callout-info"}
-          (dom/div #js {:className "pull-right"}
-                   (bs/button-default-sm #(com/jump-to-argument (:slug issue) (:uid argument)) (vlib/fa-icon "fa-search")))
-          (dom/a #js {:href    "javascript:void(0)"
-                      :onClick #(com/jump-to-argument (:slug issue) (:uid argument))}
-                 (dom/strong nil (vlib/safe-html (:text argument))))
-          (dom/div nil (translate :common :author) ": " (:nickname author))
-          (dom/div nil (translate :common :issue) ": " (:title issue)))))))
+                 (dom/div #js {:className "pull-right"}
+                          (bs/button-default-sm #(com/jump-to-argument (:slug issue) (:uid argument)) (vlib/fa-icon "fa-search")))
+                 (dom/a #js {:href    "javascript:void(0)"
+                             :onClick #(com/jump-to-argument (:slug issue) (:uid argument))}
+                        (dom/strong nil (vlib/safe-html (:text argument))))
+                 (dom/div nil (translate :common :author) ": " (:nickname author))
+                 (dom/div nil (translate :common :issue) ": " (:title issue)))))))
 
 (defn usage-list-view
   "List single usages of reference."
@@ -91,7 +91,7 @@
             arguments (:arguments data)
             author (:author data)]
         (apply dom/div nil
-               (map #(om/build single-reference-usage {:issue issue, :argument %, :author author} {:key (lib/get-unique-key)}) arguments))))))
+               (map #(om/build single-reference-usage {:issue issue, :argument %, :author author} (lib/unique-key-dict)) arguments))))))
 
 (defn usages-view
   "List with details showing the usages of the given reference."
@@ -103,4 +103,4 @@
                  (dom/h5 nil (translate :references :usages))
                  (om/build rlib/current-reference-component {})
                  (apply dom/div nil
-                        (map #(om/build usage-list-view (lib/merge-react-key %)) usages)))))))
+                        (map #(om/build usage-list-view % (lib/unique-key-dict)) usages)))))))
