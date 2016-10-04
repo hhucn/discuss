@@ -80,4 +80,5 @@
   "Receives references through the API and prepares them for the next steps."
   [refs]
   (when refs
+    (lib/log refs)
     (doall (map convert-reference refs))))

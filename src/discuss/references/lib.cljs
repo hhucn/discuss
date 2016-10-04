@@ -29,6 +29,23 @@
   (get-in @lib/app-state [:references :usages]))
 
 
+;;;; Maintain list of already seen references
+(defn get-highlighted
+  "Return collection with the already highlighted references."
+  []
+  (get-in @lib/app-state [:references :highlighted]))
+
+(defn highlighted?
+  "See if ref is already in the list of the already highlighted references."
+  [ref]
+  (contains? (get-highlighted) ref))
+
+(defn highlight!
+  "Add ref to collection of already highlighted references."
+  [ref]
+  (lib/update-state-item! :references :highlighted (fn [_] (conj (get-highlighted) ref))))
+
+
 ;;;; View Components
 (defn- current-reference-component
   "Return DOM element showing which reference is currently selected."
