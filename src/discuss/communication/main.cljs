@@ -74,16 +74,8 @@
         url (:url res)]
     (lib/hide-add-form!)
     (lib/update-state-item! :layout :add-type (fn [_] nil))
+    (discuss.references.integration/request-references)
     (ajax-get url)))
-
-(defn references-handler
-  "Called when received a response on the reference-query."
-  [response]
-  (let [res (process-response response)
-        refs (:references res)]
-    (lib/update-state-item! :common :references (fn [_] refs))
-    (discuss.references.integration/process-references refs)))
-
 
 ;;;; Discussion-related functions
 (defn get-conclusion-id
@@ -110,14 +102,6 @@
    (post-json url body handler {"Content-Type" "application/json"}))
   ([url body]
    (post-json url body process-url-handler {"Content-Type" "application/json"})))
-
-(defn request-references
-  "When this app is loaded, request all available references from the external discussion system."
-  []
-  (let [url (get-in config/api [:get :references])
-        headers {"X-Host" js/location.host
-                 "X-Path" js/location.pathname}]
-    (ajax-get url headers references-handler)))
 
 (defn post-statement [statement reference add-type]
   (let [url (get-in config/api [:add add-type])
@@ -176,7 +160,7 @@
 (defn init-with-references!
   "Load discussion and initially get reference to include them in the discussion."
   []
-  (request-references)
+  (discuss.references.integration/request-references)
   (init!))
 
 (defn resend-last-api

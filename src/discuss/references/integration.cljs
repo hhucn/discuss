@@ -9,7 +9,9 @@
             [discuss.utils.views :as vlib]
             [discuss.components.tooltip :as tooltip]
             [discuss.references.lib :as rlib]
-            [discuss.views :refer [reference-view]]))
+            [discuss.views :refer [reference-view]]
+            [discuss.config :as config]
+            [discuss.communication.main :as com]))
 
 (defn- listen
   "Helper function for mouse-click events."
@@ -83,3 +85,19 @@
   [refs]
   (when refs
     (doall (map convert-reference refs))))
+
+(defn- references-handler
+  "Called when received a response on the reference-query."
+  [response]
+  (let [res (com/process-response response)
+        refs (:references res)]
+    (lib/update-state-item! :common :references (fn [_] refs))
+    (discuss.references.integration/process-references refs)))
+
+(defn request-references
+  "When this app is loaded, request all available references from the external discussion system."
+  []
+  (let [url (get-in config/api [:get :references])
+        headers {"X-Host" js/location.host
+                 "X-Path" js/location.pathname}]
+    (com/ajax-get url headers references-handler)))
