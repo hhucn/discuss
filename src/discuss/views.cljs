@@ -238,7 +238,7 @@
                           (cond
                             (= view :login) (om/build login-form {})
                             (= view :options) (om/build options/view data)
-                            (= view :reference-usages) (om/build ref/usages-view {})
+                            (= view :reference-usages) (om/build ref/usages-view data)
                             (= view :reference-create-with-ref) (om/build ref/create-with-reference-view data)
                             (= view :find) (om/build find/view data)
                             :else (discussion-elements data))
