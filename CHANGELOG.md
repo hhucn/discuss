@@ -1,10 +1,14 @@
 # Changelog
 
 ## 0.3 [WIP]
+
+## 0.2.1 [05.10.2016]
+* Hotload new references and show link them in the original article
 * Add translations
 * Fix double assigned references #10
 * Fix reference storing #8
 * Fix unauthorized users #4 #3
+* Fix live search #20
 
 ## 0.2 [05.08.2016]
 * Differently react to statements
