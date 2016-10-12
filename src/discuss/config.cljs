@@ -2,6 +2,8 @@
 
 (def project "discuss")
 
+(def version "0.2.1")
+
 (def user "Q2hyaXN0aWFu")
 
 (def api {:host  "http://localhost:4284/"
