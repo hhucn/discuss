@@ -14,8 +14,9 @@
 (enable-console-print!)
 
 ;; Initialization
-(defn main []
-  (com/init-with-references!))
+(defn ^:export main []
+  (com/init-with-references!)
+  (lib/log (str "Loaded " (discuss.config/project))))
 ;(main)
 
 ;; Register

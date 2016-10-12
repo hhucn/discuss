@@ -33,7 +33,8 @@
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
-  :aliases {"phantomtest" ["do" "clean" ["doo" "phantom" "test" "once"]]}
+  :aliases {"phantomtest" ["do" "clean" ["doo" "phantom" "test" "once"]]
+            "build" ["do" "clean" ["cljsbuild" "once" "min"]]}
 
   :cljsbuild {:builds
               [{:id           "dev"
