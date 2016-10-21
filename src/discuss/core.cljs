@@ -4,6 +4,7 @@
             [discuss.communication.main :as com]
             [discuss.components.sidebar :as sidebar]
             [discuss.components.bubbles]
+            [discuss.config :as config]
             [discuss.debug :as debug]
             [discuss.references.integration]
             [discuss.utils.common :as lib]
@@ -16,8 +17,8 @@
 ;; Initialization
 (defn ^:export main []
   (com/init-with-references!)
-  (lib/log (str "Loaded " (discuss.config/project))))
-;(main)
+  (lib/log (str "Loaded " config/project " " config/version)))
+(main)
 
 ;; Register
 (om/root views/main-view lib/app-state
