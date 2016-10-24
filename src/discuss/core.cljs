@@ -27,7 +27,7 @@
 (om/root sidebar/view lib/app-state
          {:target (.getElementById js/document (lib/prefix-name "sidebar"))})
 
-(om/root tooltip/view {}
+(om/root tooltip/view lib/app-state
          {:target (.getElementById js/document (lib/prefix-name "tooltip"))})
 
 (om/root contribute/view {}
