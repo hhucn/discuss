@@ -1,6 +1,7 @@
 (ns discuss.core
   "Entrypoint to this application. Loads all requirements, and bootstraps the application."
   (:require [om.core :as om :include-macros true]
+            [goog.dom :as gdom]
             [discuss.communication.main :as com]
             [discuss.components.sidebar :as sidebar]
             [discuss.components.bubbles]
@@ -16,25 +17,23 @@
 
 ;; Initialization
 (defn ^:export main []
+  (lib/log (str "Loaded " config/project " " config/version))
   (com/init-with-references!)
-  (lib/log (str "Loaded " config/project " " config/version)))
+  )
 (main)
 
 ;; Register
-(om/root views/main-view lib/app-state
-         {:target (.getElementById js/document (lib/prefix-name "main"))})
+(defn register-view
+  "Register view in the current DOM. TODO: reduce this to one single registration."
+  [[div-name view state]]
+  (when-let [div (gdom/getElement (lib/prefix-name div-name))]
+    (om/root view state {:target div})))
 
-(om/root sidebar/view lib/app-state
-         {:target (.getElementById js/document (lib/prefix-name "sidebar"))})
-
-(om/root tooltip/view lib/app-state
-         {:target (.getElementById js/document (lib/prefix-name "tooltip"))})
-
-(om/root contribute/view {}
-         {:target (.getElementById js/document (lib/prefix-name "contribute"))})
-
-(om/root debug/debug-view lib/app-state
-         {:target (.getElementById js/document "debug")})
+#_(doall (map register-view [["main" views/main-view lib/app-state]
+                           ["sidebar" sidebar/view lib/app-state]
+                           ["tooltip" tooltip/view lib/app-state]
+                           ["contribute" contribute/view {}]
+                           ["debug" debug/debug-view lib/app-state]]))
 
 (defn on-js-reload []
   ;; optionally touch your app-state to force rerendering depending on
