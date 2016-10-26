@@ -18,8 +18,7 @@
 ;; Initialization
 (defn ^:export main []
   (lib/log (str "Loaded " config/project " " config/version))
-  (com/init-with-references!)
-  )
+  (com/init-with-references!))
 (main)
 
 ;; Register
@@ -29,7 +28,7 @@
   (when-let [div (gdom/getElement (lib/prefix-name div-name))]
     (om/root view state {:target div})))
 
-#_(doall (map register-view [["main" views/main-view lib/app-state]
+(doall (map register-view [["main" views/main-view lib/app-state]
                            ["sidebar" sidebar/view lib/app-state]
                            ["tooltip" tooltip/view lib/app-state]
                            ["contribute" contribute/view {}]
