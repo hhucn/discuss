@@ -53,13 +53,13 @@
       (dom/div nil
                (dom/hr nil)
                (dom/div #js {:className "row"}
-                        (dom/div #js {:className "col-md-offset-4 col-md-4 text-center"}
+                        (dom/div #js {:className "col-md-offset-4 col-sm-offset-4 col-xs-offset-4 col-md-4 col-sm-4 col-xs-4 text-center"}
                                  (dom/button #js {:className "btn btn-default btn-sm"
                                                   :onClick   history/back!
                                                   :disabled  (> 2 (count (re-seq #"/" (lib/get-last-api))))}
                                              (vlib/fa-icon "fa-step-backward")
                                              (translate :common :back :space)))
-                        (dom/div #js {:className "col-md-4 text-right"}
+                        (dom/div #js {:className "col-md-4 col-sm-4 col-xs-4 text-right"}
                                  (bs/button-default-sm com/init! (vlib/fa-icon "fa-refresh") (translate :discussion :restart :space))))))))
 
 (defn close-button []

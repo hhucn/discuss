@@ -54,9 +54,9 @@
   (reify om/IRender
     (render [_]
       (dom/div #js {:className "text-muted"}
-               (dom/div #js {:className "col col-md-6"}
+               (dom/div #js {:className "col col-md-6 col-sm-6 col-xs-6"}
                         (home)
                         (find-arg)
                         (options))
-               (dom/div #js {:className "col col-md-6 text-right"}
+               (dom/div #js {:className "col col-md-6 col-sm-6 col-xs-6 text-right"}
                         (if (lib/logged-in?) (logout) (login)))))))
