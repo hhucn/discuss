@@ -66,7 +66,7 @@
   (reify om/IRender
     (render [_]
       (when (pos? (count (get-stored-selections)))
-        (dom/div nil
+        (dom/div #js {:style #js {:paddingTop "3em"}}
                  (dom/h5 nil "Clipboard")
                  (dom/p nil "Ziehe diese Referenzen in das Textfeld beim Erzeugen eines neuen Arguments, um die Referenz zu
                          nutzen.")

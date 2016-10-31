@@ -27,7 +27,7 @@
                              :loading?      false
                              :error?        false
                              :error-msg     nil
-                             :language      :de}
+                             :language      :en}
                 :user       {:nickname   "kangaroo"
                              :token      "razupaltuff"
                              :avatar     ""

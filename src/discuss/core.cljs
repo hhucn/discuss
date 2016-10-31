@@ -20,6 +20,7 @@
   (lib/log (str "Loaded " config/project " " config/version))
   (com/init-with-references!))
 (main)
+(discuss.communication.auth/one-click-login)
 
 ;; Register
 (defn register-view
@@ -31,8 +32,9 @@
 (doall (map register-view [["main" views/main-view lib/app-state]
                            ["sidebar" sidebar/view lib/app-state]
                            ["tooltip" tooltip/view lib/app-state]
-                           ["contribute" contribute/view {}]
-                           ["debug" debug/debug-view lib/app-state]]))
+                           ;["contribute" contribute/view {}]
+                           ;["debug" debug/debug-view lib/app-state]
+                           ]))
 
 (defn on-js-reload []
   ;; optionally touch your app-state to force rerendering depending on

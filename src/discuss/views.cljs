@@ -179,7 +179,8 @@
                (dom/span #js {:className "input-group-addon pointer"
                               :onClick   remove-selection-then-reference!}
                          (vlib/fa-icon "fa-times")))
-      (dom/div #js {:className "text-center"} "Möchten Sie Ihre Aussage durch eine Referenz von dieser Seite stützen? Dann markieren Sie einfach einen Teil des Textes mit der Maus."))))
+      ; TODO translate this!
+      #_(dom/div #js {:className "text-center"} "Möchten Sie Ihre Aussage durch eine Referenz von dieser Seite stützen? Dann markieren Sie einfach einen Teil des Textes mit der Maus."))))
 
 (defn add-element
   "Show form to add a new statement."

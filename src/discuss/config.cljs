@@ -7,7 +7,7 @@
 (def user "Q2hyaXN0aWFu")
 
 (def api {:host  "http://localhost:4284/"
-          :init  "api/elektroautos"
+          :init  "api/town-has-to-cut-spending"
           :base  "api/"
           :login "api/login"
           :add   {:add-start-statement "api/add/start_statement"
