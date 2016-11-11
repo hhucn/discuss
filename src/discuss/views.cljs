@@ -139,12 +139,12 @@
     (render [_]
       (dom/div nil
                (apply dom/ul #js {:id (lib/prefix-name "items-main")}
-                      (map #(om/build item-view (lib/merge-react-key %)) (:items data)))))))
+                      (map #(om/build item-view % (lib/unique-react-key-dict)) (get-in data [:items :elements])))))))
 
 (defn init-view
   "Show button if discussion has not been initialized yet."
   []
-  (dom/div #js {:key (lib/get-unique-key)
+  (dom/div #js {:key       (lib/get-unique-key)
                 :className "text-center"}
            (bs/button-primary com/init-with-references! (translate :common :start-discussion))))
 

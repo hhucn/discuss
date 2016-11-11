@@ -37,7 +37,7 @@
   [{:keys [status status-text response]}]
   (cond
     (= 400 status) (lib/error-msg! (:error (:location (first (:errors response))))))
-  (.log js/console (str "I feel a disturbance in the Force... " status " " status-text))
+  (lib/log (str "I feel a disturbance in the Force... " status " " status-text))
   (lib/loading? false))
 
 (defn success-handler-next-view
