@@ -2,6 +2,7 @@
   (:require [om.core :as om :include-macros true]
             [clojure.walk :refer [keywordize-keys]]
             [cljs.spec :as s]
+            [clojure.string :refer [trim trim-newline]]
             [goog.dom :as gdom]
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]
@@ -296,6 +297,11 @@
     (if (not= 1 number)
       (plural word)
       word)))
+
+(defn trim-all
+  "Remove all surrounding newlines, spaces, ..."
+  [str]
+  (trim-newline (trim str)))
 
 
 ;;;; CSS modifications
