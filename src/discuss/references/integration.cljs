@@ -4,7 +4,7 @@
   (:require [goog.events :as events]
             [om.core :as om]
             [cljs.core.async :refer [put! chan <!]]
-            [clojure.string :refer [split lower-case trim]]
+            [clojure.string :refer [split lower-case]]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
             [discuss.components.tooltip :as tooltip]
@@ -55,14 +55,14 @@
   (last
     (filter
       identity
-      (map #(when (lib/substring? ref (trim (.-innerHTML %))) %) doms))))
+      (map #(when (lib/substring? ref (lib/trim-all (.-innerHTML %))) %) doms))))
 
 
 ;;; Integrate references and highlight them in the article
 (defn- convert-reference
   "Find parent of reference, split it into parts and wrap the original reference for highlighting and interaction."
   [ref]
-  (let [ref-text (trim (vlib/html->str (:text ref)))
+  (let [ref-text (vlib/html->str (:text ref))
         ref-url (:url ref)
         ref-id (:uid ref)
         doms-raw (.getElementsByTagName js/document "*")

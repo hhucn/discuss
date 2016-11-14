@@ -36,7 +36,7 @@
   "Unescape HTML entities and return a string."
   [escaped]
   (when (string? escaped)
-    (gstring/unescapeEntities escaped)))
+    (lib/trim-all (gstring/unescapeEntities escaped))))
 
 (defn commit-component-state
   "Set local state of view, parse the value of the target of val."
