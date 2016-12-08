@@ -9,15 +9,16 @@
   :hooks [leiningen.cljsbuild]
 
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.229"]
-                 [org.clojure/core.async "0.2.391" :exclusions [org.clojure/tools.reader]]
+                 [org.clojure/clojurescript "1.9.293"]
+                 [org.clojure/core.async "0.2.395" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
-                 [org.omcljs/om "1.0.0-alpha41"]
-                 [binaryage/devtools "0.8.2"]
+                 [org.omcljs/om "1.0.0-alpha47"]
+                 [binaryage/devtools "0.8.3"]
                  [cljs-ajax "0.5.8"]                        ; AJAX for om
                  [com.cognitect/transit-cljs "0.8.239"]     ; Better JSON support
-                 [figwheel-sidecar "0.5.7" :scope "devcards"]
-                 [devcards "0.2.1-7" :scope "devcards" :exclusions [org.clojure/clojurescript]]
+                 [com.cemerick/piggieback "0.2.1"]
+                 [figwheel-sidecar "0.5.8" :scope "devcards"]
+                 [devcards "0.2.2" :scope "devcards" :exclusions [org.clojure/clojurescript]]
                  [inflections "0.12.2"]
                  [lein-doo "0.1.7"]
                  [alandipert/storage-atom "2.0.1"]]         ; local storage support
