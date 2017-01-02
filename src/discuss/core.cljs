@@ -24,7 +24,7 @@
 
 ;; Register
 (defn register-view
-  "Register view in the current DOM. TODO: reduce this to one single registration."
+  "Register view in the current DOM."
   [[div-name view state]]
   (when-let [div (gdom/getElement (lib/prefix-name div-name))]
     (om/root view state {:target div})))

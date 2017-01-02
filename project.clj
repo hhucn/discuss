@@ -13,7 +13,6 @@
                  [org.clojure/core.async "0.2.395" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
                  [org.omcljs/om "1.0.0-alpha47"]
-                 [binaryage/devtools "0.8.3"]
                  [cljs-ajax "0.5.8"]                        ; AJAX for om
                  [com.cognitect/transit-cljs "0.8.239"]     ; Better JSON support
                  [com.cemerick/piggieback "0.2.1"]
@@ -23,7 +22,7 @@
                  [lein-doo "0.1.7"]
                  [alandipert/storage-atom "2.0.1"]]         ; local storage support
 
-  :plugins [[lein-figwheel "0.5.7"]
+  :plugins [[lein-figwheel "0.5.8"]
             [lein-cljsbuild "1.1.3" :exclusions [[org.clojure/clojure]]]
             [lein-codox "0.9.5"]
             [lein-ancient "0.6.10"]
@@ -36,6 +35,20 @@
 
   :aliases {"phantomtest" ["do" "clean" ["doo" "phantom" "test" "once"]]
             "build" ["do" "clean" ["cljsbuild" "once" "min"]]}
+
+  ;; setting up nREPL for Figwheel and ClojureScript dev
+  ;; Please see:
+  ;; https://github.com/bhauman/lein-figwheel/wiki/Using-the-Figwheel-REPL-within-NRepl
+  :profiles {:dev {:dependencies [[binaryage/devtools "0.8.3"]
+                                  [figwheel-sidecar "0.5.8"]
+                                  [com.cemerick/piggieback "0.2.1"]]
+                   ;; need to add dev source path here to get user.clj loaded
+                   :source-paths ["src/discuss" "src/test"]
+                   ;; for CIDER
+                   ;; :plugins [[cider/cider-nrepl "0.12.0"]]
+                   :repl-options {; for nREPL dev you really need to limit output
+                                  :init (set! *print-length* 50)
+                                  :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
 
   :cljsbuild {:builds
               [{:id           "dev"
