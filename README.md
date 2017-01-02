@@ -1,8 +1,8 @@
 # discuss-cljs
 
-[![build status](https://gitlab.cs.uni-duesseldorf.de/project/discuss/badges/master/build.svg)](https://gitlab.cs.uni-duesseldorf.de/project/discuss/commits/master)
-
-Minimal front-end to include dialog-based discussion systems into existing websites. Compatible to [D-BAS](https://gitlab.cs.uni-duesseldorf.de/project/dbas).
+Minimal front-end to include dialog-based discussion systems into existing
+websites. Compatible
+to [D-BAS](https://gitlab.cs.uni-duesseldorf.de/project/dbas).
 
 ## Setup
 
@@ -12,7 +12,7 @@ Pull all bower components with:
 
 To get an interactive development environment run:
 
-    lein figwheel
+    rlwrap lein figwheel
 
 and open your browser at [localhost:3449](http://localhost:3449/).
 This will auto compile and send all changes to the browser without the
@@ -36,19 +36,29 @@ get live reloading, nor a REPL.
 
 ### Testing and Development
 
-Interactive tests! I am now using [devcards](https://github.com/bhauman/devcards) for visual tests with
-different states. Start them by using `leiningen`:
+#### Property-based tests
+
+Some property-based tests have been added. These tests and additionally all
+other tests can be executed with the phantomjs runner, which has been packed
+into a separate leiningen task:
+
+    lein phantomtest
+
+#### devcards
+
+Interactive tests! [devcards](https://github.com/bhauman/devcards) can be used
+for visual tests with different states. Start them by using `leiningen`:
 
     lein figwheel devcards
 
-Tests are defined as cards in `src/devcards/discuss/devcards/core.cljs`. You *must* access this
-url if you run figwheel with the devcards-parameter:
+Tests are defined as cards in `src/devcards/discuss/devcards/core.cljs`. You
+*must* access this url if you run figwheel with the
+devcards-parameter:
 [http://localhost:3449/devcards/index.html](http://localhost:3449/devcards/index.html).
-
-This is currently the best profile for development.
 
 ## License
 
-Copyright © 2016 Christian Meter
+Copyright © 2016-2017 Christian Meter
 
-Distributed under the Eclipse Public License either version 1.0 or (at your option) any later version.
+Distributed under the Eclipse Public License either version 1.0 or (at your
+option) any later version.
