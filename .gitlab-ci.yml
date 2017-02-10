@@ -24,5 +24,5 @@ build_image:
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE -f Dockerfile.prod .
     - docker push $CI_REGISTRY_IMAGE
-  only:
-    - master
+#  only:
+#    - master
