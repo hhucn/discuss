@@ -1,20 +1,26 @@
 image: hhucn/docker-discuss
 
-before_script:
-  - lein deps > /dev/null 2>&1
-  - lein --version
-
 test:
   stage: test
   script:
     - lein phantomtest
 
-#linting:
-#  stage: test
-#  script:
-#    - lein do check, ancient, kibit
-#  allow_failure: true
-
-build:
+linting:
+  stage: test
   script:
-    - lein cljsbuild once min
+    - lein do ancient, kibit
+  allow_failure: true
+
+build_image:
+  image: docker:git
+  stage: deploy
+  services:
+    - docker:dind
+  script:
+    - docker --version
+    - echo $CI_REGISTRY_IMAGE
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker build -f Dockerfile.prod -t $CI_REGISTRY_IMAGE .
+    - docker push $CI_REGISTRY_IMAGE
+  only:
+    - master
