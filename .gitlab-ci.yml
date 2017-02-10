@@ -1,9 +1,5 @@
 image: hhucn/docker-discuss
 
-before_script:
-  - lein deps
-  - lein --version
-
 test:
   stage: test
   script:
@@ -17,7 +13,7 @@ linting:
 
 build_image:
   image: docker:git
-  stage: build
+  stage: deploy
   services:
     - docker:dind
   script:
