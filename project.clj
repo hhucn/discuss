@@ -9,20 +9,17 @@
   :hooks [leiningen.cljsbuild]
 
   :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.293"]
+                 [org.clojure/clojurescript "1.9.456"]
                  [org.clojure/core.async "0.2.395" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
                  [org.omcljs/om "1.0.0-alpha47"]
                  [cljs-ajax "0.5.8"]                        ; AJAX for om
                  [com.cognitect/transit-cljs "0.8.239"]     ; Better JSON support
                  [com.cemerick/piggieback "0.2.1"]
-                 [figwheel-sidecar "0.5.8" :scope "devcards"]
-                 [devcards "0.2.2" :scope "devcards" :exclusions [org.clojure/clojurescript]]
-                 [inflections "0.12.2"]
-                 [lein-doo "0.1.7"]
-                 [alandipert/storage-atom "2.0.1"]]         ; local storage support
+                 [inflections "0.13.0"]
+                 [lein-doo "0.1.7"]]         ; local storage support
 
-  :plugins [[lein-figwheel "0.5.8"]
+  :plugins [[lein-figwheel "0.5.9"]
             [lein-cljsbuild "1.1.3" :exclusions [[org.clojure/clojure]]]
             [lein-codox "0.9.5"]
             [lein-ancient "0.6.10"]
@@ -39,8 +36,8 @@
   ;; setting up nREPL for Figwheel and ClojureScript dev
   ;; Please see:
   ;; https://github.com/bhauman/lein-figwheel/wiki/Using-the-Figwheel-REPL-within-NRepl
-  :profiles {:dev {:dependencies [[binaryage/devtools "0.8.3"]
-                                  [figwheel-sidecar "0.5.8"]
+  :profiles {:dev {:dependencies [[binaryage/devtools "0.9.0"]
+                                  [figwheel-sidecar "0.5.9"]
                                   [com.cemerick/piggieback "0.2.1"]]
                    ;; need to add dev source path here to get user.clj loaded
                    :source-paths ["src/discuss" "src/test"]
@@ -62,19 +59,8 @@
                                :parallel-build       true
                                :compiler-stats       true
                                :source-map-timestamp true}}
-               {:id           "devcards"
-                :source-paths ["src/discuss" "src/devcards" "src/test" "script"]
-                :figwheel     {:devcards true}
-                :compiler     {:main                 discuss.devcards.core
-                               :preloads             [discuss.utils.extensions devtools.preload]
-                               :asset-path           "../js/compiled/devcards/out"
-                               :output-to            "resources/public/js/compiled/discuss.js"
-                               :output-dir           "resources/public/js/compiled/devcards/out"
-                               :parallel-build       true
-                               :compiler-stats       true
-                               :source-map-timestamp true}}
                {:id           "test"
-                :source-paths ["src/discuss" "src/devcards" "src/test" "script"]
+                :source-paths ["src/discuss" "src/test" "script"]
                 :compiler     {:output-to     "resources/public/js/compiled/testable.js"
                                :output-dir    "resources/public/js/compiled/test/out"
                                :main          discuss.tests
@@ -90,36 +76,7 @@
                                :parallel-build true
                                :compiler-stats true
                                :pretty-print   false}}]}
-  :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
-             ;; :server-port 3449 ;; default
-             ;; :server-ip "127.0.0.1"
-
-             :css-dirs ["resources/public/css"]             ;; watch and update CSS
-
-             ;; Start an nREPL server into the running figwheel process
-             ;; :nrepl-port 7888
-
-             ;; Server Ring Handler (optional)
-             ;; if you want to embed a ring handler into the figwheel http-kit
-             ;; server, this is for simple ring servers, if this
-             ;; doesn't work for you just run your own server :)
-             ;; :ring-handler hello_world.server/handler
-
-             ;; To be able to open files in your editor from the heads up display
-             ;; you will need to put a script on your path.
-             ;; that script will have to take a file path and a line number
-             ;; ie. in  ~/bin/myfile-opener
-             ;; #! /bin/sh
-             ;; emacsclient -n +$2 $1
-             ;;
-             ;; :open-file-command "myfile-opener"
-
-             ;; if you want to disable the REPL
-             ;; :repl false
-
-             ;; to configure a different figwheel logfile path
-             ;; :server-logfile "tmp/logs/figwheel-logfile.log"
-             }
+  :figwheel {:css-dirs ["resources/public/css"]}             ;; watch and update CSC
 
   ;; For documentation
   :codox {:language    :clojurescript

@@ -6,7 +6,6 @@
             [goog.dom :as gdom]
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]
-            [alandipert.storage-atom :refer [local-storage]]
             [discuss.config :as config]))
 
 (defn prefix-name
