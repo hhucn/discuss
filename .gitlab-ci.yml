@@ -9,12 +9,20 @@ test:
   script:
     - lein phantomtest
 
-#linting:
-#  stage: test
-#  script:
-#    - lein do check, ancient, kibit
-#  allow_failure: true
-
-build:
+linting:
+  stage: test
   script:
-    - lein cljsbuild once min
+    - lein do check, ancient, kibit
+  allow_failure: true
+
+build_image:
+  image: docker:git
+  stage: build
+  services:
+    - docker:dind
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE -f Dockerfile.prod .
+    - docker push $CI_REGISTRY_IMAGE
+  only:
+    - master
