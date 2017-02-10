@@ -1,7 +1,7 @@
 image: hhucn/docker-discuss
 
 before_script:
-  - lein deps > /dev/null 2>&1
+  - lein deps
   - lein --version
 
 test:
