@@ -15,7 +15,6 @@
                  [org.omcljs/om "1.0.0-alpha47"]
                  [cljs-ajax "0.5.8"]                        ; AJAX for om
                  [com.cognitect/transit-cljs "0.8.239"]     ; Better JSON support
-                 [com.cemerick/piggieback "0.2.1"]
                  [inflections "0.13.0"]
                  [lein-doo "0.1.7"]]         ; local storage support
 
