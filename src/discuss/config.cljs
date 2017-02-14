@@ -1,12 +1,16 @@
 (ns discuss.config)
 
+(goog-define version "0.2.1")
+(goog-define remote-host "http://localhost:4284/")
 (def project "discuss")
 
-(def version "0.2.1")
+(defn- get-protocol [url]
+  (first (clojure.string/split url #":")))
 
-(def user "Q2hyaXN0aWFu")
+(defn- make-host [host]
+  (str (get-protocol (.. js/window -location -href)) "://" host))
 
-(def api {:host  "http://localhost:4284/"
+(def api {:host  (make-host remote-host)
           :init  "api/town-has-to-cut-spending"
           :base  "api/"
           :login "api/login"

@@ -55,6 +55,9 @@
                                :asset-path           "js/compiled/out"
                                :output-to            "resources/public/js/compiled/discuss.js"
                                :output-dir           "resources/public/js/compiled/out"
+                               :closure-defines {discuss.config/version ~(->> (slurp "project.clj")
+                                                                              (re-seq #"\".*\"")
+                                                                              (first))}
                                :parallel-build       true
                                :compiler-stats       true
                                :source-map-timestamp true}}
@@ -72,10 +75,11 @@
                                :main           discuss.core
                                :preloads       [discuss.utils.extensions]
                                :optimizations  :advanced
+                               :closure-defines {discuss.config/remote-host ~(or (System/getenv "REMOTE_HOST") "dbas/")}
                                :parallel-build true
                                :compiler-stats true
                                :pretty-print   false}}]}
-  :figwheel {:css-dirs ["resources/public/css"]}             ;; watch and update CSC
+  :figwheel {:css-dirs ["resources/public/css"]}             ;; watch and update CSS
 
   ;; For documentation
   :codox {:language    :clojurescript
