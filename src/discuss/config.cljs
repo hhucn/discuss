@@ -10,7 +10,7 @@
 (defn- make-host [host]
   (str (get-protocol (.. js/window -location -href)) "://" host))
 
-(def api {:host  (make-host remote-host)
+(def api {:host  remote-host
           :init  "api/town-has-to-cut-spending"
           :base  "api/"
           :login "api/login"

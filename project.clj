@@ -75,7 +75,7 @@
                                :main           discuss.core
                                :preloads       [discuss.utils.extensions]
                                :optimizations  :advanced
-                               :closure-defines {discuss.config/remote-host ~(or (System/getenv "REMOTE_HOST") "dbas/")}
+                               :closure-defines {discuss.config/remote-host ~(or (System/getenv "REMOTE_HOST") "/")}
                                :parallel-build true
                                :compiler-stats true
                                :pretty-print   false}}]}

@@ -18,5 +18,5 @@ RUN sass css/discuss.sass css/discuss.css --style compressed && \
     sass css/zeit.sass css/zeit.css --style compressed && \
     rm -rf .sass-cache
 
-EXPOSE 8888
-CMD ["python2", "-m", "SimpleHTTPServer", "8888"]
+EXPOSE 80
+CMD ["python2", "-m", "SimpleHTTPServer", "80"]
