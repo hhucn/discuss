@@ -9,7 +9,7 @@ RUN apk --update add nodejs ruby git python && \
 WORKDIR /discuss
 ADD . /discuss
 
-RUN bower install --allow-root && \
+RUN GIT_DIR=/tmp bower install --allow-root && \
     lein do clean, cljsbuild once min
 
 WORKDIR /discuss/resources/public/
