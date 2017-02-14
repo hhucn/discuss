@@ -24,7 +24,7 @@ build_image:
     - docker --version
     - echo $CI_REGISTRY_IMAGE
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - REMOTE_HOST=dbas/ docker build -f Dockerfile.prod -t $CI_REGISTRY_IMAGE .
+    - docker build -t $CI_REGISTRY_IMAGE .
     - docker push $CI_REGISTRY_IMAGE
   only:
     - master
