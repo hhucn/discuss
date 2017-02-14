@@ -1,6 +1,5 @@
 (ns discuss.communication.auth
   (:require [ajax.core :refer [POST]]
-            [goog.crypt.base64 :as gtfo]
             [discuss.communication.main :as com]
             [discuss.config :as config]
             [discuss.utils.common :as lib]))
@@ -36,12 +35,6 @@
           (pos? (count nickname))
           (pos? (count password)))
     (ajax-login nickname password)))
-
-(defn one-click-login
-  "Directly log-in with my personal user-account."
-  []
-  (let [magic (gtfo/decodeString config/user)]
-    (login magic (clojure.string/lower-case magic))))
 
 (defn logout
   "Reset user credentials."
