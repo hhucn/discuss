@@ -9,7 +9,11 @@
   :hooks [leiningen.cljsbuild]
 
   :dependencies [[org.clojure/clojure "1.8.0"]
+<<<<<<< HEAD
                  [org.clojure/clojurescript "1.9.456"]
+=======
+                 [org.clojure/clojurescript "1.9.473"]
+>>>>>>> develop
                  [org.clojure/core.async "0.2.395" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
                  [org.omcljs/om "1.0.0-alpha47"]
@@ -35,7 +39,11 @@
   ;; setting up nREPL for Figwheel and ClojureScript dev
   ;; Please see:
   ;; https://github.com/bhauman/lein-figwheel/wiki/Using-the-Figwheel-REPL-within-NRepl
+<<<<<<< HEAD
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.0"]
+=======
+  :profiles {:dev {:dependencies [[binaryage/devtools "0.9.1"]
+>>>>>>> develop
                                   [figwheel-sidecar "0.5.9"]
                                   [com.cemerick/piggieback "0.2.1"]]
                    ;; need to add dev source path here to get user.clj loaded
@@ -55,6 +63,12 @@
                                :asset-path           "js/compiled/out"
                                :output-to            "resources/public/js/compiled/discuss.js"
                                :output-dir           "resources/public/js/compiled/out"
+<<<<<<< HEAD
+=======
+                               :closure-defines {discuss.config/version ~(->> (slurp "project.clj")
+                                                                              (re-seq #"\".*\"")
+                                                                              (first))}
+>>>>>>> develop
                                :parallel-build       true
                                :compiler-stats       true
                                :source-map-timestamp true}}
@@ -72,10 +86,11 @@
                                :main           discuss.core
                                :preloads       [discuss.utils.extensions]
                                :optimizations  :advanced
+                               :closure-defines {discuss.config/remote-host ~(or (System/getenv "REMOTE_HOST") "dbas/")}
                                :parallel-build true
                                :compiler-stats true
                                :pretty-print   false}}]}
-  :figwheel {:css-dirs ["resources/public/css"]}             ;; watch and update CSC
+  :figwheel {:css-dirs ["resources/public/css"]}             ;; watch and update CSS
 
   ;; For documentation
   :codox {:language    :clojurescript

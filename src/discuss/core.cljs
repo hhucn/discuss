@@ -18,8 +18,7 @@
 ;; Initialization
 (defn ^:export main []
   (lib/log (str "Loaded " config/project " " config/version))
-  (com/init-with-references!)
-  (discuss.communication.auth/one-click-login))
+  (com/init-with-references!))
 (main)
 
 ;; Register

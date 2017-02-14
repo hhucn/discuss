@@ -1,0 +1,10 @@
+version: '2'
+services:
+  discuss:
+    build: .
+    volumes:
+      - .:/discuss
+    ports:
+      - "8888:8888"
+#    links:
+#      - web:dbas
