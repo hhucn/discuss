@@ -1,12 +1,9 @@
 image: hhucn/docker-discuss
 
-<<<<<<< HEAD
-=======
 cache:
   paths:
     - ~/.m2
 
->>>>>>> develop
 test:
   stage: test
   script:
