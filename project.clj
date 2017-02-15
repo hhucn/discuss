@@ -19,10 +19,10 @@
                  [lein-doo "0.1.7"]]         ; local storage support
 
   :plugins [[lein-figwheel "0.5.9"]
-            [lein-cljsbuild "1.1.3" :exclusions [[org.clojure/clojure]]]
-            [lein-codox "0.9.5"]
+            [lein-cljsbuild "1.1.5" :exclusions [[org.clojure/clojure]]]
+            [lein-codox "0.10.3"]
             [lein-ancient "0.6.10"]
-            [lein-kibit "0.1.2"]
+            [lein-kibit "0.1.3"]
             [lein-doo "0.1.7"]]
 
   :source-paths ["src/discuss" "src/test" "script"]
@@ -39,16 +39,16 @@
                                   [figwheel-sidecar "0.5.9"]
                                   [com.cemerick/piggieback "0.2.1"]]
                    ;; need to add dev source path here to get user.clj loaded
-                   :source-paths ["src/discuss" "src/test"]
+                   :source-paths ["src"]
                    ;; for CIDER
-                   ;; :plugins [[cider/cider-nrepl "0.12.0"]]
+                   ;; :plugins [[cider/cider-nrepl "0.14.0"]]
                    :repl-options {; for nREPL dev you really need to limit output
                                   :init (set! *print-length* 50)
                                   :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
 
   :cljsbuild {:builds
               [{:id           "dev"
-                :source-paths ["src/discuss" "src/test" "script"]
+                :source-paths ["src/discuss" "src/test"]
                 :figwheel     {:on-jsload "discuss.core/on-js-reload"}
                 :compiler     {:main                 discuss.core
                                :preloads             [discuss.utils.extensions devtools.preload]
