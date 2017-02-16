@@ -9,7 +9,6 @@
             [discuss.debug :as debug]
             [discuss.references.integration]
             [discuss.utils.common :as lib]
-            [discuss.components.contribute :as contribute]
             [discuss.components.tooltip :as tooltip]
             [discuss.views :as views]))
 
@@ -31,7 +30,6 @@
 (doall (map register-view [["main" views/main-view lib/app-state]
                            ["sidebar" sidebar/view lib/app-state]
                            ["tooltip" tooltip/view lib/app-state]
-                           ["contribute" contribute/view {}]
                            ["debug" debug/debug-view lib/app-state]]))
 
 (defn on-js-reload []
