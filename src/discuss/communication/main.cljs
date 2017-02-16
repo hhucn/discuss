@@ -54,7 +54,6 @@
    (lib/no-error!)
    (lib/last-api! url)
    (lib/loading? true)
-   (.log js/console (make-url url))
    (GET (make-url url)
         {:handler       handler
          :headers       (merge (token-header) headers)
