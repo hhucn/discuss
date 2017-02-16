@@ -62,7 +62,7 @@
                                :compiler-stats       true
                                :source-map-timestamp true}}
                {:id           "test"
-                :source-paths ["src/discuss" "src/test" "script"]
+                :source-paths ["src"]
                 :compiler     {:output-to     "resources/public/js/compiled/testable.js"
                                :output-dir    "resources/public/js/compiled/test/out"
                                :main          discuss.tests
