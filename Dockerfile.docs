@@ -1,0 +1,15 @@
+FROM clojure:alpine
+MAINTAINER Christian Meter <meter@cs.uni-duesseldorf.de>
+
+RUN apk --update add python && \
+    mkdir ./discuss
+
+WORKDIR /discuss
+ADD . /discuss
+
+RUN lein codox
+
+WORKDIR /discuss/target/docs
+
+EXPOSE 80
+CMD ["python2", "-m", "SimpleHTTPServer", "80"]
