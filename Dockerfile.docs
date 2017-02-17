@@ -1,3 +1,6 @@
+# For more easy access in a composed environment, you have to access the docs
+# at http://localhost/docs
+
 FROM clojure:alpine
 MAINTAINER Christian Meter <meter@cs.uni-duesseldorf.de>
 
@@ -9,7 +12,7 @@ ADD . /discuss
 
 RUN lein codox
 
-WORKDIR /discuss/target/docs
+WORKDIR /discuss/target
 
 EXPOSE 80
 CMD ["python2", "-m", "SimpleHTTPServer", "80"]
