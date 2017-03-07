@@ -98,6 +98,6 @@
   "When this app is loaded, request all available references from the external discussion system."
   []
   (let [url (get-in config/api [:get :references])
-        headers {"X-Host" js/location.host
-                 "X-Path" js/location.pathname}]
-    (com/ajax-get url headers references-handler)))
+        params {:host js/location.host
+                :path js/location.pathname}]
+    (com/ajax-get url nil references-handler params)))

@@ -50,14 +50,16 @@
 ;;;; Calls
 (defn ajax-get
   "Make ajax call to dialog based argumentation system."
-  ([url headers handler]
+  ([url headers handler params]
    (lib/no-error!)
    (lib/last-api! url)
    (lib/loading? true)
    (GET (make-url url)
         {:handler       handler
          :headers       (merge (token-header) headers)
+         :params        params
          :error-handler error-handler}))
+  ([url headers handler] (ajax-get url headers lib/update-all-states! nil))
   ([url headers] (ajax-get url headers lib/update-all-states!))
   ([url] (ajax-get url {})))
 

@@ -333,14 +333,14 @@
   (update-state-item! :layout :language (fn [] lang)))
 
 
-;;;; CLJS to JS
+;;;; CLJS <--> JS
 (defn clj->json
   "Convert CLJS to valid JSON."
   [col]
   (.stringify js/JSON (clj->js col)))
 
 (defn json->clj
-  "Use cognitec's transit reader for json to convert it to proper Clojure datastructures."
+  "Use cognitec's transit reader for json to convert it to proper Clojure data structures."
   [response]
   (cond
     (map? response) (keywordize-keys response)

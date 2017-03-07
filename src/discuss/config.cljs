@@ -17,7 +17,7 @@
           :add   {:add-start-statement "api/add/start_statement"
                   :add-start-premise   "api/add/start_premise"
                   :add-justify-premise "api/add/justify_premise"}
-          :get   {:references       "api/get/references"
-                  :reference-usages "api/get/reference/usages"
-                  :statements       "api/get/statements"
-                  :statement-url    "api/get/statement/url"}})
+          :get   {:references       "api/references"
+                  :reference-usages "api/reference/usages"
+                  :statements       "api/statements"
+                  :statement-url    "api/statement/url"}})

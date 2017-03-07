@@ -10,6 +10,7 @@
   (let [res (com/process-response response)
         nickname (first (clojure.string/split (:token res) "-"))
         token (:token res)]
+
     (lib/update-state-map! :user {:nickname   nickname
                                   :token      token
                                   :logged-in? true})
