@@ -342,8 +342,10 @@
 (defn json->clj
   "Use cognitec's transit reader for json to convert it to proper Clojure datastructures."
   [response]
-  (let [r (transit/reader :json)]
-    (keywordize-keys (transit/read r response))))
+  (cond
+    (map? response) (keywordize-keys response)
+    (string? response) (let [r (transit/reader :json)]
+                         (keywordize-keys (transit/read r response)))))
 
 
 ;;;; Other

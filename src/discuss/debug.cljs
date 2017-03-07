@@ -45,11 +45,7 @@
            " "
            (dom/button #js {:className "btn btn-default"
                             :onClick   #(discuss.references.integration/process-references (lib/get-references))}
-                       (vlibs/fa-icon "fa-file-text") " Request references")
-           " "
-           (dom/button #js {:className "btn btn-default"
-                            :onClick   discuss.communication.auth/one-click-login}
-                       "One-Click Login")))
+                       (vlibs/fa-icon "fa-file-text") " Request references")))
 
 (defn debug-view [data _owner]
   (reify om/IRender
