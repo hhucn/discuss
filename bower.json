@@ -17,8 +17,8 @@
     "tests"
   ],
   "dependencies": {
-    "bootstrap": "~3.3.7",
+    "jquery": "~2",
     "bootswatch-dist": "3.3.6-paper",
-    "fontawesome": "~4.6.3"
+    "fontawesome": "~4.7"
   }
 }
