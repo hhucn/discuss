@@ -2,6 +2,7 @@
   (:require [ajax.core :refer [POST]]
             [discuss.communication.main :as com]
             [discuss.config :as config]
+            [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.common :as lib]))
 
 (defn success-login
@@ -10,11 +11,16 @@
   (let [res (com/process-response response)
         nickname (first (clojure.string/split (:token res) "-"))
         token (:token res)]
-
     (lib/update-state-map! :user {:nickname   nickname
                                   :token      token
                                   :logged-in? true})
     (com/ajax-get-and-change-view (lib/get-last-api) :discussion)))
+
+(defn wrong-login
+  "Callback function for invalid credentials."
+  [_]
+  (lib/error-msg! (t :errors :login))
+  (lib/loading? false))
 
 (defn ajax-login
   "Get cleaned data and send ajax request."
@@ -24,7 +30,7 @@
           {:body            (lib/clj->json {:nickname nickname
                                             :password password})
            :handler         success-login
-           :error-handler   com/error-handler
+           :error-handler   wrong-login
            :response-format :json
            :headers         {"Content-Type" "application/json"}
            :keywords?       true})))
@@ -32,9 +38,8 @@
 (defn login
   "Use login form data, validate it and send ajax request."
   [nickname password]
-  (when (and
-          (pos? (count nickname))
-          (pos? (count password)))
+  (when (and (pos? (count nickname))
+             (pos? (count password)))
     (ajax-login nickname password)))
 
 (defn logout

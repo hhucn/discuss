@@ -21,6 +21,7 @@
                                      :current      "Aktuelle Diskussion"
                                      :restart      "Neustarten"
                                      :submit       "Abschicken"}
+                        :errors     {:login "Login fehlgeschlagen. Vermutlich sind die Zugangsdaten nicht korrekt."}
                         :login      {:nickname "Benutzername"
                                      :password "Passwort"}
                         :nav        {:home "Start"
@@ -47,6 +48,7 @@
                                      :current      "Current Discussion"
                                      :restart      "Restart"
                                      :submit       "Submit"}
+                        :errors     {:login "Could not login. Maybe your credentials are wrong."}
                         :login      {:nickname "Nickname"
                                      :password "Password"}
                         :nav        {:home "Home"

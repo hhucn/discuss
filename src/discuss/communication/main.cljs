@@ -35,8 +35,6 @@
 (defn error-handler
   "Generic error handler for ajax requests."
   [{:keys [status status-text response]}]
-  (cond
-    (= 400 status) (lib/error-msg! (:error (:location (first (:errors response))))))
   (lib/log (str "I feel a disturbance in the Force... " status " " status-text))
   (lib/loading? false))
 
@@ -59,15 +57,15 @@
          :headers       (merge (token-header) headers)
          :params        params
          :error-handler error-handler}))
-  ([url headers handler] (ajax-get url headers lib/update-all-states! nil))
+  ([url headers handler] (ajax-get url headers handler nil))
   ([url headers] (ajax-get url headers lib/update-all-states!))
   ([url] (ajax-get url {})))
 
 (defn ajax-get-and-change-view
-    "Make ajax call to jump right into the discussion and change to discussion view."
-    [url view]
-    (lib/next-view! view)
-    (ajax-get url {} success-handler-next-view))
+  "Make ajax call to jump right into the discussion and change to discussion view."
+  [url view]
+  (lib/next-view! view)
+  (ajax-get url {} success-handler-next-view))
 
 (defn process-url-handler
   "React on response after sending a new statement. Reset atom and call newly received url."
