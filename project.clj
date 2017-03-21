@@ -32,24 +32,19 @@
   :aliases {"phantomtest" ["do" "clean" ["doo" "phantom" "test" "once"]]
             "build" ["do" "clean" ["cljsbuild" "once" "min"]]}
 
-  ;; setting up nREPL for Figwheel and ClojureScript dev
-  ;; Please see:
-  ;; https://github.com/bhauman/lein-figwheel/wiki/Using-the-Figwheel-REPL-within-NRepl
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.2"]
                                   [figwheel-sidecar "0.5.9"]
                                   [com.cemerick/piggieback "0.2.1"]]
                    ;; need to add dev source path here to get user.clj loaded
                    :source-paths ["src"]
-                   ;; for CIDER
-                   ;; :plugins [[cider/cider-nrepl "0.14.0"]]
-                   :repl-options {; for nREPL dev you really need to limit output
-                                  :init (set! *print-length* 50)
+                   :repl-options {:init (set! *print-length* 50)
                                   :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
 
   :cljsbuild {:builds
               [{:id           "dev"
                 :source-paths ["src/discuss" "src/test"]
-                :figwheel     {:on-jsload "discuss.core/on-js-reload"}
+                :figwheel     {:on-jsload "discuss.core/on-js-reload"
+                               :open-urls ["http://localhost:3449/index.html"]}
                 :compiler     {:main                 discuss.core
                                :preloads             [discuss.utils.extensions devtools.preload]
                                :asset-path           "js/compiled/out"
