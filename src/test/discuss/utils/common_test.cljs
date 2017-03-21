@@ -45,3 +45,15 @@
     (is (= "may-the-force-be-with-you" (lib/singular->plural 1 "may-the-force-be-with-you")))
     (is (= "may-the-force-be-with-yous" (lib/singular->plural 101000 "may-the-force-be-with-you"))) ;; Strange :D
     (is (nil? (lib/singular->plural -1 -1)))))
+
+(deftest json-conversions
+  (testing "Conversions of JSON to Clojure data structures."
+    (is (= [{:author {:nickname "kangaroo", :uid -1}}]
+           (lib/json->clj [{"author" {"nickname" "kangaroo", "uid" -1}}])))
+    (is (= {:author {:nickname "kangaroo", :uid -1}}
+           (lib/json->clj {"author" {"nickname" "kangaroo", "uid" -1}})))
+    (is (= {}
+           (lib/json->clj {})))
+    (is (= {:groot? true}
+           (lib/json->clj {"groot?" true})
+           (lib/json->clj "{\"groot?\": true}")))))

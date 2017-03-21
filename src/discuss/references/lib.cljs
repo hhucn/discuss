@@ -20,8 +20,8 @@
 
 (defn save-reference-usages!
   "Saves the currently selected statement for further processing."
-  [reference]
-  (lib/update-state-item! :references :usages (fn [_] reference)))
+  [references]
+  (lib/update-state-item! :references :usages (fn [_] references)))
 
 (defn get-reference-usages
   "Return list of reference usages, which were previously stored in the app-state."

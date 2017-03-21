@@ -20,7 +20,6 @@
     (events/listen el type (fn [e] (put! out e)))
     out))
 
-;; http://www.thesoftwaresimpleton.com/blog/2014/12/30/core-dot-async-dot-mouse-dot-down/
 (defn- save-selected-text
   "Get the users selection and save it."
   []

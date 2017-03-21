@@ -340,12 +340,12 @@
   (.stringify js/JSON (clj->js col)))
 
 (defn json->clj
-  "Use cognitec's transit reader for json to convert it to proper Clojure data structures."
+  "Use cognitect's transit reader for json to convert it to proper Clojure data structures."
   [response]
   (cond
-    (map? response) (keywordize-keys response)
     (string? response) (let [r (transit/reader :json)]
-                         (keywordize-keys (transit/read r response)))))
+                         (keywordize-keys (transit/read r response)))
+    :default (keywordize-keys response)))
 
 
 ;;;; Other
