@@ -7,10 +7,10 @@
             [discuss.components.clipboard :as clipboard]))
 
 (defspec add-remove-selections
-         ;; "Add some random selections and remove them again."
-         100
-         (prop/for-all [input gen/any-printable]
-                       (let [before (clipboard/get-stored-selections)]
-                         (clipboard/add-item! input)
-                         (clipboard/remove-item! input)
-                         (= before (clipboard/get-stored-selections)))))
+  ;; "Add some random selections and remove them again."
+  100
+  (prop/for-all [input gen/any-printable]
+                (let [before (clipboard/get-stored-selections)]
+                  (clipboard/add-item! input)
+                  (clipboard/remove-item! input)
+                  (= before (clipboard/get-stored-selections)))))

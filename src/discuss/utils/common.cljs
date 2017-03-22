@@ -13,8 +13,6 @@
   [name]
   (str config/project "-" name))
 
-(defonce counter (atom 0))
-
 (defonce app-state
          (atom {:discussion {}
                 :issues     {}
@@ -54,7 +52,7 @@
 (defn get-unique-key
   "Return unique react-key."
   []
-  (str (prefix-name "unique-react-key-") (swap! counter inc)))
+  (str (prefix-name "unique-react-key-") (random-uuid)))
 
 (defn unique-key-dict
   "Generate a dictionary with unique key."
