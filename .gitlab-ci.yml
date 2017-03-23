@@ -5,6 +5,7 @@ cache:
     - ~/.m2
 
 test:
+  image: cmeter/clojure-phantomjs
   stage: test
   script:
     - lein phantomtest

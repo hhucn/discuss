@@ -1,13 +1,13 @@
 FROM clojure:alpine
 MAINTAINER Christian Meter <meter@cs.uni-duesseldorf.de>
 
-RUN apk --update add nodejs ruby git python && \
+RUN apk --no-cache add nodejs ruby git python && \
     gem install sass --no-rdoc --no-ri && \
     npm install bower -g && \
     mkdir ./discuss
 
 WORKDIR /discuss
-ADD . /discuss
+COPY . /discuss
 
 RUN GIT_DIR=/tmp bower install --allow-root && \
     lein do clean, cljsbuild once min
