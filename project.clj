@@ -69,7 +69,7 @@
                                :output-dir     "resources/public/js/compiled/min/out"
                                :main           discuss.core
                                :preloads       [discuss.utils.extensions]
-                               :optimizations  :advanced
+                               :optimizations  :simple
                                :closure-defines {discuss.config/remote-host ~(or (System/getenv "REMOTE_HOST") "/")}
                                :parallel-build true
                                :compiler-stats true
