@@ -1,4 +1,4 @@
-image: hhucn/docker-discuss
+image: clojure:alpine
 
 cache:
   paths:
@@ -21,10 +21,21 @@ build_image:
   services:
     - docker:dind
   script:
-    - docker --version
-    - echo $CI_REGISTRY_IMAGE
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE .
     - docker push $CI_REGISTRY_IMAGE
+  only:
+    - master
+
+build_dev_image:
+  image: docker:git
+  stage: deploy
+  services:
+    - docker:dind
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE .
+    - docker tag $CI_REGISTRY_IMAGE $CI_REGISTRY_IMAGE:develop
+    - docker push $CI_REGISTRY_IMAGE:develop
   only:
     - master
