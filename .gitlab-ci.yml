@@ -3,6 +3,8 @@ image: clojure:alpine
 cache:
   paths:
     - ~/.m2
+  key: "$CI_COMMIT_REF_NAME"
+  untracked: true
 
 test:
   image: cmeter/clojure-phantomjs
