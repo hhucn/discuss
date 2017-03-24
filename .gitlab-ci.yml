@@ -10,7 +10,7 @@ test:
   image: cmeter/clojure-phantomjs
   stage: test
   script:
-    - lein phantomtest
+    - LC_ALL=C lein phantomtest
 
 linting:
   stage: test
