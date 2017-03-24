@@ -4,13 +4,15 @@
 FROM clojure:alpine
 MAINTAINER Christian Meter <meter@cs.uni-duesseldorf.de>
 
-RUN apk --update add python && \
+RUN apk --update add python bash && \
     mkdir ./discuss
 
 WORKDIR /discuss
 COPY . /discuss
 
 RUN lein codox
+
+RUN bash -c "ls | grep -v target | xargs rm -rf"
 
 WORKDIR /discuss/target
 
