@@ -8,7 +8,7 @@ RUN apk --update add python && \
     mkdir ./discuss
 
 WORKDIR /discuss
-ADD . /discuss
+COPY . /discuss
 
 RUN lein codox
 

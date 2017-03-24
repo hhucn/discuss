@@ -7,7 +7,6 @@ cache:
   untracked: true
 
 variables:
-  LEIN_SILENT: "true"
   LC_ALL: "C"
 
 test:
