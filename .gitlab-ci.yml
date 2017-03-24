@@ -7,6 +7,7 @@ cache:
   untracked: true
 
 variables:
+  LEIN_SILENT: "true"
   LC_ALL: "C"
 
 test:
@@ -43,5 +44,9 @@ build_dev_image:
     - docker build -t $CI_REGISTRY_IMAGE .
     - docker tag $CI_REGISTRY_IMAGE $CI_REGISTRY_IMAGE:develop
     - docker push $CI_REGISTRY_IMAGE:develop
+    # Build docs
+    - docker build -t $CI_REGISTRY_IMAGE .
+    - docker tag $CI_REGISTRY_IMAGE $CI_REGISTRY_IMAGE:docs
+    - docker push $CI_REGISTRY_IMAGE:docs
   only:
     - develop
