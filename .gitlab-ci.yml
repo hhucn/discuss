@@ -44,4 +44,4 @@ build_dev_image:
     - docker tag $CI_REGISTRY_IMAGE $CI_REGISTRY_IMAGE:develop
     - docker push $CI_REGISTRY_IMAGE:develop
   only:
-    - master
+    - develop
