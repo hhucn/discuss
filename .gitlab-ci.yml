@@ -6,11 +6,14 @@ cache:
   key: "$CI_COMMIT_REF_NAME"
   untracked: true
 
+variables:
+  LC_ALL: "C"
+
 test:
   image: cmeter/clojure-phantomjs
   stage: test
   script:
-    - LC_ALL=C lein phantomtest
+    - lein phantomtest
 
 linting:
   stage: test
