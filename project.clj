@@ -1,4 +1,4 @@
-(defproject discuss "0.2.1"
+(defproject discuss "0.3"
   :description ""
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
@@ -13,10 +13,9 @@
                  [org.clojure/core.async "0.3.442" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
                  [org.omcljs/om "1.0.0-alpha47"]
-                 [cljs-ajax "0.5.8"]                        ; AJAX for om
+                 [cljs-ajax "0.5.8"]
                  [com.cognitect/transit-cljs "0.8.239"]     ; Better JSON support
-                 [inflections "0.13.0"]
-                 [lein-doo "0.1.7"]]         ; local storage support
+                 [inflections "0.13.0"]]
 
   :plugins [[lein-figwheel "0.5.9"]
             [lein-cljsbuild "1.1.5" :exclusions [[org.clojure/clojure]]]

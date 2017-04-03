@@ -4,6 +4,7 @@
             [om.dom :as dom]
             [clojure.string :refer [join]]
             [discuss.communication.main :as com]
+            [discuss.config :as config]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
@@ -24,8 +25,7 @@
   [keywords issue-id]
   (when-not (= keywords "")
     (let [mode 3
-          ;; TODO change this URL
-          request-url (join "/" ["api/get/statements" issue-id mode keywords])]
+          request-url (join "/" [(get-in config/api [:get :statements]) issue-id mode keywords])]
       (com/ajax-get request-url {} statement-handler))))
 
 (defn- update-state-find-statement
