@@ -139,6 +139,19 @@
   (let [state (get-cursor key)]
     (om/transact! state (fn [] col))))
 
+(defn update-all-states!
+  "Update item list with the data provided by the API.
+
+  ** Needs optimizations **"
+  [response]
+  (let [res (discuss.communication.main/process-response response)
+        items (:items res)
+        discussion (:discussion res)
+        issues (:issues res)]
+    (update-state-map! :items items)
+    (update-state-map! :discussion discussion)
+    (update-state-map! :issues issues)
+    (update-state-item! :user :avatar (fn [_] (get-in res [:extras :users_avatar])))))
 
 ;;;; References
 (defn get-references
@@ -169,20 +182,6 @@
   "Return boolean if app is currently loading content. Provide a boolean to change the app-state."
   ([] (get-in @app-state [:layout :loading?]))
   ([bool] (update-state-item! :layout :loading? (fn [_] bool))))
-
-(defn update-all-states!
-  "Update item list with the data provided by the API.
-
-  ** Needs optimizations **"
-  [response]
-  (let [res (discuss.communication.main/process-response response)
-        items (:items res)
-        discussion (:discussion res)
-        issues (:issues res)]
-    (update-state-map! :items items)
-    (update-state-map! :discussion discussion)
-    (update-state-map! :issues issues)
-    (update-state-item! :user :avatar (fn [_] (get-in res [:extras :users_avatar])))))
 
 
 ;; Show error messages
