@@ -44,15 +44,15 @@
 
 (defn bubble-view [bubble]
   (reify
-    om/IDidUpdate
-    (did-update [_ _ _]
+    om/IWillUpdate
+    (will-update [_ _ _]
       (vlib/scroll-divs-to-bottom "bubbles")
       (convert-links-in-bubbles))
     om/IRender
     (render [_]
       (let [bubble-class (get-bubble-class bubble)]
-        (comment (println bubble)
-                 (println (:id bubble)))
+        (vlib/scroll-divs-to-bottom "bubbles")
+        (convert-links-in-bubbles)
         (dom/li #js {:className bubble-class}
                 (dom/div #js {:className "avatar"})
                 (dom/p #js {:className "messages"}
@@ -60,8 +60,8 @@
 
 (defn view []
   (reify
-    om/IDidUpdate
-    (did-update [_ _ _]
+    om/IWillUpdate
+    (will-update [_ _ _]
       (vlib/scroll-divs-to-bottom "bubbles"))
     om/IRender
     (render [_]
