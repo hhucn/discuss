@@ -44,12 +44,12 @@
               [{:id           "dev"
                 :source-paths ["src/discuss" "src/test"]
                 :figwheel     {:on-jsload "discuss.core/on-js-reload"
-                               :open-urls ["http://localhost:3449/index.html"]}
-                :compiler     {:main                 discuss.core
-                               :preloads             [discuss.utils.extensions devtools.preload]
-                               :asset-path           "js/compiled/out"
-                               :output-to            "resources/public/js/compiled/discuss.js"
-                               :output-dir           "resources/public/js/compiled/out"
+                               :open-urls ["http://localhost:3449"]}
+                :compiler     {:main            discuss.core
+                               :preloads        [discuss.utils.extensions devtools.preload]
+                               :asset-path      "js/compiled/out"
+                               :output-to       "resources/public/js/compiled/discuss.js"
+                               :output-dir      "resources/public/js/compiled/out"
                                :closure-defines {discuss.config/version ~(->> (slurp "project.clj")
                                                                               (re-seq #"\".*\"")
                                                                               (first))}

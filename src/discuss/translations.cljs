@@ -30,7 +30,8 @@
                                      :lang    "Sprache"}
                         :references {:jump       "Springe in die Diskussion"
                                      :usages     "In welchen Argumenten wird dieser Textausschnitt verwendet?"
-                                     :where-used "Wo wird diese Referenz verwendet?"}}
+                                     :where-used "Wo wird diese Referenz verwendet?"
+                                     :clipboard  "Ziehe diese Referenzen in das Textfeld beim Erzeugen eines neuen Arguments, um die Referenz zu nutzen."}}
                    :en {:common     {:and              "and"
                                      :author           "Author"
                                      :back             "Back"
@@ -57,7 +58,8 @@
                                      :lang    "Language"}
                         :references {:jump       "Jump into the discussion"
                                      :usages     "In which arguments has this reference been used?"
-                                     :where-used "Where has this reference been used?"}}})
+                                     :where-used "Where has this reference been used?"
+                                     :clipboard  "Drag these references into the input field when creating a new argument."}}})
 
 (defn- prepend-translation
   "Lookup given key and prepend some string to it."
