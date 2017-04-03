@@ -2,7 +2,7 @@
   (:require [discuss.utils.common :as lib]))
 
 (def available [[:de "deutsch"]
-                [:en "english"]])
+                [:en "english"]]) 
 
 (def translations {:de {:common     {:and              "und"
                                      :author           "Autor"
@@ -27,7 +27,7 @@
                         :nav        {:home "Start"
                                      :find "Suchen"}
                         :options    {:heading "Einstellungen"
-                                     :lang    "Sprache"}
+                                     :lang    "Interface-Sprache"}
                         :references {:jump       "Springe in die Diskussion"
                                      :usages     "In welchen Argumenten wird dieser Textausschnitt verwendet?"
                                      :where-used "Wo wird diese Referenz verwendet?"
@@ -55,7 +55,7 @@
                         :nav        {:home "Home"
                                      :find "Find"}
                         :options    {:heading "Options"
-                                     :lang    "Language"}
+                                     :lang    "Language of Interface"}
                         :references {:jump       "Jump into the discussion"
                                      :usages     "In which arguments has this reference been used?"
                                      :where-used "Where has this reference been used?"

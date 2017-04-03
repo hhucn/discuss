@@ -24,7 +24,7 @@
             [lein-kibit "0.1.3"]
             [lein-doo "0.1.7"]]
 
-  :source-paths ["src/discuss" "src/test" "script"]
+  :source-paths ["src/discuss" "src/test"]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
@@ -35,7 +35,7 @@
                                   [figwheel-sidecar "0.5.9"]
                                   [com.cemerick/piggieback "0.2.1"]]
                    ;; need to add dev source path here to get user.clj loaded
-                   :source-paths ["src"]
+                   :source-paths ["src/discuss"]
                    :repl-options {:init (set! *print-length* 50)
                                   :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
 
