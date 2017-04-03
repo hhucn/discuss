@@ -9,9 +9,9 @@
 (defn- option-row
   "Generic row for multiple settings."
   [description content]
-  (dom/div #js {:className "row"}
-           (dom/div #js {:className "col-md-offset-1 col-md-2"} description)
-           (dom/div #js {:className "col-md-8"} content)))
+  (dom/div #js {:className "text-center"}
+           (dom/div nil description)
+           (dom/div nil content)))
 
 (defn- language
   "Component for a single language selection."
