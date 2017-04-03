@@ -15,6 +15,7 @@
                  [org.omcljs/om "1.0.0-alpha47"]
                  [cljs-ajax "0.5.8"]
                  [com.cognitect/transit-cljs "0.8.239"]     ; Better JSON support
+                 [lein-doo "0.1.7"]  ;; <-- otherwise it won't find the doo namespaces...
                  [inflections "0.13.0"]]
 
   :plugins [[lein-figwheel "0.5.9"]
