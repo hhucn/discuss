@@ -43,7 +43,8 @@
     (remove #(contains? tags (lower-case (.-nodeName %))) doms)))
 
 (defn- get-parent
-  "Assuming that the last occurence of my reference is the closest parent of it, this function will return it."
+  "Assuming that the last occurrence of my reference is the closest parent of
+  it, this function will return it."
   [doms ref]
   (last
     (filter
@@ -53,7 +54,8 @@
 
 ;;; Integrate references and highlight them in the article
 (defn- convert-reference
-  "Find parent of reference, split it into parts and wrap the original reference for highlighting and interaction."
+  "Find parent of reference, split it into parts and wrap the original reference
+  for highlighting and interaction."
   [ref]
   (let [ref-text (vlib/html->str (:text ref))
         ref-url (:url ref)
