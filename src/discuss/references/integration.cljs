@@ -38,15 +38,9 @@
 (defn- minify-doms
   "Removes dom-elements, which can never be used as a reference."
   [doms]
-  (remove #(or (= "script" (lower-case (.-nodeName %)))
-               (= "path" (lower-case (.-nodeName %)))
-               (= "svg" (lower-case (.-nodeName %)))
-               (= "circle" (lower-case (.-nodeName %)))
-               (= "html" (lower-case (.-nodeName %)))
-               (= "head" (lower-case (.-nodeName %)))
-               (= "meta" (lower-case (.-nodeName %)))
-               (= "button" (lower-case (.-nodeName %))))
-          doms))
+  (let [tags #{"script" "path" "svg" "circle" "html" "head" "meta" "link" "img"
+               "input" "label" "hr" "title" "button"}]
+    (remove #(contains? tags (lower-case (.-nodeName %))) doms)))
 
 (defn- get-parent
   "Assuming that the last occurence of my reference is the closest parent of it, this function will return it."
