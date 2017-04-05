@@ -298,7 +298,7 @@
 (defn trim-all
   "Remove all surrounding newlines, spaces, ..."
   [str]
-  (trim-newline (trim str)))
+  (clojure.string/replace (trim-newline (trim str)) #"[\n\r\t]" ""))
 
 
 ;;;; CSS modifications
