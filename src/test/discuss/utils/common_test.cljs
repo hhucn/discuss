@@ -73,8 +73,10 @@
 
 (deftest trim-strings
   (testing "Remove trailing whitespace and inline newlines."
-    (check' (stest/check `discuss.utils.common/trim-all))
-    (is (= "abc"
-           (lib/trim-all "ab\nc")
-           (lib/trim-all "ab\rc")
-           (lib/trim-all "ab\tc")))))
+    (check' (stest/check `discuss.utils.common/trim-and-normalize))
+    (is (= "foo bar"
+           (lib/trim-and-normalize "foo\nbar")
+           (lib/trim-and-normalize "foo\r\fbar")
+           (lib/trim-and-normalize "foo\t\t\t\tbar")
+           (lib/trim-and-normalize "    foo bar   ")
+           (lib/trim-and-normalize "\n\nfoo\t\t\t\tbar\n ")))))

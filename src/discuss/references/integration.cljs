@@ -49,7 +49,7 @@
   (last
     (filter
       identity
-      (map #(when (lib/substring? ref (lib/trim-all (.-innerHTML %))) %) doms))))
+      (map #(when (lib/substring? ref (lib/trim-and-normalize (.-innerHTML %))) %) doms))))
 
 
 ;;; Integrate references and highlight them in the article

@@ -295,10 +295,10 @@
       (plural word)
       word)))
 
-(defn trim-all
+(defn trim-and-normalize
   "Remove all surrounding newlines, spaces, ..."
   [str]
-  (clojure.string/replace (trim-newline (trim str)) #"[\n\r\t]" ""))
+  (clojure.string/replace (trim-newline (trim str)) #"\s+" " "))
 
 
 ;;;; CSS modifications
