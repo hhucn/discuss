@@ -2,7 +2,7 @@
   (:require [discuss.utils.common :as lib]))
 
 (def available [[:de "deutsch"]
-                [:en "english"]]) 
+                [:en "english"]])
 
 (def translations {:de {:common     {:and              "und"
                                      :author           "Autor"

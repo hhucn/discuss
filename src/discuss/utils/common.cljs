@@ -302,7 +302,7 @@
 
 
 ;;;; CSS modifications
-(defn toggle-class 
+(defn toggle-class
   "Toggle CSS class of provided DOM element. A third paramenter as boolean can be provided to
    force removing or adding the class."
   ([dom-element class] (.classList/toggle dom-element class))
