@@ -179,14 +179,16 @@
   (update-state-item! :user :csrf (fn [_] csrf)))
 
 (defn loading?
-  "Return boolean if app is currently loading content. Provide a boolean to change the app-state."
+  "Return boolean if app is currently loading content. Provide a boolean to
+  change the app-state."
   ([] (get-in @app-state [:layout :loading?]))
   ([bool] (update-state-item! :layout :loading? (fn [_] bool))))
 
 
 ;; Show error messages
 (defn error?
-  "Return boolean indicating if there are errors or not. Provide a boolean to change the app-state."
+  "Return boolean indicating if there are errors or not. Provide a boolean to
+  change the app-state."
   ([] (get-in @app-state [:layout :error?]))
   ([bool] (update-state-item! :layout :error? (fn [_] bool))))
 
@@ -222,7 +224,8 @@
     (update-state-item! :layout :add? (fn [_] true))))
 
 (defn current-view
-  "Returns the current selected template, which should be visible in the main-content-view."
+  "Returns the current selected template, which should be visible in the
+  main-content-view."
   []
   (get-in @app-state [:layout :template]))
 
@@ -239,7 +242,8 @@
   (update-state-item! :layout :next-template (fn [_] view)))
 
 (defn change-to-next-view!
-  "Set next view to current view. Falls back to default if there is no different next view."
+  "Set next view to current view. Falls back to default if there is no different
+  next view."
   []
   (let [current-view (current-view)
         next-view (get-in @app-state [:layout :next-template])]
@@ -248,7 +252,8 @@
       (change-view! next-view!))))
 
 (defn save-current-and-change-view!
-  "Saves the current view and changes to the next specified view. Used for the 'close' button in some views."
+  "Saves the current view and changes to the next specified view. Used for the
+  'close' button in some views."
   [view]
   (next-view! (current-view))
   (change-view! view))
@@ -256,8 +261,8 @@
 
 ;;;; Last-api
 (defn last-api!
-  "Keep last-api call. Useful to login and then re-request the url to jump to the same position in the discussion,
-   but this time as a logged in user."
+  "Keep last-api call. Useful to login and then re-request the url to jump to
+  the same position in the discussion, but this time as a logged in user."
   [url]
   (update-state-item! :common :last-api (fn [_] url)))
 
@@ -296,15 +301,16 @@
       word)))
 
 (defn trim-and-normalize
-  "Remove all surrounding newlines, spaces, ..."
+  "Remove all surrounding whitespaces and reduce all 'inner' whitespaces to a
+  single space."
   [str]
   (clojure.string/replace (trim-newline (trim str)) #"\s+" " "))
 
 
 ;;;; CSS modifications
 (defn toggle-class
-  "Toggle CSS class of provided DOM element. A third paramenter as boolean can be provided to
-   force removing or adding the class."
+  "Toggle CSS class of provided DOM element. A third paramenter as boolean can
+  be provided to force removing or adding the class."
   ([dom-element class] (.classList/toggle dom-element class))
   ([dom-element class bool] (.classList/toggle dom-element class bool)))
 
@@ -338,7 +344,8 @@
   (.stringify js/JSON (clj->js col)))
 
 (defn json->clj
-  "Use cognitect's transit reader for json to convert it to proper Clojure data structures."
+  "Use cognitect's transit reader for json to convert it to proper Clojure data
+  structures."
   [response]
   (cond
     (string? response) (let [r (transit/reader :json)]
