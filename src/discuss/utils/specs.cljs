@@ -1,12 +1,15 @@
 (ns discuss.utils.specs
   (:require [cljs.spec :as s]
-            [clojure.spec.test :as stest]))
+            [clojure.spec.test :as stest]
+            [discuss.utils.common :as lib]))
 
-(s/fdef discuss.utils.common/trim-all
+(s/fdef lib/trim-all
         :args (s/cat :str string?)
         :ret string?
-        :fn #(<= (:ret %) (-> % :args :str)))
+        :fn #(<= (-> % :ret count) (-> % :args :str count)))
 
 (stest/instrument `discuss.utils.common/trim-all)
 ;; (s/exercise-fn `discuss.utils.common/trim-all)
 ;; (stest/abbrev-result (first (stest/check `discuss.utils.common/trim-all)))
+
+(defn foo [] (println "jeah"))

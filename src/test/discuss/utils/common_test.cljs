@@ -1,9 +1,11 @@
 (ns discuss.utils.common-test
   (:require [cljs.test :refer-macros [deftest is testing]]
+            [clojure.spec.test :as stest]
             [clojure.test.check :as tc]
             [clojure.test.check.clojure-test :refer-macros [defspec]]
             [clojure.test.check.generators :as gen]
             [clojure.test.check.properties :as prop :include-macros true]
+            [clojure.pprint :as pprint]
             [discuss.utils.common :as lib]))
 
 (deftest conversions
@@ -57,3 +59,7 @@
     (is (= {:groot? true}
            (lib/json->clj {"groot?" true})
            (lib/json->clj "{\"groot?\": true}")))))
+
+(deftest trim-strings
+  (testing "Remove trailing whitespace and inline newlines."
+    (stest/check `lib/trim-all)))

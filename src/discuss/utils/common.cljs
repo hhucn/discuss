@@ -6,8 +6,7 @@
             [goog.dom :as gdom]
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]
-            [discuss.config :as config]
-            [discuss.utils.specs]))
+            [discuss.config :as config]))
 
 (defn prefix-name
   "Create unique id for DOM elements."
@@ -295,7 +294,7 @@
     (if (not= 1 number)
       (plural word)
       word)))
- 
+
 (defn trim-all
   "Remove all surrounding newlines, spaces, ..."
   [str]
