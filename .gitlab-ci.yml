@@ -18,13 +18,13 @@ test:
 deps-check:
   stage: test
   script:
-    -lein ancient
+    - lein ancient
   allow_failure: true
 
 idiomatic?:
   stage: test
   script:
-    -lein kibit
+    - lein kibit
   allow_failure: true
 
 build-image:
