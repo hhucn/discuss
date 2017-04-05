@@ -42,7 +42,7 @@
 
   :cljsbuild {:builds
               [{:id           "dev"
-                :source-paths ["src/discuss" "src/test"]
+                :source-paths ["src"]
                 :figwheel     {:on-jsload "discuss.core/on-js-reload"
                                :open-urls ["http://localhost:3449"]}
                 :compiler     {:main            discuss.core
@@ -68,7 +68,7 @@
                 :compiler     {:output-to      "resources/public/js/compiled/discuss.js"
                                :output-dir     "resources/public/js/compiled/min/out"
                                :main           discuss.core
-                               :preloads       [discuss.utils.extensions]
+                               ;; :preloads       [discuss.utils.extensions]
                                :optimizations  :simple
                                :closure-defines {discuss.config/remote-host ~(or (System/getenv "REMOTE_HOST") "/")}
                                :parallel-build true

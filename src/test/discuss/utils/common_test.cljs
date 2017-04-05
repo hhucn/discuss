@@ -5,8 +5,9 @@
             [clojure.test.check.clojure-test :refer-macros [defspec]]
             [clojure.test.check.generators :as gen]
             [clojure.test.check.properties :as prop :include-macros true]
-            [clojure.pprint :as pprint]
-            [discuss.utils.common :as lib]))
+            [cljs.pprint :as pprint]
+            [discuss.utils.common :as lib]
+            [discuss.utils.specs]))
 
 (deftest conversions
   (testing "Convert strings to integer."
@@ -60,6 +61,15 @@
            (lib/json->clj {"groot?" true})
            (lib/json->clj "{\"groot?\": true}")))))
 
+;; -----------------------------------------------------------------------------
+;; Test generation based on specs
+
+(defn- summarize-results' [spec-check]
+  (map #(-> % :clojure.test.check/ret pprint/pprint) spec-check))
+
+(defn- check' [spec-check]
+  (is (nil? (-> spec-check first :failure)) (summarize-results' spec-check)))
+
 (deftest trim-strings
   (testing "Remove trailing whitespace and inline newlines."
-    (stest/check `lib/trim-all)))
+    (check' (stest/check `discuss.utils.common/trim-all))))
