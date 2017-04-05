@@ -15,13 +15,19 @@ test:
   script:
     - lein phantomtest
 
-linting:
+deps-check:
   stage: test
   script:
-    - lein do ancient, kibit
+    -lein ancient
   allow_failure: true
 
-build_image:
+idiomatic?:
+  stage: test
+  script:
+    -lein kibit
+  allow_failure: true
+
+build-image:
   image: docker:git
   stage: deploy
   services:
@@ -33,7 +39,7 @@ build_image:
   only:
     - master
 
-build_dev_image:
+build-dev-image:
   image: docker:git
   stage: deploy
   services:
