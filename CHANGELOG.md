@@ -1,7 +1,8 @@
 # Changelog
 
-## 0.3 [WIP]
+## 0.3.xxx
 * Support new API of D-BAS
+* Support for new multiline-paragraphs #22
 
 ## 0.2.1 [05.10.2016]
 * Hotload new references and show link them in the original article
