@@ -1,8 +1,12 @@
 # discuss-cljs
 
+Development [![build status](https://gitlab.cs.uni-duesseldorf.de/project/discuss/badges/develop/build.svg)](https://gitlab.cs.uni-duesseldorf.de/project/peerfact/commits/develop)
+Master [![build status](https://gitlab.cs.uni-duesseldorf.de/project/discuss/badges/master/build.svg)](https://gitlab.cs.uni-duesseldorf.de/project/peerfact/commits/master)
+
 Minimal front-end to include dialog-based discussion systems into existing
 websites. Compatible
 to [D-BAS](https://gitlab.cs.uni-duesseldorf.de/project/dbas).
+
 
 ## Setup
 
