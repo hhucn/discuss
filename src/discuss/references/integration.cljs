@@ -13,6 +13,9 @@
             [discuss.config :as config]
             [discuss.communication.main :as com]))
 
+;; -----------------------------------------------------------------------------
+;; TODO: Move these functions to another namespace
+
 (defn- listen
   "Helper function for mouse-click events."
   [el type]
@@ -34,6 +37,9 @@
   (go (while true
         (<! clicks)
         (save-selected-text))))
+
+
+;; -----------------------------------------------------------------------------
 
 (defn- minify-doms
   "Removes dom-elements, which can never be used as a reference."
@@ -64,7 +70,7 @@
         doms (minify-doms doms-raw)
         parent (get-parent doms ref-text)]
     (when (and parent (not (rlib/highlighted? ref-text)))
-      (let [dom-parts (split (.-innerHTML parent) (re-pattern ref-text))
+      (let [dom-parts (split (lib/trim-and-normalize (.-innerHTML parent)) (re-pattern ref-text))
             first-part (first dom-parts)
             last-part (last dom-parts)]
         (om/root reference-view {:text     ref-text
