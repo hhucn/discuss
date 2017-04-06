@@ -1,4 +1,4 @@
-(defproject discuss "0.3"
+(defproject discuss "0.3.836"
   :description ""
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
@@ -23,7 +23,8 @@
             [lein-codox "0.10.3"]
             [lein-doo "0.1.7"]
             [lein-figwheel "0.5.9"]
-            [lein-kibit "0.1.3"]]
+            [lein-kibit "0.1.3"]
+            [lein-set-version "0.4.1"]]
 
   :source-paths ["src/discuss" "src/test"]
 
