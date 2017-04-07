@@ -29,8 +29,8 @@
         :nav        {:home "Start"
                      :find "Suchen"}
         :options    {:heading "Einstellungen"
-                     :lang    "Interface-Sprache"}
-        :references {:jump       "Springe in die Diskussion"
+                     :lang "Interface-Sprache"}
+        :references {:jump "Springe in die Diskussion"
                      :usages/view-heading "In welchen Argumenten wird dieser Textausschnitt verwendet?"
                      :usages/not-found-lead "Argument konnte nicht gefunden werden"
                      :usages/not-found-body "Vielleicht wurden die mit dieser Referenz verknüpften Argumente entfernt"
@@ -51,9 +51,9 @@
                      :show-discuss     "Show discuss"
                      :start-discussion "Start Discussion"}
         :discussion {:add-argument "Add a new argument"
-                     :current      "Current Discussion"
-                     :restart      "Restart"
-                     :submit       "Submit"}
+                     :current "Current Discussion"
+                     :restart "Restart"
+                     :submit "Submit"}
         :errors     {:login "Could not login. Maybe your credentials are wrong."}
         :find       {:find-statement "Find statement in the discussion"}
         :login      {:nickname "Nickname"
@@ -61,13 +61,13 @@
         :nav        {:home "Home"
                      :find "Find"}
         :options    {:heading "Options"
-                     :lang    "Language of Interface"}
-        :references {:jump       "Jump into the discussion"
+                     :lang "Language of Interface"}
+        :references {:jump "Jump into the discussion"
                      :usages/view-heading "In which arguments has this reference been used?"
                      :usages/not-found-lead "No assigned arguments found"
                      :usages/not-found-body "Maybe the assigned arguments have been removed"
                      :where-used "Where has this reference been used?"
-                     :clipboard  "Drag these references into the input field when creating a new argument."}}})
+                     :clipboard "Drag these references into the input field when creating a new argument"}}})
 
 (defn- prepend-translation
   "Lookup given key and prepend some string to it."
