@@ -83,7 +83,7 @@
                              :onClick #(com/jump-to-argument (:slug issue) (:uid argument))}
                         (dom/strong nil (vlib/safe-html (:text argument))))
                  (dom/div nil (t :common :author) ": " (:nickname author))
-                 (dom/div nil (t :common :issue) ": " (:title issue)))))))
+                 (dom/div nil (t :common :issue) ": " (:title issue))))))) 
 
 (defn usage-list-view
   "List single usages of reference."
@@ -93,10 +93,14 @@
       (let [issue (:issue data)
             arguments (:arguments data)
             author (:author data)]
-        (apply dom/div nil
-               (map #(om/build single-reference-usage
-                               {:issue issue, :argument %, :author author}
-                               (lib/unique-key-dict)) arguments))))))
+        (if (some nil? [issue arguments author])
+          (dom/div #js {:className "bs-callout bs-callout-warning"}
+                   (dom/strong nil "No assigned arguments found")
+                   (dom/p nil "Maybe the assigned arguments have been removed by the author."))
+          (apply dom/div nil
+                 (map #(om/build single-reference-usage
+                                 {:issue issue, :argument %, :author author}
+                                 (lib/unique-key-dict)) arguments)))))))
 
 (defn usages-view
   "List with details showing the usages of the given reference."
