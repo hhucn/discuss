@@ -5,9 +5,9 @@
             [clojure.test.check.clojure-test :refer-macros [defspec]]
             [clojure.test.check.generators :as gen]
             [clojure.test.check.properties :as prop :include-macros true]
-            [cljs.pprint :as pprint]
             [discuss.utils.common :as lib]
-            [discuss.utils.specs]))
+            [discuss.utils.specs]
+            [discuss.test.lib :as tlib]))
 
 (deftest conversions
   (testing "Convert strings to integer."
@@ -65,15 +65,9 @@
 ;; -----------------------------------------------------------------------------
 ;; Test generation based on specs
 
-(defn- summarize-results' [spec-check]
-  (map #(-> % :clojure.test.check/ret pprint/pprint) spec-check))
-
-(defn- check' [spec-check]
-  (is (nil? (-> spec-check first :failure)) (summarize-results' spec-check)))
-
 (deftest trim-strings
   (testing "Remove trailing whitespace and inline newlines."
-    (check' (stest/check `discuss.utils.common/trim-and-normalize))
+    (tlib/check' (stest/check `discuss.utils.common/trim-and-normalize))
     (is (= "foo bar"
            (lib/trim-and-normalize "foo\nbar")
            (lib/trim-and-normalize "foo\r\fbar")
