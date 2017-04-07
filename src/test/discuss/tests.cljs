@@ -3,10 +3,12 @@
   (:require [doo.runner :refer-macros [doo-tests]]
             [discuss.components.clipboard-test]
             [discuss.references.lib-test]
-            [discuss.utils.common-test]))
+            [discuss.utils.common-test]
+            [discuss.translations-test]))
 
 (enable-console-print!)
 
-(doo-tests 'discuss.components.clipboard-test
-           'discuss.references.lib-test
-           'discuss.utils.common-test)
+(doo-tests ;;'discuss.components.clipboard-test
+           ;;'discuss.references.lib-test
+           ;;'discuss.utils.common-test
+           'discuss.translations-test)
