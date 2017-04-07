@@ -31,7 +31,9 @@
         :options    {:heading "Einstellungen"
                      :lang    "Interface-Sprache"}
         :references {:jump       "Springe in die Diskussion"
-                     :usages     "In welchen Argumenten wird dieser Textausschnitt verwendet?"
+                     :usages/view-heading "In welchen Argumenten wird dieser Textausschnitt verwendet?"
+                     :usages/not-found-lead "Argument konnte nicht gefunden werden"
+                     :usages/not-found-body "Vielleicht wurden die mit dieser Referenz verknüpften Argumente entfernt"
                      :where-used "Wo wird diese Referenz verwendet?"
                      :find-statement "Finde Aussage in der Diskussion"
                      :clipboard  "Ziehe diese Referenzen in das Textfeld beim Erzeugen eines neuen Arguments, um die Referenz zu nutzen."}}
@@ -61,7 +63,9 @@
         :options    {:heading "Options"
                      :lang    "Language of Interface"}
         :references {:jump       "Jump into the discussion"
-                     :usages     "In which arguments has this reference been used?"
+                     :usages/view-heading "In which arguments has this reference been used?"
+                     :usages/not-found-lead "No assigned arguments found"
+                     :usages/not-found-body "Maybe the assigned arguments have been removed"
                      :where-used "Where has this reference been used?"
                      :clipboard  "Drag these references into the input field when creating a new argument."}}})
 
@@ -72,8 +76,9 @@
 
 (defn translate
   "Get translation string according to currently configured language."
-  ([group key & options]
-   (let [option (first options)]
-     (cond
-       (= :space option) (prepend-translation group key " ")
-       :default (prepend-translation group key "")))))
+  ([group key option]
+   (cond
+     (= :space option) (prepend-translation group key " ")
+     :default (prepend-translation group key "")))
+  ([group key]
+   (translate group key :default)))

@@ -95,8 +95,8 @@
             author (:author data)]
         (if (some nil? [issue arguments author])
           (dom/div #js {:className "bs-callout bs-callout-warning"}
-                   (dom/strong nil "No assigned arguments found")
-                   (dom/p nil "Maybe the assigned arguments have been removed by the author."))
+                   (dom/strong nil (t :references :usages/not-found-lead))
+                   (dom/p nil (t :references :usages/not-found-body)))
           (apply dom/div nil
                  (map #(om/build single-reference-usage
                                  {:issue issue, :argument %, :author author}
@@ -109,7 +109,7 @@
     (render [_]
       (let [usages (rlib/get-reference-usages)]
         (dom/div nil
-                 (dom/h5 nil (t :references :usages))
+                 (dom/h5 nil (t :references :usages/view-heading))
                  (om/build rlib/current-reference-component {})
                  (apply dom/div nil
                         (map #(om/build usage-list-view % (lib/unique-key-dict)) usages)))))))
