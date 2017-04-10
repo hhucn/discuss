@@ -4,6 +4,7 @@
             [cljs.spec :as s]
             [clojure.string :refer [trim trim-newline]]
             [goog.dom :as gdom]
+            [goog.string :as gstring]
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]
             [discuss.config :as config]))
@@ -304,7 +305,7 @@
   "Remove all surrounding whitespaces and reduce all 'inner' whitespaces to a
   single space."
   [str]
-  (clojure.string/replace (trim-newline (trim str)) #"\s+" " "))
+  (gstring/unescapeEntities (clojure.string/replace (trim-newline (trim str)) #"\s+" " ")))
 
 
 ;;;; CSS modifications
