@@ -22,7 +22,7 @@
             [lein-cljsbuild "1.1.5" :exclusions [[org.clojure/clojure]]]
             [lein-codox "0.10.3"]
             [lein-doo "0.1.7"]
-            [lein-figwheel "0.5.9"]
+            [lein-figwheel "0.5.10"]
             [lein-kibit "0.1.3"]
             [lein-set-version "0.4.1"]]
 
@@ -34,7 +34,7 @@
             "build" ["do" "clean" ["cljsbuild" "once" "min"]]}
 
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.2"]
-                                  [figwheel-sidecar "0.5.9"]
+                                  [figwheel-sidecar "0.5.10"]
                                   [com.cemerick/piggieback "0.2.1"]]
                    ;; need to add dev source path here to get user.clj loaded
                    :source-paths ["src/discuss"]
