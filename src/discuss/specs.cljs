@@ -1,6 +1,7 @@
 (ns discuss.specs
   (:require [cljs.spec :as s]
-            [clojure.spec.test :as stest]))
+            [clojure.spec.test :as stest]
+            [discuss.translations]))
 
 (s/def ::options (s/or :option keyword?
                        :option nil?))
