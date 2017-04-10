@@ -3,7 +3,10 @@
             [cljs.test :refer-macros [is]]))
 
 (defn- summarize-results' [spec-check]
-  (doall (map #(-> % :clojure.test.check/ret pprint/pprint) spec-check)))
+  (doall (map #(-> %
+                   (select-keys [:clojure.test.check/ret :sym])
+                   vals
+                   pprint/pprint) spec-check)))
 
 (defn check' [spec-check]
   (summarize-results' spec-check)
