@@ -2,6 +2,7 @@
   "Listen for mouse clicks, get references and highlight them in the article."
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [goog.events :as events]
+            [goog.string :as gstring]
             [om.core :as om]
             [cljs.core.async :refer [put! chan <!]]
             [clojure.string :refer [split lower-case]]
@@ -70,16 +71,17 @@
         doms (minify-doms doms-raw)
         parent (get-parent doms ref-text)]
     (when (and parent (not (rlib/highlighted? ref-text)))
-      (let [dom-parts (split (lib/trim-and-normalize (.-innerHTML parent)) (re-pattern ref-text))
+      (let [dom-parts (rlib/split-at-string (lib/trim-and-normalize (.-innerHTML parent)) ref-text)
             first-part (first dom-parts)
-            last-part (last dom-parts)]
-        (om/root reference-view {:text     ref-text
-                                 :url      ref-url
-                                 :id       ref-id
-                                 :dom-pre  first-part
-                                 :dom-post (when (and (< 1 (count dom-parts)) (not= last-part ref-text)) last-part)}
-                 {:target parent})
-        (rlib/highlight! ref-text)))))
+            last-part (second dom-parts)]
+        (when (= 2 (count dom-parts))
+          (om/root reference-view {:text     ref-text
+                                   :url      ref-url
+                                   :id       ref-id
+                                   :dom-pre  first-part
+                                   :dom-post (when (and (< 1 (count dom-parts)) (not= last-part ref-text)) last-part)}
+                   {:target parent})
+          (rlib/highlight! ref-text))))))
 
 (defn process-references
   "Receives references through the API and prepares them for the next steps."
