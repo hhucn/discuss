@@ -13,9 +13,19 @@
   (split-at-string \"barfoo?baz\" \"foo?\")
   => [\"bar\" \"baz\"]
   (split-at-string \"abc\" \"def\")
-  => [\"abc\"]"
+  => [\"abc\"]
+  (split-at-string \"0\" \"0\")
+  => []"
   [s query]
-  [s])
+  (when-not (some nil? [s query])
+    (let [idx (.indexOf s query)
+          left (subs s 0 idx)
+          right (subs s (+ (count query) idx) (inc (count s)))]
+      (cond
+        (or (neg? idx) (empty? query)) [s]
+        (or (empty? s)) [""]
+        (= s query) []
+        :default [left right]))))
 
 (defn save-selected-reference!
   "Saves the currently clicked reference for further processing."

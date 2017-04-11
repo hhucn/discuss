@@ -6,9 +6,12 @@
 (s/fdef discuss.references.lib/split-at-string
         :args (s/cat :body string?
                      :query string?)
-        :ret (s/cat :first string?
+        :ret (s/cat :first (s/? string?)
                     :second (s/? string?))
-        :fn #(<= 1 (-> % :ret count) 2))
+        :fn #(cond
+               (= 2 (-> % :ret count))
+               (= (-> % :args :body) (str (-> % :ret :first) (-> % :args :query) (-> % :ret :second)))
+               (<= 0 (-> % :ret count) 1) true))
 
 ;; (stest/instrument 'discuss.references.lib/split-at-string)
-;; (s/exercise-fn `discuss.references.lib/split-at-string)
+;; (s/exercise-fn `discuss.references.lib/split-at-string 50)
