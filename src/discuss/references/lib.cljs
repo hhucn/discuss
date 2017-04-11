@@ -3,6 +3,20 @@
             [om.dom :as dom]
             [om.core :as om]))
 
+(defn split-at-string
+  "Split the input-string at the position of the query-string.
+  Nearly the same as clojure.string/split. Not based on a regex, but instead
+  based on a string to match strings containing literals, which could be
+  special-characters in a regex.
+
+  Examples:
+  (split-at-string \"barfoo?baz\" \"foo?\")
+  => [\"bar\" \"baz\"]
+  (split-at-string \"abc\" \"def\")
+  => [\"abc\"]"
+  [s query]
+  [s])
+
 (defn save-selected-reference!
   "Saves the currently clicked reference for further processing."
   [ref]
