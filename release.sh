@@ -21,7 +21,9 @@ echo "Change in project..."
 lein set-version $version
 
 echo "Tagging..."
-git tag -a v${version} -m "Release ${version}"
+git commit project.clj -m "Release ${version}"
+git tag -as v${version} -m "Release ${version}"
 git push origin v${version}
+git push
 
 echo "Release done!"
