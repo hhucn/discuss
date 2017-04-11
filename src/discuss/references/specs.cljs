@@ -1,7 +1,7 @@
 (ns discuss.references.specs
   (:require [cljs.spec :as s]
             [clojure.spec.test :as stest]
-            #_[discuss.references.lib]))
+            [discuss.references.lib]))
 
 (s/fdef discuss.references.lib/split-at-string
         :args (s/cat :body string?
