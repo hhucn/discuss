@@ -10,12 +10,11 @@
   special-characters in a regex.
 
   Examples:
-  (split-at-string \"barfoo?baz\" \"foo?\")
-  => [\"bar\" \"baz\"]
-  (split-at-string \"abc\" \"def\")
-  => [\"abc\"]
-  (split-at-string \"0\" \"0\")
-  => []"
+  (split-at-string \"barfoo?baz\" \"foo?\") => [\"bar\" \"baz\"]
+
+  (split-at-string \"abc\" \"def\") => [\"abc\"]
+  
+  (split-at-string \"0\" \"0\") => []"
   [s query]
   (when-not (some nil? [s query])
     (let [idx (.indexOf s query)
