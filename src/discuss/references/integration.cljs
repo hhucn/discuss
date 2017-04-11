@@ -2,6 +2,7 @@
   "Listen for mouse clicks, get references and highlight them in the article."
   (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [goog.events :as events]
+            [goog.string :as gstring]
             [om.core :as om]
             [cljs.core.async :refer [put! chan <!]]
             [clojure.string :refer [split lower-case]]
@@ -70,7 +71,8 @@
         doms (minify-doms doms-raw)
         parent (get-parent doms ref-text)]
     (when (and parent (not (rlib/highlighted? ref-text)))
-      (let [dom-parts (split (lib/trim-and-normalize (.-innerHTML parent)) (re-pattern ref-text))
+      (let [ref-text-escaped (clojure.string/replace ref-text #"\?" "\\?")
+            dom-parts (split (lib/trim-and-normalize (.-innerHTML parent)) (re-pattern ref-text-escaped))
             first-part (first dom-parts)
             last-part (last dom-parts)]
         (om/root reference-view {:text     ref-text
