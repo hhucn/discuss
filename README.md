@@ -48,18 +48,6 @@ into a separate leiningen task:
 
     lein phantomtest
 
-#### devcards
-
-Interactive tests! [devcards](https://github.com/bhauman/devcards) can be used
-for visual tests with different states. Start them by using `leiningen`:
-
-    lein figwheel devcards
-
-Tests are defined as cards in `src/devcards/discuss/devcards/core.cljs`. You
-*must* access this url if you run figwheel with the
-devcards-parameter:
-[http://localhost:3449/devcards/index.html](http://localhost:3449/devcards/index.html).
-
 ## License
 
 Copyright © 2016-2017 Christian Meter
