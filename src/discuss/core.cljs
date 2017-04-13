@@ -18,7 +18,7 @@
 (defn ^:export main []
   (lib/log (str "Loaded " config/project " " config/version))
   (com/init-with-references!))
-(main)
+;; (main)
 
 ;; Register
 (defn register-view
