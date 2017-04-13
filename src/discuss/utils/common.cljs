@@ -3,7 +3,6 @@
             [clojure.walk :refer [keywordize-keys]]
             [cljs.spec :as s]
             [clojure.string :refer [trim trim-newline]]
-            [goog.dom :as gdom]
             [goog.string :as gstring]
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]

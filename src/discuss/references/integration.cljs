@@ -78,8 +78,8 @@
           (om/root reference-view {:text     ref-text
                                    :url      ref-url
                                    :id       ref-id
-                                   :dom-pre  first-part
-                                   :dom-post (when (and (< 1 (count dom-parts)) (not= last-part ref-text)) last-part)}
+                                   :dom-pre  (vlib/safe-html first-part)
+                                   :dom-post (when (and (< 1 (count dom-parts)) (not= last-part ref-text)) (vlib/safe-html last-part))}
                    {:target parent})
           (rlib/highlight! ref-text))))))
 
@@ -95,7 +95,7 @@
   (let [res (com/process-response response)
         refs (:references res)]
     (lib/update-state-item! :common :references (fn [_] refs))
-    (discuss.references.integration/process-references refs)))
+    (process-references refs)))
 
 (defn request-references
   "When this app is loaded, request all available references from the external discussion system."
