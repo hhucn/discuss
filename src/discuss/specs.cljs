@@ -1,6 +1,5 @@
 (ns discuss.specs
   (:require [cljs.spec :as s]
-            [clojure.spec.test :as stest]
             [discuss.translations]))
 
 (s/def ::options (s/or :option keyword?
@@ -12,6 +11,8 @@
                      :option (s/? ::options))
         :ret string?)
 
-;; (stest/instrument 'discuss.translations/translate)
-;; (s/exercise-fn 'discuss.translations/translate)
-;; (stest/check `discuss.translations/translate)
+(comment
+  (require '[clojure.spec.test :as stest])
+  (stest/instrument 'discuss.translations/translate)
+  (s/exercise-fn 'discuss.translations/translate)
+  (stest/check `discuss.translations/translate))

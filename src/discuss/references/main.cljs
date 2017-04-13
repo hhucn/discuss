@@ -109,7 +109,7 @@
     (render [_]
       (let [usages (rlib/get-reference-usages)]
         (dom/div nil
-                 (dom/h5 nil (t :references :usages/view-heading))
+                 (vlib/view-header (t :references :usages/view-heading))
                  (om/build rlib/current-reference-component {})
                  (apply dom/div nil
                         (map #(om/build usage-list-view % (lib/unique-key-dict)) usages)))))))

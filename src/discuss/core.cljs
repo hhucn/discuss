@@ -4,10 +4,10 @@
             [goog.dom :as gdom]
             [discuss.communication.main :as com]
             [discuss.components.sidebar :as sidebar]
-            [discuss.components.bubbles]
+            #_[discuss.components.bubbles]
             [discuss.config :as config]
             [discuss.debug :as debug]
-            [discuss.references.integration]
+            #_[discuss.references.integration]
             [discuss.utils.common :as lib]
             [discuss.components.tooltip :as tooltip]
             [discuss.views :as views]))
