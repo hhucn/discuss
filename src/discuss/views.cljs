@@ -111,7 +111,7 @@
                                 :onClick   #(auth/login nickname password)
                                 :disabled  (not (and (pos? (count nickname))
                                                      (pos? (count password))))}
-                           "Login")))))
+                           (t :common :login))))))
 
 ;; Views
 (defn item-view [item _owner]
@@ -171,17 +171,21 @@
   (let [selection (or (lib/get-selection) (:text (discuss.references.lib/get-selected-reference)) "")]
     (if (> (count selection) 1)
       (dom/div #js {:className "input-group"}
-               (dom/span #js {:className "input-group-addon"}
+               (dom/span #js {:className "input-group-addon input-group-addon-left"}
                          (vlib/fa-icon "fa-quote-left"))
                (dom/input #js {:className "form-control"
-                               :value     selection})
+                               :style #js {:backgroundColor "rgb(250,250,250)"}
+                               :value selection
+                               :title (t :references :disabled/tooltip)
+                               :disabled true})
                (dom/span #js {:className "input-group-addon"}
                          (vlib/fa-icon "fa-quote-right"))
                (dom/span #js {:className "input-group-addon pointer"
                               :onClick   remove-selection-then-reference!}
                          (vlib/fa-icon "fa-times")))
-      ; TODO translate this!
-      #_(dom/div #js {:className "text-center"} "Möchten Sie Ihre Aussage durch eine Referenz von dieser Seite stützen? Dann markieren Sie einfach einen Teil des Textes mit der Maus."))))
+      (dom/div #js {:className "text-center"
+                    :style #js {:paddingBottom "1em"}}
+               (t :references :ask-to-add)))))
 
 (defn add-element
   "Show form to add a new statement."
@@ -202,8 +206,9 @@
                         (dom/h5 #js {:className "text-center"} (vlib/safe-html (lib/get-add-premise-text)))
                         (om/build error-view {})
                         (dom/div #js {:className "input-group"}
-                                 (dom/span #js {:className "input-group-addon"}
-                                           (vlib/fa-icon "fa-comment"))
+                                 (dom/span #js {:className "input-group-addon input-group-addon-left"}
+                                           "... because"
+                                           #_(vlib/fa-icon "fa-comment"))
                                  (dom/input #js {:className "form-control"
                                                  :onChange  #(vlib/commit-component-state :statement % owner)
                                                  :value     statement}))

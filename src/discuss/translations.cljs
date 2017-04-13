@@ -18,7 +18,7 @@
                      :save             "Speichern"
                      :show-discuss     "Zeige discuss"
                      :start-discussion "Starte die Diskussion"}
-        :discussion {:add-argument "Ein neues Argument hinzufügen"
+        :discussion {:add-argument "Aussage hinzufügen"
                      :current      "Aktuelle Diskussion"
                      :restart      "Neustarten"
                      :submit       "Abschicken"}
@@ -32,12 +32,14 @@
         :options    {:heading "Einstellungen"
                      :lang "Interface-Sprache"}
         :references {:jump "Springe in die Diskussion"
-                     :usages/view-heading "In welchen Argumenten wird dieser Textausschnitt verwendet?"
+                     :usages/view-heading "In welchen Aussagen wird dieser Textausschnitt verwendet?"
                      :usages/not-found-lead "Argument konnte nicht gefunden werden"
                      :usages/not-found-body "Vielleicht wurden die mit dieser Referenz verknüpften Argumente entfernt"
                      :where-used "Wo wird diese Referenz verwendet?"
                      :find-statement "Finde Aussage in der Diskussion"
-                     :clipboard  "Ziehe diese Referenzen in das Textfeld beim Erzeugen eines neuen Arguments, um die Referenz zu nutzen."}}
+                     :clipboard  "Ziehe diese Referenzen in das Textfeld beim Erzeugen eines neuen Arguments, um die Referenz zu nutzen."
+                     :ask-to-add "Möchten Sie Ihre Aussage durch eine Referenz von dieser Seite stützen? Dann markieren Sie einfach einen Teil des Textes mit der Maus."
+                     :disabled/tooltip "Du kannst dieses Feld nicht direkt modifizieren. Bitte markiere die gewünschte Stelle direkt auf der Webseite. Dieses Feld füllt sich dann automatisch."}}
    :en {:common     {:and              "and"
                      :author           "Author"
                      :back             "Back"
@@ -51,7 +53,7 @@
                      :save             "Save"
                      :show-discuss     "Show discuss"
                      :start-discussion "Start Discussion"}
-        :discussion {:add-argument "Add a new argument"
+        :discussion {:add-argument "Add a new statement"
                      :current "Current Discussion"
                      :restart "Restart"
                      :submit "Submit"}
@@ -65,11 +67,13 @@
         :options    {:heading "Options"
                      :lang "Language of Interface"}
         :references {:jump "Jump into the discussion"
-                     :usages/view-heading "In which arguments has this reference been used?"
+                     :usages/view-heading "In which statements has this reference been used?"
                      :usages/not-found-lead "No assigned arguments found"
                      :usages/not-found-body "Maybe the assigned arguments have been removed"
                      :where-used "Where has this reference been used?"
-                     :clipboard "Drag these references into the input field when creating a new argument"}}})
+                     :clipboard "Drag these references into the input field when creating a new argument"
+                     :ask-to-add "Do you want to add a reference from this site to your statement? Just select the desired text-passage and it will be inserted in this field."
+                     :disabled/tooltip "You can't modify this field. Please select the appropriate text-passage from the website. The selection will be automatically added to this field."}}})
 
 (defn- prepend-translation
   "Lookup given key and prepend some string to it."
