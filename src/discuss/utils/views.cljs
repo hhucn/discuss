@@ -72,4 +72,5 @@
 (defn view-header
   "Function to create a header for the views."
   [heading]
-  (dom/h4 #js {:className "text-center"} heading))
+  (dom/h4 #js {:className "text-center"
+               :style #js {:paddingBottom "0.3em"}} heading))
