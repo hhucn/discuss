@@ -91,6 +91,7 @@
       (dom/div nil
                (om/build error-view {})
                (vlib/view-header (t :common :login))
+               (dom/p #js {:className "text-center"} (t :login :hhu-ldap))
                (dom/div #js {:className "input-group"}
                         (dom/span #js {:className "input-group-addon"}
                                   (vlib/fa-icon "fa-user fa-fw"))
