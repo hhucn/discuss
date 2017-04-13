@@ -13,7 +13,7 @@
             [discuss.history :as history]
             [discuss.references.lib :as rlib]
             [discuss.references.main :as ref]
-            [discuss.translations :refer [translate]]
+            [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
@@ -24,8 +24,8 @@
   [statement]
   (let [remaining (- 10 (count statement))]
     (if (pos? remaining)
-      (str remaining " " (translate :common :chars-remaining))
-      (translate :discussion :submit))))
+      (str remaining " " (t :common :chars-remaining))
+      (t :discussion :submit))))
 
 
 ;;;; Elements
@@ -58,9 +58,9 @@
                                                   :onClick   history/back!
                                                   :disabled  (> 2 (count (re-seq #"/" (lib/get-last-api))))}
                                              (vlib/fa-icon "fa-step-backward")
-                                             (translate :common :back :space)))
+                                             (t :common :back :space)))
                         (dom/div #js {:className "col-md-4 col-sm-4 col-xs-4 text-right"}
-                                 (bs/button-default-sm com/init! (vlib/fa-icon "fa-refresh") (translate :discussion :restart :space))))))))
+                                 (bs/button-default-sm com/init! (vlib/fa-icon "fa-refresh") (t :discussion :restart :space))))))))
 
 (defn close-button []
   (reify om/IRender
@@ -68,7 +68,7 @@
       (dom/div nil
                (dom/hr nil)
                (dom/div #js {:className "text-center"}
-                        (bs/button-default-sm lib/change-to-next-view! (vlib/fa-icon "fa-times") (translate :common :close :space)))))))
+                        (bs/button-default-sm lib/change-to-next-view! (vlib/fa-icon "fa-times") (t :common :close :space)))))))
 
 (defn avatar-view
   "Get the user's avatar and add login + logout functions to it."
@@ -78,7 +78,7 @@
              (dom/div nil
                       (dom/img #js {:src       (lib/get-avatar)
                                     :className "discuss-avatar-main img-responsive img-circle"})
-                      (dom/span nil (str (translate :common :hello) " " (lib/get-nickname) "!"))))))
+                      (dom/span nil (str (t :common :hello) " " (lib/get-nickname) "!"))))))
 
 (defn login-form [_ owner]
   (reify
@@ -90,14 +90,14 @@
     (render-state [_ {:keys [nickname password]}]
       (dom/div nil
                (om/build error-view {})
-               (vlib/view-header (translate :common :login))
+               (vlib/view-header (t :common :login))
                (dom/div #js {:className "input-group"}
                         (dom/span #js {:className "input-group-addon"}
                                   (vlib/fa-icon "fa-user fa-fw"))
                         (dom/input #js {:className   "form-control"
                                         :onChange    #(vlib/commit-component-state :nickname % owner)
                                         :value       nickname
-                                        :placeholder (translate :login :nickname)}))
+                                        :placeholder (t :login :nickname)}))
                (dom/div #js {:className "input-group"}
                         (dom/span #js {:className "input-group-addon"}
                                   (vlib/fa-icon "fa-key fa-fw"))
@@ -105,7 +105,7 @@
                                         :onChange    #(vlib/commit-component-state :password % owner)
                                         :value       password
                                         :type        "password"
-                                        :placeholder (translate :login :password)}))
+                                        :placeholder (t :login :password)}))
                (dom/button #js {:className "btn btn-default"
                                 :onClick   #(auth/login nickname password)
                                 :disabled  (not (and (pos? (count nickname))
@@ -130,7 +130,7 @@
                                           :onClick   #(com/item-click (:id item) (:url item))
                                           :value     (:url item)})
                           " "
-                          (vlib/safe-html (string/join (str " <i>" (translate :common :and) "</i> ") (map :title (:premises item))))))))) ; get all premises of item and add an "and" between them
+                          (vlib/safe-html (string/join (str " <i>" (t :common :and) "</i> ") (map :title (:premises item))))))))) ; get all premises of item and add an "and" between them
 
 (defn items-view
   "Show discussion items."
@@ -146,7 +146,7 @@
   []
   (dom/div #js {:key       (lib/get-unique-key)
                 :className "text-center"}
-           (bs/button-primary com/init-with-references! (translate :common :start-discussion))))
+           (bs/button-primary com/init-with-references! (t :common :start-discussion))))
 
 (defn discussion-elements [data]
   (if-not (empty? (:discussion @lib/app-state))
@@ -197,7 +197,7 @@
                     :onDragOver clipboard/allow-drop
                     :onDrop     clipboard/update-reference-drop}
                (dom/div #js {:className "panel-body"}
-                        (dom/h4 #js {:className "text-center"} (translate :discussion :add-argument))
+                        (dom/h4 #js {:className "text-center"} (t :discussion :add-argument))
                         (dom/h5 #js {:className "text-center"} (vlib/safe-html (lib/get-add-premise-text)))
                         (om/build error-view {})
                         (dom/div #js {:className "input-group"}
@@ -253,7 +253,7 @@
       (dom/div nil
                (when (seq (:discussion @lib/app-state))
                  (dom/div #js {:className "text-center"}
-                          (translate :discussion :current)
+                          (t :discussion :current)
                           (dom/br nil)
                           (dom/strong nil (get-in data [:issues :info]))))
                (om/build view-dispatcher data)

@@ -5,7 +5,7 @@
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.common :as lib]))
 
-(defn success-login
+(defn- success-login
   "Callback function when login was successful. Set attributes of user."
   [response]
   (let [res (com/process-response response)
@@ -16,7 +16,7 @@
                                   :logged-in? true})
     (com/ajax-get-and-change-view (lib/get-last-api) :discussion)))
 
-(defn wrong-login
+(defn- wrong-login
   "Callback function for invalid credentials."
   [_]
   (lib/error-msg! (t :errors :login))
