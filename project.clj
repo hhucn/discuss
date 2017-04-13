@@ -9,11 +9,11 @@
   :hooks [leiningen.cljsbuild]
 
   :dependencies [[org.clojure/clojure "1.9.0-alpha15"]
-                 [org.clojure/clojurescript "1.9.495"]
+                 [org.clojure/clojurescript "1.9.518"]
                  [org.clojure/core.async "0.3.442" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
                  [org.omcljs/om "1.0.0-alpha47"]
-                 [cljs-ajax "0.5.8"]
+                 [cljs-ajax "0.5.9"]
                  [com.cognitect/transit-cljs "0.8.239"]     ; Better JSON support
                  [lein-doo "0.1.7"]  ;; <-- otherwise it won't find the doo namespaces...
                  [inflections "0.13.0"]]
