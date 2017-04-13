@@ -1,10 +1,12 @@
 (ns discuss.components.find
   "Search engine."
-  (:require [om.core :as om]
+  (:require [goog.string :as gstring]
+            [om.core :as om]
             [om.dom :as dom]
             [clojure.string :refer [join]]
             [discuss.communication.main :as com]
             [discuss.config :as config]
+            [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
@@ -93,7 +95,7 @@
                                  (dom/input #js {:className   "form-control"
                                                  :onChange    #(update-state-find-statement :search-value % issue-id owner)
                                                  :value       search-value
-                                                 :placeholder "Find Statement"})
+                                                 :placeholder (t :find :statement)})
                                  (dom/span #js {:className "input-group-btn"}
                                            (bs/button-primary #(find-statement search-value issue-id) (vlib/fa-icon "fa-search fa-fw")))))))))
 
@@ -104,7 +106,7 @@
     (render [_]
       (let [results (get-search-results)]
         (dom/div nil
-                 (dom/h6 nil (str "Received " (count results) " " (lib/singular->plural (count results) "entry") "."))
+                 (dom/p nil (str (t :find :hits) ": " (count results)))
                  (apply dom/div nil
                         (map #(om/build item-view % (lib/unique-key-dict)) results)))))))
 
@@ -114,6 +116,6 @@
   (reify om/IRender
     (render [_]
       (dom/div nil
-               (vlib/view-header "Find Statements")
+               (vlib/view-header (t :find :statement))
                (om/build form-view {})
                (om/build results-view data)))))

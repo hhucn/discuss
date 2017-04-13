@@ -23,7 +23,8 @@
                      :restart      "Neustarten"
                      :submit       "Abschicken"}
         :errors     {:login "Login fehlgeschlagen. Vermutlich sind die Zugangsdaten nicht korrekt."}
-        :find       {:find-statement "Finde Aussage in Diskussion"}
+        :find       {:statement "Finde Aussage in Diskussion"
+                     :hits "Ergebnisse"}
         :login      {:nickname "Benutzername"
                      :password "Passwort"
                      :hhu-ldap "Wir benutzen das Personenverzeichnug der Heinrich-Heine-Universität Düsseldorf. Alle Daten und Informationen werden natürlich SSL-verschlüsselt gesendet und nach Erhalt unter keinen Umständen an Dritte weitergegeben."}
@@ -58,7 +59,8 @@
                      :restart "Restart"
                      :submit "Submit"}
         :errors     {:login "Could not login. Maybe your credentials are wrong."}
-        :find       {:find-statement "Find statement in the discussion"}
+        :find       {:statement "Find statement in the discussion"
+                     :hits "Results"}
         :login      {:nickname "Nickname"
                      :password "Password"
                      :hhu-ldap "We are using the Register of Persons of the Heinrich-Heine-University Düsseldorf. All data and information are of course sent SSL encrypted and will never be passed on to any third parties after receipt."}

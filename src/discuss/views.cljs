@@ -207,8 +207,7 @@
                         (om/build error-view {})
                         (dom/div #js {:className "input-group"}
                                  (dom/span #js {:className "input-group-addon input-group-addon-left"}
-                                           "... because"
-                                           #_(vlib/fa-icon "fa-comment"))
+                                           "... because")
                                  (dom/input #js {:className "form-control"
                                                  :onChange  #(vlib/commit-component-state :statement % owner)
                                                  :value     statement}))
