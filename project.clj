@@ -81,7 +81,7 @@
   :codox {:language    :clojurescript
           :metadata    {:doc/format :markdown}
           :source-paths ["src/discuss"]
-          :source-uri  "https://gitlab.cs.uni-duesseldorf.de/project/discuss/blob/master/{filepath}#L{line}"
+          :source-uri  "https://gitlab.cs.uni-duesseldorf.de/cn-tsn/project/discuss/blob/master/{filepath}#L{line}"
           :doc-paths   ["docs"]
           :output-path "target/docs"}
   )
