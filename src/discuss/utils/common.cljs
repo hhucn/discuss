@@ -154,6 +154,7 @@
     (update-state-item! :user :avatar (fn [_] (get-in res [:extras :users_avatar])))))
 
 ;;;; References
+;; TODO Move to references/lib
 (defn get-references
   "Returns a list of references which were received from the discussion system."
   []
@@ -161,10 +162,8 @@
 
 (defn get-reference
   "Returns a map matching a specific id. This id must be a number."
-  ([id col]
-   (first (filter #(= (str->int id) (:uid %)) col)))
-  ([id]
-   (get-reference id (get-references))))
+  ([id col] (first (filter #(= (str->int id) (:uid %)) col)))
+  ([id] (get-reference id (get-references))))
 
 
 ;;;; CSRF Token

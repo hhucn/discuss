@@ -64,7 +64,7 @@
   "Find parent of reference, split it into parts and wrap the original reference
   for highlighting and interaction."
   [ref]
-  (let [ref-text (vlib/html->str (:text ref))
+  (let [ref-text (lib/trim-and-normalize (vlib/html->str (:text ref)))
         ref-url (:url ref)
         ref-id (:uid ref)
         doms-raw (.getElementsByTagName js/document "*")
