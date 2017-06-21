@@ -1,7 +1,6 @@
 (ns discuss.utils.common
   (:require [om.core :as om :include-macros true]
             [clojure.walk :refer [keywordize-keys]]
-            [cljs.spec :as s]
             [clojure.string :refer [trim trim-newline]]
             [goog.string :as gstring]
             [cognitect.transit :as transit]

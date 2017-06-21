@@ -1,6 +1,6 @@
 (ns discuss.translations-test
   (:require [cljs.test :refer-macros [deftest is are testing]]
-            [clojure.spec.test :as stest]
+            [clojure.spec.test.alpha :as stest]
             [discuss.translations :as t]
             [discuss.test.lib :as tlib]))
 

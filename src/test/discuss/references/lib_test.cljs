@@ -1,6 +1,6 @@
 (ns discuss.references.lib-test
   (:require [cljs.test :refer-macros [deftest is are testing]]
-            [clojure.spec.test :as stest]
+            [clojure.spec.test.alpha :as stest]
             [discuss.references.lib :as rlib]
             [discuss.references.specs]
             [discuss.test.lib :as tlib]))

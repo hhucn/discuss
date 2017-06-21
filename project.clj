@@ -1,6 +1,6 @@
 (defproject discuss "0.3.865"
   :description ""
-  :url "http://example.com/FIXME"
+  :url "https://discuss.cs.uni-duesseldorf.de"
   :license {:name "Eclipse Public License"
             :url  "http://www.eclipse.org/legal/epl-v10.html"}
 

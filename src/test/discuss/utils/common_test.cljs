@@ -1,6 +1,6 @@
 (ns discuss.utils.common-test
   (:require [cljs.test :refer-macros [deftest is are testing]]
-            [clojure.spec.test :as stest]
+            [clojure.spec.test.alpha :as stest]
             [clojure.test.check :as tc]
             [clojure.test.check.clojure-test :refer-macros [defspec]]
             [clojure.test.check.generators :as gen]

@@ -1,13 +1,11 @@
 (ns discuss.references.specs
-  (:require [cljs.spec :as s]
-            [clojure.spec.test :as stest]
+  (:require [cljs.spec.alpha :as s]
+            [clojure.spec.test.alpha :as stest]
             [discuss.references.lib]))
 
 (s/fdef discuss.references.lib/split-at-string
-        :args (s/cat :body string?
-                     :query string?)
-        :ret (s/cat :first (s/? string?)
-                    :second (s/? string?))
+        :args (s/cat :body string? :query string?)
+        :ret (s/cat :first (s/? string?) :second (s/? string?))
         :fn #(cond
                (= 2 (-> % :ret count))
                (= (-> % :args :body) (str (-> % :ret :first) (-> % :args :query) (-> % :ret :second)))

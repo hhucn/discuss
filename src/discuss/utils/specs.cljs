@@ -1,6 +1,6 @@
 (ns discuss.utils.specs
-  (:require [cljs.spec :as s]
-            [clojure.spec.test :as stest]
+  (:require [cljs.spec.alpha :as s]
+            [clojure.spec.test.alpha :as stest]
             [discuss.utils.common]))
 
 (s/fdef discuss.utils.common/trim-and-normalize
