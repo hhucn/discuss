@@ -9,11 +9,11 @@
   :hooks [leiningen.cljsbuild]
 
   :dependencies [[org.clojure/clojure "1.9.0-alpha15"]
-                 [org.clojure/clojurescript "1.9.518"]
-                 [org.clojure/core.async "0.3.442" :exclusions [org.clojure/tools.reader]]
+                 [org.clojure/clojurescript "1.9.562"]
+                 [org.clojure/core.async "0.3.443" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
-                 [org.omcljs/om "1.0.0-alpha47"]
-                 [cljs-ajax "0.5.9"]
+                 [org.omcljs/om "1.0.0-beta1"]
+                 [cljs-ajax "0.6.0"]
                  [com.cognitect/transit-cljs "0.8.239"]     ; Better JSON support
                  [lein-doo "0.1.7"]  ;; <-- otherwise it won't find the doo namespaces...
                  [inflections "0.13.0"]]
@@ -33,9 +33,9 @@
   :aliases {"phantomtest" ["do" "clean" ["doo" "phantom" "test" "once"]]
             "build" ["do" "clean" ["cljsbuild" "once" "min"]]}
 
-  :profiles {:dev {:dependencies [[binaryage/devtools "0.9.2"]
+  :profiles {:dev {:dependencies [[binaryage/devtools "0.9.4"]
                                   [figwheel-sidecar "0.5.10"]
-                                  [com.cemerick/piggieback "0.2.1"]]
+                                  [com.cemerick/piggieback "0.2.2"]]
                    ;; need to add dev source path here to get user.clj loaded
                    :source-paths ["src/discuss"]
                    :repl-options {:init (set! *print-length* 50)
