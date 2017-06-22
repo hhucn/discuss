@@ -234,20 +234,20 @@
                 (dom/span nil (:dom-post reference))))))
 
 (defn view-dispatcher
-  "Dispatch current template in main view by the app state. "
+  "Dispatch current template in main view by the app state."
   [data]
   (reify om/IRender
     (render [_]
       (let [view (lib/current-view)]
         (dom/div #js {:className "panel panel-default"}
                  (dom/div #js {:className "panel-body"}
-                          (cond
-                            (= view :login) (om/build login-form {})
-                            (= view :options) (om/build options/view data)
-                            (= view :reference-usages) (om/build ref/usages-view data)
-                            (= view :reference-create-with-ref) (om/build ref/create-with-reference-view data)
-                            (= view :find) (om/build find/view data)
-                            :else (discussion-elements data))
+                          (case view
+                            :login (om/build login-form {})
+                            :options (om/build options/view data)
+                            :reference-usages (om/build ref/usages-view data)
+                            :reference-create-with-ref (om/build ref/create-with-reference-view data)
+                            :find (om/build find/view data)
+                            (discussion-elements data))
                           (if (or (= view :login) (= view :options) (= view :find) (= view :reference-usages))
                             (om/build close-button data)
                             (om/build control-elements data))))))))
