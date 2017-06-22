@@ -124,11 +124,11 @@
   "Check which action needs to be performed based on the type previously stored in the app-state."
   [statement reference]
   (let [action (get-in @lib/app-state [:layout :add-type])]
-    (cond
-      (= action :add-start-statement) (post-statement statement reference :add-start-statement)
-      (= action :add-start-premise) (post-statement [statement] reference :add-start-premise)
-      (= action :add-justify-premise) (post-statement [statement] reference :add-justify-premise)
-      :else (println "Action not found:" action))))
+    (case action
+      :add-start-statement (post-statement statement reference :add-start-statement)
+      :add-start-premise (post-statement [statement] reference :add-start-premise)
+      :add-justify-premise (post-statement [statement] reference :add-justify-premise)
+      (println "Action not found:" action))))
 
 (defn prepare-add
   "Save current add-method and show add form."
