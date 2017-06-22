@@ -1,11 +1,12 @@
-(ns discuss.config)
+(ns discuss.config
+  (:require [clojure.string :as str]))
 
 (goog-define version "0.2.1")
 (goog-define remote-host "http://localhost:4284/")
 (def project "discuss")
 
 (defn- get-protocol [url]
-  (first (clojure.string/split url #":")))
+  (first (str/split url #":")))
 
 (defn- make-host [host]
   (str (get-protocol (.. js/window -location -href)) "://" host))

@@ -291,9 +291,9 @@
 (defn singular->plural
   "Return pluralized string of word if number is greater than one."
   [number word]
-  (when (and (s/valid? string? word)
-             (or (s/valid? pos? number)
-                 (s/valid? zero? number)))
+  (when (and (string? word)
+             (or (pos? number)
+                 (zero? number)))
     (if (not= 1 number)
       (plural word)
       word)))
