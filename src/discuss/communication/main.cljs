@@ -104,18 +104,19 @@
    (post-json url body process-url-handler {"Content-Type" "application/json"})))
 
 (defn post-statement [statement reference add-type]
-  (let [url (get-in config/api [:add add-type])
+  (let [app @lib/app-state
+        url (get-in config/api [:add add-type])
         headers (merge {"Content-Type" "application/json"} (token-header))
         body {:statement     (htmlEscape statement)
               :reference     (htmlEscape reference)
               :conclusion_id (get-conclusion-id)            ; Relevant for add-start-premise
-              :supportive    (get-in @lib/app-state [:discussion :is_supportive])
-              :arg_uid       (get-in @lib/app-state [:discussion :arg_uid]) ; For premisses for arguments
-              :attack_type   (get-in @lib/app-state [:discussion :attack_type])
+              :supportive    (get-in app [:discussion :is_supportive])
+              :arg_uid       (get-in app [:discussion :arg_uid]) ; For premisses for arguments
+              :attack_type   (get-in app [:discussion :attack_type])
               :host          js/location.host
               :path          js/location.pathname
-              :issue_id      (get-in @lib/app-state [:issues :uid])
-              :slug          (get-in @lib/app-state [:issues :slug])}]
+              :issue_id      (get-in app [:issues :uid])
+              :slug          (get-in app [:issues :slug])}]
     (post-json url body process-url-handler headers)))
 
 
