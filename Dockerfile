@@ -1,9 +1,10 @@
 FROM clojure:alpine
 MAINTAINER Christian Meter <meter@cs.uni-duesseldorf.de>
 
-RUN apk --no-cache add nodejs ruby git python && \
+RUN echo -e 'http://dl-cdn.alpinelinux.org/alpine/edge/main\nhttp://dl-cdn.alpinelinux.org/alpine/edge/community\nhttp://dl-cdn.alpinelinux.org/alpine/edge/testing' > /etc/apk/repositories && \
+    apk --no-cache add yarn ruby git python && \
     gem install sass --no-rdoc --no-ri && \
-    npm install bower -g && \
+    yarn global add bower && \
     mkdir ./discuss
 
 WORKDIR /discuss
