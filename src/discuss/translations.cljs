@@ -18,6 +18,8 @@
                      :save             "Speichern"
                      :show-discuss     "Zeige discuss"
                      :start-discussion "Starte die Diskussion"}
+        :clipboard  {:heading "Clipboard"
+                     :instruction "Ziehe diese Referenzen in das Textfeld beim Erzeugen eines neuen Arguments, um die Referenz zu nutzen."}
         :discussion {:add-argument "Aussage hinzufügen"
                      :current      "Aktuelle Diskussion"
                      :restart      "Neustarten"
@@ -54,6 +56,8 @@
                      :save             "Save"
                      :show-discuss     "Show discuss"
                      :start-discussion "Start Discussion"}
+        :clipboard  {:heading "Clipboard"
+                     :instruction "Drag a reference into the text-field on new argument creation to link the reference with your argument."}
         :discussion {:add-argument "Add a new statement"
                      :current "Current Discussion"
                      :restart "Restart"

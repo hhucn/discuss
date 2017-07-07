@@ -1,6 +1,7 @@
 (ns discuss.components.clipboard
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
+            [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
 
@@ -33,8 +34,6 @@
   "Use text from clipboard item as reference for own statement."
   [_ev]
   (let [clipboard-item (get-in @lib/app-state [:clipboard :current])]
-    #_(lib/remove-class clipboard-item "bs-callout-info")
-    #_(lib/add-class clipboard-item "bs-callout-success")
     (lib/update-state-item! :user :selection (fn [_] (.. clipboard-item -innerText)))))
 
 (defn allow-drop [ev]
@@ -56,19 +55,14 @@
       (dom/div #js {:className   "bs-callout bs-callout-info"
                     :draggable   true
                     :onDragStart drag-event}
-               (dom/div nil (:title data))
-               #_(dom/button #js {:className "btn btn-sm btn-default"
-                                  :onClick   #(discuss.communication.main/ajax-get "api/cat-or-dog")
-                                  :title     "Select this reference for your statement"}
-                             (vlib/fa-icon "fa-check"))))))
+               (dom/div nil (:title data))))))
 
 (defn view []
   (reify om/IRender
     (render [_]
       (when (pos? (count (get-stored-selections)))
         (dom/div #js {:style #js {:paddingTop "3em"}}
-                 (dom/h5 nil "Clipboard")
-                 (dom/p nil "Ziehe diese Referenzen in das Textfeld beim Erzeugen eines neuen Arguments, um die Referenz zu
-                         nutzen.")
+                 (dom/h5 nil (t :clipboard :heading))
+                 (dom/p nil (t :clipboard :instruction))
                  (apply dom/div nil
                         (map #(om/build clipboard-item (lib/merge-react-key %)) (get-stored-selections))))))))
