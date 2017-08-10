@@ -3,7 +3,7 @@ image: clojure:alpine
 cache:
   paths:
     - ~/.m2
-  key: "$CI_COMMIT_REF_NAME"
+    - /root/.m2
   untracked: true
 
 variables:
