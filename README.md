@@ -5,7 +5,7 @@ Master [![build status](https://gitlab.cs.uni-duesseldorf.de/project/discuss/bad
 
 Minimal front-end to include dialog-based discussion systems into existing
 websites. Compatible
-to [D-BAS](https://gitlab.cs.uni-duesseldorf.de/project/dbas).
+to [D-BAS](https://github.com/hhucn/dbas).
 
 
 ## Setup
@@ -18,7 +18,7 @@ To get an interactive development environment run:
 
     rlwrap lein figwheel
 
-and open your browser at [localhost:3449](http://localhost:3449/).
+and open your browser at [localhost:3449](http://localhost:3449).
 This will auto compile and send all changes to the browser without the
 need to reload. After the compilation process is complete, you will
 get a Browser Connected REPL. An easy way to try it is:
