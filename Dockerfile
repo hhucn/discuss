@@ -2,7 +2,7 @@ FROM clojure:alpine
 MAINTAINER Christian Meter <meter@cs.uni-duesseldorf.de>
 
 RUN echo -e 'http://dl-cdn.alpinelinux.org/alpine/edge/main\nhttp://dl-cdn.alpinelinux.org/alpine/edge/community\nhttp://dl-cdn.alpinelinux.org/alpine/edge/testing' > /etc/apk/repositories && \
-    apk --no-cache add yarn ruby git python && \
+    apk --no-cache add yarn ruby ruby-dev git python && \
     gem install sass --no-rdoc --no-ri && \
     yarn global add bower && \
     mkdir ./discuss
