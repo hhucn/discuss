@@ -52,5 +52,4 @@ into a separate leiningen task:
 
 Copyright © 2016-2017 Christian Meter
 
-Distributed under the Eclipse Public License either version 1.0 or (at your
-option) any later version.
+Distributed under the [MIT License](LICENSE).

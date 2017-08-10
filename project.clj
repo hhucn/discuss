@@ -1,8 +1,8 @@
 (defproject discuss "0.3.891"
   :description "Embedding dialog-based discussions into arbitrary web-contexts"
   :url "https://discuss.cs.uni-duesseldorf.de"
-  :license {:name "Eclipse Public License"
-            :url  "http://www.eclipse.org/legal/epl-v10.html"}
+  :license {:name "MIT"
+            :url  "https://choosealicense.com/licenses/mit/"}
 
   :min-lein-version "2.5.3"
 
@@ -81,7 +81,6 @@
   :codox {:language    :clojurescript
           :metadata    {:doc/format :markdown}
           :source-paths ["src/discuss"]
-          :source-uri  "https://gitlab.cs.uni-duesseldorf.de/cn-tsn/project/discuss/blob/master/{filepath}#L{line}"
-          :doc-paths   ["docs"]
-          :output-path "target/docs"}
-  )
+          :source-uri "https://gitlab.cs.uni-duesseldorf.de/cn-tsn/project/discuss/blob/master/{filepath}#L{line}"
+          :doc-paths ["docs"]
+          :output-path "target/docs"})
