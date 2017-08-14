@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test:
     docker:
       - image: cmeter/clojure-phantomjs
     working_directory: ~/repo
