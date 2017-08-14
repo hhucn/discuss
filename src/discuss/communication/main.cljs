@@ -19,17 +19,6 @@
   (when (lib/logged-in?)
     {"X-Messaging-Token" (lib/get-token)}))
 
-(defn process-response
-  "Generic success handler, which sets error handling and returns a cljs-compatible response."
-  [response]
-  (let [res (lib/json->clj response)
-        error (:error res)]
-    (lib/loading? false)
-    (if (pos? (count error))
-      (lib/error-msg! error)
-      (do (lib/no-error!)
-          res))))
-
 
 ;;;; Handlers
 (defn error-handler
@@ -70,11 +59,11 @@
 (defn process-url-handler
   "React on response after sending a new statement. Reset atom and call newly received url."
   [response]
-  (let [res (process-response response)
+  (let [res (lib/process-response response)
         url (:url res)]
     (lib/hide-add-form!)
     (lib/update-state-item! :layout :add-type (fn [_] nil))
-    (discuss.references.integration/request-references)
+    ((resolve 'discuss.references.integration/request-references))
     (ajax-get url)))
 
 ;;;; Discussion-related functions
@@ -161,7 +150,7 @@
 (defn init-with-references!
   "Load discussion and initially get reference to include them in the discussion."
   []
-  (discuss.references.integration/request-references)
+  ((resolve 'discuss.references.integration/request-references))
   (init!))
 
 (defn resend-last-api

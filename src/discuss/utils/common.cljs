@@ -39,6 +39,21 @@
                 :sidebar    {:show? true}
                 :common     {:last-api ""}}))
 
+;;;; CLJS <--> JS
+(defn clj->json
+  "Convert CLJS to valid JSON."
+  [col]
+  (.stringify js/JSON (clj->js col)))
+
+(defn json->clj
+  "Use cognitect's transit reader for json to convert it to proper Clojure data
+  structures."
+  [response]
+  (cond
+    (string? response) (let [r (transit/reader :json)]
+                         (keywordize-keys (transit/read r response)))
+    :default (keywordize-keys response)))
+
 (defn str->int
   "Convert String to Integer."
   [s]
@@ -138,19 +153,6 @@
   (let [state (get-cursor key)]
     (om/transact! state (fn [] col))))
 
-(defn update-all-states!
-  "Update item list with the data provided by the API.
-
-  ** Needs optimizations **"
-  [response]
-  (let [res (discuss.communication.main/process-response response)
-        items (:items res)
-        discussion (:discussion res)
-        issues (:issues res)]
-    (update-state-map! :items items)
-    (update-state-map! :discussion discussion)
-    (update-state-map! :issues issues)
-    (update-state-item! :user :avatar (fn [_] (get-in res [:extras :users_avatar])))))
 
 ;;;; References
 ;; TODO Move to references/lib
@@ -175,12 +177,6 @@
   "Set the newly received CSRF token."
   [csrf]
   (update-state-item! :user :csrf (fn [_] csrf)))
-
-(defn loading?
-  "Return boolean if app is currently loading content. Provide a boolean to
-  change the app-state."
-  ([] (get-in @app-state [:layout :loading?]))
-  ([bool] (update-state-item! :layout :loading? (fn [_] bool))))
 
 
 ;; Show error messages
@@ -270,6 +266,39 @@
   (get-in @app-state [:common :last-api]))
 
 
+;;;; Generic Handlers
+(defn loading?
+  "Return boolean if app is currently loading content. Provide a boolean to
+  change the app-state."
+  ([] (get-in @app-state [:layout :loading?]))
+  ([bool] (update-state-item! :layout :loading? (fn [_] bool))))
+
+(defn process-response
+  "Generic success handler, which sets error handling and returns a cljs-compatible response."
+  [response]
+  (let [res (json->clj response)
+        error (:error res)]
+    (loading? false)
+    (if (pos? (count error))
+      (error-msg! error)
+      (do (no-error!)
+          res))))
+
+(defn update-all-states!
+  "Update item list with the data provided by the API.
+
+  ** Needs optimizations **"
+  [response]
+  (let [res (process-response response)
+        items (:items res)
+        discussion (:discussion res)
+        issues (:issues res)]
+    (update-state-map! :items items)
+    (update-state-map! :discussion discussion)
+    (update-state-map! :issues issues)
+    (update-state-item! :user :avatar (fn [_] (get-in res [:extras :users_avatar])))))
+
+
 ;;;; Selections
 (defn get-selection
   "Return the stored selection of the user."
@@ -333,22 +362,6 @@
   "Set new language. Should be a keyword."
   [lang]
   (update-state-item! :layout :language (fn [] lang)))
-
-
-;;;; CLJS <--> JS
-(defn clj->json
-  "Convert CLJS to valid JSON."
-  [col]
-  (.stringify js/JSON (clj->js col)))
-
-(defn json->clj
-  "Use cognitect's transit reader for json to convert it to proper Clojure data
-  structures."
-  [response]
-  (cond
-    (string? response) (let [r (transit/reader :json)]
-                         (keywordize-keys (transit/read r response)))
-    :default (keywordize-keys response)))
 
 
 ;;;; Other

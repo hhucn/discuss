@@ -1,5 +1,6 @@
 (ns discuss.communication.auth
   (:require [ajax.core :refer [POST]]
+            [clojure.string :refer [split]]
             [discuss.communication.main :as com]
             [discuss.config :as config]
             [discuss.translations :refer [translate] :rename {translate t}]
@@ -8,8 +9,8 @@
 (defn- success-login
   "Callback function when login was successful. Set attributes of user."
   [response]
-  (let [res (com/process-response response)
-        nickname (first (clojure.string/split (:token res) "-"))
+  (let [res (lib/process-response response)
+        nickname (first (split (:token res) "-"))
         token (:token res)]
     (lib/update-state-map! :user {:nickname   nickname
                                   :token      token

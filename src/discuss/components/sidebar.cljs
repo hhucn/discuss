@@ -40,4 +40,4 @@
     (render [_]
       (dom/div nil
                (vlib/fa-icon "fa-bars" hide)
-               (om/build discuss.views/main-view data)))))
+               (om/build (resolve 'discuss.views/main-view) data)))))

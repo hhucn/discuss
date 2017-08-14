@@ -92,7 +92,7 @@
 (defn- references-handler
   "Called when received a response on the reference-query."
   [response]
-  (let [res (com/process-response response)
+  (let [res (lib/process-response response)
         refs (:references res)]
     (lib/update-state-item! :common :references (fn [_] refs))
     (process-references refs)))

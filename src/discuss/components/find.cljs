@@ -19,7 +19,7 @@
 (defn- statement-handler
   "Called when received a response in the search."
   [response]
-  (let [res (com/process-response response)]
+  (let [res (lib/process-response response)]
     (lib/update-state-item! :discussion :search (fn [_] res))))
 
 (defn- find-statement

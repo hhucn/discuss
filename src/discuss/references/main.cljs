@@ -20,7 +20,7 @@
   "Handler to process information about the reference. Store results and change
   view."
   [response]
-  (let [res (com/process-response response)]
+  (let [res (lib/process-response response)]
     (rlib/save-reference-usages! res)
     (lib/change-view! :reference-usages)))
 
