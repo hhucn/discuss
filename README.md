@@ -1,11 +1,10 @@
-# discuss-cljs
+# discuss
 
-Development [![build status](https://gitlab.cs.uni-duesseldorf.de/project/discuss/badges/develop/build.svg)](https://gitlab.cs.uni-duesseldorf.de/project/peerfact/commits/develop)
-Master [![build status](https://gitlab.cs.uni-duesseldorf.de/project/discuss/badges/master/build.svg)](https://gitlab.cs.uni-duesseldorf.de/project/peerfact/commits/master)
+[![build status](https://circleci.com/gh/hhucn/discuss/tree/develop.svg?style=svg)](https://circleci.com/gh/hhucn/discuss/tree/develop) Development
+[![build status](https://circleci.com/gh/hhucn/discuss/tree/master.svg?style=svg)](https://circleci.com/gh/hhucn/discuss/tree/master) Master
 
 Minimal front-end to include dialog-based discussion systems into existing
-websites. Compatible
-to [D-BAS](https://github.com/hhucn/dbas).
+websites. Compatible to [D-BAS](https://github.com/hhucn/dbas).
 
 
 ## Setup
@@ -18,10 +17,10 @@ To get an interactive development environment run:
 
     rlwrap lein figwheel
 
-and open your browser at [localhost:3449](http://localhost:3449).
-This will auto compile and send all changes to the browser without the
-need to reload. After the compilation process is complete, you will
-get a Browser Connected REPL. An easy way to try it is:
+and open your browser at [localhost:3449](http://localhost:3449). This will auto
+compile and send all changes to the browser without the need to reload. After
+the compilation process is complete, you will get a Browser Connected REPL. An
+easy way to try it is:
 
     (js/alert "Am I connected?")
 
@@ -35,8 +34,8 @@ To create a production build run:
 
     lein do clean, cljsbuild once min
 
-And open your browser in `resources/public/index.html`. You will not
-get live reloading, nor a REPL.
+And open your browser in `resources/public/index.html`. You will not get live
+reloading, nor a REPL.
 
 ### Testing and Development
 
