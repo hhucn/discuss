@@ -19,7 +19,7 @@
 
 (defn control-buttons [data]
   (dom/div nil
-           (dom/button #js {:className "btn btn-info"
+           #_(dom/button #js {:className "btn btn-info"
                             :onClick   discuss.core/main}
                        (dom/i #js {:className "fa fa-fort-awesome"}))
            " "
