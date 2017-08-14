@@ -17,14 +17,6 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "project.clj" }}
 
-<<<<<<< HEAD
-=======
-      # - run:
-      #     shell: /bin/sh
-      #     command: |
-      #       lein phantomtest
-
->>>>>>> Update deps
   test:
     docker:
       - image: cmeter/clojure-phantomjs
