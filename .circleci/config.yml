@@ -27,6 +27,11 @@ jobs:
           key: v1-dependencies-{{ checksum "project.clj" }}
 
       - run: lein phantomtest
+      - run:
+        shell: /bin/sh
+        command: |
+          lein phantomtest
+
 
   analysis:
     docker:
@@ -46,10 +51,6 @@ jobs:
           - v1-dependencies-
 
       - run: lein do ancient, kibit
-      - run:
-          name: Analysis failed
-          command: echo "Analysis failed"
-          when: on_fail
 
 workflows:
   version: 2
