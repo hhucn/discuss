@@ -59,10 +59,11 @@
                                :source-map-timestamp true}}
                {:id           "test"
                 :source-paths ["src"]
-                :compiler     {:output-to     "resources/public/js/compiled/testable.js"
-                               :output-dir    "resources/public/js/compiled/test/out"
-                               :main          discuss.tests
-                               ;:preloads      [discuss.utils.extensions]
+                :compiler     {:output-to "resources/public/js/compiled/testable.js"
+                               :output-dir "resources/public/js/compiled/test/out"
+                               :main discuss.tests
+                               :process-shim false
+                               ;:preloads [discuss.utils.extensions]
                                :optimizations :none}}
                {:id           "min"
                 :source-paths ["src"]
