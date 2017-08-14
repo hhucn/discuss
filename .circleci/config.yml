@@ -56,6 +56,4 @@ workflows:
   test_analysis:
     jobs:
       - test
-      - analysis:
-          requires:
-            - test
+      - analysis
