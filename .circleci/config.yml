@@ -30,13 +30,11 @@ jobs:
           - v1-dependencies-{{ checksum "project.clj" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-
-      - run: lein deps
+        
+      # run tests!
+      - run: lein phantomtest
 
       - save_cache:
           paths:
             - ~/.m2
           key: v1-dependencies-{{ checksum "project.clj" }}
-        
-      # run tests!
-      - run: lein phantomtest
