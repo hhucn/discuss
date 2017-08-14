@@ -28,9 +28,9 @@ jobs:
 
       - run: lein phantomtest
       - run:
-        shell: /bin/sh
-        command: |
-          lein phantomtest
+          shell: /bin/sh
+          command: |
+            lein phantomtest
 
 
   analysis:
