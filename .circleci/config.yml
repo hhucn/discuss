@@ -1,24 +1,16 @@
 version: 2
 jobs:
-  test:
+  build:
     docker:
       # specify the version you desire here
       - image: cmeter/clojure-phantomjs
     working_directory: ~/repo
 
-    environment:
-      LEIN_ROOT: "true"
-      # Customize the JVM maximum heap limit
-      JVM_OPTS: -Xmx3200m
-    
     steps:
       - checkout
-
-      # Download and cache dependencies
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "project.clj" }}
-          # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
       - run: lein deps
       - save_cache:
@@ -26,11 +18,27 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "project.clj" }}
 
-      - run:
-          shell: /bin/sh
-          command: |
-            lein phantomtest
+      # - run:
+      #     shell: /bin/sh
+      #     command: |
+      #       lein phantomtest
 
+  test:
+    docker:
+      - image: cmeter/clojure-phantomjs
+    working_directory: ~/repo
+
+    environment:
+      LEIN_ROOT: "true"
+      JVM_OPTS: -Xmx3200m
+    
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "project.clj" }}
+          - v1-dependencies-
+      - run: lein phantomtest
 
   analysis:
     docker:
@@ -43,17 +51,20 @@ jobs:
     
     steps:
       - checkout
-
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "project.clj" }}
           - v1-dependencies-
-
       - run: lein do ancient, kibit
 
 workflows:
   version: 2
   test_analysis:
     jobs:
-      - test
-      - analysis
+      - build
+      - test:
+          requires:
+            - build
+      - analysis:
+          requires:
+            - build
