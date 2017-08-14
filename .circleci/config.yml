@@ -46,10 +46,16 @@ jobs:
           - v1-dependencies-
 
       - run: lein do ancient, kibit
+      - run:
+          name: Analysis failed
+          command: echo "Analysis failed"
+          when: on_fail
 
 workflows:
   version: 2
   test_analysis:
     jobs:
       - test
-      - analysis
+      - analysis:
+          requires:
+            - test
