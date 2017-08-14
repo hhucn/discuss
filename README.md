@@ -1,7 +1,8 @@
 # discuss
 
-[![build status](https://circleci.com/gh/hhucn/discuss/tree/develop.svg?style=svg)](https://circleci.com/gh/hhucn/discuss/tree/develop) Development
-[![build status](https://circleci.com/gh/hhucn/discuss/tree/master.svg?style=svg)](https://circleci.com/gh/hhucn/discuss/tree/master) Master
+| Develop | Master | Release |
+|---------|--------|---------|
+|[![CircleCI](https://img.shields.io/circleci/project/hhucn/discuss/develop.svg?maxAge=60)](https://circleci.com/gh/hhucn/discuss) | [![CircleCI](https://img.shields.io/circleci/project/hhucn/discuss/master.svg?maxAge=60)](https://circleci.com/gh/hhucn/discuss) | [![GitHub release](https://img.shields.io/github/release/hhucn/discuss.svg?maxAge=60)](https://github.com/hhucn/discuss)
 
 Minimal front-end to include dialog-based discussion systems into existing
 websites. Compatible to [D-BAS](https://github.com/hhucn/dbas).
