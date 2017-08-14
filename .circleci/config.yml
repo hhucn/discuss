@@ -30,7 +30,7 @@ jobs:
 
   analysis:
     docker:
-      - image: circleci/clojure
+      - image: cmeter/clojure-phantomjs
     working_directory: ~/repo
 
     environment:
