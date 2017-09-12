@@ -16,6 +16,8 @@
                  [cljs-ajax "0.6.0"]
                  [com.cognitect/transit-cljs "0.8.239"]
                  [lein-doo "0.1.7"]  ;; <-- otherwise it won't find the doo namespaces...
+                 [devcards "0.2.3"]
+                 [sablono "0.8.0"]
                  [inflections "0.13.0"]]
 
   :plugins [[lein-ancient "0.6.10"]
@@ -65,6 +67,15 @@
                                :process-shim false
                                ;:preloads [discuss.utils.extensions]
                                :optimizations :none}}
+               {:id "devcards"
+                :source-paths ["src"]
+                :figwheel {:devcards true
+                           :open-urls ["http://localhost:3449/cards.html"]}
+                :compiler {:main       discuss.cards
+                           :asset-path "js/compiled/discuss_cards_out"
+                           :output-to  "resources/public/js/compiled/discuss_cards.js"
+                           :output-dir "resources/public/js/compiled/discuss_cards_out"
+                           :source-map-timestamp true }}
                {:id           "min"
                 :source-paths ["src"]
                 :compiler     {:output-to      "resources/public/js/compiled/discuss.js"
@@ -76,7 +87,8 @@
                                :parallel-build true
                                :compiler-stats true
                                :pretty-print   false}}]}
-  :figwheel {:css-dirs ["resources/public/css"]}             ;; watch and update CSS
+  :figwheel {:nrepl-port 7888
+             :css-dirs ["resources/public/css"]}             ;; watch and update CSS
 
   ;; For documentation
   :codox {:language    :clojurescript
