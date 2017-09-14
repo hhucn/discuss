@@ -2,7 +2,6 @@
   "Functions concerning the communication with the remote discussion system."
   (:require [ajax.core :refer [GET POST]]
             [goog.string :refer [htmlEscape]]
-            [clojure.walk :refer [keywordize-keys]]
             [clojure.string :refer [join]]
             [discuss.config :as config]
             [discuss.utils.common :as lib]))
@@ -17,13 +16,13 @@
   "Return token header for ajax request if user is logged in."
   []
   (when (lib/logged-in?)
-    {"X-Messaging-Token" (lib/get-token)}))
+    {"X-Authentication" (lib/clj->json {:type "user" :token (lib/get-token)})}))
 
 
 ;;;; Handlers
 (defn error-handler
   "Generic error handler for ajax requests."
-  [{:keys [status status-text response]}]
+  [{:keys [status status-text]}]
   (lib/log (str "I feel a disturbance in the Force... " status " " status-text))
   (lib/loading? false))
 

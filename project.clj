@@ -8,13 +8,13 @@
 
   :hooks [leiningen.cljsbuild]
 
-  :dependencies [[org.clojure/clojure "1.9.0-alpha17"]
+  :dependencies [[org.clojure/clojure "1.9.0-alpha20"]
                  [org.clojure/clojurescript "1.9.908"]
                  [org.clojure/core.async "0.3.443" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
                  [org.omcljs/om "1.0.0-alpha48"]
-                 [cljs-ajax "0.7.2"]
                  [com.cognitect/transit-cljs "0.8.239"]
+                 [cljs-ajax "0.7.2"]
                  [lein-doo "0.1.7"]  ;; <-- otherwise it won't find the doo namespaces...
                  [devcards "0.2.3"]
                  [sablono "0.8.0"]
@@ -65,7 +65,7 @@
                                :output-dir "resources/public/js/compiled/test/out"
                                :main discuss.tests
                                :process-shim false
-                               ;:preloads [discuss.utils.extensions]
+                               ;; :preloads [discuss.utils.extensions]
                                :optimizations :none}}
                {:id "devcards"
                 :source-paths ["src"]
