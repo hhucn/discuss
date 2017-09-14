@@ -8,7 +8,7 @@
 
   :hooks [leiningen.cljsbuild]
 
-  :dependencies [[org.clojure/clojure "1.9.0-alpha20"]
+  :dependencies [[org.clojure/clojure "1.9.0-alpha19"]
                  [org.clojure/clojurescript "1.9.908"]
                  [org.clojure/core.async "0.3.443" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
