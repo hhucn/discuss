@@ -9,11 +9,11 @@
   :hooks [leiningen.cljsbuild]
 
   :dependencies [[org.clojure/clojure "1.9.0-alpha17"]
-                 [org.clojure/clojurescript "1.9.854"]
+                 [org.clojure/clojurescript "1.9.908"]
                  [org.clojure/core.async "0.3.443" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
                  [org.omcljs/om "1.0.0-alpha48"]
-                 [cljs-ajax "0.6.0"]
+                 [cljs-ajax "0.7.2"]
                  [com.cognitect/transit-cljs "0.8.239"]
                  [lein-doo "0.1.7"]  ;; <-- otherwise it won't find the doo namespaces...
                  [devcards "0.2.3"]
@@ -24,7 +24,7 @@
             [lein-cljsbuild "1.1.5" :exclusions [[org.clojure/clojure]]]
             [lein-codox "0.10.3"]
             [lein-doo "0.1.7"]
-            [lein-figwheel "0.5.13-SNAPSHOT"]
+            [lein-figwheel "0.5.13"]
             [lein-kibit "0.1.3"]
             [lein-set-version "0.4.1"]]
 
@@ -36,7 +36,7 @@
             "build" ["do" "clean" ["cljsbuild" "once" "min"]]}
 
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.4"]
-                                  [figwheel-sidecar "0.5.13-SNAPSHOT"]
+                                  [figwheel-sidecar "0.5.13"]
                                   [com.cemerick/piggieback "0.2.2"]]
                    ;; need to add dev source path here to get user.clj loaded
                    :source-paths ["src/discuss"]
