@@ -1,11 +1,11 @@
 (ns discuss.cards
-  (:require [om.core :as om :include-macros true]
+  (:require [devcards.core :as dc :refer-macros [defcard defcard-om defcard-om-next dom-node]]
             [sablono.core :as html :refer-macros [html]]
-            [om.next :as nom :refer-macros [defui]]
+            [om.next :as om :refer-macros [defui]]
             [discuss.parser :as parser]
+            [discuss.components.search.statements :refer [SearchQuery]]
             [discuss.utils.common :as lib]
-            [discuss.views :as views])
-  (:require-macros [devcards.core :as dc :refer [defcard defcard-om defcard-om-next deftest]]))
+            [discuss.views :as views]))
 
 (enable-console-print!)
 
@@ -13,15 +13,18 @@
   views/main-view
   lib/app-state)
 
-(defui Foo
-  Object
-  (render [this]
-          (html [:h1 "Wuki"])))
-(def foo (nom/factory Foo))
+(defonce test-data (atom {:foo :bar
+                          :search/results [:foo :bar :baz]}))
 
-(defcard-om-next wuki-card
-  foo
-  parser/reconciler)
+(defonce devcard-reconciler
+  (om/reconciler {:state test-data
+                  :parser (om/parser {:read parser/read :mutate parser/mutate})}))
+
+(defcard search-query-card-no-next
+  (dom-node
+   (fn [_ node]
+     (om/add-root! devcard-reconciler SearchQuery node)))
+  {:inspect-data true})
 
 
 ;; -----------------------------------------------------------------------------
@@ -32,5 +35,4 @@
   ;; node is on the page
   (when-let [node (.getElementById js/document "main-app-area")]
     (.render js/ReactDOM (html [:div "This is working"]) node)))
-
 (main)

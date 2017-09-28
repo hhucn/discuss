@@ -44,7 +44,19 @@
                                   :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
 
   :cljsbuild {:builds
-              [{:id           "dev"
+              [{:id "dev"
+                :source-paths ["src"]
+                :figwheel {:devcards true
+                           :open-urls ["http://localhost:3449/cards.html"]}
+                :compiler {:main       discuss.cards
+                           :preloads   [discuss.utils.extensions devtools.preload]
+                           :asset-path "js/compiled/discuss_cards_out"
+                           :output-to  "resources/public/js/compiled/discuss_cards.js"
+                           :output-dir "resources/public/js/compiled/discuss_cards_out"
+                           :parallel-build       true
+                           :compiler-stats       true
+                           :source-map-timestamp true }}
+               {:id           "dev-default"
                 :source-paths ["src"]
                 :figwheel     {:on-jsload "discuss.core/on-js-reload"
                                :open-urls ["http://localhost:3449"]}
@@ -67,15 +79,6 @@
                                :process-shim false
                                ;; :preloads [discuss.utils.extensions]
                                :optimizations :none}}
-               {:id "devcards"
-                :source-paths ["src"]
-                :figwheel {:devcards true
-                           :open-urls ["http://localhost:3449/cards.html"]}
-                :compiler {:main       discuss.cards
-                           :asset-path "js/compiled/discuss_cards_out"
-                           :output-to  "resources/public/js/compiled/discuss_cards.js"
-                           :output-dir "resources/public/js/compiled/discuss_cards_out"
-                           :source-map-timestamp true }}
                {:id           "min"
                 :source-paths ["src"]
                 :compiler     {:output-to      "resources/public/js/compiled/discuss.js"
