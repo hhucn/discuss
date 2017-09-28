@@ -1,7 +1,7 @@
 (ns discuss.parser
   (:require [om.next :as om]))
 
-(def init-data {})
+(def init-data {:search/results []})
 
 ;; -----------------------------------------------------------------------------
 ;; Parsing
@@ -15,6 +15,8 @@
       {:value :not-found})))
 
 (defmulti mutate om/dispatch)
+(defmethod mutate 'search/results [{:keys [state]} _ {:keys [results]}]
+  {:action (fn [] (swap! state assoc :search/results results))})
 
 
 ;; -----------------------------------------------------------------------------
