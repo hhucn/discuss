@@ -1,7 +1,6 @@
 (ns discuss.components.find
   "Search engine."
-  (:require [goog.string :as gstring]
-            [om.core :as om]
+  (:require [om.core :as om]
             [om.dom :as dom]
             [clojure.string :refer [join]]
             [discuss.communication.main :as com]
@@ -13,8 +12,7 @@
 
 (defn- get-search-results
   "Extract values and create a list of maps."
-  []
-  (get-in @lib/app-state [:discussion :search :values]))
+  [] (get-in @lib/app-state [:discussion :search :values]))
 
 (defn- statement-handler
   "Called when received a response in the search."
@@ -46,7 +44,7 @@
 
 
 ;;;; Views
-(defn- item-view [data _owner]
+(defn item-view [data _owner]
   (reify om/IRender
     (render [_]
       (let [distance (lib/str->int (:distance data))
