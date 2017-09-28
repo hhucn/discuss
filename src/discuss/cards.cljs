@@ -13,8 +13,8 @@
   views/main-view
   lib/app-state)
 
-(defonce test-data (atom {:foo :bar
-                          :search/results [:foo :bar :baz]}))
+(defonce test-data {:foo :bar
+                    :search/results [:foo :bar :baz]})
 
 (defonce devcard-reconciler
   (om/reconciler {:state test-data
