@@ -3,7 +3,7 @@
   (:require [om.core :as om]
             [om.dom :as dom]
             [clojure.string :refer [join]]
-            [discuss.communication.main :as com]
+            [discuss.communication.lib :as comlib]
             [discuss.config :as config]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.bootstrap :as bs]
@@ -26,7 +26,7 @@
   (when-not (= keywords "")
     (let [mode 3
           request-url (join "/" [(get-in config/api [:get :statements]) issue-id mode keywords])]
-      (com/ajax-get request-url {} statement-handler))))
+      (comlib/ajax-get request-url {} statement-handler))))
 
 (defn- update-state-find-statement
   "Saves current state into object and sends search request to discussion system."
@@ -54,7 +54,7 @@
           (dom/div #js {:className "bs-callout bs-callout-info"}
                    (dom/span #js {:className "badge pull-right"} distance)
                    (dom/a #js {:href    "javascript:void(0)"
-                               :onClick #(com/jump-to-argument (:slug issue) (:uid argument))}
+                               :onClick #(comlib/jump-to-argument (:slug issue) (:uid argument))}
                           (vlib/safe-html (:text argument)))))))))
 
 (defn- issue-selector-view

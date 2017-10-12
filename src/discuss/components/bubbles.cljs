@@ -5,7 +5,7 @@
             [goog.dom :as gdom]
             [discuss.history :as history]
             [discuss.utils.common :as lib]
-            [discuss.communication.main :as com]
+            [discuss.communication.lib :as comlib]
             [discuss.utils.views :as vlib]))
 
 (defn- get-bubble-class [bubble]
@@ -23,7 +23,7 @@
     (cond
       (= data-href "back") history/back!
       (= data-href "login") #(lib/change-view! :login)
-      (= data-href "restart") com/init!)))
+      (= data-href "restart") comlib/init!)))
 
 (defn- convert-link
   "Given a DOM element, search for anchor-children and correctly set onClick and href properties."

@@ -5,8 +5,8 @@
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
             [discuss.references.lib :as rlib]
+            [discuss.references.main :as rmain]
             [discuss.communication.lib :as comlib]
-            [discuss.views :refer [reference-view]]
             [discuss.config :as config]))
 
 ;;; Include references
@@ -43,11 +43,12 @@
             first-part (first dom-parts)
             last-part (second dom-parts)]
         (when (= 2 (count dom-parts))
-          (om/root reference-view {:text     ref-text
-                                   :url      ref-url
-                                   :id       ref-id
-                                   :dom-pre  (vlib/safe-html first-part)
-                                   :dom-post (when (and (< 1 (count dom-parts)) (not= last-part ref-text)) (vlib/safe-html last-part))}
+          (om/root rmain/reference-view
+                   {:text ref-text
+                    :url ref-url
+                    :id ref-id
+                    :dom-pre  (vlib/safe-html first-part)
+                    :dom-post (when (and (< 1 (count dom-parts)) (not= last-part ref-text)) (vlib/safe-html last-part))}
                    {:target parent})
           (rlib/highlight! ref-text))))))
 
@@ -72,3 +73,4 @@
         params {:host js/location.host
                 :path js/location.pathname}]
     (comlib/ajax-get url nil references-handler params)))
+

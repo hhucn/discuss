@@ -222,22 +222,6 @@
                                          :disabled  (> 10 (count statement))}
                                     (remaining-characters statement)))))))
 
-(defn reference-view [reference owner]
-  (reify
-    om/IInitState
-    (init-state [_]
-      {:show false})
-    om/IRenderState
-    (render-state [_ {:keys [show]}]
-      (dom/span nil
-                (dom/span nil (:dom-pre reference))
-                (dom/span #js {:className "arguments pointer"
-                               :onClick   #(ref/click-reference reference)}
-                          (:text reference)
-                          " "
-                          (vlib/logo #(om/set-state! owner :show (vlib/toggle-show show))))
-                (dom/span nil (:dom-post reference))))))
-
 (defn view-dispatcher
   "Dispatch current template in main view by the app state."
   [data]

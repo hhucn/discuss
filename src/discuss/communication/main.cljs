@@ -2,29 +2,12 @@
   "Functions concerning the communication with the remote discussion system."
   (:require [ajax.core :refer [GET POST]]
             [goog.string :refer [htmlEscape]]
-            [clojure.string :refer [join]]
             [discuss.config :as config]
             [discuss.utils.common :as lib]
             [discuss.references.integration :as rint]
             [discuss.communication.lib :as comlib]))
 
-;;;; Handlers
-(defn success-handler-next-view
-  "After the successful ajax call, change the view to the previously saved next
-  view."
-  [response]
-  (lib/change-to-next-view!)
-  (lib/update-all-states! response))
-
-
 ;;;; Calls
-(defn ajax-get-and-change-view
-  "Make ajax call to jump right into the discussion and change to discussion
-  view."
-  [url view]
-  (lib/next-view! view)
-  (comlib/ajax-get url {} success-handler-next-view))
-
 (defn process-url-handler
   "React on response after sending a new statement. Reset atom and call newly
   received url."
@@ -110,28 +93,13 @@
 
 
 ;;;; Get things started!
-(defn init!
-  "Request initial data from API."
-  []
-  (let [url (:init config/api)]
-    (lib/update-state-item! :layout :add? (fn [_] false))
-    (ajax-get-and-change-view url :default)))
-
 (defn init-with-references!
   "Load discussion and initially get reference to include them in the discussion."
   []
   (rint/request-references)
-  (init!))
+  (comlib/init!))
 
 (defn resend-last-api
   "Resends stored url from last api call."
   []
   (comlib/ajax-get (lib/get-last-api)))
-
-(defn jump-to-argument
-  "Jump directly into the discussion to let the user argue about the given argument.
-
-   ** TODO: Update route **"
-  [slug arg-id]
-  (let [url (join "/" ["api" slug "jump" arg-id])]
-    (ajax-get-and-change-view url :discussion)))

@@ -1,7 +1,7 @@
 (ns discuss.components.navigation
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [discuss.communication.main :as com]
+            [discuss.communication.lib :as comlib]
             [discuss.translations :refer [translate]]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
@@ -24,7 +24,7 @@
 (defn- home
   "Show home screen and initialize discussion."
   []
-  (element "fa-home" [:nav :home] com/init!))
+  (element "fa-home" [:nav :home] comlib/init!))
 
 (defn- find-arg
   "Open view to find statements inside of the discussion."

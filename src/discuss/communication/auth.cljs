@@ -1,7 +1,7 @@
 (ns discuss.communication.auth
   (:require [ajax.core :refer [POST]]
             [clojure.string :refer [split]]
-            [discuss.communication.main :as com]
+            [discuss.communication.lib :as comlib]
             [discuss.config :as config]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.common :as lib]))
@@ -15,7 +15,7 @@
     (lib/update-state-map! :user {:nickname   nickname
                                   :token      token
                                   :logged-in? true})
-    (com/ajax-get-and-change-view (lib/get-last-api) :discussion)))
+    (comlib/ajax-get-and-change-view (lib/get-last-api) :discussion)))
 
 (defn- wrong-login
   "Callback function for invalid credentials."
@@ -27,7 +27,7 @@
   "Get cleaned data and send ajax request."
   [nickname password]
   (let [url (:login config/api)]
-    (POST (com/make-url url)
+    (POST (comlib/make-url url)
           {:body            (lib/clj->json {:nickname nickname
                                             :password password})
            :handler         success-login

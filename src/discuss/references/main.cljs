@@ -4,7 +4,8 @@
   own statement."
   (:require [om.core :as om]
             [om.dom :as dom]
-            [discuss.communication.main :as com]
+            [sablono.core :as html :refer-macros [html]]
+            [discuss.communication.lib :as comlib]
             [discuss.config :as config]
             [discuss.components.find :as find]
             [discuss.components.sidebar :as sidebar]
@@ -28,7 +29,7 @@
   "Show usages of the provided reference."
   [reference-id]
   (let [url (str (get-in config/api [:get :reference-usages]) "/" reference-id)]
-    (com/ajax-get url {} reference-usage-handler)))
+    (comlib/ajax-get url {} reference-usage-handler)))
 
 
 ;;;; Interaction with integrated references
@@ -78,12 +79,12 @@
       (let [{:keys [issue argument author]} data]           ; TODO I think this should be the author of the argument
         (dom/div #js {:className "bs-callout bs-callout-info"}
                  (dom/div #js {:className "pull-right"}
-                          (bs/button-default-sm #(com/jump-to-argument (:slug issue) (:uid argument)) (vlib/fa-icon "fa-search")))
+                          (bs/button-default-sm #(comlib/jump-to-argument (:slug issue) (:uid argument)) (vlib/fa-icon "fa-search")))
                  (dom/a #js {:href    "javascript:void(0)"
-                             :onClick #(com/jump-to-argument (:slug issue) (:uid argument))}
+                             :onClick #(comlib/jump-to-argument (:slug issue) (:uid argument))}
                         (dom/strong nil (vlib/safe-html (:text argument))))
                  (dom/div nil (t :common :author) ": " (:nickname author))
-                 (dom/div nil (t :common :issue) ": " (:title issue))))))) 
+                 (dom/div nil (t :common :issue) ": " (:title issue)))))))
 
 (defn usage-list-view
   "List single usages of reference."
@@ -99,7 +100,7 @@
                    (dom/p nil (t :references :usages/not-found-body)))
           (apply dom/div nil
                  (map #(om/build single-reference-usage
-                                 {:issue issue, :argument %, :author author}
+                                 {:issue issue :argument % :author author}
                                  (lib/unique-key-dict)) arguments)))))))
 
 (defn usages-view
@@ -113,3 +114,19 @@
                  (om/build rlib/current-reference-component {})
                  (apply dom/div nil
                         (map #(om/build usage-list-view % (lib/unique-key-dict)) usages)))))))
+
+
+(defn main-view [reference owner]
+  (reify
+    om/IInitState
+    (init-state [_]
+      {:show false})
+    om/IRenderState
+    (render-state [_ {:keys [show]}]
+      (html [:span
+             [:span (:dom-pre reference)]
+             [:span.arguments.pointer {:onClick #(click-reference reference)}
+              (:text reference)
+              " "
+              (vlib/logo #(om/set-state! owner :show (vlib/toggle-show show)))]
+             [:span (:dom-post reference)]]))))
