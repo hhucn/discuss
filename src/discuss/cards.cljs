@@ -3,7 +3,7 @@
             [sablono.core :as html :refer-macros [html]]
             [om.next :as om :refer-macros [defui]]
             [discuss.parser :as parser]
-            [discuss.components.search.statements :refer [SearchQuery]]
+            [discuss.components.search.statements :refer [SearchQuery Results]]
             [discuss.utils.common :as lib]
             [discuss.views :as views]))
 
@@ -20,10 +20,16 @@
   (om/reconciler {:state test-data
                   :parser (om/parser {:read parser/read :mutate parser/mutate})}))
 
-(defcard search-query-card-no-next
+(defcard search-query
   (dom-node
    (fn [_ node]
-     (om/add-root! devcard-reconciler SearchQuery node)))
+     (om/add-root! parser/reconciler SearchQuery node)))
+  {:inspect-data true})
+
+(defcard search-results
+  (dom-node
+   (fn [_ node]
+     (om/add-root! parser/reconciler Results node)))
   {:inspect-data true})
 
 
