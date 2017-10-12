@@ -6,22 +6,23 @@
             [goog.crypt.base64 :as b64]
             [ajax.core :refer [GET]]
             [discuss.specs :as specs]
-            [discuss.utils.views :as vlib]))
+            [discuss.utils.views :as vlib]
+            [discuss.parser :as parser]))
 
 (defn- search-results
   "Handler which is called with the results from ElasticSearch. Extract statements
   from response and write it to the app-state."
-  [this response]
+  [response]
   (let [results (-> response keywordize-keys :hits :hits)
         data (mapv :_source results)
         statements (filter (partial s/valid? ::specs/statement) data)]
-    (om/transact! this `[(search/results {:results ~statements})])))
+    (om/transact! parser/reconciler `[(search/results {:results ~statements})])))
 
 (defn search
   "Make a GET request and search in ElasticSearch for the requested data."
-  [this query]
+  [query]
   (GET "http://localhost:9200/_search"
-       {:handler (partial search-results this)
+       {:handler search-results
         :headers {"Authorization" (str "Basic " (b64/encodeString "elastic:changeme"))}
         :params {:q (str query "*")}}))
 
@@ -34,21 +35,24 @@
                      [:span.badge.pull-right aggregate-id]
                      [:p (vlib/safe-html content)]
                      [:p (str "Author: " author)]])))))
-(def result (om/factory Result))
+(def ^:private result (om/factory Result))
 
-(defui ^:once SearchQuery
+(defui ^:once Results
   static om/IQuery
   (query [this] [:search/results])
   Object
   (render [this]
           (let [{:keys [search/results]} (om/props this)]
-            (html [:div
-                   [:form
-                    [:div.form-group
-                     [:label "Search for Statements"]
-                     [:input.form-control {:type "text"
-                                           :on-change #(search this (.. % -target -value))}]]]
-                   [:div
-                    [:h4 "Results"]
-                    [:div.results (map #(result %) results)]]]))))
+            (html [:div.results (map #(result (merge {:keyfn :id} %)) results)]))))
+(def results (om/factory Results))
+
+(defui ^:once SearchQuery
+  Object
+  (render [this]
+          (html [:div
+                 [:form
+                  [:div.form-group
+                   [:label "Search for Statements"]
+                   [:input.form-control {:type "text"
+                                         :on-change #(search (.. % -target -value))}]]]])))
 (def search-query (om/factory SearchQuery))

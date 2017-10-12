@@ -1,47 +1,15 @@
 (ns discuss.references.integration
   "Listen for mouse clicks, get references and highlight them in the article."
-  (:require-macros [cljs.core.async.macros :refer [go]])
-  (:require [goog.events :as events]
-            [goog.string :as gstring]
-            [om.core :as om]
-            [cljs.core.async :refer [put! chan <!]]
+  (:require [om.core :as om]
             [clojure.string :refer [split lower-case]]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
-            [discuss.components.tooltip :as tooltip]
             [discuss.references.lib :as rlib]
+            [discuss.communication.lib :as comlib]
             [discuss.views :refer [reference-view]]
-            [discuss.config :as config]
-            [discuss.communication.main :as com]))
+            [discuss.config :as config]))
 
-;; -----------------------------------------------------------------------------
-;; TODO: Move these functions to another namespace
-
-(defn- listen
-  "Helper function for mouse-click events."
-  [el type]
-  (let [out (chan)]
-    (events/listen el type (fn [e] (put! out e)))
-    out))
-
-(defn- save-selected-text
-  "Get the users selection and save it."
-  []
-  (let [selection (str (.getSelection js/window))]
-    (if (and (pos? (count selection))
-             (not= selection (lib/get-selection)))
-      (do (tooltip/move-to-selection)
-          (lib/update-state-item! :user :selection (fn [_] selection)))
-      (tooltip/hide))))
-
-(let [clicks (listen (.getElementById js/document "discuss-text") "click")]
-  (go (while true
-        (<! clicks)
-        (save-selected-text))))
-
-
-;; -----------------------------------------------------------------------------
-
+;;; Include references
 (defn- minify-doms
   "Removes dom-elements, which can never be used as a reference."
   [doms]
@@ -90,12 +58,12 @@
     (doall (map convert-reference refs))))
 
 (defn- references-handler
-  "Called when received a response on the reference-query."
-  [response]
-  (let [res (lib/process-response response)
-        refs (:references res)]
-    (lib/update-state-item! :common :references (fn [_] refs))
-    (process-references refs)))
+    "Called when received a response on the reference-query."
+    [response]
+    (let [res (lib/process-response response)
+          refs (:references res)]
+      (lib/update-state-item! :common :references (fn [_] refs))
+      (process-references refs)))
 
 (defn request-references
   "When this app is loaded, request all available references from the external discussion system."
@@ -103,4 +71,4 @@
   (let [url (get-in config/api [:get :references])
         params {:host js/location.host
                 :path js/location.pathname}]
-    (com/ajax-get url nil references-handler params)))
+    (comlib/ajax-get url nil references-handler params)))

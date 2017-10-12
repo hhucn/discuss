@@ -1,6 +1,7 @@
 (ns discuss.views
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
+            [om.next :as nom]
             [clojure.string :as string]
             [goog.dom :as gdom]
             [discuss.components.bubbles :as bubbles]
@@ -8,6 +9,7 @@
             [discuss.components.find :as find]
             [discuss.components.navigation :as nav]
             [discuss.components.options :as options]
+            [discuss.components.search.statements :as search]
             [discuss.communication.auth :as auth]
             [discuss.communication.main :as com]
             [discuss.history :as history]
@@ -16,7 +18,8 @@
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
-            [discuss.utils.views :as vlib]))
+            [discuss.utils.views :as vlib]
+            [discuss.parser :as parser]))
 
 ;;;; Auxiliary
 (defn- remaining-characters
@@ -207,9 +210,11 @@
                         (om/build error-view {})
                         (dom/div #js {:className "input-group"}
                                  (dom/span #js {:className "input-group-addon input-group-addon-left"}
-                                           "... because")
+                                           (str "... " (t :common :because)))
                                  (dom/input #js {:className "form-control"
-                                                 :onChange  #(vlib/commit-component-state :statement % owner)
+                                                 :onChange  (fn [e]
+                                                              (search/search (.. e -target -value))
+                                                              (vlib/commit-component-state :statement e owner))
                                                  :value     statement}))
                         (show-selection)
                         (dom/button #js {:className "btn btn-default"
@@ -248,7 +253,7 @@
                             :reference-create-with-ref (om/build ref/create-with-reference-view data)
                             :find (om/build find/view data)
                             (discussion-elements data))
-                          (if (or (= view :login) (= view :options) (= view :find) (= view :reference-usages))
+                          (if (contains? #{:login :options :find :reference-usages} view)
                             (om/build close-button data)
                             (om/build control-elements data))))))))
 

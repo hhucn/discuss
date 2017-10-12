@@ -1,7 +1,10 @@
 (ns discuss.components.tooltip
+  (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
+            [cljs.core.async :refer [put! chan <!]]
             [goog.dom :as gdom]
+            [goog.events :as events]
             [discuss.components.clipboard :as clipboard]
             [discuss.translations :refer [translate]]
             [discuss.utils.common :as lib]
@@ -60,6 +63,30 @@
     (show)))
 
 
+;;;; Include listener for tooltips
+(defn- listen
+  "Helper function for mouse-click events."
+  [el type]
+  (let [out (chan)]
+    (events/listen el type (fn [e] (put! out e)))
+    out))
+
+(defn- save-selected-text
+  "Get the users selection and save it."
+  []
+  (let [selection (str (.getSelection js/window))]
+    (if (and (pos? (count selection))
+             (not= selection (lib/get-selection)))
+      (do (move-to-selection)
+          (lib/update-state-item! :user :selection (fn [_] selection)))
+      (hide))))
+
+(let [clicks (listen (.getElementById js/document "discuss-text") "click")]
+  (go (while true
+        (<! clicks)
+        (save-selected-text))))
+
+
 ;;;; Creating the view
 (defn view []
   (reify om/IRender
@@ -68,11 +95,11 @@
                (vlib/logo)
                (vlib/safe-space) " | " (vlib/safe-space)
                (dom/span #js {:className "pointer"
-                              :onClick   (fn [] (clipboard/add-item!) (sidebar/show) (hide))}
+                              :onClick (fn [] (clipboard/add-item!) (sidebar/show) (hide))}
                          (vlib/fa-icon "fa-bookmark-o")
                          (translate :common :save :space))
                (vlib/safe-space) "  " (vlib/safe-space)
                (dom/span #js {:className "pointer"
-                              :onClick   (fn [] (sidebar/show) (hide))}
+                              :onClick (fn [] (sidebar/show) (hide))}
                          (vlib/fa-icon "fa-comment")
                          (translate :common :show-discuss :space))))))

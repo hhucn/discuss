@@ -4,66 +4,37 @@
             [goog.string :refer [htmlEscape]]
             [clojure.string :refer [join]]
             [discuss.config :as config]
-            [discuss.utils.common :as lib]))
-
-;;; Auxiliary functions
-(defn make-url
-  "Prefix url with host."
-  [url]
-  (str (:host config/api) url))
-
-(defn token-header
-  "Return token header for ajax request if user is logged in."
-  []
-  (when (lib/logged-in?)
-    {"X-Authentication" (lib/clj->json {:type "user" :token (lib/get-token)})}))
-
+            [discuss.utils.common :as lib]
+            [discuss.references.integration :as rint]
+            [discuss.communication.lib :as comlib]))
 
 ;;;; Handlers
-(defn error-handler
-  "Generic error handler for ajax requests."
-  [{:keys [status status-text]}]
-  (lib/log (str "I feel a disturbance in the Force... " status " " status-text))
-  (lib/loading? false))
-
 (defn success-handler-next-view
-  "After the successful ajax call, change the view to the previously saved next view."
+  "After the successful ajax call, change the view to the previously saved next
+  view."
   [response]
   (lib/change-to-next-view!)
   (lib/update-all-states! response))
 
 
 ;;;; Calls
-(defn ajax-get
-  "Make ajax call to dialog based argumentation system."
-  ([url headers handler params]
-   (lib/no-error!)
-   (lib/last-api! url)
-   (lib/loading? true)
-   (GET (make-url url)
-        {:handler       handler
-         :headers       (merge (token-header) headers)
-         :params        params
-         :error-handler error-handler}))
-  ([url headers handler] (ajax-get url headers handler nil))
-  ([url headers] (ajax-get url headers lib/update-all-states!))
-  ([url] (ajax-get url {})))
-
 (defn ajax-get-and-change-view
-  "Make ajax call to jump right into the discussion and change to discussion view."
+  "Make ajax call to jump right into the discussion and change to discussion
+  view."
   [url view]
   (lib/next-view! view)
-  (ajax-get url {} success-handler-next-view))
+  (comlib/ajax-get url {} success-handler-next-view))
 
 (defn process-url-handler
-  "React on response after sending a new statement. Reset atom and call newly received url."
+  "React on response after sending a new statement. Reset atom and call newly
+  received url."
   [response]
   (let [res (lib/process-response response)
         url (:url res)]
     (lib/hide-add-form!)
     (lib/update-state-item! :layout :add-type (fn [_] nil))
-    ((resolve 'discuss.references.integration/request-references))
-    (ajax-get url)))
+    (rint/request-references)
+    (comlib/ajax-get url)))
 
 ;;;; Discussion-related functions
 (defn get-conclusion-id
@@ -78,10 +49,10 @@
 (defn post-json
   "Wrapper to prepare a POST request. Sending and receiving JSON."
   ([url body handler headers]
-   (POST (make-url url)
+   (POST (comlib/make-url url)
          {:body            (lib/clj->json body)
           :handler         handler
-          :error-handler   error-handler
+          :error-handler   comlib/error-handler
           :format          :json
           :response-format :json
           :headers         headers
@@ -94,7 +65,7 @@
 (defn post-statement [statement reference add-type]
   (let [app @lib/app-state
         url (get-in config/api [:add add-type])
-        headers (merge {"Content-Type" "application/json"} (token-header))
+        headers (merge {"Content-Type" "application/json"} (comlib/token-header))
         body {:statement     (htmlEscape statement)
               :reference     (htmlEscape reference)
               :conclusion_id (get-conclusion-id)            ; Relevant for add-start-premise
@@ -135,7 +106,7 @@
     (= id "item_justify_premise") (prepare-add :add-justify-premise)
     (= url "add") (prepare-add "add")
     (= url "login") (lib/change-view! :login)
-    :else (ajax-get url)))
+    :else (comlib/ajax-get url)))
 
 
 ;;;; Get things started!
@@ -149,13 +120,13 @@
 (defn init-with-references!
   "Load discussion and initially get reference to include them in the discussion."
   []
-  ((resolve 'discuss.references.integration/request-references))
+  (rint/request-references)
   (init!))
 
 (defn resend-last-api
   "Resends stored url from last api call."
   []
-  (ajax-get (lib/get-last-api)))
+  (comlib/ajax-get (lib/get-last-api)))
 
 (defn jump-to-argument
   "Jump directly into the discussion to let the user argue about the given argument.
