@@ -1,5 +1,6 @@
 (ns discuss.translations
-  (:require [discuss.utils.common :as lib]))
+  (:require [discuss.utils.common :as lib]
+            [cljs.spec.alpha :as s]))
 
 (def available [[:de "deutsch"]
                 [:en "english"]])
@@ -96,3 +97,8 @@
      :default (prepend-translation group key "")))
   ([group key]
    (translate group key :default)))
+
+(s/fdef translate
+        :args (s/or :option (s/cat :group keyword? :key keyword? :option keyword?)
+                    :no-option (s/cat :group keyword? :key keyword?))
+        :ret string?)
