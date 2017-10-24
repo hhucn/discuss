@@ -43,7 +43,7 @@
             first-part (first dom-parts)
             last-part (second dom-parts)]
         (when (= 2 (count dom-parts))
-          (om/root rmain/reference-view
+          (om/root rmain/main-view
                    {:text ref-text
                     :url ref-url
                     :id ref-id

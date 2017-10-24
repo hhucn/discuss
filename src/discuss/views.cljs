@@ -12,6 +12,7 @@
             [discuss.components.search.statements :as search]
             [discuss.communication.auth :as auth]
             [discuss.communication.main :as com]
+            [discuss.communication.lib :as comlib]
             [discuss.history :as history]
             [discuss.references.lib :as rlib]
             [discuss.references.main :as ref]
@@ -63,7 +64,7 @@
                                              (vlib/fa-icon "fa-step-backward")
                                              (t :common :back :space)))
                         (dom/div #js {:className "col-md-4 col-sm-4 col-xs-4 text-right"}
-                                 (bs/button-default-sm com/init! (vlib/fa-icon "fa-refresh") (t :discussion :restart :space))))))))
+                                 (bs/button-default-sm comlib/init! (vlib/fa-icon "fa-refresh") (t :discussion :restart :space))))))))
 
 (defn close-button []
   (reify om/IRender
