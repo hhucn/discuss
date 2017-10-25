@@ -16,6 +16,7 @@
          (atom {:discussion {}
                 :issues     {}
                 :items      {}
+                :search     {:results []}
                 :layout     {:title         "discuss"
                              :template      :discussion
                              :next-template :discussion
