@@ -1,9 +1,10 @@
 (ns discuss.views
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [om.next :as nom]
+            [om.next :as nom :refer-macros [defui]]
             [clojure.string :as string]
             [goog.dom :as gdom]
+            [sablono.core :as html :refer-macros [html]]
             [discuss.components.bubbles :as bubbles]
             [discuss.components.clipboard :as clipboard]
             [discuss.components.find :as find]
@@ -257,6 +258,8 @@
                (om/build nav/main data)
                (om/build clipboard/view data)))))
 
+@(nom/app-state parser/reconciler)
+
 (defn main-view [data]
   (reify om/IRender
     (render [_]
@@ -274,3 +277,12 @@
                (dom/div #js {:className "collapse in"
                              :id        (lib/prefix-name "dialog-collapse")}
                         (om/build main-content-view data))))))
+
+
+(defui ^:once MainView
+  Object
+  (render [this]
+          (html [:div
+                 (om/build main-view lib/app-state)
+                 (search/results (nom/props this))])))
+(def main-view-next (nom/factory MainView))
