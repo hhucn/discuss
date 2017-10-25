@@ -254,11 +254,11 @@
                           (dom/strong nil (get-in data [:issues :info]))))
                (om/build view-dispatcher data)
                (when (get-in data [:layout :add?])
-                 (om/build add-element {}))
+                 (dom/div nil
+                          (om/build add-element {})
+                          (om/build search/results-now data)))
                (om/build nav/main data)
                (om/build clipboard/view data)))))
-
-@(nom/app-state parser/reconciler)
 
 (defn main-view [data]
   (reify om/IRender
@@ -277,7 +277,6 @@
                (dom/div #js {:className "collapse in"
                              :id        (lib/prefix-name "dialog-collapse")}
                         (om/build main-content-view data))))))
-
 
 (defui ^:once MainView
   Object
