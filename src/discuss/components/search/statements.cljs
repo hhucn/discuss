@@ -12,6 +12,10 @@
             [discuss.utils.common :as lib]
             [om.dom :as dom]))
 
+(defn set-search-results! [statements]
+  (lib/update-state-item! :search :results (fn [_] statements))
+  (nom/transact! parser/reconciler `[(search/results {:results ~statements})]))
+
 (defn- search-results
   "Handler which is called with the results from ElasticSearch. Extract statements
   from response and write it to the app-state."
@@ -19,8 +23,7 @@
   (let [results (-> response keywordize-keys :hits :hits)
         data (mapv :_source results)
         statements (filter (partial s/valid? ::specs/statement) data)]
-    (lib/update-state-item! :search :results (fn [_] statements))
-    (nom/transact! parser/reconciler `[(search/results {:results ~statements})])))
+    (set-search-results! statements)))
 
 (defn search
   "Make a GET request and search in ElasticSearch for the requested data."
@@ -56,7 +59,7 @@
   Object
   (render [this]
           (let [{:keys [search/results]} (nom/props this)]
-            (html [:div.results (map #(result (merge {:keyfn :id} %)) results)]))))
+            (html [:div.results (map #(result (merge (lib/unique-react-key-dict) %)) results)]))))
 (def results (nom/factory Results))
 
 (defn results-now

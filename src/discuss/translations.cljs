@@ -74,7 +74,7 @@
         :nav        {:home "Home"
                      :find "Find"}
         :options    {:heading "Options"
-                     :lang "Language of Interface"}
+                     :lang "Interface Language"}
         :references {:jump "Jump into the discussion"
                      :usages/view-heading "In which statements has this reference been used?"
                      :usages/not-found-lead "No assigned arguments found"
