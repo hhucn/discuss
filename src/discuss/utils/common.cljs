@@ -6,7 +6,8 @@
             [goog.string :as gstring]
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]
-            [discuss.config :as config]))
+            [discuss.config :as config]
+            [discuss.specs :as specs]))
 
 (defn prefix-name
   "Create unique id for DOM elements."
@@ -328,9 +329,9 @@
   [] (update-state-map! :origin nil))
 
 (s/fdef store-origin!
-        :args (s/cat :origin :discuss.specs/origin))
+        :args (s/cat :origin ::specs/origin))
 (s/fdef get-origin
-        :ret :discuss.specs/origin)
+        :ret ::specs/origin)
 
 
 ;;;; String Stuff
@@ -353,7 +354,13 @@
   "Remove all surrounding whitespaces and reduce all 'inner' whitespaces to a
   single space."
   [str]
-  (gstring/unescapeEntities (clojure.string/replace (trim-newline (trim str)) #"\s+" " ")))
+  (gstring/unescapeEntities
+   (clojure.string/replace (trim-newline (trim str)) #"\s+" " ")))
+
+(s/fdef trim-and-normalize
+        :args (s/cat :str string?)
+        :ret string?
+        :fn #(<= (-> % :ret count) (-> % :args :str count)))
 
 
 ;;;; CSS modifications
