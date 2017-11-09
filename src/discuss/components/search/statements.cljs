@@ -7,6 +7,7 @@
             [goog.crypt.base64 :as b64]
             [ajax.core :refer [GET]]
             [discuss.specs :as specs]
+            [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.views :as vlib]
             [discuss.parser :as parser]
             [discuss.utils.common :as lib]
@@ -39,9 +40,19 @@
   (let [{:keys [author content aggregate-id]} data]
     (when-not (empty? content)
       (html [:div.bs-callout.bs-callout-info
-             [:span.badge.pull-right aggregate-id]
-             [:p (vlib/safe-html content)]
-             [:p (str "Author: " author)]]))))
+             [:div.row
+              [:div.col-sm-8
+               [:p (vlib/safe-html content)]
+               [:p [:span.btn.btn-sm.btn-primary
+                    {:on-click #(.log js/console "foo")}
+                    (t :search :reuse)]]]
+              [:div.col-sm-4
+               [:div.text-right
+                [:span.label.label-default
+                 (str (t :search :origin) ": " aggregate-id)]
+                [:br]
+                [:span.label.label-default
+                 (str (t :search :author) ": " author)]]]]]))))
 
 (defui Result
   Object
@@ -77,7 +88,6 @@
   (html [:div
          [:form
           [:div.form-group
-           [:label "Search for Statements"]
            [:input.form-control {:type "text"
                                  :on-change #(search (.. % -target -value))}]]]]))
 
@@ -89,6 +99,3 @@
 (defn search-query-now
   "Create form to select issue and place the search."
   [_ _] (reify om/IRender (render [_] search-for-statement)))
-
-;; -----------------------------------------------------------------------------
-;; om.now
