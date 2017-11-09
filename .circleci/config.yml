@@ -49,7 +49,7 @@ jobs:
           keys:
           - v1-dependencies-{{ checksum "project.clj" }}
           - v1-dependencies-
-      - run: lein do ancient, kibit
+      - run: lein kibit
 
 workflows:
   version: 2
