@@ -220,7 +220,7 @@
                                                  :value     statement}))
                         (show-selection)
                         (dom/button #js {:className "btn btn-default"
-                                         :onClick   #(com/dispatch-add-action statement (lib/get-selection))
+                                         :onClick   #(com/dispatch-add-action statement (lib/get-selection) (lib/get-origin))
                                          :disabled  (> 10 (count statement))}
                                     (remaining-characters statement)))))))
 
