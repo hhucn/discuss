@@ -14,7 +14,7 @@
                  [org.clojure/test.check "0.9.0"]
                  [org.omcljs/om "1.0.0-alpha48"]
                  [com.cognitect/transit-cljs "0.8.243"]
-                 [cljs-ajax "0.7.2"]
+                 [cljs-ajax "0.7.3"]
                  [lein-doo "0.1.8"]  ;; <-- otherwise it won't find the doo namespaces...
                  [devcards "0.2.4"]
                  [sablono "0.8.1"]
