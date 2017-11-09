@@ -5,7 +5,8 @@
             [discuss.config :as config]
             [discuss.utils.common :as lib]
             [discuss.references.integration :as rint]
-            [discuss.communication.lib :as comlib]))
+            [discuss.communication.lib :as comlib]
+            [cljs.spec.alpha :as s]))
 
 ;;;; Calls
 (defn process-url-handler
@@ -45,12 +46,13 @@
   ([url body]
    (post-json url body process-url-handler {"Content-Type" "application/json"})))
 
-(defn post-statement [statement reference add-type]
+(defn- post-statement [statement reference origin add-type]
   (let [app @lib/app-state
         url (get-in config/api [:add add-type])
         headers (merge {"Content-Type" "application/json"} (comlib/token-header))
         body {:statement     (htmlEscape statement)
               :reference     (htmlEscape reference)
+              :origin        origin
               :conclusion_id (get-conclusion-id)            ; Relevant for add-start-premise
               :supportive    (get-in app [:discussion :is_supportive])
               :arg_uid       (get-in app [:discussion :arg_uid]) ; For premisses for arguments
@@ -65,13 +67,18 @@
 ;;;; For preparation
 (defn dispatch-add-action
   "Check which action needs to be performed based on the type previously stored in the app-state."
-  [statement reference]
-  (let [action (get-in @lib/app-state [:layout :add-type])]
-    (case action
-      :add-start-statement (post-statement statement reference :add-start-statement)
-      :add-start-premise (post-statement [statement] reference :add-start-premise)
-      :add-justify-premise (post-statement [statement] reference :add-justify-premise)
-      (println "Action not found:" action))))
+  ([statement reference origin]
+   (let [action (get-in @lib/app-state [:layout :add-type])]
+     (case action
+       :add-start-statement (post-statement statement reference origin :add-start-statement)
+       :add-start-premise (post-statement [statement] reference origin :add-start-premise)
+       :add-justify-premise (post-statement [statement] reference origin :add-justify-premise)
+       (println "Action not found:" action))))
+  ([statement reference] (dispatch-add-action statement reference nil)))
+
+#_(s/fdef dispatch-add-action
+        :args (s/cat :statement string? :reference string?))
+
 
 (defn prepare-add
   "Save current add-method and show add form."
