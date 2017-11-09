@@ -44,7 +44,10 @@
                      :find-statement "Finde Aussage in der Diskussion"
                      :clipboard  "Ziehe diese Referenzen in das Textfeld beim Erzeugen eines neuen Arguments, um die Referenz zu nutzen."
                      :ask-to-add "Möchten Sie Ihre Aussage durch eine Referenz von dieser Seite stützen? Dann markieren Sie einfach einen Teil des Textes mit der Maus."
-                     :disabled/tooltip "Du kannst dieses Feld nicht direkt modifizieren. Bitte markiere die gewünschte Stelle direkt auf der Webseite. Dieses Feld füllt sich dann automatisch."}}
+                     :disabled/tooltip "Du kannst dieses Feld nicht direkt modifizieren. Bitte markiere die gewünschte Stelle direkt auf der Webseite. Dieses Feld füllt sich dann automatisch."}
+        :search      {:reuse "Statement auswählen"
+                      :origin "Herkunft"
+                      :author "Autor"}}
    :en {:common     {:and              "and"
                      :author           "Author"
                      :back             "Back"
@@ -82,7 +85,10 @@
                      :where-used "Where has this reference been used?"
                      :clipboard "Drag these references into the input field when creating a new argument"
                      :ask-to-add "Do you want to add a reference from this site to your statement? Just select the desired text-passage and it will be inserted in this field."
-                     :disabled/tooltip "You can't modify this field. Please select the appropriate text-passage from the website. The selection will be automatically added to this field."}}})
+                     :disabled/tooltip "You can't modify this field. Please select the appropriate text-passage from the website. The selection will be automatically added to this field."}
+        :search      {:reuse "Select Statement"
+                      :origin "Origin"
+                      :author "Author"}}})
 
 (defn- prepend-translation
   "Lookup given key and prepend some string to it."
