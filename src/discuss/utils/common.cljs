@@ -2,12 +2,11 @@
   (:require [om.core :as om :include-macros true]
             [clojure.walk :refer [keywordize-keys]]
             [clojure.string :refer [trim trim-newline]]
+            [cljs.spec.alpha :as s]
             [goog.string :as gstring]
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]
-            [discuss.config :as config]
-            [cljs.spec.alpha :as s]
-            [discuss.specs :as gspecs]))
+            [discuss.config :as config]))
 
 (defn prefix-name
   "Create unique id for DOM elements."
@@ -329,9 +328,9 @@
   [] (update-state-map! :origin nil))
 
 (s/fdef store-origin!
-        :args (s/cat :origin ::gspecs/origin))
+        :args (s/cat :origin :discuss.specs/origin))
 (s/fdef get-origin
-        :ret ::gspecs/origin)
+        :ret :discuss.specs/origin)
 
 
 ;;;; String Stuff

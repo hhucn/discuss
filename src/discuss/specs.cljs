@@ -53,6 +53,3 @@
   (s/keys :req-un [::author ::content ::aggregate-id ::version ::entity-id]
           :opt-un [::created]))
 ;; (s/exercise ::origin)
-
-(comment
-  (require '[clojure.spec.test.alpha :as stest]))

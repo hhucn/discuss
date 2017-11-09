@@ -2,10 +2,7 @@
   (:require [cljs.test :refer-macros [deftest is are testing]]
             [clojure.spec.test.alpha :as stest]
             [discuss.utils.common :as lib]
-            [discuss.utils.specs]
-            [discuss.specs :as gspecs]
-            [discuss.test.lib :as tlib]
-            [cljs.spec.alpha :as s]))
+            [discuss.test.lib :as tlib]))
 
 (deftest conversions
   (testing "Convert strings to integer."
@@ -71,7 +68,7 @@
 
 (deftest test-origins
   (testing "Add an origin and remove it back again."
-    (let [origin (last (last (s/exercise ::gspecs/origin)))]
+    (let [origin {:author "kangaroo", :content "penguins and stuff", :aggregate-id "huepfer.verlag", :entity-id 42, :version 100}]
       (lib/store-origin! origin)
       (is (= origin (lib/get-origin)))
       (lib/remove-origin!)
