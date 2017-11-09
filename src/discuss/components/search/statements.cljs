@@ -36,15 +36,15 @@
 
 ;; -----------------------------------------------------------------------------
 
-(defn result-html [data]
-  (let [{:keys [author content aggregate-id]} data]
+(defn result-html [origin]
+  (let [{:keys [author content aggregate-id]} origin]
     (when-not (empty? content)
       (html [:div.bs-callout.bs-callout-info
              [:div.row
               [:div.col-sm-8
                [:p (vlib/safe-html content)]
                [:p [:span.btn.btn-sm.btn-primary
-                    {:on-click #(.log js/console "foo")}
+                    {:on-click #(.log js/console origin)}
                     (t :search :reuse)]]]
               [:div.col-sm-4
                [:div.text-right

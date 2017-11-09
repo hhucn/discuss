@@ -318,15 +318,18 @@
 ;;;; Origins
 (defn store-origin!
   "Stores an origin into the app-state."
-  [origin] (update-state-map! :origin origin))
+  [origin]
+  (update-state-map! :origin origin))
 
 (defn get-origin
   "Return the origin of a statement if a statement has a different origin."
-  [] (get-in @app-state [:origin :data]))
+  []
+  (get @app-state :origin))
 
 (defn remove-origin!
   "Remove currently stored origin."
-  [] (update-state-map! :origin nil))
+  []
+  (update-state-map! :origin nil))
 
 (s/fdef store-origin!
         :args (s/cat :origin ::specs/origin))
