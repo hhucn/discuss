@@ -1,13 +1,11 @@
 (ns discuss.utils.common-test
   (:require [cljs.test :refer-macros [deftest is are testing]]
             [clojure.spec.test.alpha :as stest]
-            [clojure.test.check :as tc]
-            [clojure.test.check.clojure-test :refer-macros [defspec]]
-            [clojure.test.check.generators :as gen]
-            [clojure.test.check.properties :as prop :include-macros true]
             [discuss.utils.common :as lib]
             [discuss.utils.specs]
-            [discuss.test.lib :as tlib]))
+            [discuss.specs :as gspecs]
+            [discuss.test.lib :as tlib]
+            [cljs.spec.alpha :as s]))
 
 (deftest conversions
   (testing "Convert strings to integer."
@@ -61,10 +59,6 @@
            (lib/json->clj {"groot?" true})
            (lib/json->clj "{\"groot?\": true}")))))
 
-
-;; -----------------------------------------------------------------------------
-;; Test generation based on specs
-
 (deftest trim-strings
   (testing "Remove trailing whitespace and inline newlines."
     (tlib/check' (stest/check `discuss.utils.common/trim-and-normalize))
@@ -74,3 +68,11 @@
            (lib/trim-and-normalize "foo\t\t\t\tbar")
            (lib/trim-and-normalize "    foo bar   ")
            (lib/trim-and-normalize "\n\nfoo\t\t\t\tbar\n ")))))
+
+(deftest test-origins
+  (testing "Add an origin and remove it back again."
+    (let [origin (last (last (s/exercise ::gspecs/origin)))]
+      (lib/store-origin! origin)
+      (is (= origin (lib/get-origin)))
+      (lib/remove-origin!)
+      (is (nil? (lib/get-origin))))))

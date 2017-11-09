@@ -5,7 +5,9 @@
             [goog.string :as gstring]
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]
-            [discuss.config :as config]))
+            [discuss.config :as config]
+            [cljs.spec.alpha :as s]
+            [discuss.specs :as gspecs]))
 
 (defn prefix-name
   "Create unique id for DOM elements."
@@ -35,6 +37,7 @@
                              :logged-in? false}
                 :references {:selected nil
                              :highlighted #{}}
+                :origin     {}
                 :clipboard  {:selections nil
                              :current    nil}
                 :sidebar    {:show? true}
@@ -310,6 +313,25 @@
   "Remove current selection for a 'clean' statement."
   []
   (update-state-item! :user :selection (fn [_] nil)))
+
+
+;;;; Origins
+(defn store-origin!
+  "Stores an origin into the app-state."
+  [origin] (update-state-map! :origin origin))
+
+(defn get-origin
+  "Return the origin of a statement if a statement has a different origin."
+  [] (get-in @app-state [:origin :data]))
+
+(defn remove-origin!
+  "Remove currently stored origin."
+  [] (update-state-map! :origin nil))
+
+(s/fdef store-origin!
+        :args (s/cat :origin ::gspecs/origin))
+(s/fdef get-origin
+        :ret ::gspecs/origin)
 
 
 ;;;; String Stuff

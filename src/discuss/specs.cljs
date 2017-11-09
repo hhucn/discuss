@@ -39,6 +39,7 @@
 (s/def ::to-aggregate-id ::no-slash)
 (s/def ::to-entity-id ::no-slash)
 (s/def ::to-version ::version)
+
 (s/def ::link
   (s/keys :req-un [::author ::type
                    ::from-aggregate-id ::from-entity-id ::from-version
@@ -48,9 +49,10 @@
           :opt-un [::to-version]))
 ;; (s/exercise ::link)
 
+(s/def ::origin
+  (s/keys :req-un [::author ::content ::aggregate-id ::version ::entity-id]
+          :opt-un [::created]))
+;; (s/exercise ::origin)
 
 (comment
-  (require '[clojure.spec.test.alpha :as stest])
-  (stest/instrument 'discuss.translations/translate)
-  (s/exercise-fn 'discuss.translations/translate)
-  (stest/check `discuss.translations/translate))
+  (require '[clojure.spec.test.alpha :as stest]))
