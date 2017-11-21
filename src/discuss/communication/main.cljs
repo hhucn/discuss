@@ -6,7 +6,8 @@
             [discuss.utils.common :as lib]
             [discuss.references.integration :as rint]
             [discuss.communication.lib :as comlib]
-            [cljs.spec.alpha :as s]))
+            [cljs.spec.alpha :as s]
+            [discuss.components.search.statements :as search]))
 
 ;;;; Calls
 (defn process-url-handler
@@ -15,6 +16,8 @@
   [response]
   (let [res (lib/process-response response)
         url (:url res)]
+    (lib/remove-origin!)
+    (search/remove-search-results!)
     (lib/hide-add-form!)
     (lib/update-state-item! :layout :add-type (fn [_] nil))
     (rint/request-references)
@@ -76,9 +79,12 @@
        (println "Action not found:" action))))
   ([statement reference] (dispatch-add-action statement reference nil)))
 
-#_(s/fdef dispatch-add-action
-        :args (s/cat :statement string? :reference string?))
-
+(comment
+  (do
+    (lib/update-state-item! :layout :add-type (fn [_] :add-start-statement))
+    (dispatch-add-action "something cool" nil {:author "kangaroo", :content "you have to take the dog for a walk every day, which is tedious", :aggregate-id "huepfer.verlag", :entity-id "42", :version 100})
+    )
+  )
 
 (defn prepare-add
   "Save current add-method and show add form."
