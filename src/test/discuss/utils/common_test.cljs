@@ -72,4 +72,4 @@
       (lib/store-origin! origin)
       (is (= origin (lib/get-origin)))
       (lib/remove-origin!)
-      (is (nil? (lib/get-origin))))))
+      (is (empty? (lib/get-origin))))))

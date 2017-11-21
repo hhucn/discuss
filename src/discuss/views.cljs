@@ -206,7 +206,6 @@
       (om/observe owner (lib/get-cursor :references))
       (om/observe owner (lib/get-cursor :origin))
       (let [origin (lib/get-origin)]
-        (println origin)
         (html [:div.panel.panel-default
                {:onDragOver clipboard/allow-drop
                 :onDrop clipboard/update-reference-drop}
@@ -229,7 +228,7 @@
                              statement (lib/get-selection) origin)
                   :disabled (and (> 10 (count statement)) (empty? origin))}
                  (remaining-characters statement)]]])))))
-(lib/remove-origin!)
+
 (defn view-dispatcher
   "Dispatch current template in main view by the app state."
   [data]
