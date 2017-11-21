@@ -71,7 +71,8 @@
 (defn dispatch-add-action
   "Check which action needs to be performed based on the type previously stored in the app-state."
   ([statement reference origin]
-   (let [action (get-in @lib/app-state [:layout :add-type])]
+   (let [action (get-in @lib/app-state [:layout :add-type])
+         statement (or (:content origin) statement)]
      (case action
        :add-start-statement (post-statement statement reference origin :add-start-statement)
        :add-start-premise (post-statement [statement] reference origin :add-start-premise)
@@ -79,12 +80,8 @@
        (println "Action not found:" action))))
   ([statement reference] (dispatch-add-action statement reference nil)))
 
-(comment
-  (do
-    (lib/update-state-item! :layout :add-type (fn [_] :add-start-statement))
-    (dispatch-add-action "something cool" nil {:author "kangaroo", :content "you have to take the dog for a walk every day, which is tedious", :aggregate-id "huepfer.verlag", :entity-id "42", :version 100})
-    )
-  )
+(s/fdef dispatch-add-action
+        :args (s/cat :statement string? :reference string? :origin map?))
 
 (defn prepare-add
   "Save current add-method and show add form."
