@@ -20,15 +20,14 @@
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
-            [discuss.utils.views :as vlib]
-            [discuss.parser :as parser]))
+            [discuss.utils.views :as vlib]))
 
 ;;;; Auxiliary
 (defn- remaining-characters
   "Show remaining characters needed to submit a post."
   [statement]
   (let [remaining (- 10 (count statement))]
-    (if (pos? remaining)
+    (if (and (pos? remaining) (empty? (lib/get-origin)))
       (str remaining " " (t :common :chars-remaining))
       (t :discussion :submit))))
 
@@ -192,38 +191,45 @@
                     :style #js {:paddingBottom "1em"}}
                (t :references :ask-to-add)))))
 
+(defn- origin-set [origin]
+  (html [:input.form-control {:disabled true
+                              :value (:content origin)}]))
+
 (defn add-element
   "Show form to add a new statement."
   [_ owner]
   (reify
-    om/IInitState
-    (init-state [_]
-      {:statement ""})
+    om/IInitState (init-state [_] {:statement ""})
     om/IRenderState
     (render-state [_ {:keys [statement]}]
       (om/observe owner (lib/get-cursor :user))
       (om/observe owner (lib/get-cursor :references))
-      (dom/div #js {:className  "panel panel-default"
-                    :onDragOver clipboard/allow-drop
-                    :onDrop     clipboard/update-reference-drop}
-               (dom/div #js {:className "panel-body"}
-                        (dom/h4 #js {:className "text-center"} (t :discussion :add-argument))
-                        (dom/h5 #js {:className "text-center"} (vlib/safe-html (lib/get-add-premise-text)))
-                        (om/build error-view {})
-                        (dom/div #js {:className "input-group"}
-                                 (dom/span #js {:className "input-group-addon input-group-addon-left"}
-                                           (str "... " (t :common :because)))
-                                 (dom/input #js {:className "form-control"
-                                                 :onChange  (fn [e]
-                                                              (search/search (.. e -target -value))
-                                                              (vlib/commit-component-state :statement e owner))
-                                                 :value     statement}))
-                        (show-selection)
-                        (dom/button #js {:className "btn btn-default"
-                                         :onClick   #(com/dispatch-add-action statement (lib/get-selection) (lib/get-origin))
-                                         :disabled  (> 10 (count statement))}
-                                    (remaining-characters statement)))))))
-
+      (om/observe owner (lib/get-cursor :origin))
+      (let [origin (lib/get-origin)]
+        (println origin)
+        (html [:div.panel.panel-default
+               {:onDragOver clipboard/allow-drop
+                :onDrop clipboard/update-reference-drop}
+               [:div.panel-body
+                [:h4.text-center (t :discussion :add-argument)]
+                [:h5.text-center (vlib/safe-html (lib/get-add-premise-text))]
+                (om/build error-view {})
+                [:div.input-group
+                 [:span.input-group-addon.input-group-addon-left
+                  (str "... " (t :common :because))]
+                 (if-not (empty? origin)
+                   (origin-set origin)
+                   [:input.form-control
+                    {:onChange (fn [e] (search/search (.. e -target -value))
+                                 (vlib/commit-component-state :statement e owner))
+                     :value statement}])]
+                (show-selection)
+                [:button.btn.btn-default
+                 {:onClick #(com/dispatch-add-action
+                             statement (lib/get-selection) origin)
+                  :disabled (and (> 10 (count statement)) (empty? origin))}
+                 (remaining-characters statement)]]])))))
+(lib/remove-origin!)
 (defn view-dispatcher
   "Dispatch current template in main view by the app state."
   [data]

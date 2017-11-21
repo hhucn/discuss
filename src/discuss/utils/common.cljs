@@ -329,7 +329,7 @@
 (defn remove-origin!
   "Remove currently stored origin."
   []
-  (update-state-map! :origin nil))
+  (update-state-map! :origin {}))
 
 (s/fdef store-origin!
         :args (s/cat :origin ::specs/origin))
