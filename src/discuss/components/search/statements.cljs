@@ -13,9 +13,16 @@
             [discuss.utils.common :as lib]
             [om.dom :as dom]))
 
-(defn set-search-results! [statements]
+(defn set-search-results!
+  "Store the search results into the app-state."
+  [statements]
   (lib/update-state-item! :search :results (fn [_] statements))
   (nom/transact! parser/reconciler `[(search/results {:results ~statements})]))
+
+(defn remove-search-results!
+  "Reset the search results."
+  []
+  (set-search-results! {}))
 
 (defn- search-results
   "Handler which is called with the results from ElasticSearch. Extract statements
@@ -44,7 +51,7 @@
               [:div.col-sm-8
                [:p (vlib/safe-html content)]
                [:p [:span.btn.btn-sm.btn-primary
-                    {:on-click #(.log js/console origin)}
+                    {:on-click #(lib/store-origin! origin)}
                     (t :search :reuse)]]]
               [:div.col-sm-4
                [:div.text-right
