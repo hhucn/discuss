@@ -12,7 +12,7 @@
 (enable-console-print!)
 
 (defcard options
-  (html [:div.btn.btn-primary {:onClick #(auth/login "Christian" "iamgroot")}"Login"]))
+  (html [:div.btn.btn-primary {:onClick #(auth/login "Christian" "iamgroot")} "Login"]))
 
 (defcard-om discuss
   views/main-view

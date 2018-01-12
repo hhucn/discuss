@@ -3,6 +3,8 @@
 
 (goog-define version "0.2.1")
 (goog-define remote-host "http://localhost:4284/")
+(goog-define remote-search "http://muenchhausen.cn.uni-duesseldorf.de:9201/")
+
 (def project "discuss")
 
 (defn- get-protocol [url]

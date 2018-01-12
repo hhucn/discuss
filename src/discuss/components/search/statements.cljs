@@ -4,13 +4,13 @@
             [om.next :as nom :refer-macros [defui]]
             [clojure.walk :refer [keywordize-keys]]
             [cljs.spec.alpha :as s]
-            [goog.crypt.base64 :as b64]
             [ajax.core :refer [GET]]
             [discuss.specs :as specs]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.views :as vlib]
             [discuss.parser :as parser]
             [discuss.utils.common :as lib]
+            [discuss.config :as config]
             [om.dom :as dom]))
 
 (defn set-search-results!
@@ -36,10 +36,11 @@
 (defn search
   "Make a GET request and search in ElasticSearch for the requested data."
   [query]
-  (GET "http://localhost:9200/_search"
+  (GET (str config/remote-search "_search")
        {:handler search-results
-        :headers {"Authorization" (str "Basic " (b64/encodeString "elastic:changeme"))}
         :params {:q (str query "*")}}))
+
+(println (search "Fluchttiere"))
 
 ;; -----------------------------------------------------------------------------
 
