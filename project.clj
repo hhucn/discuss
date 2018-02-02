@@ -8,11 +8,12 @@
 
   :hooks [leiningen.cljsbuild]
 
-  :dependencies [[org.clojure/clojure "1.9.0-alpha19"]
+  :dependencies [[org.clojure/clojure "1.9.0"]
                  [org.clojure/clojurescript "1.9.946"]
                  [org.clojure/core.async "0.3.443" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
-                 [org.omcljs/om "1.0.0-alpha48"]
+                 [org.clojure/tools.reader "1.2.1"]
+                 [org.omcljs/om "1.0.0-beta1"]
                  [com.cognitect/transit-cljs "0.8.243"]
                  [cljs-ajax "0.7.3"]
                  [lein-doo "0.1.8"]  ;; <-- otherwise it won't find the doo namespaces...
