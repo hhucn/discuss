@@ -2,8 +2,8 @@
   (:require [clojure.string :as str]))
 
 (goog-define version "0.2.1")
-(goog-define remote-host "http://localhost:4284/")
-(goog-define remote-search "http://muenchhausen.cn.uni-duesseldorf.de:9201/")
+(goog-define remote-host "http://muenchhausen.cn.uni-duesseldorf.de:4284/")
+(goog-define remote-search "http://muenchhausen.cn.uni-duesseldorf.de:9200/")
 
 (def project "discuss")
 
