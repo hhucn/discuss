@@ -9,8 +9,8 @@
 
 (s/def ::no-slash (s/and string? #(not (re-find #"/" %)) #(pos? (count %))))
 (s/def ::no-slash-or-number (s/or :number number? :string ::no-slash))
-(s/def ::verbose-or-uid (s/or :verbose string? :uid number?))
-(s/def ::author ::verbose-or-uid)
+(s/def ::verbose-or-id (s/or :verbose string? :id number?))
+(s/def ::author ::verbose-or-id)
 (s/def ::content string?)
 (s/def ::aggregate-id ::no-slash-or-number)
 (s/def ::entity-id ::no-slash-or-number)
