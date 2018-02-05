@@ -8,14 +8,16 @@
 ;; Define external data-structures
 
 (s/def ::no-slash (s/and string? #(not (re-find #"/" %)) #(pos? (count %))))
-(s/def ::author string?)
+(s/def ::no-slash-or-number (s/or :number number? :string ::no-slash))
+(s/def ::verbose-or-uid (s/or :verbose string? :uid number?))
+(s/def ::author ::verbose-or-uid)
 (s/def ::content string?)
-(s/def ::aggregate-id ::no-slash)
-(s/def ::entity-id ::no-slash)
+(s/def ::aggregate-id ::no-slash-or-number)
+(s/def ::entity-id ::no-slash-or-number)
 (s/def ::version pos-int?)
 (s/def ::created (s/or :nil nil? :timestamp string?)) ;; timestamp
-(s/def ::ancestor-aggregate-id ::no-slash)
-(s/def ::ancestor-entity-id ::no-slash)
+(s/def ::ancestor-aggregate-id ::no-slash-or-number)
+(s/def ::ancestor-entity-id ::no-slash-or-number)
 (s/def ::ancestor-version ::version)
 (s/def ::statement
   (s/keys :req-un [::author ::content

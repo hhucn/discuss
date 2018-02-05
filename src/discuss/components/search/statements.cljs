@@ -40,7 +40,6 @@
        {:handler search-results
         :params {:q (str query "*")}}))
 
-(println (search "Fluchttiere"))
 
 ;; -----------------------------------------------------------------------------
 
