@@ -1,21 +1,20 @@
 FROM clojure:alpine
 MAINTAINER Christian Meter <meter@cs.uni-duesseldorf.de>
 
-RUN apk --no-cache add yarn git python && \
+RUN apk --no-cache add yarn git && \
     yarn global add bower node-sass && \
     mkdir ./discuss
 
 WORKDIR /discuss
 COPY . /discuss
 
-RUN GIT_DIR=/tmp bower install --allow-root && \
-    lein do clean, cljsbuild once min
+RUN GIT_DIR=/tmp bower install --allow-root
 
-WORKDIR /discuss/resources/public/
-
-RUN node-sass css/discuss.sass css/discuss.css --style compressed && \
-    node-sass css/zeit.sass css/zeit.css --style compressed && \
+RUN node-sass resources/public/css/discuss.sass resources/public/css/discuss.css --style compressed && \
+    node-sass resources/public/css/zeit.sass resources/public/css/zeit.css --style compressed && \
     rm -rf .sass-cache
 
-EXPOSE 8080
-CMD ["python2", "-m", "SimpleHTTPServer", "8080"]
+WORKDIR /discuss
+
+EXPOSE 3449
+CMD ["lein", "figwheel"]
