@@ -17,5 +17,5 @@ RUN node-sass css/discuss.sass css/discuss.css --style compressed && \
     node-sass css/zeit.sass css/zeit.css --style compressed && \
     rm -rf .sass-cache
 
-EXPOSE 80
-CMD ["python2", "-m", "SimpleHTTPServer", "80"]
+EXPOSE 8080
+CMD ["python2", "-m", "SimpleHTTPServer", "8080"]
