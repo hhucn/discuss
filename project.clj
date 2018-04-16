@@ -60,7 +60,8 @@
                {:id           "dev-default"
                 :source-paths ["src"]
                 :figwheel     {:on-jsload "discuss.core/on-js-reload"
-                               :open-urls ["http://localhost:3449"]}
+                               ;; :open-urls ["http://localhost:3449"]
+                               }
                 :compiler     {:main            discuss.core
                                :preloads        [discuss.utils.extensions devtools.preload]
                                :asset-path      "js/compiled/out"
