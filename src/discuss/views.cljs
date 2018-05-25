@@ -20,7 +20,8 @@
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
-            [discuss.utils.views :as vlib]))
+            [discuss.utils.views :as vlib]
+            [discuss.parser :as parser]))
 
 ;;;; Auxiliary
 (defn- remaining-characters
@@ -145,6 +146,7 @@
       (dom/div nil
                (apply dom/ul #js {:id (lib/prefix-name "items-main")}
                       (map #(om/build item-view % (lib/unique-react-key-dict)) (get-in data [:items :elements])))))))
+
 
 (defn init-view
   "Show button if discussion has not been initialized yet."
@@ -283,10 +285,96 @@
                              :id        (lib/prefix-name "dialog-collapse")}
                         (om/build main-content-view data))))))
 
-(defui ^:once MainView
+;; -----------------------------------------------------------------------------
+;; om.next Views
+
+(defui ViewDispatcher
+  static nom/IQuery
+  (query [this] [:layout/view])
+  Object
+  (render [this]
+          ))
+(comment
+  (reify om/IRender
+    (render [_]
+      (let [view (lib/current-view)]
+        (dom/div #js {:className "panel panel-default"}
+                 (dom/div #js {:className "panel-body"}
+                          (case view
+                            :login (om/build login-form {})
+                            :options (om/build options/view data)
+                            :reference-usages (om/build ref/usages-view data)
+                            :reference-create-with-ref (om/build ref/create-with-reference-view data)
+                            :find (om/build find/view data)
+                            (discussion-elements data))
+                          (if (contains? #{:login :options :find :reference-usages} view)
+                            (om/build close-button data)
+                            (om/build control-elements data))))))))
+
+
+(defui ItemView
+  static nom/IQuery
+  (query [this] [:htmls :url])
+  Object
+  (render [this]
+          (let [{:keys [htmls url]} (nom/props this)]
+            (html [:div.radio
+                   [:label
+                    [:input {:type "radio"
+                             :className (lib/prefix-name "dialog-items")
+                             :name (lib/prefix-name "dialog-items-group")
+                             :onClick #(println "clicked item, goto" url)
+                             :value url}]
+                    " "
+                    (vlib/safe-html (string/join (str " <i>" (t :common :and) "</i> ") htmls))]]))))
+(def item-view-next (nom/factory ItemView))
+
+(defui ItemsView
+  static nom/IQuery
+  (query [this]
+         `[{:discussion/items ~(nom/get-query ItemView)}])
+  Object
+  (render [this]
+          (let [{:keys [discussion/items]} (nom/props this)]
+            (html [:div (map item-view-next items)]))))
+(def items-view-next (nom/factory ItemsView))
+
+(defui MainContentView
+  static nom/IQuery
+  (query [this] [:issue/info])
+  Object
+  (render [this]
+          (let [{:keys [issue/info]} (nom/props this)]
+            (html [:div
+                   [:div.text-center
+                    (t :discussion :current) ":"
+                    [:br]
+                    [:strong info]]]))))
+(def main-content-view-next (nom/factory MainContentView))
+
+(defui MainView
+  static nom/IQuery
+  (query [this]
+         [:layout/title])
+  Object
+  (render [this]
+          (let [{:keys [layout/title]} (nom/props this)]
+            (html [:div#discuss-dialog-main
+                   #_(avatar-view)
+                   [:h4 #_(vlib/logo)
+                    " "
+                    [:span.pointer {:data-toggle   "collapse"
+                                    :data-target   (str "#" (lib/prefix-name "dialog-collapse"))
+                                    :aria-expanded "true"
+                                    :aria-controls (lib/prefix-name "dialog-collapse")}
+                     title]]]))))
+(def main-view-next (nom/factory MainView))
+
+(defui Main
   Object
   (render [this]
           (html [:div
-                 (om/build main-view lib/app-state)
-                 (search/results (nom/props this))])))
-(def main-view-next (nom/factory MainView))
+                 #_(om/build main-view lib/app-state)
+
+                 #_(search/results (nom/props this))])))
+(def main-next (nom/factory Main))

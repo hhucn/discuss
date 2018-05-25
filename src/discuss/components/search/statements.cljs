@@ -71,7 +71,7 @@
   "Show one result of the search engine."
   [data _owner] (reify om/IRender (render [_] (result-html data))))
 
-(defui ^:once Results
+(defui Results
   static nom/IQuery
   (query [this] [:search/results])
   Object

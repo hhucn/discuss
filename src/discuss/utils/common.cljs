@@ -130,7 +130,7 @@
 (defn get-bubbles
   "Return message bubbles from DBAS."
   []
-  (get-in @app-state [:discussion :bubbles]))
+  (:bubbles @app-state))
 
 (defn get-add-premise-text
   "Return text for adding new premise."

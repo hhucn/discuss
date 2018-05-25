@@ -1,53 +1,71 @@
 (ns discuss.cards
-  (:require [devcards.core :as dc :refer-macros [defcard defcard-om defcard-om-next dom-node]]
+  (:require [devcards.core :as dc :refer-macros [defcard dom-node]]
             [sablono.core :as html :refer-macros [html]]
-            [om.next :as om :refer-macros [defui]]
             [discuss.parser :as parser]
-            [discuss.components.search.statements :refer [SearchQuery Results]]
-            [discuss.utils.common :as lib]
+            #_[discuss.components.search.statements :as search :refer [SearchQuery Results]]
             [discuss.views :as views]
-            [discuss.communication.auth :as auth]
-            [discuss.components.search.statements :as search]))
+            [discuss.communication.auth :as auth]))
 
 (enable-console-print!)
 
 (defcard options
   (html [:div.btn.btn-primary {:onClick #(auth/login "Christian" "iamgroot")} "Login"]))
 
-(defcard-om discuss
+#_(defcard-om discuss
   views/main-view
   lib/app-state)
 
-(defonce test-data {:foo :bar
-                    :search/results [:foo :bar :baz]})
-
-(defonce devcard-reconciler
-  (om/reconciler {:state @lib/app-state
-                  :parser (om/parser {:read parser/read :mutate parser/mutate})}))
+#_(defonce test-data {:search/results [:foo :bar :baz]
+                    :discussion/items [{:htmls ["the city should reduce the number of street festivals"], :texts ["the city should reduce the number of street festivals"], :url "town-has-to-cut-spending/attitude/36"} {:htmls ["we should shut down University Park"], :texts ["we should shut down University Park"], :url "town-has-to-cut-spending/attitude/37"} {:htmls ["we should close public swimming pools"], :texts ["we should close public swimming pools"], :url "town-has-to-cut-spending/attitude/38"}], :discussion/bubbles [{:type "system", :html "I want to talk about the position that.", :text "I want to talk about the position that.", :url nil}]})
 
 #_(defcard discuss-next
   (dom-node
    (fn [_ node]
-     (om/add-root! parser/reconciler views/main-view-next node)))
-  {:inspect-data true})
+     (om/add-root! parser/reconciler views/main-view-next node))))
+
+(dc/defcard-om-next main-view
+  views/MainView
+  parser/reconciler)
+
+(dc/defcard-om-next main-content-view
+  views/MainContentView
+  parser/reconciler)
+
+(dc/defcard-om-next items-view
+  views/ItemsView
+  parser/reconciler)
+
+(dc/defcard-om-next view-dispatcher
+  views/ViewDispatcher
+  parser/reconciler)
+
+#_(dc/defcard-om-next footest
+  views/items-view-next
+  parser/reconciler)
+
+#_(defcard-om-next footest-next
+  views/items-view-next
+  parser/reconciler)
+
+#_(comlib/init!)
 
 #_(defcard search-query
-  (dom-node
-   (fn [_ node]
-     (om/add-root! parser/reconciler SearchQuery node)))
-  {:inspect-data true})
+    (dom-node
+     (fn [_ node]
+       (om/add-root! parser/reconciler SearchQuery node)))
+    {:inspect-data true})
 
-(defcard-om search-query-now
+#_(defcard-om search-query-now
   search/search-query-now
   lib/app-state)
 
-(defcard search-results
+#_(defcard search-results
   (dom-node
    (fn [_ node]
      (om/add-root! parser/reconciler Results node)))
   {:inspect-data true})
 
-(defcard-om search-results-now
+#_(defcard-om search-results-now
   search/results-now
   lib/app-state)
 
