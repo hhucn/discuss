@@ -293,7 +293,10 @@
   (query [this] [:layout/view])
   Object
   (render [this]
-          ))
+          (let [{:keys [layout/view]} (nom/props this)]
+            (html [:div.panel.panel-default
+                   [:div.panel-body
+                    ]]))))
 (comment
   (reify om/IRender
     (render [_]
@@ -347,7 +350,7 @@
           (let [{:keys [issue/info]} (nom/props this)]
             (html [:div
                    [:div.text-center
-                    (t :discussion :current) ":"
+                    (t :discussion :current)
                     [:br]
                     [:strong info]]]))))
 (def main-content-view-next (nom/factory MainContentView))

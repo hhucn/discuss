@@ -4,7 +4,8 @@
             [discuss.parser :as parser]
             #_[discuss.components.search.statements :as search :refer [SearchQuery Results]]
             [discuss.views :as views]
-            [discuss.communication.auth :as auth]))
+            [discuss.communication.auth :as auth]
+            [discuss.components.bubbles :as bubbles]))
 
 (enable-console-print!)
 
@@ -33,6 +34,10 @@
 
 (dc/defcard-om-next items-view
   views/ItemsView
+  parser/reconciler)
+
+(dc/defcard-om-next bubbles-view
+  bubbles/BubblesView
   parser/reconciler)
 
 (dc/defcard-om-next view-dispatcher

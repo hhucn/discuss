@@ -14,7 +14,10 @@
                                    {:htmls ["we should close public swimming pools"],
                                     :texts ["we should close public swimming pools"],
                                     :url "town-has-to-cut-spending/attitude/38"}]
-                :discussion/bubbles []})
+                :discussion/bubbles [{:type :system
+                                      :html "I want to talk about the position that"
+                                      :text "I want to talk about the position that"
+                                      :url nil}]})
 
 ;; -----------------------------------------------------------------------------
 ;; Parsing
