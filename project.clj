@@ -13,11 +13,12 @@
                  [org.clojure/core.async "0.3.443" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
                  [org.clojure/tools.reader "1.2.1"]
-                 [org.omcljs/om "1.0.0-beta1"]
+                 [org.omcljs/om "1.0.0-beta3"]
                  [com.cognitect/transit-cljs "0.8.243"]
                  [cljs-ajax "0.7.3"]
                  [lein-doo "0.1.8"]  ;; <-- otherwise it won't find the doo namespaces...
                  [devcards "0.2.4"]
+                 [devcards-om-next "0.3.0"]
                  [sablono "0.8.1"]
                  [inflections "0.13.0"]]
 
@@ -25,7 +26,7 @@
             [lein-cljsbuild "1.1.5" :exclusions [[org.clojure/clojure]]]
             [lein-codox "0.10.3"]
             [lein-doo "0.1.8"]
-            [lein-figwheel "0.5.14"]
+            [lein-figwheel "0.5.16"]
             [lein-kibit "0.1.3"]
             [lein-set-version "0.4.1"]]
 
@@ -37,7 +38,7 @@
             "build" ["do" "clean" ["cljsbuild" "once" "min"]]}
 
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.7"]
-                                  [figwheel-sidecar "0.5.14"]
+                                  [figwheel-sidecar "0.5.16"]
                                   [com.cemerick/piggieback "0.2.2"]]
                    ;; need to add dev source path here to get user.clj loaded
                    :source-paths ["src/discuss"]
@@ -88,7 +89,7 @@
                                :main           discuss.core
                                :preloads       [discuss.utils.extensions]
                                :optimizations  :simple
-                               :closure-defines {discuss.config/remote-host ~(or (System/getenv "REMOTE_HOST") "/")}
+                               ;; :closure-defines {discuss.config/remote-host ~(or (System/getenv "REMOTE_HOST") "localhost:4284/")}
                                :parallel-build true
                                :compiler-stats true
                                :pretty-print   false}}]}
