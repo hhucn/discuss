@@ -99,3 +99,4 @@
                      [:h5 (t :clipboard :heading)]
                      [:p (t :clipboard :instruction)]
                      (map clipboard-item-next items)])))))
+(def clipboard (nom/factory Clipboard))
