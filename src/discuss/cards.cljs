@@ -7,7 +7,8 @@
             [discuss.communication.auth :as auth]
             [discuss.components.bubbles :as bubbles]
             [discuss.components.options :as options]
-            [discuss.components.navigation :as nav]))
+            [discuss.components.navigation :as nav]
+            [discuss.components.clipboard :as clipboard]))
 
 (enable-console-print!)
 
@@ -56,6 +57,13 @@
 
 (dc/defcard-om-next nav-view
   nav/Nav
+  parser/reconciler)
+
+(defcard clipboard
+  "## Clipboard")
+
+(dc/defcard-om-next clipboard-view
+  clipboard/Clipboard
   parser/reconciler)
 
 (defcard molecules

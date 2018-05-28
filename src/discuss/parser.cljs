@@ -25,7 +25,9 @@
                                      {:type :system
                                       :html "What is your most important reason why <span data-argumentation-type=\"position\">we should shut down University Park</span> <span class='text-success'>holds</span>? <br>Because..."
                                       :text "What is your most important reason why we should shut down University Park holds? Because..."
-                                      :url nil}]})
+                                      :url nil}]
+                :clipboard/items [{:title "This is an item from the clipboard"}
+                                  {:title "And yet another item"}]})
 
 ;; -----------------------------------------------------------------------------
 ;; Parsing

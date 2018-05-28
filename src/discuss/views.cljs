@@ -404,10 +404,6 @@
                    #_(om/build clipboard/view data)]))))
 (def main-content-view-next (nom/factory MainContentView))
 
-(comment
-  "For MainContentView"
-  )
-
 (defui MainView
   static nom/IQuery
   (query [this]
