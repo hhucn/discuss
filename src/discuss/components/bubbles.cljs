@@ -8,12 +8,14 @@
             [discuss.history :as history]
             [discuss.utils.common :as lib]
             [discuss.communication.lib :as comlib]
-            [discuss.utils.views :as vlib]))
+            [discuss.utils.views :as vlib]
+            [cljs.spec.alpha :as s]))
 
-(defn- get-bubble-class [bubble]
+(defn- get-bubble-class
   "Check bubble type and return a class-string to match the CSS styles."
   {:deprecated 0.4
    :alternative 'get-bubble-class-next}
+  [bubble]
   (cond
     (:is_user bubble) "bubble-user"
     (:is_system bubble) "bubble-system"
@@ -22,6 +24,7 @@
 
 (defn- dispatch-link-destination
   "Dispatch which link should be set."
+  {:deprecated 0.4}
   [anchor]
   (let [data-href (.getAttribute anchor "data-href")]
     (case data-href
@@ -31,6 +34,7 @@
 
 (defn- convert-link
   "Given a DOM element, search for anchor-children and correctly set onClick and href properties."
+  {:deprecated 0.4}
   [dom-node]
   (let [children (gdom/getChildren dom-node)
         anchors (filter #(= "a" (string/lower-case (.-nodeName %))) children)]
@@ -42,11 +46,14 @@
 
 (defn convert-links-in-bubbles
   "Reads data attributes and set correct links."
+  {:deprecated 0.4}
   []
   (let [messages (gdom/getElementsByClass (lib/prefix-name "converted-bubbles"))]
     (doall (map convert-link messages))))
 
-(defn bubble-view [bubble]
+(defn bubble-view
+  {:deprecated 0.4}
+  [bubble]
   (reify
     om/IWillUpdate
     (will-update [_ _ _]
@@ -62,7 +69,9 @@
                 (dom/p #js {:className "messages"}
                        (vlib/safe-html (:message bubble))))))))
 
-(defn view []
+(defn view
+  {:deprecated 0.4}
+  []
   (reify
     om/IWillUpdate
     (will-update [_ _ _]
@@ -84,31 +93,50 @@
     :status "bubble-status text-center"
     :info "bubble-info text-center"))
 
-(get-bubble-class-next :system)
+(s/fdef get-bubble-class-next
+        :args (s/cat :bubble-type keyword?)
+        :ret string?)
+
+(defn dispatch-link-destination-next
+  "Look into url field and return its corresponding function to be called onClick
+  on the element."
+  [url]
+  (case url
+    "back" history/back!
+    "login" #(lib/change-view! :login)
+    "restart" comlib/init!))
+
+(s/fdef dispatch-link-destination-next
+        :args (s/cat :url string?)
+        :ret fn?)
 
 (defui BubbleView
-  "TODO: do something with URL"
+  "Generate a bubble."
   static nom/IQuery
   (query [this] [:type :html :text :url])
   Object
   (render [this]
           (vlib/scroll-divs-to-bottom "bubbles")
-          #_(convert-links-in-bubbles)
-          (let [{:keys [type text url]} (nom/props this)
-                html-content (:html (nom/props this))]
+          (let [{:keys [type url]} (nom/props this)
+                html-content (:html (nom/props this))
+                bubble-content (vlib/safe-html html-content)]
             (html [:li {:className (get-bubble-class-next type)}
                    [:div.avatar]
                    [:p.messages
-
-                    (vlib/safe-html html-content)]]))))
+                    (if (some #{url} ["back" "login" "restart"])
+                      [:a {:href "javascript:void(0)"
+                           :onClick (dispatch-link-destination-next url)} bubble-content]
+                      bubble-content)]]))))
 (def bubble-view-next (nom/factory BubbleView))
 
 (defui BubblesView
+  "Generate all bubbles based on the data in the reconciler."
   static nom/IQuery
   (query [this]
          `[{:discussion/bubbles ~(nom/get-query BubbleView)}])
   Object
   (render [this]
           (let [{:keys [discussion/bubbles]} (nom/props this)]
-            (html [:div (map bubble-view-next bubbles)]))))
+            (html [:ol {:className (lib/prefix-name "bubbles")}
+                   (map bubble-view-next bubbles)]))))
 (def bubbles-view-next (nom/factory BubblesView))

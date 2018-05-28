@@ -14,9 +14,17 @@
                                    {:htmls ["we should close public swimming pools"],
                                     :texts ["we should close public swimming pools"],
                                     :url "town-has-to-cut-spending/attitude/38"}]
-                :discussion/bubbles [{:type :system
-                                      :html "I want to talk about the position that"
-                                      :text "I want to talk about the position that"
+                :discussion/bubbles [{:type :user
+                                      :html "We should shut down University Park."
+                                      :text "We should shut down University Park."
+                                      :url "/town-has-to-cut-spending/attitude/12"}
+                                     {:type :status
+                                      :html "Now"
+                                      :text "Now"
+                                      :url nil}
+                                     {:type :system
+                                      :html "What is your most important reason why <span data-argumentation-type=\"position\">we should shut down University Park</span> <span class='text-success'>holds</span>? <br>Because..."
+                                      :text "What is your most important reason why we should shut down University Park holds? Because..."
                                       :url nil}]})
 
 ;; -----------------------------------------------------------------------------
