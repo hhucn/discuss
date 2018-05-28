@@ -6,7 +6,8 @@
             [discuss.views :as views]
             [discuss.communication.auth :as auth]
             [discuss.components.bubbles :as bubbles]
-            [discuss.components.options :as options]))
+            [discuss.components.options :as options]
+            [discuss.components.navigation :as nav]))
 
 (enable-console-print!)
 
@@ -48,6 +49,13 @@
 
 (dc/defcard-om-next option-view
   options/Options
+  parser/reconciler)
+
+(defcard nav
+  "## Nav")
+
+(dc/defcard-om-next nav-view
+  nav/Nav
   parser/reconciler)
 
 (defcard molecules

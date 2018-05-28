@@ -1,6 +1,8 @@
 (ns discuss.components.navigation
   (:require [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
+            [om.next :as nom :refer-macros [defui]]
+            [sablono.core :as html :refer-macros [html]]
             [discuss.communication.lib :as comlib]
             [discuss.translations :refer [translate]]
             [discuss.utils.common :as lib]
@@ -50,6 +52,7 @@
 ;;;; Main component
 (defn main
   "Create main navigation with general elements."
+  {:deprecated 0.4}
   []
   (reify om/IRender
     (render [_]
@@ -60,3 +63,15 @@
                         (options))
                (dom/div #js {:className "col col-md-6 col-sm-6 col-xs-6 text-right"}
                         (if (lib/logged-in?) (logout) (login)))))))
+
+;; -----------------------------------------------------------------------------
+;; om.next
+
+(defui Nav
+  Object
+  (render [this]
+          (html [:div.text-muted.discuss-nav
+                 [:div.col.col-md-6.col-sm-6.col-xs-6
+                  (home) (find-arg) (options)]
+                 [:div.col.col-md-6.col-sm-6.col-xs-6.text-right
+                  (if (lib/logged-in?) (logout) (login))]])))

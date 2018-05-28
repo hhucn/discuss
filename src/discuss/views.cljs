@@ -20,8 +20,7 @@
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
-            [discuss.utils.views :as vlib]
-            [discuss.parser :as parser]))
+            [discuss.utils.views :as vlib]))
 
 ;;;; Auxiliary
 (defn- remaining-characters
@@ -396,7 +395,8 @@
                     (t :discussion :current)
                     [:br]
                     [:strong info]]
-                   (view-dispatcher-next (nom/props this))]))))
+                   (view-dispatcher-next (nom/props this))
+                   ]))))
 (def main-content-view-next (nom/factory MainContentView))
 
 (comment
