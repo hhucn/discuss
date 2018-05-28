@@ -396,17 +396,17 @@
                     [:br]
                     [:strong info]]
                    (view-dispatcher-next (nom/props this))
-                   ]))))
+                   #_(when (get-in data [:layout :add?])
+                     (dom/div nil
+                              (om/build add-element {})
+                              (om/build search/results-now data)))
+                   (nav/nav)
+                   #_(om/build clipboard/view data)]))))
 (def main-content-view-next (nom/factory MainContentView))
 
 (comment
   "For MainContentView"
-  (when (get-in data [:layout :add?])
-    (dom/div nil
-             (om/build add-element {})
-             (om/build search/results-now data)))
-  (om/build nav/main data)
-  (om/build clipboard/view data))
+  )
 
 (defui MainView
   static nom/IQuery

@@ -75,3 +75,4 @@
                   (home) (find-arg) (options)]
                  [:div.col.col-md-6.col-sm-6.col-xs-6.text-right
                   (if (lib/logged-in?) (logout) (login))]])))
+(def nav (nom/factory Nav))
