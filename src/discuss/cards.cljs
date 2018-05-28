@@ -5,11 +5,12 @@
             #_[discuss.components.search.statements :as search :refer [SearchQuery Results]]
             [discuss.views :as views]
             [discuss.communication.auth :as auth]
-            [discuss.components.bubbles :as bubbles]))
+            [discuss.components.bubbles :as bubbles]
+            [discuss.components.options :as options]))
 
 (enable-console-print!)
 
-(defcard options
+(defcard shortcuts
   (html [:div.btn.btn-primary {:onClick #(auth/login "Christian" "iamgroot")} "Login"]))
 
 #_(defcard-om discuss
@@ -40,6 +41,13 @@
 
 (dc/defcard-om-next login-form
   views/LoginForm
+  parser/reconciler)
+
+(defcard options
+  "## Options")
+
+(dc/defcard-om-next option-view
+  options/Options
   parser/reconciler)
 
 (defcard molecules

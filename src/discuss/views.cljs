@@ -351,6 +351,7 @@
                                              :disabled (or (empty? nickname)
                                                            (empty? password))}
                     (t :common :login)]]))))
+(def login-form-next (nom/factory LoginForm))
 
 ;; ----------
 
@@ -373,8 +374,8 @@
             (html [:div.panel.panel-default
                    [:div.panel-body
                     (case view
-                      ;; TODO: :login (om/build login-form {})
-                      ;; TODO: :options (om/build options/view data)
+                      :login (login-form-next)
+                      :options (options/options)
                       ;; TODO: :reference-usages (om/build ref/usages-view data)
                       ;; TODO: :reference-create-with-ref (om/build ref/create-with-reference-view data)
                       ;; TODO: :find (om/build find/view data)
@@ -397,6 +398,15 @@
                     [:strong info]]
                    (view-dispatcher-next (nom/props this))]))))
 (def main-content-view-next (nom/factory MainContentView))
+
+(comment
+  "For MainContentView"
+  (when (get-in data [:layout :add?])
+    (dom/div nil
+             (om/build add-element {})
+             (om/build search/results-now data)))
+  (om/build nav/main data)
+  (om/build clipboard/view data))
 
 (defui MainView
   static nom/IQuery
