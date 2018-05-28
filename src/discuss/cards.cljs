@@ -24,20 +24,30 @@
    (fn [_ node]
      (om/add-root! parser/reconciler views/main-view-next node))))
 
-(dc/defcard-om-next main-view
-  views/MainView
-  parser/reconciler)
+(defcard components
+  "## Atoms")
 
-(dc/defcard-om-next main-content-view
-  views/MainContentView
+(dc/defcard-om-next bubbles-view
+  bubbles/BubblesView
   parser/reconciler)
 
 (dc/defcard-om-next items-view
   views/ItemsView
   parser/reconciler)
 
-(dc/defcard-om-next bubbles-view
-  bubbles/BubblesView
+(defcard molecules
+  "## Molecules")
+
+(dc/defcard-om-next discussion-elements
+  views/DiscussionElements
+  parser/reconciler)
+
+(dc/defcard-om-next main-view
+  views/MainView
+  parser/reconciler)
+
+(dc/defcard-om-next main-content-view
+  views/MainContentView
   parser/reconciler)
 
 (dc/defcard-om-next view-dispatcher

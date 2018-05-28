@@ -288,33 +288,6 @@
 ;; -----------------------------------------------------------------------------
 ;; om.next Views
 
-(defui ViewDispatcher
-  static nom/IQuery
-  (query [this] [:layout/view])
-  Object
-  (render [this]
-          (let [{:keys [layout/view]} (nom/props this)]
-            (html [:div.panel.panel-default
-                   [:div.panel-body
-                    ]]))))
-(comment
-  (reify om/IRender
-    (render [_]
-      (let [view (lib/current-view)]
-        (dom/div #js {:className "panel panel-default"}
-                 (dom/div #js {:className "panel-body"}
-                          (case view
-                            :login (om/build login-form {})
-                            :options (om/build options/view data)
-                            :reference-usages (om/build ref/usages-view data)
-                            :reference-create-with-ref (om/build ref/create-with-reference-view data)
-                            :find (om/build find/view data)
-                            (discussion-elements data))
-                          (if (contains? #{:login :options :find :reference-usages} view)
-                            (om/build close-button data)
-                            (om/build control-elements data))))))))
-
-
 (defui ItemView
   static nom/IQuery
   (query [this] [:htmls :url])
@@ -330,7 +303,7 @@
                              :value url}]
                     " "
                     (vlib/safe-html (string/join (str " <i>" (t :common :and) "</i> ") htmls))]]))))
-(def item-view-next (nom/factory ItemView))
+(def item-view-next (nom/factory ItemView {:keyfn :url}))
 
 (defui ItemsView
   static nom/IQuery
@@ -342,9 +315,46 @@
             (html [:div (map item-view-next items)]))))
 (def items-view-next (nom/factory ItemsView))
 
+(defui DiscussionElements
+  static nom/IQuery
+  (query [this] [:discussion/items :discussion/bubbles])
+  Object
+  (render [this]
+          (html [:div
+                 (bubbles/bubbles-view-next (nom/props this))
+                 (items-view-next (nom/props this))])))
+(def discussion-elements-next (nom/factory DiscussionElements))
+
+#_(defn discussion-elements-next
+  "Show default view for the discussion"
+  [this]
+  (html [:div
+         (bubbles/bubbles-view-next (nom/props this))
+         (items-view-next (nom/props this))]))
+
+(defui ViewDispatcher
+  static nom/IQuery
+  (query [this] [:layout/view :discussion/items :discussion/bubbles])
+  Object
+  (render [this]
+          (let [{:keys [layout/view]} (nom/props this)]
+            (html [:div.panel.panel-default
+                   [:div.panel-body
+                    (case view
+                      ;; TODO: :login (om/build login-form {})
+                      ;; TODO: :options (om/build options/view data)
+                      ;; TODO: :reference-usages (om/build ref/usages-view data)
+                      ;; TODO: :reference-create-with-ref (om/build ref/create-with-reference-view data)
+                      ;; TODO: :find (om/build find/view data)
+                      (discussion-elements-next (nom/props this)))
+                    #_(if (contains? #{:login :options :find :reference-usages} view)
+                      (om/build close-button data)
+                      (om/build control-elements data))]]))))
+(def view-dispatcher-next (nom/factory ViewDispatcher))
+
 (defui MainContentView
   static nom/IQuery
-  (query [this] [:issue/info])
+  (query [this] [:issue/info :discussion/items :discussion/bubbles])
   Object
   (render [this]
           (let [{:keys [issue/info]} (nom/props this)]
@@ -352,32 +362,25 @@
                    [:div.text-center
                     (t :discussion :current)
                     [:br]
-                    [:strong info]]]))))
+                    [:strong info]]
+                   (view-dispatcher-next (nom/props this))]))))
 (def main-content-view-next (nom/factory MainContentView))
 
 (defui MainView
   static nom/IQuery
   (query [this]
-         [:layout/title])
+         [:layout/title :issue/info :discussion/items :discussion/bubbles])
   Object
   (render [this]
           (let [{:keys [layout/title]} (nom/props this)]
             (html [:div#discuss-dialog-main
-                   #_(avatar-view)
-                   [:h4 #_(vlib/logo)
+                   (avatar-view)
+                   [:h4 (vlib/logo)
                     " "
                     [:span.pointer {:data-toggle   "collapse"
                                     :data-target   (str "#" (lib/prefix-name "dialog-collapse"))
                                     :aria-expanded "true"
                                     :aria-controls (lib/prefix-name "dialog-collapse")}
-                     title]]]))))
+                     title]]
+                   (main-content-view-next (nom/props this))]))))
 (def main-view-next (nom/factory MainView))
-
-(defui Main
-  Object
-  (render [this]
-          (html [:div
-                 #_(om/build main-view lib/app-state)
-
-                 #_(search/results (nom/props this))])))
-(def main-next (nom/factory Main))

@@ -127,7 +127,7 @@
                       [:a {:href "javascript:void(0)"
                            :onClick (dispatch-link-destination-next url)} bubble-content]
                       bubble-content)]]))))
-(def bubble-view-next (nom/factory BubbleView))
+(def bubble-view-next (nom/factory BubbleView {:keyfn :text}))
 
 (defui BubblesView
   "Generate all bubbles based on the data in the reconciler."
