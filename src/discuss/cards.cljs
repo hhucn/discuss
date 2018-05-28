@@ -24,8 +24,8 @@
    (fn [_ node]
      (om/add-root! parser/reconciler views/main-view-next node))))
 
-(defcard components
-  "## Atoms")
+(defcard discussion-atoms
+  "## Discussion Atoms")
 
 (dc/defcard-om-next bubbles-view
   bubbles/BubblesView
@@ -35,8 +35,15 @@
   views/ItemsView
   parser/reconciler)
 
+(defcard login
+  "## Login")
+
+(dc/defcard-om-next login-form
+  views/LoginForm
+  parser/reconciler)
+
 (defcard molecules
-  "## Molecules")
+  "## View Molecules")
 
 (dc/defcard-om-next discussion-elements
   views/DiscussionElements
