@@ -3,6 +3,8 @@
 
 (def init-data {:search/results []
                 :layout/title "discuss"
+                :layout/view :default
+                :layout/lang :en
                 :issue/title "Town has to cut spending"
                 :issue/info "Our town needs to cut spending. Please discuss ideas how this should be done."
                 :discussion/items [{:htmls ["the city should reduce the number of street festivals"],
@@ -61,6 +63,13 @@
 
 (defmethod mutate 'discussion/bubbles [{:keys [state]} _ {:keys [bubbles]}]
   {:action (fn [] (swap! state assoc :discussion/bubbles bubbles))})
+
+(defmethod mutate 'layout/view [{:keys [state]} _ {:keys [view]}]
+  {:action (fn [] (swap! state assoc :layout/view view))})
+(defmethod mutate 'layout/add? [{:keys [state]} _ {:keys [add?]}]
+  {:action (fn [] (swap! state assoc :layout/add? add?))})
+(defmethod mutate 'layout/lang [{:keys [state]} _ {:keys [lang]}]
+  {:action (fn [] (swap! state assoc :layout/lang lang))})
 
 ;; -----------------------------------------------------------------------------
 

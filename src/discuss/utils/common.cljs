@@ -1,5 +1,6 @@
 (ns discuss.utils.common
   (:require [om.core :as om :include-macros true]
+            [om.next :as nom :refer-macros [defui]]
             [clojure.walk :refer [keywordize-keys]]
             [clojure.string :refer [trim trim-newline]]
             [cljs.spec.alpha :as s]
@@ -7,7 +8,8 @@
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]
             [discuss.config :as config]
-            [discuss.specs :as specs]))
+            [discuss.specs :as specs]
+            [discuss.parser :as parser]))
 
 (defn prefix-name
   "Create unique id for DOM elements."
@@ -212,8 +214,14 @@
 ;; Change views
 (defn hide-add-form!
   "Hide the user form."
+  {:deprecated 0.4}
   []
   (update-state-item! :layout :add? (fn [_] false)))
+
+(defn hide-add-form-next!
+  "Hide the user form."
+  []
+  (nom/transact! parser/reconciler `[(layout/add? {:add? false})]))
 
 (defn show-add-form!
   "Shows a form to enable user-added content."
@@ -229,9 +237,15 @@
 
 (defn change-view!
   "Switch to a different view."
+  {:deprecated 0.4}
   [view]
   (hide-add-form!)
   (update-state-item! :layout :template (fn [_] view)))
+
+(defn change-view-next!
+  [view]
+  (hide-add-form-next!)
+  (nom/transact! parser/reconciler `[(layout/view {:view ~view})]))
 
 (defn next-view!
   "Set the next view, which should be loaded after the ajax call has finished."
@@ -360,11 +374,6 @@
   (gstring/unescapeEntities
    (clojure.string/replace (trim-newline (trim str)) #"\s+" " ")))
 
-(s/fdef trim-and-normalize
-        :args (s/cat :str string?)
-        :ret string?
-        :fn #(<= (-> % :ret count) (-> % :args :str count)))
-
 
 ;;;; CSS modifications
 (defn toggle-class
@@ -392,8 +401,14 @@
 
 (defn language!
   "Set new language. Should be a keyword."
+  {:deprecated 0.4}
   [lang]
   (update-state-item! :layout :language (fn [] lang)))
+
+(defn language-next!
+  "Set new language. Should be a keyword."
+  [lang]
+  (nom/transact! parser/reconciler `[(layout/lang {:lang ~lang})]))
 
 
 ;;;; Other
@@ -407,3 +422,18 @@
   "Print argument as JS object to be accessible from the console."
   [arg]
   (.log js/console arg))
+
+
+;; -----------------------------------------------------------------------------
+;; Specs
+
+(s/fdef change-view-next!
+        :args (s/cat :view keyword?))
+
+(s/fdef trim-and-normalize
+        :args (s/cat :str string?)
+        :ret string?
+        :fn #(<= (-> % :ret count) (-> % :args :str count)))
+
+(s/fdef language-next!
+        :args (s/cat :lang keyword?))

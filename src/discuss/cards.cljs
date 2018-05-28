@@ -73,17 +73,18 @@
   views/DiscussionElements
   parser/reconciler)
 
-(dc/defcard-om-next main-view
-  views/MainView
+(dc/defcard-om-next view-dispatcher
+  views/ViewDispatcher
   parser/reconciler)
 
 (dc/defcard-om-next main-content-view
   views/MainContentView
   parser/reconciler)
 
-(dc/defcard-om-next view-dispatcher
-  views/ViewDispatcher
+(dc/defcard-om-next main-view
+  views/MainView
   parser/reconciler)
+
 
 #_(dc/defcard-om-next footest
   views/items-view-next

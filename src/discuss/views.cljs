@@ -386,7 +386,7 @@
 
 (defui MainContentView
   static nom/IQuery
-  (query [this] [:issue/info :discussion/items :discussion/bubbles])
+  (query [this] [:layout/view :issue/info :discussion/items :discussion/bubbles :clipboard/items])
   Object
   (render [this]
           (let [{:keys [issue/info]} (nom/props this)]
@@ -401,13 +401,14 @@
                               (om/build add-element {})
                               (om/build search/results-now data)))
                    (nav/nav)
-                   #_(om/build clipboard/view data)]))))
+                   [:br]
+                   (clipboard/clipboard (nom/props this))]))))
 (def main-content-view-next (nom/factory MainContentView))
 
 (defui MainView
   static nom/IQuery
   (query [this]
-         [:layout/title :issue/info :discussion/items :discussion/bubbles])
+         [:layout/view :layout/title :issue/info :discussion/items :discussion/bubbles])
   Object
   (render [this]
           (let [{:keys [layout/title]} (nom/props this)]
