@@ -201,6 +201,7 @@
 
 (defn add-element
   "Show form to add a new statement."
+  {:deprecated 0.4}
   [_ owner]
   (reify
     om/IInitState (init-state [_] {:statement ""})
@@ -354,6 +355,41 @@
 
 ;; ----------
 
+(defui AddElement
+  "Form to add new elements to the discussion.
+  TODO: Add onClick fns"
+  static nom/IQuery
+  (query [this] [:selection/current :site/origin])
+  Object
+  (render [this]
+          (let [statement (or (:statement (nom/get-state this)) "")
+                {current-selection :selection/current origin :site/origin} (nom/props this)]
+            (html [:div.panel.panel-default
+                   {:onDragOver clipboard/allow-drop
+                    :onDrop clipboard/update-reference-drop}
+                   [:div.panel-body
+                    [:h4.text-center (t :discussion :add-argument)]
+                    [:h5.text-center (vlib/safe-html (lib/get-add-premise-text))]
+                    #_(om/build error-view {})
+                    [:div.input-group
+                     [:span.input-group-addon.input-group-addon-left
+                      (str "... " (t :common :because))]
+                     (if-not (empty? origin)
+                       (origin-set origin)
+                       [:input.form-control
+                        {:onChange (fn [e]
+                                     (let [form-value (.. e -target -value)]
+                                       (search/search form-value)
+                                       (nom/update-state! this assoc :statement form-value)))
+                         :value statement}])]
+                    (show-selection)
+                    [:button.btn.btn-default
+                     {:onClick #(com/dispatch-add-action
+                                 statement current-selection origin)
+                      :disabled (and (> 10 (count statement)) (empty? origin))}
+                     (remaining-characters statement)]]]))))
+(def add-element-next (nom/factory AddElement))
+
 (defui DiscussionElements
   static nom/IQuery
   (query [this] [:discussion/items :discussion/bubbles])
@@ -380,8 +416,8 @@
                       ;; TODO: :find (om/build find/view data)
                       (discussion-elements-next (nom/props this)))
                     #_(if (contains? #{:login :options :find :reference-usages} view)
-                      (om/build close-button data)
-                      (om/build control-elements data))]]))))
+                        (om/build close-button data)
+                        (om/build control-elements data))]]))))
 (def view-dispatcher-next (nom/factory ViewDispatcher))
 
 (defui MainContentView
@@ -397,9 +433,9 @@
                     [:strong info]]
                    (view-dispatcher-next (nom/props this))
                    #_(when (get-in data [:layout :add?])
-                     (dom/div nil
-                              (om/build add-element {})
-                              (om/build search/results-now data)))
+                       (dom/div nil
+                                (om/build add-element {})
+                                (om/build search/results-now data)))
                    (nav/nav)
                    [:br]
                    (clipboard/clipboard (nom/props this))]))))
@@ -408,7 +444,7 @@
 (defui MainView
   static nom/IQuery
   (query [this]
-         [:layout/view :layout/title :issue/info :discussion/items :discussion/bubbles])
+         [:layout/view :layout/title :issue/info :discussion/items :discussion/bubbles :clipboard/items])
   Object
   (render [this]
           (let [{:keys [layout/title]} (nom/props this)]
@@ -423,3 +459,4 @@
                      title]]
                    (main-content-view-next (nom/props this))]))))
 (def main-view-next (nom/factory MainView))
+

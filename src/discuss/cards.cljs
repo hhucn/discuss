@@ -38,6 +38,10 @@
   views/ItemsView
   parser/reconciler)
 
+(dc/defcard-om-next add-element-view
+  views/AddElement
+  parser/reconciler)
+
 (defcard login
   "## Login")
 
