@@ -392,7 +392,8 @@
 
 (defui DiscussionElements
   static nom/IQuery
-  (query [this] [:discussion/items :discussion/bubbles])
+  (query [this] [{:discussion/items (nom/get-query ItemsView)}
+                 {:discussion/bubbles (nom/get-query bubbles/BubblesView)}])
   Object
   (render [this]
           (html [:div
@@ -402,7 +403,9 @@
 
 (defui ViewDispatcher
   static nom/IQuery
-  (query [this] [:layout/view :discussion/items :discussion/bubbles])
+  (query [this] [:layout/view
+                 {:discussion/items (nom/get-query DiscussionElements)}
+                 {:discussion/bubbles (nom/get-query DiscussionElements)}])
   Object
   (render [this]
           (let [{:keys [layout/view]} (nom/props this)]
@@ -415,27 +418,31 @@
                       ;; TODO: :reference-create-with-ref (om/build ref/create-with-reference-view data)
                       ;; TODO: :find (om/build find/view data)
                       (discussion-elements-next (nom/props this)))
-                    #_(if (contains? #{:login :options :find :reference-usages} view)
-                        (om/build close-button data)
-                        (om/build control-elements data))]]))))
+                    (if (some #{view} [:login :options :find :reference-usages])
+                        nil #_(om/build close-button data)
+                        nil #_(om/build control-elements data))]]))))
 (def view-dispatcher-next (nom/factory ViewDispatcher))
 
 (defui MainContentView
   static nom/IQuery
-  (query [this] [:layout/view :issue/info :discussion/items :discussion/bubbles :clipboard/items])
+  (query [this]
+         [:layout/add? :issue/info
+          {:layout/view (nom/get-query ViewDispatcher)}
+          {:discussion/items (nom/get-query ViewDispatcher)}
+          {:discussion/bubbles (nom/get-query ViewDispatcher)}
+          {:clipboard/items (nom/get-query clipboard/Clipboard)}])
   Object
   (render [this]
-          (let [{:keys [issue/info]} (nom/props this)]
+          (let [{:keys [issue/info layout/add?]} (nom/props this)]
             (html [:div
                    [:div.text-center
                     (t :discussion :current)
                     [:br]
                     [:strong info]]
                    (view-dispatcher-next (nom/props this))
-                   #_(when (get-in data [:layout :add?])
-                       (dom/div nil
-                                (om/build add-element {})
-                                (om/build search/results-now data)))
+                   (when add?
+                     [:div (add-element-next (nom/props this))
+                      (search/results (nom/props this))])
                    (nav/nav)
                    [:br]
                    (clipboard/clipboard (nom/props this))]))))
@@ -444,7 +451,11 @@
 (defui MainView
   static nom/IQuery
   (query [this]
-         [:layout/view :layout/title :issue/info :discussion/items :discussion/bubbles :clipboard/items])
+         [:layout/title
+          {:layout/view (nom/get-query MainContentView)}
+          {:discussion/items (nom/get-query MainContentView)}
+          {:discussion/bubbles (nom/get-query MainContentView)}
+          {:clipboard/items (nom/get-query MainContentView)}])
   Object
   (render [this]
           (let [{:keys [layout/title]} (nom/props this)]

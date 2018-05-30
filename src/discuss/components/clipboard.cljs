@@ -90,7 +90,8 @@
 
 (defui Clipboard
   static nom/IQuery
-  (query [this] [:clipboard/items])
+  (query [this]
+         [{:clipboard/items (nom/get-query ClipboardItem)}])
   Object
   (render [this]
           (let [{:keys [clipboard/items]} (nom/props this)]
