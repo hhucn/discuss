@@ -2,6 +2,7 @@
   (:require [om.next :as om]))
 
 (def init-data {:search/results []
+                :layout/error nil
                 :layout/title "discuss"
                 :layout/view :default
                 :layout/lang :en

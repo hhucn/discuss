@@ -8,7 +8,8 @@
             [discuss.components.bubbles :as bubbles]
             [discuss.components.options :as options]
             [discuss.components.navigation :as nav]
-            [discuss.components.clipboard :as clipboard]))
+            [discuss.components.clipboard :as clipboard]
+            [om.next :as om]))
 
 (enable-console-print!)
 
@@ -47,6 +48,11 @@
 
 (defcard control-elements-next
   views/control-elements-next)
+
+(dc/defcard-om-next error-view
+  views/ErrorAlert
+  (om/reconciler {:state {:layout/error "I am an error message"}
+                  :parser (om/parser {:read parser/read})}))
 
 (defcard login
   "## Login")

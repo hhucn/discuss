@@ -304,6 +304,20 @@
 ;; -----------------------------------------------------------------------------
 ;; om.next Views
 
+(defui ErrorAlert
+  Object
+  (render [this]
+          (let [{:keys [layout/error]} (nom/props this)]
+            (when-not (empty? error)
+              (html
+               [:div.alert.alert-info.alert-dismissable {:role "alert"}
+                [:button.close {:data-dismiss "alert"
+                                :aria-label "Close"}
+                 [:span {:aria-hidden "true"}
+                  (vlib/safe-html "&times;")]]
+                error])))))
+(def error-alert (nom/factor ErrorAlert))
+
 (defui ItemView
   static nom/IQuery
   (query [this] [:htmls :url])
@@ -334,14 +348,14 @@
 ;; ----------
 
 (defui LoginForm
-  "Form with nickname and password input.
-  TODO: display error message if any"
+  "Form with nickname and password input."
   Object
   (render [this]
           (let [st (nom/get-state this)
                 nickname (or (:nickname st) "")
                 password (or (:password st) "")]
             (html [:div (vlib/view-header (t :common :login))
+                   (error-alert st)
                    #_(om/build error-view {})
                    [:p.text-center (t :login :hhu-ldap)]
                    [:div.input-group
@@ -381,22 +395,6 @@
           [:div.col-md-4.col-sm-4.col-xs-4.text-right
            (bs/button-default-sm comlib/init! (vlib/fa-icon "fa-refresh") (t :discussion :restart :space))]]]))
 
-(comment
-  (reify
-    om/IRender
-    (render [_]
-      (dom/div nil
-               (dom/hr nil)
-               (dom/div #js {:className "row"}
-                        (dom/div #js {:className "col-md-offset-4 col-sm-offset-4 col-xs-offset-4 col-md-4 col-sm-4 col-xs-4 text-center"}
-                                 (dom/button #js {:className "btn btn-default btn-sm"
-                                                  :onClick   history/back!
-                                                  :disabled  (> 2 (count (re-seq #"/" (lib/get-last-api))))}
-                                             (vlib/fa-icon "fa-step-backward")
-                                             (t :common :back :space)))
-                        (dom/div #js {:className "col-md-4 col-sm-4 col-xs-4 text-right"}
-                                 (bs/button-default-sm comlib/init! (vlib/fa-icon "fa-refresh") (t :discussion :restart :space))))))))
-
 (defui AddElement
   "Form to add new elements to the discussion.
   TODO: Add onClick fns"
@@ -412,7 +410,7 @@
                    [:div.panel-body
                     [:h4.text-center (t :discussion :add-argument)]
                     [:h5.text-center (vlib/safe-html (lib/get-add-premise-text))]
-                    #_(om/build error-view {})
+                    (error-alert (nom/props this))
                     [:div.input-group
                      [:span.input-group-addon.input-group-addon-left
                       (str "... " (t :common :because))]
