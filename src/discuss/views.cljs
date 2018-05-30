@@ -316,7 +316,7 @@
                  [:span {:aria-hidden "true"}
                   (vlib/safe-html "&times;")]]
                 error])))))
-(def error-alert (nom/factor ErrorAlert))
+(def error-alert (nom/factory ErrorAlert))
 
 (defui ItemView
   static nom/IQuery
