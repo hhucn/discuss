@@ -356,7 +356,6 @@
                 password (or (:password st) "")]
             (html [:div (vlib/view-header (t :common :login))
                    (error-alert st)
-                   #_(om/build error-view {})
                    [:p.text-center (t :login :hhu-ldap)]
                    [:div.input-group
                     [:span.input-group-addon (vlib/fa-icon "fa-user fa-fw")]

@@ -50,7 +50,7 @@
                 :source-paths ["src"]
                 :figwheel {:devcards true
                            :open-urls ["http://localhost:3449/cards.html"]}
-                :compiler {:main       discuss.cards
+                :compiler {:main       discuss.devcards.core
                            :preloads   [discuss.utils.extensions devtools.preload]
                            :asset-path "js/compiled/discuss_cards_out"
                            :output-to  "resources/public/js/compiled/discuss_cards.js"
