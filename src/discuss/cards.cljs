@@ -2,7 +2,6 @@
   (:require [devcards.core :as dc :refer-macros [defcard dom-node]]
             [sablono.core :as html :refer-macros [html]]
             [discuss.parser :as parser]
-            #_[discuss.components.search.statements :as search :refer [SearchQuery Results]]
             [discuss.views :as views]
             [discuss.communication.auth :as auth]
             [discuss.components.bubbles :as bubbles]
@@ -15,18 +14,6 @@
 
 (defcard shortcuts
   (html [:div.btn.btn-primary {:onClick #(auth/login "Christian" "iamgroot")} "Login"]))
-
-#_(defcard-om discuss
-  views/main-view
-  lib/app-state)
-
-#_(defonce test-data {:search/results [:foo :bar :baz]
-                    :discussion/items [{:htmls ["the city should reduce the number of street festivals"], :texts ["the city should reduce the number of street festivals"], :url "town-has-to-cut-spending/attitude/36"} {:htmls ["we should shut down University Park"], :texts ["we should shut down University Park"], :url "town-has-to-cut-spending/attitude/37"} {:htmls ["we should close public swimming pools"], :texts ["we should close public swimming pools"], :url "town-has-to-cut-spending/attitude/38"}], :discussion/bubbles [{:type "system", :html "I want to talk about the position that.", :text "I want to talk about the position that.", :url nil}]})
-
-#_(defcard discuss-next
-  (dom-node
-   (fn [_ node]
-     (om/add-root! parser/reconciler views/main-view-next node))))
 
 (defcard discussion-atoms
   "## Discussion Atoms")
