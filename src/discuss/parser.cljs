@@ -5,6 +5,7 @@
                 :layout/error nil
                 :layout/title "discuss"
                 :layout/view :default
+                :layout/sidebar? false
                 :layout/lang :en
                 :issue/title "Town has to cut spending"
                 :issue/info "Our town needs to cut spending. Please discuss ideas how this should be done."
@@ -58,21 +59,25 @@
 
 
 (defmulti mutate om/dispatch)
-(defmethod mutate 'search/results [{:keys [state]} _ {:keys [results]}]
+#_(defmethod mutate 'search/results [{:keys [state]} _ {:keys [results]}]
   {:action (fn [] (swap! state assoc :search/results results))})
 
-(defmethod mutate 'discussion/items [{:keys [state]} _ {:keys [items]}]
+#_(defmethod mutate 'discussion/items [{:keys [state]} _ {:keys [items]}]
   {:action (fn [] (swap! state assoc :discussion/items items))})
 
-(defmethod mutate 'discussion/bubbles [{:keys [state]} _ {:keys [bubbles]}]
+#_(defmethod mutate 'discussion/bubbles [{:keys [state]} _ {:keys [bubbles]}]
   {:action (fn [] (swap! state assoc :discussion/bubbles bubbles))})
 
-(defmethod mutate 'layout/view [{:keys [state]} _ {:keys [view]}]
+#_(defmethod mutate 'layout/view [{:keys [state]} _ {:keys [view]}]
   {:action (fn [] (swap! state assoc :layout/view view))})
-(defmethod mutate 'layout/add? [{:keys [state]} _ {:keys [add?]}]
+#_(defmethod mutate 'layout/add? [{:keys [state]} _ {:keys [add?]}]
   {:action (fn [] (swap! state assoc :layout/add? add?))})
-(defmethod mutate 'layout/lang [{:keys [state]} _ {:keys [lang]}]
+#_(defmethod mutate 'layout/lang [{:keys [state]} _ {:keys [lang]}]
   {:action (fn [] (swap! state assoc :layout/lang lang))})
+
+(defmethod mutate :default
+  [{:keys [state] :as env} field {:keys [value]}]
+  {:action (fn [] (swap! state assoc (keyword field) value))})
 
 ;; -----------------------------------------------------------------------------
 

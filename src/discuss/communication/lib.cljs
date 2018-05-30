@@ -38,8 +38,8 @@
   [response]
   (let [{:keys [items bubbles]} (lib/process-response response)]
     (lib/change-to-next-view!)
-    (nom/transact! parser/reconciler `[(discussion/items {:items ~items})])
-    (nom/transact! parser/reconciler `[(discussion/bubbles {:bubbles ~bubbles})])))
+    (nom/transact! parser/reconciler `[(discussion/items {:value ~items})])
+    (nom/transact! parser/reconciler `[(discussion/bubbles {:value ~bubbles})])))
 
 (nom/app-state parser/reconciler)
 

@@ -17,7 +17,7 @@
   "Store the search results into the app-state."
   [statements]
   (lib/update-state-item! :search :results (fn [_] statements))
-  (nom/transact! parser/reconciler `[(search/results {:results ~statements})]))
+  (nom/transact! parser/reconciler `[(search/results {:value ~statements})]))
 
 (defn remove-search-results!
   "Reset the search results."

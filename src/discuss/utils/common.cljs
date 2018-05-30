@@ -221,7 +221,7 @@
 (defn hide-add-form-next!
   "Hide the user form."
   []
-  (nom/transact! parser/reconciler `[(layout/add? {:add? false})]))
+  (nom/transact! parser/reconciler `[(layout/add? {:value false})]))
 
 (defn show-add-form!
   "Shows a form to enable user-added content."
@@ -245,7 +245,8 @@
 (defn change-view-next!
   [view]
   (hide-add-form-next!)
-  (nom/transact! parser/reconciler `[(layout/view {:view ~view})]))
+  (nom/transact! parser/reconciler `[(layout/view {:value ~view})]))
+(change-view-next! :login)
 
 (defn next-view!
   "Set the next view, which should be loaded after the ajax call has finished."
@@ -408,7 +409,7 @@
 (defn language-next!
   "Set new language. Should be a keyword."
   [lang]
-  (nom/transact! parser/reconciler `[(layout/lang {:lang ~lang})]))
+  (nom/transact! parser/reconciler `[(layout/lang {:value ~lang})]))
 
 
 ;;;; Other
