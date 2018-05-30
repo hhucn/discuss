@@ -23,7 +23,7 @@
 (defn- find-statement
   "Find related statements to given keywords."
   [keywords issue-id]
-  (when-not (empty? keywords)
+  (when (seq keywords)
     (let [mode 3
           request-url (join "/" [(get-in config/api [:get :statements]) issue-id mode keywords])]
       (comlib/ajax-get request-url {} statement-handler))))

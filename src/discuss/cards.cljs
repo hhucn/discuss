@@ -89,36 +89,6 @@
   parser/reconciler)
 
 
-#_(dc/defcard-om-next footest
-  views/items-view-next
-  parser/reconciler)
-
-#_(defcard-om-next footest-next
-  views/items-view-next
-  parser/reconciler)
-
-#_(comlib/init!)
-
-#_(defcard search-query
-    (dom-node
-     (fn [_ node]
-       (om/add-root! parser/reconciler SearchQuery node)))
-    {:inspect-data true})
-
-#_(defcard-om search-query-now
-  search/search-query-now
-  lib/app-state)
-
-#_(defcard search-results
-  (dom-node
-   (fn [_ node]
-     (om/add-root! parser/reconciler Results node)))
-  {:inspect-data true})
-
-#_(defcard-om search-results-now
-  search/results-now
-  lib/app-state)
-
 ;; -----------------------------------------------------------------------------
 ;; Start devcards
 

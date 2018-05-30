@@ -308,7 +308,7 @@
   Object
   (render [this]
           (let [{:keys [layout/error]} (nom/props this)]
-            (when-not (empty? error)
+            (when (seq error)
               (html
                [:div.alert.alert-info.alert-dismissable {:role "alert"}
                 [:button.close {:data-dismiss "alert"
