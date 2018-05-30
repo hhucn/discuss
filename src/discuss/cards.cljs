@@ -42,6 +42,12 @@
   views/AddElement
   parser/reconciler)
 
+(defcard close-button-next
+  views/close-button-next)
+
+(defcard control-elements-next
+  views/control-elements-next)
+
 (defcard login
   "## Login")
 

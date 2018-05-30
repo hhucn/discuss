@@ -50,7 +50,9 @@
                                        (vlib/safe-html "&times;")))
                  (lib/get-error))))))
 
-(defn control-elements []
+(defn control-elements
+  {:deprecated 0.4}
+  []
   (reify
     om/IRender
     (render [_]
@@ -66,7 +68,9 @@
                         (dom/div #js {:className "col-md-4 col-sm-4 col-xs-4 text-right"}
                                  (bs/button-default-sm comlib/init! (vlib/fa-icon "fa-refresh") (t :discussion :restart :space))))))))
 
-(defn close-button []
+(defn close-button
+  {:deprecated 0.4}
+  []
   (reify om/IRender
     (render [_]
       (dom/div nil
@@ -84,7 +88,9 @@
                                     :className "discuss-avatar-main img-responsive img-circle"})
                       (dom/span nil (str (t :common :hello) " " (lib/get-nickname) "!"))))))
 
-(defn login-form [_ owner]
+(defn login-form
+  {:deprecated 0.4}
+  [_ owner]
   (reify
     om/IInitState
     (init-state [_]
@@ -157,7 +163,9 @@
                 :className "text-center"}
            (bs/button-primary com/init-with-references! (t :common :start-discussion))))
 
-(defn discussion-elements [data]
+(defn discussion-elements
+  {:deprecated 0.4}
+  [data]
   (if-not (empty? (:discussion @lib/app-state))
     (dom/div #js {:key (lib/get-unique-key)}
              (om/build bubbles/view data)
@@ -355,6 +363,40 @@
 
 ;; ----------
 
+(def close-button-next
+  "Close current panel and switch view."
+  (html [:div [:br]
+         [:div.text-center
+          (bs/button-default-sm lib/change-to-next-view! (vlib/fa-icon "fa-times") (t :common :close :space))]]))
+
+(def control-elements-next
+  "Back and restart button."
+  (html [:div [:hr]
+         [:div.row
+          [:div {:className "col-md-offset-4 col-sm-offset-4 col-xs-offset-4 col-md-4 col-sm-4 col-xs-4 text-center"}
+           [:button.btn.btn-default.btn-sm {:onClick history/back!
+                                            :disabled  (> 2 (count (re-seq #"/" (lib/get-last-api))))}
+            (vlib/fa-icon "fa-step-backward")
+            (t :common :back :space)]]
+          [:div.col-md-4.col-sm-4.col-xs-4.text-right
+           (bs/button-default-sm comlib/init! (vlib/fa-icon "fa-refresh") (t :discussion :restart :space))]]]))
+
+(comment
+  (reify
+    om/IRender
+    (render [_]
+      (dom/div nil
+               (dom/hr nil)
+               (dom/div #js {:className "row"}
+                        (dom/div #js {:className "col-md-offset-4 col-sm-offset-4 col-xs-offset-4 col-md-4 col-sm-4 col-xs-4 text-center"}
+                                 (dom/button #js {:className "btn btn-default btn-sm"
+                                                  :onClick   history/back!
+                                                  :disabled  (> 2 (count (re-seq #"/" (lib/get-last-api))))}
+                                             (vlib/fa-icon "fa-step-backward")
+                                             (t :common :back :space)))
+                        (dom/div #js {:className "col-md-4 col-sm-4 col-xs-4 text-right"}
+                                 (bs/button-default-sm comlib/init! (vlib/fa-icon "fa-refresh") (t :discussion :restart :space))))))))
+
 (defui AddElement
   "Form to add new elements to the discussion.
   TODO: Add onClick fns"
@@ -419,8 +461,8 @@
                       ;; TODO: :find (om/build find/view data)
                       (discussion-elements-next (nom/props this)))
                     (if (some #{view} [:login :options :find :reference-usages])
-                        nil #_(om/build close-button data)
-                        nil #_(om/build control-elements data))]]))))
+                      close-button-next
+                      control-elements-next)]]))))
 (def view-dispatcher-next (nom/factory ViewDispatcher))
 
 (defui MainContentView
