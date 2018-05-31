@@ -1,12 +1,13 @@
 (ns discuss.communication.lib
   "Helper-functions for the communication component."
-  (:require [ajax.core :refer [GET POST]]
-            [discuss.config :as config]
-            [clojure.string :as str]
-            [discuss.utils.common :as lib]
+  (:require [clojure.string :as str]
+            [cljs.spec.alpha :as s]
+            [ajax.core :refer [GET POST]]
             [om.next :as nom]
-            [discuss.parser :as parser]
-            [om.next :as om]))
+            [miner.strgen :as sg]
+            [discuss.config :as config]
+            [discuss.utils.common :as lib]
+            [discuss.parser :as parser]))
 
 ;;;; Auxiliary functions
 (defn make-url
@@ -84,3 +85,32 @@
   (let [url (:init config/api)]
     (lib/update-state-item! :layout :add? (fn [_] false))
     (ajax-get-and-change-view url :default index-handler)))
+
+
+;; -----------------------------------------------------------------------------
+;; Add compatibility to D-BAS' new API
+
+(defn process-discussion-step
+  "Handler to process the response from a discussion step when an item is clicked."
+  [response]
+  (let [res (lib/process-response response)]))
+
+(s/def ::text (let [re #"[^<>]*"]
+                (s/spec (s/and string? #(re-matches re %))
+                        :gen #(sg/string-generator re))))
+(s/def ::htmls (s/coll-of string?))
+(s/def ::texts (s/coll-of string?))
+(s/def ::url string?)
+(s/def ::bubble (s/keys :req-un [::htmls ::texts ::url]))
+(s/def ::bubbles (s/coll-of ::bubble))
+
+(s/def ::agree ::bubble)
+(s/def ::disagree ::bubble)
+(s/def ::dontknow ::bubble)
+(s/def ::attitudes (s/keys :req-un [::agree ::disagree ::dontknow]))
+
+(s/def ::response (s/keys :req-un [::bubbles]
+                          :opt-un [::attitudes]))
+
+(s/fdef process-discussion-step
+        :args (s/cat :response ::response))

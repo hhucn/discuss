@@ -15,6 +15,7 @@
                  [org.clojure/tools.reader "1.2.2"]
                  [org.omcljs/om "1.0.0-beta3"]
                  [com.cognitect/transit-cljs "0.8.256"]
+                 [com.velisco/strgen "0.1.7"]
                  [cljs-ajax "0.7.3"]
                  [lein-doo "0.1.10"]  ;; <-- otherwise it won't find the doo namespaces...
                  [devcards "0.2.5"]
