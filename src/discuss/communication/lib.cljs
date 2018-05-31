@@ -5,7 +5,8 @@
             [clojure.string :as str]
             [discuss.utils.common :as lib]
             [om.next :as nom]
-            [discuss.parser :as parser]))
+            [discuss.parser :as parser]
+            [om.next :as om]))
 
 ;;;; Auxiliary functions
 (defn make-url

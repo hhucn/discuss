@@ -18,7 +18,6 @@
                  [cljs-ajax "0.7.3"]
                  [lein-doo "0.1.8"]  ;; <-- otherwise it won't find the doo namespaces...
                  [devcards "0.2.4"]
-                 [devcards-om-next "0.3.0"]
                  [sablono "0.8.1"]
                  [inflections "0.13.0"]]
 
