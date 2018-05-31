@@ -9,22 +9,22 @@
   :hooks [leiningen.cljsbuild]
 
   :dependencies [[org.clojure/clojure "1.9.0"]
-                 [org.clojure/clojurescript "1.9.946"]
-                 [org.clojure/core.async "0.3.443" :exclusions [org.clojure/tools.reader]]
+                 [org.clojure/clojurescript "1.10.238"]
+                 [org.clojure/core.async "0.4.474" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
-                 [org.clojure/tools.reader "1.2.1"]
+                 [org.clojure/tools.reader "1.2.2"]
                  [org.omcljs/om "1.0.0-beta3"]
-                 [com.cognitect/transit-cljs "0.8.243"]
+                 [com.cognitect/transit-cljs "0.8.256"]
                  [cljs-ajax "0.7.3"]
-                 [lein-doo "0.1.8"]  ;; <-- otherwise it won't find the doo namespaces...
-                 [devcards "0.2.4"]
-                 [sablono "0.8.1"]
+                 [lein-doo "0.1.10"]  ;; <-- otherwise it won't find the doo namespaces...
+                 [devcards "0.2.5"]
+                 [sablono "0.8.4"]
                  [inflections "0.13.0"]]
 
   :plugins [[lein-ancient "0.6.10"]
             [lein-cljsbuild "1.1.5" :exclusions [[org.clojure/clojure]]]
             [lein-codox "0.10.3"]
-            [lein-doo "0.1.8"]
+            [lein-doo "0.1.10"]
             [lein-figwheel "0.5.16"]
             [lein-kibit "0.1.3"]
             [lein-set-version "0.4.1"]]
@@ -36,13 +36,14 @@
   :aliases {"phantomtest" ["do" "clean" ["doo" "phantom" "test" "once"]]
             "build" ["do" "clean" ["cljsbuild" "once" "min"]]}
 
-  :profiles {:dev {:dependencies [[binaryage/devtools "0.9.7"]
+  :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]
                                   [figwheel-sidecar "0.5.16"]
-                                  [com.cemerick/piggieback "0.2.2"]]
+                                  [org.clojure/tools.nrepl "0.2.13"]
+                                  [cider/piggieback "0.3.5"]]
                    ;; need to add dev source path here to get user.clj loaded
                    :source-paths ["src/discuss"]
                    :repl-options {:init (set! *print-length* 50)
-                                  :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
+                                  :nrepl-middleware [cider.piggieback/wrap-cljs-repl]}}}
 
   :cljsbuild {:builds
               [{:id "dev"
