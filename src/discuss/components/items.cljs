@@ -5,7 +5,19 @@
             [discuss.communication.lib :as comlib]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.common :as lib]
-            [discuss.utils.views :as vlib]))
+            [discuss.utils.views :as vlib]
+            [cljs.spec.alpha :as s]))
+
+(defn- dispatch-click-fn
+  "Dispatch which function should be applied if there is a click on an item."
+  [url]
+  (case url
+    "login" (lib/change-view-next! :login)
+    "back" (.log js/console "Not yet implemented")
+    (comlib/ajax-get url nil comlib/process-discussion-step)))
+
+(s/fdef dispatch-click-fn
+  :args (s/cat :url string?))
 
 (defui Item
   static om/IQuery
@@ -18,7 +30,7 @@
                     [:input {:type "radio"
                              :className (lib/prefix-name "dialog-items")
                              :name (lib/prefix-name "dialog-items-group")
-                             :onClick #(comlib/ajax-get url nil comlib/process-discussion-step)
+                             :onClick (partial dispatch-click-fn url)
                              :value url}]
                     " "
                     (vlib/safe-html (string/join (str " <i>" (t :common :and) "</i> ") htmls))]]))))
