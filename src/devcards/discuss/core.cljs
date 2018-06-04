@@ -1,9 +1,9 @@
-(ns discuss.devcards.core
+(ns devcards.discuss.core
   (:require [devcards.core :as dc :refer-macros [defcard defcard-om-next]]
             [sablono.core :as html :refer-macros [html]]
             [discuss.communication.auth :as auth]
-            [discuss.devcards.atoms]
-            [discuss.devcards.molecules]))
+            [devcards.discuss.atoms]
+            [devcards.discuss.molecules]))
 
 (enable-console-print!)
 

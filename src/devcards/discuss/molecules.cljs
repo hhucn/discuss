@@ -1,4 +1,4 @@
-(ns discuss.devcards.molecules
+(ns devcards.discuss.molecules
   (:require [devcards.core :as dc :refer-macros [defcard defcard-om-next]]
             [sablono.core :as html :refer-macros [html]]
             [discuss.parser :as parser]

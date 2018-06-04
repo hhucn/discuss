@@ -1,13 +1,13 @@
-(ns discuss.devcards.atoms
+(ns devcards.discuss.atoms
   (:require [devcards.core :as dc :refer-macros [defcard defcard-om-next]]
             [discuss.parser :as parser]
             [discuss.views :as views]
             [discuss.components.bubbles :as bubbles]
-            [discuss.components.items :as items]
             [discuss.components.options :as options]
             [discuss.components.navigation :as nav]
             [discuss.components.clipboard :as clipboard]
-            [om.next :as om]))
+            [om.next :as om]
+            [discuss.components.items :as items]))
 
 (defcard close-button-next
   views/close-button-next)
