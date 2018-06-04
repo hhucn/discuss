@@ -30,7 +30,7 @@
             [lein-kibit "0.1.3"]
             [lein-set-version "0.4.1"]]
 
-  :source-paths ["src/discuss" "src/test"]
+  :source-paths ["src"]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
@@ -42,7 +42,7 @@
                                   [org.clojure/tools.nrepl "0.2.13"]
                                   [cider/piggieback "0.3.5"]]
                    ;; need to add dev source path here to get user.clj loaded
-                   :source-paths ["src/discuss"]
+                   :source-paths ["src"]
                    :repl-options {:init (set! *print-length* 50)
                                   :nrepl-middleware [cider.piggieback/wrap-cljs-repl]}}}
 
@@ -58,7 +58,7 @@
                            :output-dir "resources/public/js/compiled/discuss_cards_out"
                            :parallel-build       true
                            :compiler-stats       true
-                           :source-map-timestamp true }}
+                           :source-map-timestamp true}}
                {:id           "dev-default"
                 :source-paths ["src"]
                 :figwheel     {:on-jsload "discuss.core/on-js-reload"
