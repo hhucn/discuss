@@ -32,7 +32,7 @@ jobs:
           keys:
           - v1-dependencies-{{ checksum "project.clj" }}
           - v1-dependencies-
-      - run: lein phantomtest
+      - run: lein cljsbuild once min
 
   analysis:
     docker:
