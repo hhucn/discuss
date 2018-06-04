@@ -7,7 +7,8 @@
             [miner.strgen :as sg]
             [discuss.config :as config]
             [discuss.utils.common :as lib]
-            [discuss.parser :as parser]))
+            [discuss.parser :as parser]
+            [clojure.spec.test.alpha :as stest]))
 
 ;;;; Auxiliary functions
 (defn make-url
@@ -99,6 +100,7 @@
                        :default [])]
     (om/transact! parser/reconciler `[(discussion/bubbles {:value ~bubbles})
                                       (discussion/items {:value ~update-items})])))
+
 
 (comment
   (ajax-get "/town-has-to-cut-spending/attitude/36" nil process-discussion-step)

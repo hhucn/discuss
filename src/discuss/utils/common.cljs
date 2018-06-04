@@ -246,7 +246,6 @@
   [view]
   (hide-add-form-next!)
   (nom/transact! parser/reconciler `[(layout/view {:value ~view})]))
-(change-view-next! :login)
 
 (defn next-view!
   "Set the next view, which should be loaded after the ajax call has finished."

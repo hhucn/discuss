@@ -3,6 +3,7 @@
             [discuss.parser :as parser]
             [discuss.views :as views]
             [discuss.components.bubbles :as bubbles]
+            [discuss.components.items :as items]
             [discuss.components.options :as options]
             [discuss.components.navigation :as nav]
             [discuss.components.clipboard :as clipboard]
@@ -44,5 +45,5 @@
   parser/reconciler)
 
 (defcard-om-next items-view
-  views/ItemsView
+  items/ItemsView
   parser/reconciler)

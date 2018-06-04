@@ -7,6 +7,7 @@
             [sablono.core :as html :refer-macros [html]]
             [discuss.components.bubbles :as bubbles]
             [discuss.components.clipboard :as clipboard]
+            [discuss.components.items :as items]
             [discuss.components.find :as find]
             [discuss.components.navigation :as nav]
             [discuss.components.options :as options]
@@ -242,64 +243,6 @@
                   :disabled (and (> 10 (count statement)) (empty? origin))}
                  (remaining-characters statement)]]])))))
 
-(defn view-dispatcher
-  "Dispatch current template in main view by the app state."
-  {:deprecated 0.4}
-  [data]
-  (reify om/IRender
-    (render [_]
-      (let [view (lib/current-view)]
-        (dom/div #js {:className "panel panel-default"}
-                 (dom/div #js {:className "panel-body"}
-                          (case view
-                            :login (om/build login-form {})
-                            :options (om/build options/view data)
-                            :reference-usages (om/build ref/usages-view data)
-                            :reference-create-with-ref (om/build ref/create-with-reference-view data)
-                            :find (om/build find/view data)
-                            (discussion-elements data))
-                          (if (contains? #{:login :options :find :reference-usages} view)
-                            (om/build close-button data)
-                            (om/build control-elements data))))))))
-
-(defn main-content-view
-  {:deprecated 0.4}
-  [data]
-  (reify om/IRender
-    (render [_]
-      (dom/div nil
-               (when (seq (:discussion @lib/app-state))
-                 (dom/div #js {:className "text-center"}
-                          (t :discussion :current)
-                          (dom/br nil)
-                          (dom/strong nil (get-in data [:issues :info]))))
-               (om/build view-dispatcher data)
-               (when (get-in data [:layout :add?])
-                 (dom/div nil
-                          (om/build add-element {})
-                          (om/build search/results-now data)))
-               (om/build nav/main data)
-               (om/build clipboard/view data)))))
-
-(defn main-view
-  {:deprecated 0.4}
-  [data]
-  (reify om/IRender
-    (render [_]
-      (dom/div #js {:id (lib/prefix-name "dialog-main")}
-               (avatar-view)
-               (dom/h4 nil
-                       (vlib/logo)
-                       " "
-                       (dom/span #js {:className     "pointer"
-                                      :data-toggle   "collapse"
-                                      :data-target   (str "#" (lib/prefix-name "dialog-collapse"))
-                                      :aria-expanded "true"
-                                      :aria-controls (lib/prefix-name "dialog-collapse")}
-                                 (get-in data [:layout :title])))
-               (dom/div #js {:className "collapse in"
-                             :id        (lib/prefix-name "dialog-collapse")}
-                        (om/build main-content-view data))))))
 
 ;; -----------------------------------------------------------------------------
 ;; om.next Views
@@ -317,33 +260,6 @@
                   (vlib/safe-html "&times;")]]
                 error])))))
 (def error-alert (nom/factory ErrorAlert))
-
-(defui ItemView
-  static nom/IQuery
-  (query [this] [:htmls :url])
-  Object
-  (render [this]
-          (let [{:keys [htmls url]} (nom/props this)]
-            (html [:div.radio
-                   [:label
-                    [:input {:type "radio"
-                             :className (lib/prefix-name "dialog-items")
-                             :name (lib/prefix-name "dialog-items-group")
-                             :onClick #(comlib/ajax-get url nil comlib/process-discussion-step)
-                             :value url}]
-                    " "
-                    (vlib/safe-html (string/join (str " <i>" (t :common :and) "</i> ") htmls))]]))))
-(def item-view-next (nom/factory ItemView {:keyfn :url}))
-
-(defui ItemsView
-  static nom/IQuery
-  (query [this]
-         `[{:discussion/items ~(nom/get-query ItemView)}])
-  Object
-  (render [this]
-          (let [{:keys [discussion/items]} (nom/props this)]
-            (html [:div (map item-view-next items)]))))
-(def items-view-next (nom/factory ItemsView))
 
 ;; ----------
 
@@ -380,7 +296,7 @@
   "Close current panel and switch view."
   (html [:div [:br]
          [:div.text-center
-          (bs/button-default-sm lib/change-to-next-view! (vlib/fa-icon "fa-times") (t :common :close :space))]]))
+          (bs/button-default-sm #(lib/change-view-next! :default) (vlib/fa-icon "fa-times") (t :common :close :space))]]))
 
 (def control-elements-next
   "Back and restart button."
@@ -431,7 +347,7 @@
 
 (defui DiscussionElements
   static nom/IQuery
-  (query [this] [{:discussion/items (nom/get-query ItemsView)}
+  (query [this] [{:discussion/items (nom/get-query items/ItemsView)}
                  {:discussion/bubbles (nom/get-query bubbles/BubblesView)}])
   Object
   (render [this]
