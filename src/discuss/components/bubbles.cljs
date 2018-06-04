@@ -88,10 +88,11 @@
 (defn- get-bubble-class-next [bubble-type]
   "Check bubble type and return a class-string to match the CSS styles."
   (case bubble-type
-    :user "bubble-user"
-    :system "bubble-system"
-    :status "bubble-status text-center"
-    :info "bubble-info text-center"))
+    "user" "bubble-user"
+    "system" "bubble-system"
+    "status" "bubble-status text-center"
+    "info" "bubble-info text-center"
+    ""))
 
 (s/fdef get-bubble-class-next
         :args (s/cat :bubble-type keyword?)

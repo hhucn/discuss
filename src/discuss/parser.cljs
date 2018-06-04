@@ -13,22 +13,22 @@
                 :site/origin {}
                 :discussion/items [{:htmls ["the city should reduce the number of street festivals"],
                                     :texts ["the city should reduce the number of street festivals"],
-                                    :url "town-has-to-cut-spending/attitude/36"}
+                                    :url "/town-has-to-cut-spending/attitude/36"}
                                    {:htmls ["we should shut down University Park"],
                                     :texts ["we should shut down University Park"],
-                                    :url "town-has-to-cut-spending/attitude/37"}
+                                    :url "/town-has-to-cut-spending/attitude/37"}
                                    {:htmls ["we should close public swimming pools"],
                                     :texts ["we should close public swimming pools"],
-                                    :url "town-has-to-cut-spending/attitude/38"}]
-                :discussion/bubbles [{:type :user
+                                    :url "/town-has-to-cut-spending/attitude/38"}]
+                :discussion/bubbles [{:type "user"
                                       :html "We should shut down University Park."
                                       :text "We should shut down University Park."
                                       :url "/town-has-to-cut-spending/attitude/12"}
-                                     {:type :status
+                                     {:type "status"
                                       :html "Now"
                                       :text "Now"
                                       :url nil}
-                                     {:type :system
+                                     {:type "system"
                                       :html "What is your most important reason why <span data-argumentation-type=\"position\">we should shut down University Park</span> <span class='text-success'>holds</span>? <br>Because..."
                                       :text "What is your most important reason why we should shut down University Park holds? Because..."
                                       :url nil}]

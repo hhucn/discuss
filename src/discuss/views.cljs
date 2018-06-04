@@ -329,7 +329,7 @@
                     [:input {:type "radio"
                              :className (lib/prefix-name "dialog-items")
                              :name (lib/prefix-name "dialog-items-group")
-                             :onClick #(println "clicked item, goto" url)
+                             :onClick #(comlib/ajax-get url nil comlib/process-discussion-step)
                              :value url}]
                     " "
                     (vlib/safe-html (string/join (str " <i>" (t :common :and) "</i> ") htmls))]]))))
