@@ -7,7 +7,7 @@
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
 
-(defui ItemView
+(defui Item
   static om/IQuery
   (query [this] [:htmls :url])
   Object
@@ -22,15 +22,15 @@
                              :value url}]
                     " "
                     (vlib/safe-html (string/join (str " <i>" (t :common :and) "</i> ") htmls))]]))))
-(def item-view-next (om/factory ItemView {:keyfn :url}))
+(def item (om/factory Item {:keyfn :url}))
 
-(defui ItemsView
+(defui Items
   static om/IQuery
   (query [this]
-         `[{:discussion/items ~(om/get-query ItemView)}])
+         `[{:discussion/items ~(om/get-query Item)}])
   Object
   (render [this]
           (let [{:keys [discussion/items]} (om/props this)]
-            (html [:div (map item-view-next items)]))))
-(def items-view-next (om/factory ItemsView))
+            (html [:div (map item items)]))))
+(def items (om/factory Items))
 

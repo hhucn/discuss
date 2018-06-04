@@ -27,7 +27,7 @@
     (om/root view lib/app-state {:target div})
     #_(nom/add-root! parser/reconciler view div)))
 
-(doall (map register-view [["main" views/main-view]
+#_(doall (map register-view [["main" views/main-view]
                            ["sidebar" sidebar/view]
                            ["tooltip" tooltip/view]]))
 

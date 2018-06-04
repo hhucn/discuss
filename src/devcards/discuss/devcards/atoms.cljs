@@ -45,5 +45,5 @@
   parser/reconciler)
 
 (defcard-om-next items-view
-  items/ItemsView
+  items/Items
   parser/reconciler)

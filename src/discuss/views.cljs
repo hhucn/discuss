@@ -8,7 +8,6 @@
             [discuss.components.bubbles :as bubbles]
             [discuss.components.clipboard :as clipboard]
             [discuss.components.items :as items]
-            [discuss.components.find :as find]
             [discuss.components.navigation :as nav]
             [discuss.components.options :as options]
             [discuss.components.search.statements :as search]
@@ -17,7 +16,6 @@
             [discuss.communication.lib :as comlib]
             [discuss.history :as history]
             [discuss.references.lib :as rlib]
-            [discuss.references.main :as ref]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
@@ -347,13 +345,13 @@
 
 (defui DiscussionElements
   static nom/IQuery
-  (query [this] [{:discussion/items (nom/get-query items/ItemsView)}
+  (query [this] [{:discussion/items (nom/get-query items/Items)}
                  {:discussion/bubbles (nom/get-query bubbles/BubblesView)}])
   Object
   (render [this]
           (html [:div
                  (bubbles/bubbles-view-next (nom/props this))
-                 (items-view-next (nom/props this))])))
+                 (items/items (nom/props this))])))
 (def discussion-elements-next (nom/factory DiscussionElements))
 
 (defui ViewDispatcher
