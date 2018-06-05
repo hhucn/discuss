@@ -1,5 +1,6 @@
 (ns discuss.parser
-  (:require [om.next :as om]))
+  (:require [om.next :as om]
+            [cljs.spec.alpha :as s]))
 
 (def init-data {:search/results []
                 :layout/error nil
@@ -81,7 +82,28 @@
 
 ;; -----------------------------------------------------------------------------
 
+(def reconciler-history (atom []))
+
+(defn mutation-history
+  "Return uuid-list of the reconciler's history."
+  [reconciler]
+  (-> reconciler :config :history .-arr js->clj))
+
+(s/def ::reconciler #(instance? om/Reconciler %))
+(s/fdef mutation-history
+  :args (s/cat :reconciler ::reconciler)
+  :ret (s/coll-of uuid?))
+
 (defonce reconciler
   (om/reconciler
    {:state  init-data
-    :parser (om/parser {:read read :mutate mutate})}))
+    :parser (om/parser {:read read :mutate mutate})
+    :tx-listen (fn [tx-data _]
+                 (reset! reconciler-history (mutation-history (:reconciler tx-data))))}))
+(defn back!
+  "Travel one unit back in time!"
+  []
+  (when-let [uuid-from-history (last @reconciler-history)]
+    (let [state-from-history (om/from-history reconciler uuid-from-history)]
+      (swap! reconciler-history pop)
+      (reset! (om/app-state reconciler) state-from-history))))

@@ -19,7 +19,8 @@
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
-            [discuss.utils.views :as vlib]))
+            [discuss.utils.views :as vlib]
+            [discuss.parser :as parser]))
 
 ;;;; Auxiliary
 (defn- remaining-characters
@@ -301,8 +302,8 @@
   (html [:div [:hr]
          [:div.row
           [:div {:className "col-md-offset-4 col-sm-offset-4 col-xs-offset-4 col-md-4 col-sm-4 col-xs-4 text-center"}
-           [:button.btn.btn-default.btn-sm {:onClick history/back!
-                                            :disabled  (> 2 (count (re-seq #"/" (lib/get-last-api))))}
+           [:button.btn.btn-default.btn-sm {:onClick parser/back!
+                                            :disabled  (> 1 (count (parser/mutation-history parser/reconciler)))}
             (vlib/fa-icon "fa-step-backward")
             (t :common :back :space)]]
           [:div.col-md-4.col-sm-4.col-xs-4.text-right

@@ -1,4 +1,5 @@
 (ns discuss.history
+  {:deprecated 0.4}
   (:require [discuss.utils.common :as lib]))
 
 (def discussion-history (atom [@lib/app-state]))
@@ -10,6 +11,7 @@
 
 (defn back!
   "Travel one unit back in time!"
+  {:deprecated 0.4}
   []
   (when (> (count @discussion-history) 1)
     (dotimes [_ 3]                                          ; Workaround, because one action are currently x atom changes
