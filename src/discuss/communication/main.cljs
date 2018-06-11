@@ -111,5 +111,6 @@
 
 (defn resend-last-api
   "Resends stored url from last api call."
+  {:deprecated 0.4}
   []
   (comlib/ajax-get (lib/get-last-api)))

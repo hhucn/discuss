@@ -7,8 +7,7 @@
             [miner.strgen :as sg]
             [discuss.config :as config]
             [discuss.utils.common :as lib]
-            [discuss.parser :as parser]
-            [clojure.spec.test.alpha :as stest]))
+            [discuss.parser :as parser]))
 
 ;;;; Auxiliary functions
 (defn make-url
@@ -20,7 +19,7 @@
   "Return token header for ajax request if user is logged in."
   []
   (when (lib/logged-in?)
-    {"X-Authentication" (lib/clj->json {:type "user" :token (lib/get-token)})}))
+    {"X-Authentication" (lib/clj->json {:type "user" :nickname (lib/get-nickname) :token (lib/get-token)})}))
 
 
 ;;;; Handlers
