@@ -3,7 +3,8 @@
             [sablono.core :as html :refer-macros [html]]
             [discuss.parser :as parser]
             [discuss.views :as views]
-            [discuss.communication.lib :as comlib]))
+            [discuss.communication.lib :as comlib]
+            [om.next :as om]))
 
 (defcard sample-requests
   "Do some sample requests with `ajax-get`."
@@ -19,12 +20,22 @@
 
 (defcard-om-next discussion-elements
   views/DiscussionElements
-  parser/reconciler
-  {:inspect-data true :history true})
-
-(defcard-om-next view-dispatcher
-  views/ViewDispatcher
   parser/reconciler)
+
+(defcard-om-next view-dispatcher-default
+  views/ViewDispatcher
+  (om/reconciler {:state {:layout/view :default}
+                  :parser (om/parser {:read parser/read})}))
+
+(defcard-om-next view-dispatcher-login
+  views/ViewDispatcher
+  (om/reconciler {:state {:layout/view :login}
+                  :parser (om/parser {:read parser/read})}))
+
+(defcard-om-next view-dispatcher-options
+  views/ViewDispatcher
+  (om/reconciler {:state {:layout/view :options}
+                  :parser (om/parser {:read parser/read})}))
 
 (defcard-om-next main-content-view
   views/MainContentView
