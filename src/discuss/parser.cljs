@@ -10,6 +10,10 @@
                 :layout/lang :en
                 :issue/title "Town has to cut spending"
                 :issue/info "Our town needs to cut spending. Please discuss ideas how this should be done."
+                :issue/list [:list :of :issues]
+                :user/nickname "kangaroo"
+                :user/token "razupaltuff"
+                :user/logged-in? false
                 :selection/current "This is a selected text passage"
                 :site/origin {}
                 :discussion/items [{:htmls ["the city should reduce the number of street festivals"],

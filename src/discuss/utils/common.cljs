@@ -94,28 +94,29 @@
 ;;;; Getter
 (defn get-cursor
   "Return a cursor to the corresponding key in the app-state."
+  {:deprecated 0.4}
   [key]
   (om/ref-cursor (key (om/root-cursor app-state))))
 
 (defn get-nickname
   "Return the user's nickname, with whom she logged in."
   []
-  (get-in @app-state [:user :nickname]))
+  (:user/nickname @(nom/app-state parser/reconciler)))
 
 (defn get-avatar
   "Return the URL of the user's avatar."
   []
-  (get-in @app-state [:user :avatar]))
+  (:user/avatar @(nom/app-state parser/reconciler)))
 
 (defn get-token
   "Return the user's token for discussion system."
   []
-  (get-in @app-state [:user :token]))
+  (:user/token @(nom/app-state parser/reconciler)))
 
 (defn get-issues
   "Returns list of dictionaries with all available issues."
   []
-  (get-in @app-state [:issues :all]))
+  (:issue/list @(nom/app-state parser/reconciler)))
 
 (defn get-issue
   "Return specific issue, matching by id or title."
@@ -127,12 +128,12 @@
 (defn get-items
   "Returns list of items from the discussion."
   []
-  (get-in @app-state [:items]))
+  (:discussion/items @(nom/app-state parser/reconciler)))
 
 (defn get-bubbles
   "Return message bubbles from DBAS."
   []
-  (:bubbles @app-state))
+  (:discussion/bubbles @(nom/app-state parser/reconciler)))
 
 (defn get-add-premise-text
   "Return text for adding new premise."
@@ -144,7 +145,7 @@
 (defn logged-in?
   "Return true if user is logged in."
   []
-  (get-in @app-state [:user :logged-in?]))
+  (:user/logged-in? @(nom/app-state parser/reconciler)))
 
 
 ;;;; State changing
@@ -437,6 +438,3 @@
 
 (s/fdef language-next!
         :args (s/cat :lang keyword?))
-
-
-(change-view-next! :login)

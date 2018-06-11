@@ -1,21 +1,22 @@
 (ns discuss.communication.auth
   (:require [ajax.core :refer [POST]]
-            [clojure.string :refer [split]]
             [discuss.communication.lib :as comlib]
             [discuss.config :as config]
             [discuss.translations :refer [translate] :rename {translate t}]
-            [discuss.utils.common :as lib]))
+            [discuss.utils.common :as lib]
+            [om.next :as om]
+            [discuss.parser :as parser]))
 
 (defn- success-login
   "Callback function when login was successful. Set attributes of user."
   [response]
-  (let [res (lib/process-response response)
-        nickname (first (split (:token res) "-"))
-        token (:token res)]
-    (lib/update-state-map! :user {:nickname   nickname
-                                  :token      token
-                                  :logged-in? true})
-    (comlib/ajax-get-and-change-view (lib/get-last-api) :discussion)))
+  (let [{:keys [nickname token]} (lib/process-response response)]
+    (om/transact! parser/reconciler `[(user/nickname {:value ~nickname})
+                                      (user/token {:value ~token})
+                                      (user/logged-in? {:value true})
+                                      (layout/view {:value :default})])
+    ;; TODO resend the last API call again
+    ))
 
 (defn- wrong-login
   "Callback function for invalid credentials."
@@ -46,6 +47,6 @@
 (defn logout
   "Reset user credentials."
   []
-  (lib/update-state-map! :user {:nickname   ""
-                                :token      ""
-                                :logged-in? false}))
+  (om/transact! parser/reconciler `[(user/nickname {:value nil})
+                                    (user/token {:value nil})
+                                    (user/logged-in? {:value false})]))
