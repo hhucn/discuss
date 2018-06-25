@@ -58,6 +58,7 @@
 (defn ajax-get
   "Make ajax call to dialog based argumentation system."
   ([url headers handler params]
+   (lib/last-api! url)
    (println "Request to:" (make-url url))
    (GET (make-url url)
         {:handler       handler
@@ -90,7 +91,6 @@
   "Request initial data from API."
   []
   (let [url (:init config/api)]
-    (lib/update-state-item! :layout :add? (fn [_] false))
     (ajax-get-and-change-view url :default index-handler)))
 
 

@@ -18,8 +18,8 @@
         url (:url res)]
     (lib/remove-origin!)
     (search/remove-search-results!)
-    (lib/hide-add-form!)
-    (lib/update-state-item! :layout :add-type (fn [_] nil))
+    #_(lib/hide-add-form!)
+    #_(lib/update-state-item! :layout :add-type (fn [_] nil))
     (rint/request-references)
     (comlib/ajax-get url)))
 
@@ -83,24 +83,6 @@
 (s/fdef dispatch-add-action
         :args (s/cat :statement string? :reference string? :origin map?))
 
-(defn prepare-add
-  "Save current add-method and show add form."
-  [add-type]
-  (lib/update-state-item! :layout :add-type (fn [_] add-type))
-  (lib/show-add-form!))
-
-(defn item-click
-  "Prepare which action has to be done when clicking an item."
-  [id url]
-  (lib/hide-add-form!)
-  (cond
-    (= id "item_start_statement") (prepare-add :add-start-statement)
-    (= id "item_start_premise") (prepare-add :add-start-premise)
-    (= id "item_justify_premise") (prepare-add :add-justify-premise)
-    (= url "add") (prepare-add "add")
-    (= url "login") (lib/change-view! :login)
-    :else (comlib/ajax-get url)))
-
 
 ;;;; Get things started!
 (defn init-with-references!
@@ -108,9 +90,3 @@
   []
   (rint/request-references)
   (comlib/init!))
-
-(defn resend-last-api
-  "Resends stored url from last api call."
-  {:deprecated 0.4}
-  []
-  (comlib/ajax-get (lib/get-last-api)))
