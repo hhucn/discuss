@@ -15,7 +15,7 @@
                                       (user/token {:value ~token})
                                       (user/logged-in? {:value true})
                                       (layout/view {:value :default})])
-    ;; TODO resend the last API call again
+    (comlib/ajax-get (lib/get-last-api))
     ))
 
 (defn- wrong-login

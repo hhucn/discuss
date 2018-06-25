@@ -40,15 +40,24 @@
   [response]
   (let [{:keys [items bubbles]} (lib/process-response response)]
     (lib/change-to-next-view!)
-    (om/transact! parser/reconciler `[(discussion/items {:value ~items})])
-    (om/transact! parser/reconciler `[(discussion/bubbles {:value ~bubbles})])))
+    (om/transact! parser/reconciler `[(discussion/items {:value ~items})
+                                      (discussion/bubbles {:value ~bubbles})])))
+
+(defn process-discussion-step
+  "Handler to process the response from a discussion step when an item is clicked."
+  [response]
+  (let [{:keys [bubbles attitudes items attacks]} (lib/process-response response)
+        update-items (cond
+                       (not (empty? items)) items
+                       (not (empty? attacks)) (vals attacks)
+                       (not (empty? attitudes)) (vals attitudes)
+                       :default [])]
+    (om/transact! parser/reconciler `[(discussion/bubbles {:value ~bubbles})
+                                      (discussion/items {:value ~update-items})])))
 
 (defn ajax-get
   "Make ajax call to dialog based argumentation system."
   ([url headers handler params]
-   (lib/no-error!)
-   (lib/last-api! url)
-   (lib/loading? true)
    (println "Request to:" (make-url url))
    (GET (make-url url)
         {:handler       handler
@@ -56,8 +65,8 @@
          :params        params
          :error-handler error-handler}))
   ([url headers handler] (ajax-get url headers handler nil))
-  ([url headers] (ajax-get url headers lib/update-all-states!))
-  ([url] (ajax-get url {})))
+  ([url headers] (ajax-get url headers process-discussion-step))
+  ([url] (ajax-get url (token-header))))
 
 (defn ajax-get-and-change-view
   "Make ajax call to jump right into the discussion and change to discussion
@@ -87,19 +96,6 @@
 
 ;; -----------------------------------------------------------------------------
 ;; Add compatibility to D-BAS' new API
-
-(defn process-discussion-step
-  "Handler to process the response from a discussion step when an item is clicked."
-  [response]
-  (let [{:keys [bubbles attitudes items attacks]} (lib/process-response response)
-        update-items (cond
-                       (not (empty? items)) items
-                       (not (empty? attacks)) (vals attacks)
-                       (not (empty? attitudes)) (vals attitudes)
-                       :default [])]
-    (om/transact! parser/reconciler `[(discussion/bubbles {:value ~bubbles})
-                                      (discussion/items {:value ~update-items})])))
-
 
 (comment
   (ajax-get "/town-has-to-cut-spending/attitude/36" nil process-discussion-step)

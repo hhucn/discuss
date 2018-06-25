@@ -206,38 +206,6 @@
   (html [:input.form-control {:disabled true
                               :value (:content origin)}]))
 
-(defn add-element
-  "Show form to add a new statement."
-  {:deprecated 0.4}
-  [_ owner]
-  (reify
-    om/IInitState (init-state [_] {:statement ""})
-    om/IRenderState
-    (render-state [_ {:keys [statement]}]
-      (let [origin (lib/get-origin)]
-        (html [:div.panel.panel-default
-               {:onDragOver clipboard/allow-drop
-                :onDrop clipboard/update-reference-drop}
-               [:div.panel-body
-                [:h4.text-center (t :discussion :add-argument)]
-                [:h5.text-center (vlib/safe-html (lib/get-add-premise-text))]
-                (om/build error-view {})
-                [:div.input-group
-                 [:span.input-group-addon.input-group-addon-left
-                  (str "... " (t :common :because))]
-                 (if-not (empty? origin)
-                   (origin-set origin)
-                   [:input.form-control
-                    {:onChange (fn [e] (search/search (.. e -target -value))
-                                 (vlib/commit-component-state :statement e owner))
-                     :value statement}])]
-                (show-selection)
-                [:button.btn.btn-default
-                 {:onClick #(com/dispatch-add-action
-                             statement (lib/get-selection) origin)
-                  :disabled (and (> 10 (count statement)) (empty? origin))}
-                 (remaining-characters statement)]]])))))
-
 
 ;; -----------------------------------------------------------------------------
 ;; om.next Views
