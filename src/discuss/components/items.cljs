@@ -6,6 +6,7 @@
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
+            [discuss.utils.logging :as log]
             [cljs.spec.alpha :as s]))
 
 (defn- dispatch-click-fn
@@ -13,8 +14,9 @@
   [url]
   (case url
     "login" (lib/change-view-next! :login)
-    "back" (.log js/console "Not yet implemented")
-    (comlib/ajax-get url nil comlib/process-discussion-step)))
+    "back" (log/info "Not yet implemented")
+    "add" (log/info "Not yet implemented")
+    (comlib/ajax-get url (comlib/token-header) comlib/process-discussion-step)))
 
 (s/fdef dispatch-click-fn
   :args (s/cat :url string?))

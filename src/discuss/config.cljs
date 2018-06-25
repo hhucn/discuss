@@ -7,6 +7,10 @@
 
 (def project "discuss")
 
+(def log-level
+  "Available log-levels: :severe :warning :info :config :fine :finer :finest."
+  :fine)
+
 (defn- get-protocol [url]
   (first (str/split url #":")))
 
