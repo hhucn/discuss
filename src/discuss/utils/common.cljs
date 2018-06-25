@@ -92,12 +92,6 @@
 
 
 ;;;; Getter
-(defn get-cursor
-  "Return a cursor to the corresponding key in the app-state."
-  {:deprecated 0.4}
-  [key]
-  (om/ref-cursor (key (om/root-cursor app-state))))
-
 (defn get-nickname
   "Return the user's nickname, with whom she logged in."
   []
@@ -151,14 +145,15 @@
 ;;;; State changing
 (defn update-state-item!
   "Get the cursor for given key and select a field to apply the function to it."
+  {:deprecated 0.4}
   [col key f]
-  (om/transact! (get-cursor col) key f))
+  )
 
 (defn update-state-map!
   "Get the cursor for given key and update it with the new collection of data."
+  {:deprecated 0.4}
   [key col]
-  (let [state (get-cursor key)]
-    (om/transact! state (fn [] col))))
+  )
 
 
 ;;;; References
@@ -277,12 +272,12 @@
   "Keep last-api call. Useful to login and then re-request the url to jump to
   the same position in the discussion, but this time as a logged in user."
   [url]
-  (update-state-item! :common :last-api (fn [_] url)))
+  (nom/transact! parser/reconciler `[(api/last-call {:value ~url})]))
 
 (defn get-last-api
   "Return url of last API call."
   []
-  (get-in @app-state [:common :last-api]))
+  (:api/last-call @(nom/app-state parser/reconciler)))
 
 
 ;;;; Generic Handlers

@@ -76,7 +76,6 @@
   (reify
     om/IRender
     (render [_]
-      (om/observe owner (lib/get-cursor :layout))
       (dom/div #js {:className ""
                     :style     #js {:paddingBottom "1em"}}
                (let [ref-title (:text (get-selected-reference))]

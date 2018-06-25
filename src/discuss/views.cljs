@@ -39,7 +39,6 @@
   (reify
     om/IRender
     (render [_]
-      (om/observe owner (lib/get-cursor :layout))
       (when (lib/error?)
         (dom/div #js {:className "alert alert-info alert-dismissable"
                       :role      "alert"}
@@ -215,9 +214,6 @@
     om/IInitState (init-state [_] {:statement ""})
     om/IRenderState
     (render-state [_ {:keys [statement]}]
-      (om/observe owner (lib/get-cursor :user))
-      (om/observe owner (lib/get-cursor :references))
-      (om/observe owner (lib/get-cursor :origin))
       (let [origin (lib/get-origin)]
         (html [:div.panel.panel-default
                {:onDragOver clipboard/allow-drop
@@ -303,7 +299,7 @@
          [:div.row
           [:div {:className "col-md-offset-4 col-sm-offset-4 col-xs-offset-4 col-md-4 col-sm-4 col-xs-4 text-center"}
            [:button.btn.btn-default.btn-sm {:onClick parser/back!
-                                            :disabled  (> 1 (count (parser/mutation-history parser/reconciler)))}
+                                            :disabled  (neg? (count (parser/mutation-history parser/reconciler)))}
             (vlib/fa-icon "fa-step-backward")
             (t :common :back :space)]]
           [:div.col-md-4.col-sm-4.col-xs-4.text-right

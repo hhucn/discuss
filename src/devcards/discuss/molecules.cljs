@@ -24,7 +24,9 @@
 
 (defcard-om-next view-dispatcher-default
   views/ViewDispatcher
-  (om/reconciler {:state {:layout/view :default}
+  (om/reconciler {:state (merge {:layout/view :default}
+                                (select-keys @(om/app-state parser/reconciler)
+                                             [:discussion/bubbles :discussion/items]))
                   :parser (om/parser {:read parser/read})}))
 
 (defcard-om-next view-dispatcher-login

@@ -2,7 +2,8 @@
   (:require [om.next :as om]
             [cljs.spec.alpha :as s]))
 
-(def init-data {:search/results []
+(def init-data {:api/last-call ""
+                :search/results []
                 :layout/error nil
                 :layout/title "discuss"
                 :layout/view :default
@@ -55,31 +56,7 @@
       {:value value}
       {:value :not-found})))
 
-#_(defmethod read :item/by-url
-  [{:keys [state]} _ {:keys [url]}]
-  (let [st @state
-        item (for [item (get st :discussion/items) :when (= url (:url item))] item)]
-    item))
-;; (read {:state (om/app-state scarf.core/reconciler)} :color/by-id {:id 1})
-
-
 (defmulti mutate om/dispatch)
-#_(defmethod mutate 'search/results [{:keys [state]} _ {:keys [results]}]
-  {:action (fn [] (swap! state assoc :search/results results))})
-
-#_(defmethod mutate 'discussion/items [{:keys [state]} _ {:keys [items]}]
-  {:action (fn [] (swap! state assoc :discussion/items items))})
-
-#_(defmethod mutate 'discussion/bubbles [{:keys [state]} _ {:keys [bubbles]}]
-  {:action (fn [] (swap! state assoc :discussion/bubbles bubbles))})
-
-#_(defmethod mutate 'layout/view [{:keys [state]} _ {:keys [view]}]
-  {:action (fn [] (swap! state assoc :layout/view view))})
-#_(defmethod mutate 'layout/add? [{:keys [state]} _ {:keys [add?]}]
-  {:action (fn [] (swap! state assoc :layout/add? add?))})
-#_(defmethod mutate 'layout/lang [{:keys [state]} _ {:keys [lang]}]
-  {:action (fn [] (swap! state assoc :layout/lang lang))})
-
 (defmethod mutate :default
   [{:keys [state] :as env} field {:keys [value]}]
   {:action (fn [] (swap! state assoc (keyword field) value))})
