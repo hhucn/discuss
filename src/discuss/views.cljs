@@ -174,7 +174,7 @@
                                  statement current-selection origin)
                       :disabled (and (> 10 (count statement)) (empty? origin))}
                      (remaining-characters statement)]]]))))
-(def add-element-next (om/factory AddElement))
+(def add-element (om/factory AddElement))
 
 (defui DiscussionElements
   static om/IQuery
@@ -214,6 +214,7 @@
   (query [this]
          [:layout/add? :issue/info
           {:layout/view (om/get-query ViewDispatcher)}
+          {:search/results (om/get-query AddElement)}
           {:discussion/items (om/get-query ViewDispatcher)}
           {:discussion/bubbles (om/get-query ViewDispatcher)}
           {:clipboard/items (om/get-query clipboard/Clipboard)}])
@@ -227,8 +228,8 @@
                     [:strong info]]
                    (view-dispatcher-next (om/props this))
                    (when add?
-                     [:div (add-element-next (om/props this))
-                      (search/results (om/props this))])
+                     [:div (add-element (om/props this))
+                      #_(search/results (om/props this))])
                    (nav/nav)
                    [:br]
                    (clipboard/clipboard (om/props this))]))))
@@ -257,3 +258,4 @@
                    (main-content-view-next (om/props this))]))))
 (def main-view-next (om/factory MainView))
 
+(om/get-query MainView)

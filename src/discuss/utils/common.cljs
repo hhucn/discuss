@@ -209,13 +209,7 @@
 
 ;; Change views
 (defn hide-add-form!
-  "Hide the user form."
-  {:deprecated 0.4}
-  []
-  (update-state-item! :layout :add? (fn [_] false)))
-
-(defn hide-add-form-next!
-  "Hide the user form."
+  "Hide the form which allows to add new content."
   []
   (nom/transact! parser/reconciler `[(layout/add? {:value false})]))
 
@@ -223,7 +217,7 @@
   "Shows a form to enable user-added content."
   []
   (when (logged-in?)
-    (update-state-item! :layout :add? (fn [_] true))))
+    (nom/transact! parser/reconciler `[(layout/add? {:value true})])))
 
 (defn current-view
   "Returns the current selected template, which should be visible in the

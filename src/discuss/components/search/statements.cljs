@@ -5,7 +5,6 @@
             [clojure.walk :refer [keywordize-keys]]
             [cljs.spec.alpha :as s]
             [ajax.core :refer [GET]]
-            [discuss.specs :as specs]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.views :as vlib]
             [discuss.parser :as parser]
@@ -13,10 +12,24 @@
             [discuss.config :as config]
             [om.dom :as dom]))
 
+(s/def ::isPosition boolean?)
+(s/def ::content string?)
+(s/def ::statementUid pos-int?)
+(s/def ::textversions (s/keys :req-un [::content ::statementUid]))
+
+(s/def ::uid string?)
+(s/def ::langUid string?)
+(s/def ::issues (s/keys :req-un [::uid ::langUid]))
+
+(s/def ::search-result
+  (s/keys :req-un [::isPosition ::textversions ::issues]))
+
+
+;; -----------------------------------------------------------------------------
+
 (defn set-search-results!
   "Store the search results into the app-state."
   [statements]
-  (lib/update-state-item! :search :results (fn [_] statements))
   (nom/transact! parser/reconciler `[(search/results {:value ~statements})]))
 
 (defn remove-search-results!
@@ -30,7 +43,7 @@
   [response]
   (let [results (-> response keywordize-keys :hits :hits)
         data (mapv :_source results)
-        statements (filter (partial s/valid? ::specs/statement) data)]
+        statements (filter (partial s/valid? ::search-result) data)]
     (set-search-results! statements)))
 
 (defn search
