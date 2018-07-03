@@ -9,12 +9,6 @@ cache:
 variables:
   LC_ALL: "C"
 
-test:
-  image: cmeter/clojure-phantomjs
-  stage: test
-  script:
-    - lein phantomtest
-
 deps-check:
   stage: test
   script:
