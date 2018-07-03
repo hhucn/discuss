@@ -9,6 +9,11 @@ cache:
 variables:
   LC_ALL: "C"
 
+compile-js:
+  stage: test
+  script:
+    - lein cljsbuild once min
+
 deps-check:
   stage: test
   script:
