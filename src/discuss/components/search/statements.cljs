@@ -1,6 +1,6 @@
 (ns discuss.components.search.statements
   (:require [sablono.core :as html :refer-macros [html]]
-            [om.next :as nom :refer-macros [defui]]
+            [om.next :as om :refer-macros [defui]]
             [clojure.walk :refer [keywordize-keys]]
             [cljs.spec.alpha :as s]
             [ajax.core :refer [GET]]
@@ -65,12 +65,12 @@
 (defn set-search-results!
   "Store the search results into the app-state."
   [statements]
-  (nom/transact! parser/reconciler `[(search/results {:value ~statements})]))
+  (om/transact! parser/reconciler `[(search/results {:value ~statements})]))
 
 (defn remove-search-results!
   "Reset the search results."
   []
-  (set-search-results! {}))
+  (set-search-results! []))
 
 (defn- handle-search-results
   "Handler which is called with the results from ElasticSearch. Extract statements
@@ -95,7 +95,7 @@
 (defui Result
   Object
   (render [this]
-          (let [{:keys [text issue author]} (nom/props this)]
+          (let [{:keys [text issue author]} (om/props this)]
             (html [:div.bs-callout.bs-callout-info
                    [:div.row
                     [:div.col-sm-8
@@ -110,18 +110,18 @@
                       [:br]
                       [:span.label.label-default
                        (str (t :search :author) ": " (:nickname author))]]]]]))))
-(def ^:private result (nom/factory Result))
+(def ^:private result (om/factory Result))
 
 (defui Results
-  static nom/IQuery
+  static om/IQuery
   (query [this] [:search/results])
   Object
   (render [this]
-          (let [{:keys [search/results]} (nom/props this)]
+          (let [{:keys [search/results]} (om/props this)]
             (html [:div.results
                    (take 5
                          (map #(result (merge (lib/unique-react-key-dict) %)) results))]))))
-(def results (nom/factory Results))
+(def results (om/factory Results))
 
 
 ;; -----------------------------------------------------------------------------
@@ -134,4 +134,4 @@
                   [:div.form-group
                    [:input.form-control {:type "text"
                                          :on-change #(search (.. % -target -value))}]]]])))
-(def search-query (nom/factory SearchQuery))
+(def search-query (om/factory SearchQuery))
