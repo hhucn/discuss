@@ -3,7 +3,8 @@
             [sablono.core :as html :refer-macros [html]]
             [discuss.communication.auth :as auth]
             [devcards.discuss.atoms]
-            [devcards.discuss.molecules]))
+            [devcards.discuss.molecules]
+            [devcards.discuss.components.search]))
 
 (enable-console-print!)
 

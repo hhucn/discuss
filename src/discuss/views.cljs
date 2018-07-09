@@ -229,7 +229,7 @@
                    (view-dispatcher-next (om/props this))
                    (when add?
                      [:div (add-element (om/props this))
-                      #_(search/results (om/props this))])
+                      (search/results (om/props this))])
                    (nav/nav)
                    [:br]
                    (clipboard/clipboard (om/props this))]))))
