@@ -15,12 +15,6 @@ compile-js:
   script:
     - lein cljsbuild once min
 
-deps-check:
-  stage: test
-  script:
-    - lein ancient
-  allow_failure: true
-
 idiomatic?:
   stage: test
   script:
