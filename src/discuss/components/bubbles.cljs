@@ -29,7 +29,7 @@
   (let [data-href (.getAttribute anchor "data-href")]
     (case data-href
       "back" history/back!
-      "login" #(lib/change-view! :login)
+      "login" #(lib/change-view-next! :login)
       "restart" comlib/init!)))
 
 (defn- convert-link
@@ -104,7 +104,7 @@
   [url]
   (case url
     "back" history/back!
-    "login" #(lib/change-view! :login)
+    "login" #(lib/change-view-next! :login)
     "restart" comlib/init!))
 
 (s/fdef dispatch-link-destination-next

@@ -35,7 +35,7 @@
   view."
   [response]
   (lib/change-to-next-view!)
-  (lib/update-all-states! response))
+  #_(lib/update-all-states! response))
 
 (defn index-handler
   [response]

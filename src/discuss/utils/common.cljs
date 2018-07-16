@@ -225,13 +225,6 @@
   []
   (get-in @app-state [:layout :template]))
 
-(defn change-view!
-  "Switch to a different view."
-  {:deprecated 0.4}
-  [view]
-  (hide-add-form!)
-  (update-state-item! :layout :template (fn [_] view)))
-
 (defn change-view-next!
   [view]
   (nom/transact! parser/reconciler `[(layout/view {:value ~view})
@@ -250,15 +243,15 @@
   (let [current-view (current-view)
         next-view (get-in @app-state [:layout :next-template])]
     (if (= current-view next-view)
-      (change-view! :default)
-      (change-view! next-view!))))
+      (change-view-next! :default)
+      (change-view-next! next-view!))))
 
 (defn save-current-and-change-view!
   "Saves the current view and changes to the next specified view. Used for the
   'close' button in some views."
   [view]
   (next-view! (current-view))
-  (change-view! view))
+  (change-view-next! view))
 
 
 ;;;; Last-api

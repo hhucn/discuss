@@ -23,7 +23,7 @@
   [response]
   (let [res (lib/process-response response)]
     (rlib/save-reference-usages! res)
-    (lib/change-view! :reference-usages)))
+    (lib/change-view-next! :reference-usages)))
 
 (defn query-reference-details
   "Show usages of the provided reference."
@@ -68,7 +68,7 @@
                                   (t :references :where-used))
                " "
                (dom/button #js {:className "btn btn-primary"
-                                :onClick   #(lib/change-view! :reference-create-with-ref)}
+                                :onClick   #(lib/change-view-next! :reference-create-with-ref)}
                            (t :references :jump))))))
 
 (defn single-reference-usage
