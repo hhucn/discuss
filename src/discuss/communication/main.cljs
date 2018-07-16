@@ -2,7 +2,6 @@
   "Functions concerning the communication with the remote discussion system."
   (:require [ajax.core :refer [GET POST]]
             [goog.string :refer [htmlEscape]]
-            [discuss.config :as config]
             [discuss.utils.common :as lib]
             [discuss.references.integration :as rint]
             [discuss.communication.lib :as comlib]
@@ -49,11 +48,29 @@
   ([url body]
    (post-json url body process-url-handler {"Content-Type" "application/json"})))
 
-(defn- post-statement [statement reference origin add-type]
+#_(defn- post-statement [statement reference origin add-type]
   (let [app @lib/app-state
         url (get-in config/api [:add add-type])
         headers (merge {"Content-Type" "application/json"} (comlib/token-header))
         body {:statement     (htmlEscape statement)
+              :reference     (htmlEscape reference)
+              :origin        origin
+              :conclusion_id (get-conclusion-id)            ; Relevant for add-start-premise
+              :supportive    (get-in app [:discussion :is_supportive])
+              :arg_uid       (get-in app [:discussion :arg_uid]) ; For premisses for arguments
+              :attack_type   (get-in app [:discussion :attack_type])
+              :host          js/location.host
+              :path          js/location.pathname
+              :issue_id      (get-in app [:issues :uid])
+              :slug          (get-in app [:issues :slug])}]
+    (post-json url body process-url-handler headers)))
+
+(defn- post-statement [statement reference origin add-type]
+  (let [;; app @lib/app-state
+        ;; url (get-in config/api [:add add-type])
+        url (lib/get-last-api)
+        headers (merge {"Content-Type" "application/json"} (comlib/token-header))
+        body nil #_{:statement     (htmlEscape statement)
               :reference     (htmlEscape reference)
               :origin        origin
               :conclusion_id (get-conclusion-id)            ; Relevant for add-start-premise
@@ -71,7 +88,8 @@
 (defn dispatch-add-action
   "Check which action needs to be performed based on the type previously stored in the app-state."
   ([statement reference origin]
-   (let [action (get-in @lib/app-state [:layout :add-type])
+
+   #_(let [action (get-in @lib/app-state [:layout :add-type])
          statement (or (:content origin) statement)]
      (case action
        :add-start-statement (post-statement statement reference origin :add-start-statement)
