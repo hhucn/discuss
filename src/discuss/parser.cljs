@@ -5,10 +5,12 @@
 (def init-data {:api/last-call ""
                 :search/results []
                 :layout/error nil
+                :layout/error? false  ;; for legacy support
                 :layout/loading? false
                 :layout/sidebar? false
                 :layout/title "discuss"
                 :layout/view :default
+                :layout/view-next nil
                 :layout/lang :en
                 :issue/title "Town has to cut spending"
                 :issue/info "Our town needs to cut spending. Please discuss ideas how this should be done."

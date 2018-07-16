@@ -24,7 +24,7 @@
     om/IRender
     (render [_]
       (dom/span nil
-                (bs/button-default-sm #(lib/language! (first language)) (second language))
+                (bs/button-default-sm #(lib/language-next! (first language)) (second language))
                 " "))))
 
 (defn- language-row
@@ -52,7 +52,7 @@
 (defn- language-button
   "Create button to set language."
   [[lang-keyword lang-verbose]]
-  (bs/button-default-sm #(lib/language! lang-keyword) lang-verbose))
+  (bs/button-default-sm #(lib/language-next! lang-keyword) lang-verbose))
 
 (defui Options
   Object

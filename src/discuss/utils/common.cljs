@@ -1,6 +1,5 @@
 (ns discuss.utils.common
-  (:require [om.core :as om :include-macros true]
-            [om.next :as nom :refer-macros [defui]]
+  (:require [om.next :as om :refer-macros [defui]]
             [clojure.walk :refer [keywordize-keys]]
             [clojure.string :refer [trim trim-newline]]
             [cljs.spec.alpha :as s]
@@ -44,6 +43,24 @@
                              :current    nil}
                 :sidebar    {:show? true}
                 :common     {:last-api ""}}))
+
+(defn store-to-app-state!
+  "Use reconciler to do a transaction on the app-state.
+
+  Usage: (store-to-app-state! 'foo \"bar\")"
+  [field value]
+  (om/transact! parser/reconciler `[(~field {:value ~value})]))
+
+(s/fdef store-to-app-state!
+  :args (s/cat :field symbol? :value any?))
+
+(defn load-from-app-state
+  "Load data from application state."
+  [field]
+  (field @(om/app-state parser/reconciler)))
+
+(s/fdef load-from-app-state
+  :args (s/cat :field keyword?))
 
 ;;;; CLJS <--> JS
 (defn clj->json
@@ -95,22 +112,22 @@
 (defn get-nickname
   "Return the user's nickname, with whom she logged in."
   []
-  (:user/nickname @(nom/app-state parser/reconciler)))
+  (load-from-app-state :user/nickname))
 
 (defn get-avatar
   "Return the URL of the user's avatar."
   []
-  (:user/avatar @(nom/app-state parser/reconciler)))
+  (load-from-app-state :user/avatar))
 
 (defn get-token
   "Return the user's token for discussion system."
   []
-  (:user/token @(nom/app-state parser/reconciler)))
+  (load-from-app-state :user/token))
 
 (defn get-issues
   "Returns list of dictionaries with all available issues."
   []
-  (:issue/list @(nom/app-state parser/reconciler)))
+  (load-from-app-state :issue/list))
 
 (defn get-issue
   "Return specific issue, matching by id or title."
@@ -122,12 +139,12 @@
 (defn get-items
   "Returns list of items from the discussion."
   []
-  (:discussion/items @(nom/app-state parser/reconciler)))
+  (load-from-app-state :discussion/items))
 
 (defn get-bubbles
   "Return message bubbles from DBAS."
   []
-  (:discussion/bubbles @(nom/app-state parser/reconciler)))
+  (load-from-app-state :discussion/bubbles))
 
 (defn get-add-premise-text
   "Return text for adding new premise."
@@ -139,7 +156,7 @@
 (defn logged-in?
   "Return true if user is logged in."
   []
-  (:user/logged-in? @(nom/app-state parser/reconciler)))
+  (load-from-app-state :user/logged-in?))
 
 
 ;;;; State changing
@@ -169,31 +186,19 @@
   ([id] (get-reference id (get-references))))
 
 
-;;;; CSRF Token
-(defn get-csrf
-  "Return the user's csrf token for discussion system."
-  []
-  (get-in @app-state [:user :csrf]))
-
-(defn set-csrf!
-  "Set the newly received CSRF token."
-  [csrf]
-  (update-state-item! :user :csrf (fn [_] csrf)))
-
-
 ;; Show error messages
 (defn error?
   "Return boolean indicating if there are errors or not. Provide a boolean to
   change the app-state."
-  ([] (get-in @app-state [:layout :error?]))
-  ([bool] (update-state-item! :layout :error? (fn [_] bool))))
+  ([] (load-from-app-state :layout/error?))
+  ([bool] (store-to-app-state! 'layout/error? bool)))
 
 (defn error-msg!
   "Set error message."
   [msg]
   (when (pos? (count msg))
     (error? true))
-  (update-state-item! :layout :error-msg (fn [_] msg)))
+  (store-to-app-state! 'layout/error msg))
 
 (defn no-error!
   "Macro to remove all error warnings."
@@ -204,47 +209,47 @@
 (defn get-error
   "Return error message."
   []
-  (get-in @app-state [:layout :error-msg]))
+  (load-from-app-state :layout/error))
 
 
 ;; Change views
 (defn hide-add-form!
   "Hide the form which allows to add new content."
   []
-  (nom/transact! parser/reconciler `[(layout/add? {:value false})]))
+  (store-to-app-state! 'layout/add? false))
 
 (defn show-add-form!
   "Shows a form to enable user-added content."
   []
   (when (logged-in?)
-    (nom/transact! parser/reconciler `[(layout/add? {:value true})])))
+    (store-to-app-state! 'layout/add? true)))
 
 (defn current-view
   "Returns the current selected template, which should be visible in the
   main-content-view."
   []
-  (get-in @app-state [:layout :template]))
+  (load-from-app-state :layout/view))
 
 (defn change-view-next!
   [view]
-  (nom/transact! parser/reconciler `[(layout/view {:value ~view})
+  (om/transact! parser/reconciler `[(layout/view {:value ~view})
                                      (layout/add? {:value false})]))
 
 (defn next-view!
   "Set the next view, which should be loaded after the ajax call has finished."
   [view]
   (hide-add-form!)
-  (update-state-item! :layout :next-template (fn [_] view)))
+  (store-to-app-state! 'layout/view-next view))
 
 (defn change-to-next-view!
   "Set next view to current view. Falls back to default if there is no different
   next view."
   []
   (let [current-view (current-view)
-        next-view (get-in @app-state [:layout :next-template])]
+        next-view (load-from-app-state :layout/next-template)]
     (if (= current-view next-view)
       (change-view-next! :default)
-      (change-view-next! next-view!))))
+      (change-view-next! next-view))))
 
 (defn save-current-and-change-view!
   "Saves the current view and changes to the next specified view. Used for the
@@ -259,20 +264,20 @@
   "Keep last-api call. Useful to login and then re-request the url to jump to
   the same position in the discussion, but this time as a logged in user."
   [url]
-  (nom/transact! parser/reconciler `[(api/last-call {:value ~url})]))
+  (store-to-app-state! 'api/last-call url))
 
 (defn get-last-api
   "Return url of last API call."
   []
-  (:api/last-call @(nom/app-state parser/reconciler)))
+  (load-from-app-state :api/last-call))
 
 
 ;;;; Generic Handlers
 (defn loading?
   "Return boolean if app is currently loading content. Provide a boolean to
   change the app-state."
-  ([] (:layout/loading? @(nom/app-state parser/reconciler)))
-  ([bool] (nom/transact! parser/reconciler `[(layout/loading? {:value ~bool})])))
+  ([] (load-from-app-state :layout/loading?))
+  ([bool] (store-to-app-state! 'layout/loading? bool)))
 
 (defn process-response
   "Generic success handler, which sets error handling and returns a cljs-compatible response."
@@ -304,29 +309,29 @@
 (defn get-selection
   "Return the stored selection of the user."
   []
-  (:selection/current @(nom/app-state parser/reconciler)))
+  (load-from-app-state :selection/current))
 
 (defn remove-selection!
   "Remove current selection for a 'clean' statement."
   []
-  (nom/transact! parser/reconciler `[(selection/current {:value nil})]))
+  (store-to-app-state! 'selection/current nil))
 
 
 ;;;; Origins
 (defn store-origin!
   "Stores an origin into the app-state."
   [origin]
-  (update-state-map! :origin origin))
+  (store-to-app-state! 'site/origin origin))
 
 (defn get-origin
   "Return the origin of a statement if a statement has a different origin."
   []
-  (get @app-state :origin))
+  (load-from-app-state :site/origin))
 
 (defn remove-origin!
   "Remove currently stored origin."
   []
-  (update-state-map! :origin {}))
+  (store-to-app-state! 'site/origin nil))
 
 (s/fdef store-origin!
         :args (s/cat :origin ::specs/origin))
@@ -380,18 +385,12 @@
 (defn language
   "Returns currently selected language."
   []
-  (get-in @app-state [:layout :language]))
-
-(defn language!
-  "Set new language. Should be a keyword."
-  {:deprecated 0.4}
-  [lang]
-  (update-state-item! :layout :language (fn [] lang)))
+  (load-from-app-state :layout/lang))
 
 (defn language-next!
   "Set new language. Should be a keyword."
   [lang]
-  (nom/transact! parser/reconciler `[(layout/lang {:value ~lang})]))
+  (store-to-app-state! 'layout/lang lang))
 
 
 ;;;; Other
