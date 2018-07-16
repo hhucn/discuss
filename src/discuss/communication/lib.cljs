@@ -7,7 +7,8 @@
             [miner.strgen :as sg]
             [discuss.config :as config]
             [discuss.utils.common :as lib]
-            [discuss.parser :as parser]))
+            [discuss.parser :as parser]
+            [discuss.utils.logging :as log]))
 
 ;;;; Auxiliary functions
 (defn make-url
@@ -59,7 +60,7 @@
   "Make ajax call to dialog based argumentation system."
   ([url headers handler params]
    (lib/last-api! url)
-   (println "Request to:" (make-url url))
+   (log/debug "Request to:" (make-url url))
    (GET (make-url url)
         {:handler       handler
          :headers       (merge (token-header) headers)
