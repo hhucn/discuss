@@ -7,6 +7,11 @@
             [discuss.components.search.statements :as search]
             [clojure.spec.test.alpha :as stest]))
 
+
+(defcard-om-next main-content-view
+  views/MainContentView
+  parser/reconciler)
+
 (def two-search-results
   [{:position? true
     :text "we should shut down University Park"
