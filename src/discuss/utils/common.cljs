@@ -271,8 +271,8 @@
 (defn loading?
   "Return boolean if app is currently loading content. Provide a boolean to
   change the app-state."
-  ([] (get-in @app-state [:layout :loading?]))
-  ([bool] (update-state-item! :layout :loading? (fn [_] bool))))
+  ([] (:layout/loading? @(nom/app-state parser/reconciler)))
+  ([bool] (nom/transact! parser/reconciler `[(layout/loading? {:value ~bool})])))
 
 (defn process-response
   "Generic success handler, which sets error handling and returns a cljs-compatible response."
@@ -304,12 +304,12 @@
 (defn get-selection
   "Return the stored selection of the user."
   []
-  (get-in @app-state [:user :selection]))
+  (:selection/current @(nom/app-state parser/reconciler)))
 
 (defn remove-selection!
   "Remove current selection for a 'clean' statement."
   []
-  (update-state-item! :user :selection (fn [_] nil)))
+  (nom/transact! parser/reconciler `[(selection/current {:value nil})]))
 
 
 ;;;; Origins
