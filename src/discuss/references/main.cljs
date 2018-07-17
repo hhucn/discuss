@@ -7,7 +7,6 @@
             [sablono.core :as html :refer-macros [html]]
             [discuss.communication.lib :as comlib]
             [discuss.config :as config]
-            [discuss.components.find :as find]
             [discuss.components.sidebar :as sidebar]
             [discuss.references.lib :as rlib]
             [discuss.translations :refer [translate] :rename {translate t}]
@@ -52,8 +51,8 @@
       (dom/div nil
                (dom/h5 #js {:className "text-center"} (t :references :usages))
                (om/build rlib/current-reference-component {})
-               (om/build find/form-view {})
-               (om/build find/results-view data)))))
+               #_(om/build find/form-view {})
+               #_(om/build find/results-view data)))))
 
 (defn dialog-view
   "Show a dialog to give the user the option to choose, whether she wants to get

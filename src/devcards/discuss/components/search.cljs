@@ -4,9 +4,7 @@
             [discuss.parser :as parser]
             [discuss.views :as views]
             [om.next :as om]
-            [discuss.components.search.statements :as search]
-            [clojure.spec.test.alpha :as stest]))
-
+            [discuss.components.search.statements :as search]))
 
 (defcard-om-next main-content-view
   views/MainContentView

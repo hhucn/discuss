@@ -30,13 +30,6 @@
   (lib/log (str "I feel a disturbance in the Force... " status " " status-text))
   (lib/loading? false))
 
-(defn success-handler-next-view
-  "After the successful ajax call, change the view to the previously saved next
-  view."
-  [response]
-  (lib/change-to-next-view!)
-  #_(lib/update-all-states! response))
-
 (defn index-handler
   [response]
   (let [{:keys [items bubbles]} (lib/process-response response)]
@@ -77,7 +70,7 @@
    (lib/next-view! view)
    (ajax-get url {} handler))
   ([url view]
-   (ajax-get-and-change-view url view success-handler-next-view)))
+   (ajax-get-and-change-view url view process-discussion-step)))
 
 
 (defn jump-to-argument
@@ -97,12 +90,6 @@
 
 ;; -----------------------------------------------------------------------------
 ;; Add compatibility to D-BAS' new API
-
-(comment
-  (ajax-get "/town-has-to-cut-spending/attitude/36" nil process-discussion-step)
-  (ajax-get "/cat-or-dog" nil process-discussion-step)
-  (ajax-get "/town-has-to-cut-spending/reaction/47/undercut/48?history=/attitude/38-/justify/38/agree" nil process-discussion-step)
-  )
 
 (s/def ::text (let [re #"[^<>]*"]
                 (s/spec (s/and string? #(re-matches re %))

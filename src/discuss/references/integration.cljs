@@ -63,7 +63,7 @@
     [response]
     (let [res (lib/process-response response)
           refs (:references res)]
-      (lib/update-state-item! :common :references (fn [_] refs))
+      (lib/store-to-app-state! 'references/all refs)
       (process-references refs)))
 
 (defn request-references

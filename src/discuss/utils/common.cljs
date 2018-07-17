@@ -159,26 +159,12 @@
   (load-from-app-state :user/logged-in?))
 
 
-;;;; State changing
-(defn update-state-item!
-  "Get the cursor for given key and select a field to apply the function to it."
-  {:deprecated 0.4}
-  [col key f]
-  )
-
-(defn update-state-map!
-  "Get the cursor for given key and update it with the new collection of data."
-  {:deprecated 0.4}
-  [key col]
-  )
-
-
 ;;;; References
 ;; TODO Move to references/lib
 (defn get-references
   "Returns a list of references which were received from the discussion system."
   []
-  (get-in @app-state [:common :references]))
+  (load-from-app-state :references/all))
 
 (defn get-reference
   "Returns a map matching a specific id. This id must be a number."
@@ -289,20 +275,6 @@
       (error-msg! error)
       (do (no-error!)
           res))))
-
-(defn update-all-states!
-  "Update item list with the data provided by the API.
-
-  ** Needs optimizations **"
-  [response]
-  (let [res (process-response response)
-        items (:items res)
-        discussion (:discussion res)
-        issues (:issues res)]
-    (update-state-map! :items items)
-    (update-state-map! :discussion discussion)
-    (update-state-map! :issues issues)
-    (update-state-item! :user :avatar (fn [_] (get-in res [:extras :users_avatar])))))
 
 
 ;;;; Selections

@@ -4,13 +4,10 @@
             [discuss.communication.auth :as auth]
             [devcards.discuss.atoms]
             [devcards.discuss.molecules]
-            [devcards.discuss.components.search]))
+            [devcards.discuss.components.search]
+            [devcards.discuss.add-statements]))
 
 (enable-console-print!)
-
-(defcard shortcuts
-  (html [:div.btn.btn-primary {:onClick #(auth/login "Christian" "iamgroot")} "Login"]))
-
 
 ;; -----------------------------------------------------------------------------
 ;; Start devcards
