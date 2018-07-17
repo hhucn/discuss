@@ -42,9 +42,9 @@
   [response]
   (let [{:keys [bubbles attitudes items attacks]} (lib/process-response response)
         update-items (cond
-                       (not (empty? items)) items
-                       (not (empty? attacks)) (vals attacks)
-                       (not (empty? attitudes)) (vals attitudes)
+                       (seq items) items
+                       (seq attacks) (vals attacks)
+                       (seq attitudes) (vals attitudes)
                        :default [])]
     (om/transact! parser/reconciler `[(discussion/bubbles {:value ~bubbles})
                                       (discussion/items {:value ~update-items})])))

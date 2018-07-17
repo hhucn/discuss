@@ -1,6 +1,7 @@
 (ns discuss.utils.logging
   (:require [goog.log :as glog]
-            [discuss.config :as config]))
+            [discuss.config :as config]
+            [clojure.string :as string]))
 
 (def logger (glog/getLogger config/project))
 
@@ -16,7 +17,7 @@
   (.setLevel logger (get levels level (:info levels))))
 
 (defn fmt [msgs]
-  (apply str (interpose " " (map pr-str msgs))))
+  (string/join " " (map pr-str msgs)))
 
 (defn info [& s]
   (let [msg (fmt s)]
