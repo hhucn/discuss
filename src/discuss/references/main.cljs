@@ -50,7 +50,7 @@
     (render [_]
       (dom/div nil
                (dom/h5 #js {:className "text-center"} (t :references :usages))
-               (om/build rlib/current-reference-component {})
+               #_(om/build rlib/current-reference-component {})
                #_(om/build find/form-view {})
                #_(om/build find/results-view data)))))
 
@@ -62,7 +62,7 @@
   (reify om/IRender
     (render [_]
       (dom/div #js {:className "text-center"}
-               (om/build rlib/current-reference-component {})
+               #_(om/build rlib/current-reference-component {})
                (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
                                   (t :references :where-used))
                " "
@@ -110,7 +110,7 @@
       (let [usages (rlib/get-reference-usages)]
         (dom/div nil
                  (vlib/view-header (t :references :usages/view-heading))
-                 (om/build rlib/current-reference-component {})
+                 #_(om/build rlib/current-reference-component {})
                  (apply dom/div nil
                         (map #(om/build usage-list-view % (lib/unique-key-dict)) usages)))))))
 
