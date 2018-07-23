@@ -78,7 +78,7 @@
     (if (and (pos? (count selection))
              (not= selection (lib/get-selection)))
       (do (move-to-selection)
-          (lib/store-to-app-state! :selection/current))
+          (lib/store-to-app-state! 'selection/current selection))
       (hide))))
 
 (let [clicks (listen (.getElementById js/document "discuss-text") "click")]
