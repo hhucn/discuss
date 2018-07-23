@@ -2,9 +2,7 @@
   (:require [cljs.test :refer-macros [deftest is are testing]]
             [clojure.spec.test.alpha :as stest]
             [discuss.utils.common :as lib]
-            [discuss.test.lib :as tlib]
-            [cljs.spec.alpha :as s]
-            [discuss.communication.lib :as comlib]))
+            [discuss.test.lib :as tlib]))
 
 (deftest conversions
   (testing "Convert strings to integer."
@@ -85,4 +83,6 @@
       (= `[(discussion/items {:value ~items})
            (discussion/bubbles {:value ~bubbles})]
          (lib/build-transactions [['discussion/items items]
-                                  ['discussion/bubbles bubbles]])))))
+                                  ['discussion/bubbles bubbles]]))
+      (= `[(discussion/items {:value nil})]
+         (lib/build-transactions [['discussion/items nil]])))))
