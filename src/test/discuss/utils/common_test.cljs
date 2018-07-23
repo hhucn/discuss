@@ -75,7 +75,7 @@
       (is (empty? (lib/get-origin))))))
 
 (deftest test-build-transactions
-  (testing "A valid collection should be transformed to valid data for the reconciler"
+  (testing "A valid collection should be transformed to valid data for the reconciler."
     (let [items [{:item1 "item1"}
                  {:item2 "item2"}]
           bubbles [{:bubble1 "bubble1"}
@@ -86,3 +86,13 @@
                                   ['discussion/bubbles bubbles]]))
       (= `[(discussion/items {:value nil})]
          (lib/build-transactions [['discussion/items nil]])))))
+
+(deftest test-filter-keys-by-namespace
+  (testing "Query subset of keys by their namespace."
+    (let [test-data [:api/last-call :search/results :layout/add? :layout/title :layout/view :default]]
+      (= [:api/last-call] (lib/filter-keys-by-namespace test-data "api"))
+      (= [:layout/add? :layout/title :layout/view]
+         (lib/filter-keys-by-namespace test-data "layout"))
+      (= [:default]
+         (lib/filter-keys-by-namespace test-data nil))
+      (empty? (lib/filter-keys-by-namespace test-data :non-existent)))))

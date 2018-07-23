@@ -405,6 +405,28 @@
   [arg]
   (.log js/console arg))
 
+{:api/last-call ""
+ :search/results []
+ :layout/add? false
+ :layout/error nil
+ :layout/error? false  ;; for legacy support
+ :layout/loading? false
+ :layout/sidebar? false
+ :layout/title "discuss"
+ :layout/view :default
+ :layout/view-next nil}
+
+(defn filter-keys-by-namespace
+  "Filter a collection of vectors by their namespaces.
+
+  Example: (filter-keys-by-namespace [:foo/bar :bar/foo] \"foo\")
+  => (:foo/bar)"
+  [col keyword-namespace]
+  (filter #(= keyword-namespace (namespace %)) col))
+
+(s/fdef filter-keys-by-namespace
+  :args (s/cat :col coll? :namespace any?)
+  :ret coll?)
 
 ;; -----------------------------------------------------------------------------
 ;; Specs
