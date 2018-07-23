@@ -54,9 +54,8 @@
   => ((discussion/items {:value [...]})
       (discussion/bubbles {:value [...]}))"
   [col-of-fn-and-vals]
-  (into []
-   (for [[f value] col-of-fn-and-vals]
-     `(~f {:value ~value}))))
+  (vec (for [[f value] col-of-fn-and-vals]
+         `(~f {:value ~value}))))
 (s/fdef build-transactions
   :args (s/cat :col-of-vectors ::col-of-fn-and-vals)
   :ret (s/coll-of list?))

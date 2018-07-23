@@ -1,11 +1,11 @@
 (ns discuss.components.bubbles
   (:require [om.next :as om :refer-macros [defui]]
             [sablono.core :as html :refer-macros [html]]
-            [discuss.history :as history]
             [discuss.utils.common :as lib]
             [discuss.communication.lib :as comlib]
             [discuss.utils.views :as vlib]
-            [cljs.spec.alpha :as s]))
+            [cljs.spec.alpha :as s]
+            [discuss.parser :as parser]))
 
 (defn- get-bubble-class-next [bubble-type]
   "Check bubble type and return a class-string to match the CSS styles."
@@ -25,7 +25,7 @@
   on the element."
   [url]
   (case url
-    "back" history/back!
+    "back" parser/back!
     "login" #(lib/change-view-next! :login)
     "restart" comlib/init!))
 
