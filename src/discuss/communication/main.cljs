@@ -19,7 +19,6 @@
     (lib/hide-add-form!)
     #_(lib/update-state-item! :layout :add-type (fn [_] nil))
     (rint/request-references)
-    
     #_(comlib/ajax-get url)))
 
 ;;;; Discussion-related functions

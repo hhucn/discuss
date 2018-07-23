@@ -44,14 +44,8 @@
                 :sidebar    {:show? true}
                 :common     {:last-api ""}}))
 
-(defn store-to-app-state!
-  "Use reconciler to do a transaction on the app-state.
-
-  Usage: (store-to-app-state! 'foo \"bar\")"
-  [field value]
-  (om/transact! parser/reconciler `[(~field {:value ~value})]))
-(s/fdef store-to-app-state!
-  :args (s/cat :field symbol? :value any?))
+(s/def ::fn-and-val (s/tuple symbol? any?))
+(s/def ::col-of-fn-and-vals (s/coll-of ::fn-and-val))
 
 (defn build-transactions
   "Takes a list of vectors containing fns and values, which should be transacted with the reconciler.
@@ -60,13 +54,31 @@
   => ((discussion/items {:value [...]})
       (discussion/bubbles {:value [...]}))"
   [col-of-fn-and-vals]
-  (for [[f value] col-of-fn-and-vals]
-    `(~f {:value ~value})))
-(s/def ::fn-and-val (s/tuple symbol? any?))
-(s/def ::col-of-fn-and-vals (s/coll-of ::fn-and-val))
+  (into []
+   (for [[f value] col-of-fn-and-vals]
+     `(~f {:value ~value}))))
 (s/fdef build-transactions
   :args (s/cat :col-of-vectors ::col-of-fn-and-vals)
   :ret (s/coll-of list?))
+
+(defn store-multiple-values-to-app-state!
+  "Creates one big transaction of multiple mutation functions and the new values,
+  which should be assigned to them.
+
+  Example: (store-multiple-values-to-app-state! [['discussion/items items] ['discussion/bubbles bubbles]])"
+  [col-of-fn-and-vals]
+  (om/transact! parser/reconciler (build-transactions col-of-fn-and-vals)))
+(s/fdef store-multiple-values-to-app-state!
+  :args (s/cat :col-of-vectors ::col-of-fn-and-vals))
+
+(defn store-to-app-state!
+  "Use reconciler to do a transaction on the app-state.
+
+  Example: (store-to-app-state! 'foo \"bar\")"
+  [field value]
+  (store-multiple-values-to-app-state! [[field value]]))
+(s/fdef store-to-app-state!
+  :args (s/cat :field symbol? :value any?))
 
 (defn load-from-app-state
   "Load data from application state."
@@ -75,7 +87,8 @@
 (s/fdef load-from-app-state
   :args (s/cat :field keyword?))
 
-;;;; CLJS <--> JS
+;; -----------------------------------------------------------------------------
+;; CLJS <--> JS
 (defn clj->json
   "Convert CLJS to valid JSON."
   [col]
