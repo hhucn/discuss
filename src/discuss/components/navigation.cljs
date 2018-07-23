@@ -1,6 +1,7 @@
 (ns discuss.components.navigation
-  (:require [om.core :as om :include-macros true]
-            [om.dom :as dom :include-macros true]
+  (:require [om.dom :as dom :include-macros true]
+            [om.next :as nom :refer-macros [defui]]
+            [sablono.core :as html :refer-macros [html]]
             [discuss.communication.lib :as comlib]
             [discuss.translations :refer [translate]]
             [discuss.utils.common :as lib]
@@ -47,16 +48,15 @@
   (element "fa-cog" [:options :heading] #(lib/save-current-and-change-view! :options)))
 
 
-;;;; Main component
-(defn main
-  "Create main navigation with general elements."
-  []
-  (reify om/IRender
-    (render [_]
-      (dom/div #js {:className "text-muted discuss-nav"}
-               (dom/div #js {:className "col col-md-6 col-sm-6 col-xs-6"}
-                        (home)
-                        (find-arg)
-                        (options))
-               (dom/div #js {:className "col col-md-6 col-sm-6 col-xs-6 text-right"}
-                        (if (lib/logged-in?) (logout) (login)))))))
+;; -----------------------------------------------------------------------------
+;; om.next
+
+(defui Nav
+  Object
+  (render [this]
+          (html [:div.text-muted.discuss-nav
+                 [:div.col.col-md-6.col-sm-6.col-xs-6
+                  (home) (find-arg) (options)]
+                 [:div.col.col-md-6.col-sm-6.col-xs-6.text-right
+                  (if (lib/logged-in?) (logout) (login))]])))
+(def nav (nom/factory Nav))

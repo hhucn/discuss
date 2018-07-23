@@ -9,54 +9,56 @@
   :hooks [leiningen.cljsbuild]
 
   :dependencies [[org.clojure/clojure "1.9.0"]
-                 [org.clojure/clojurescript "1.9.946"]
-                 [org.clojure/core.async "0.3.443" :exclusions [org.clojure/tools.reader]]
+                 [org.clojure/clojurescript "1.10.238"]
+                 [org.clojure/core.async "0.4.474" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
-                 [org.clojure/tools.reader "1.2.1"]
-                 [org.omcljs/om "1.0.0-beta1"]
-                 [com.cognitect/transit-cljs "0.8.243"]
+                 [org.clojure/tools.reader "1.2.2"]
+                 [org.omcljs/om "1.0.0-beta3"]
+                 [com.cognitect/transit-cljs "0.8.256"]
+                 [com.velisco/strgen "0.1.7"]
                  [cljs-ajax "0.7.3"]
-                 [lein-doo "0.1.8"]  ;; <-- otherwise it won't find the doo namespaces...
-                 [devcards "0.2.4"]
-                 [sablono "0.8.1"]
+                 [lein-doo "0.1.10"]  ;; <-- otherwise it won't find the doo namespaces...
+                 [devcards "0.2.5"]
+                 [sablono "0.8.4"]
                  [inflections "0.13.0"]]
 
   :plugins [[lein-ancient "0.6.10"]
             [lein-cljsbuild "1.1.5" :exclusions [[org.clojure/clojure]]]
             [lein-codox "0.10.3"]
-            [lein-doo "0.1.8"]
-            [lein-figwheel "0.5.14"]
+            [lein-doo "0.1.10"]
+            [lein-figwheel "0.5.16"]
             [lein-kibit "0.1.3"]
             [lein-set-version "0.4.1"]]
 
-  :source-paths ["src/discuss" "src/test"]
+  :source-paths ["src"]
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
   :aliases {"phantomtest" ["do" "clean" ["doo" "phantom" "test" "once"]]
             "build" ["do" "clean" ["cljsbuild" "once" "min"]]}
 
-  :profiles {:dev {:dependencies [[binaryage/devtools "0.9.7"]
-                                  [figwheel-sidecar "0.5.14"]
-                                  [com.cemerick/piggieback "0.2.2"]]
+  :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]
+                                  [figwheel-sidecar "0.5.16"]
+                                  [org.clojure/tools.nrepl "0.2.13"]
+                                  [cider/piggieback "0.3.5"]]
                    ;; need to add dev source path here to get user.clj loaded
-                   :source-paths ["src/discuss"]
+                   :source-paths ["src"]
                    :repl-options {:init (set! *print-length* 50)
-                                  :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
+                                  :nrepl-middleware [cider.piggieback/wrap-cljs-repl]}}}
 
   :cljsbuild {:builds
               [{:id "dev"
                 :source-paths ["src"]
                 :figwheel {:devcards true
                            :open-urls ["http://localhost:3449/cards.html"]}
-                :compiler {:main       discuss.cards
+                :compiler {:main       devcards.discuss.core
                            :preloads   [discuss.utils.extensions devtools.preload]
                            :asset-path "js/compiled/discuss_cards_out"
                            :output-to  "resources/public/js/compiled/discuss_cards.js"
                            :output-dir "resources/public/js/compiled/discuss_cards_out"
                            :parallel-build       true
                            :compiler-stats       true
-                           :source-map-timestamp true }}
+                           :source-map-timestamp true}}
                {:id           "dev-default"
                 :source-paths ["src"]
                 :figwheel     {:on-jsload "discuss.core/on-js-reload"
@@ -88,7 +90,7 @@
                                :main           discuss.core
                                :preloads       [discuss.utils.extensions]
                                :optimizations  :simple
-                               :closure-defines {discuss.config/remote-host ~(or (System/getenv "REMOTE_HOST") "/")}
+                               ;; :closure-defines {discuss.config/remote-host ~(or (System/getenv "REMOTE_HOST") "localhost:4284/")}
                                :parallel-build true
                                :compiler-stats true
                                :pretty-print   false}}]}

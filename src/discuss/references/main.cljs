@@ -7,7 +7,6 @@
             [sablono.core :as html :refer-macros [html]]
             [discuss.communication.lib :as comlib]
             [discuss.config :as config]
-            [discuss.components.find :as find]
             [discuss.components.sidebar :as sidebar]
             [discuss.references.lib :as rlib]
             [discuss.translations :refer [translate] :rename {translate t}]
@@ -23,7 +22,7 @@
   [response]
   (let [res (lib/process-response response)]
     (rlib/save-reference-usages! res)
-    (lib/change-view! :reference-usages)))
+    (lib/change-view-next! :reference-usages)))
 
 (defn query-reference-details
   "Show usages of the provided reference."
@@ -51,9 +50,9 @@
     (render [_]
       (dom/div nil
                (dom/h5 #js {:className "text-center"} (t :references :usages))
-               (om/build rlib/current-reference-component {})
-               (om/build find/form-view {})
-               (om/build find/results-view data)))))
+               #_(om/build rlib/current-reference-component {})
+               #_(om/build find/form-view {})
+               #_(om/build find/results-view data)))))
 
 (defn dialog-view
   "Show a dialog to give the user the option to choose, whether she wants to get
@@ -63,12 +62,12 @@
   (reify om/IRender
     (render [_]
       (dom/div #js {:className "text-center"}
-               (om/build rlib/current-reference-component {})
+               #_(om/build rlib/current-reference-component {})
                (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
                                   (t :references :where-used))
                " "
                (dom/button #js {:className "btn btn-primary"
-                                :onClick   #(lib/change-view! :reference-create-with-ref)}
+                                :onClick   #(lib/change-view-next! :reference-create-with-ref)}
                            (t :references :jump))))))
 
 (defn single-reference-usage
@@ -111,7 +110,7 @@
       (let [usages (rlib/get-reference-usages)]
         (dom/div nil
                  (vlib/view-header (t :references :usages/view-heading))
-                 (om/build rlib/current-reference-component {})
+                 #_(om/build rlib/current-reference-component {})
                  (apply dom/div nil
                         (map #(om/build usage-list-view % (lib/unique-key-dict)) usages)))))))
 

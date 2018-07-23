@@ -6,7 +6,7 @@
             [clojure.test.check.properties :as prop :include-macros true]
             [discuss.components.clipboard :as clipboard]))
 
-(defspec add-remove-selections
+#_(defspec add-remove-selections
   ;; "Add some random selections and remove them again."
   100
   (prop/for-all [input gen/any-printable]
