@@ -31,6 +31,10 @@
   (let [msg (fmt s)]
     (glog/error logger msg)))
 
+(defn warning [& s]
+  (let [msg (fmt s)]
+    (glog/warning logger msg)))
+
 
 ;; -----------------------------------------------------------------------------
 ;; For Startup

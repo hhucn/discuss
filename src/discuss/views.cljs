@@ -170,8 +170,7 @@
                          :value statement}])]
                     (show-selection)
                     [:button.btn.btn-default
-                     {:onClick #(com/dispatch-add-action
-                                 statement current-selection origin)
+                     {:onClick #(com/post-statement statement current-selection origin)
                       :disabled (and (> 10 (count statement)) (empty? origin))}
                      (remaining-characters statement)]]]))))
 (def add-element (om/factory AddElement))

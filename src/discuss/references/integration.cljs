@@ -7,7 +7,8 @@
             [discuss.references.lib :as rlib]
             [discuss.references.main :as rmain]
             [discuss.communication.lib :as comlib]
-            [discuss.config :as config]))
+            [discuss.config :as config]
+            [discuss.utils.logging :as log]))
 
 ;;; Include references
 (defn- minify-doms
@@ -72,5 +73,6 @@
   (let [url (get-in config/api [:get :references])
         params {:host js/location.host
                 :path js/location.pathname}]
+    (log/info "[request-references] Requesting references for " url ", " params)
     (comlib/ajax-get url nil references-handler params)))
 
