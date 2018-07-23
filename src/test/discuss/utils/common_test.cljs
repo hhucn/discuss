@@ -2,7 +2,9 @@
   (:require [cljs.test :refer-macros [deftest is are testing]]
             [clojure.spec.test.alpha :as stest]
             [discuss.utils.common :as lib]
-            [discuss.test.lib :as tlib]))
+            [discuss.test.lib :as tlib]
+            [cljs.spec.alpha :as s]
+            [discuss.communication.lib :as comlib]))
 
 (deftest conversions
   (testing "Convert strings to integer."
@@ -73,3 +75,14 @@
       (is (= origin (lib/get-origin)))
       (lib/remove-origin!)
       (is (empty? (lib/get-origin))))))
+
+(deftest test-build-transactions
+  (testing "A valid collection should be transformed to valid data for the reconciler"
+    (let [items [{:item1 "item1"}
+                 {:item2 "item2"}]
+          bubbles [{:bubble1 "bubble1"}
+                   {:bubble2 "bubble2"}]]
+      (= `[(discussion/items {:value ~items})
+           (discussion/bubbles {:value ~bubbles})]
+         (lib/build-transactions [['discussion/items items]
+                                  ['discussion/bubbles bubbles]])))))
