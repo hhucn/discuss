@@ -237,11 +237,13 @@
 (defui MainView
   static om/IQuery
   (query [this]
-         [:layout/title
-          {:layout/view (om/get-query MainContentView)}
-          {:discussion/items (om/get-query MainContentView)}
-          {:discussion/bubbles (om/get-query MainContentView)}
-          {:clipboard/items (om/get-query MainContentView)}])
+         (vec
+          (merge
+           (lib/filter-keys-by-namespace (keys parser/init-data) "layout")
+           {:layout/view (om/get-query MainContentView)}
+           {:discussion/items (om/get-query MainContentView)}
+           {:discussion/bubbles (om/get-query MainContentView)}
+           {:clipboard/items (om/get-query MainContentView)})))
   Object
   (render [this]
           (let [{:keys [layout/title]} (om/props this)]
