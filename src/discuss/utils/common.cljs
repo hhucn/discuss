@@ -133,6 +133,19 @@
   [col]
   (merge (unique-key-dict) col))
 
+;;;;
+
+(defn get-items
+  "Returns list of items from the discussion."
+  []
+  (load-from-app-state :discussion/items))
+
+(defn get-bubbles
+  "Return message bubbles from DBAS."
+  []
+  (load-from-app-state :discussion/bubbles))
+
+
 
 ;;;; Getter
 (defn get-nickname
@@ -161,16 +174,6 @@
   (cond
     (number? issue) (first (filter #(= (str->int (:uid %)) issue) (get-issues)))
     (string? issue) (first (filter #(= (:title %) issue) (get-issues)))))
-
-(defn get-items
-  "Returns list of items from the discussion."
-  []
-  (load-from-app-state :discussion/items))
-
-(defn get-bubbles
-  "Return message bubbles from DBAS."
-  []
-  (load-from-app-state :discussion/bubbles))
 
 (defn get-add-premise-text
   "Return text for adding new premise."

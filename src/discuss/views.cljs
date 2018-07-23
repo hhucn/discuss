@@ -256,5 +256,3 @@
                      title]]
                    (main-content-view-next (om/props this))]))))
 (def main-view-next (om/factory MainView))
-
-(om/get-query MainView)

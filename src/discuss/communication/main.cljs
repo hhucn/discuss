@@ -17,9 +17,9 @@
     (lib/remove-origin!)
     (search/remove-search-results!)
     (lib/hide-add-form!)
-    #_(lib/update-state-item! :layout :add-type (fn [_] nil))
     (rint/request-references)
-    #_(comlib/ajax-get url)))
+    (lib/store-multiple-values-to-app-state! [['discussion/items (:items res)]
+                                              ['discussion/bubbles (:bubbles res)]])))
 
 ;;;; Discussion-related functions
 (defn get-conclusion-id
