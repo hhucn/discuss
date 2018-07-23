@@ -15,8 +15,7 @@
                                       (user/token {:value ~token})
                                       (user/logged-in? {:value true})
                                       (layout/view {:value :default})])
-    (comlib/ajax-get (lib/get-last-api))
-    ))
+    (comlib/ajax-get (lib/get-last-api))))
 
 (defn- wrong-login
   "Callback function for invalid credentials."
