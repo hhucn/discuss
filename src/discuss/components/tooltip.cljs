@@ -19,13 +19,13 @@
 (defn show
   "Show tooltip by removing a class."
   []
-  (let [tooltip (get-tooltip)]
+  (when-let [tooltip (get-tooltip)]
     (lib/add-class tooltip "discuss-tooltip-active")))
 
 (defn hide
   "Hide tooltip by adding a class."
   []
-  (let [tooltip (get-tooltip)]
+  (when-let [tooltip (get-tooltip)]
     (lib/remove-class tooltip "discuss-tooltip-active")))
 
 (defn x-position
@@ -56,11 +56,11 @@
 (defn move-to-selection
   "Sets CSS position of tooltip and move it to the mouse selection."
   []
-  (let [tooltip (get-tooltip)
-        [top left] (calc-position tooltip.offsetWidth tooltip.offsetHeight)]
-    (set! (.. tooltip -style -top) (str top "px"))
-    (set! (.. tooltip -style -left) (str left "px"))
-    (show)))
+  (when-let [tooltip (get-tooltip)]
+    (let [[top left] (calc-position tooltip.offsetWidth tooltip.offsetHeight)]
+      (set! (.. tooltip -style -top) (str top "px"))
+      (set! (.. tooltip -style -left) (str left "px"))
+      (show))))
 
 
 ;;;; Include listener for tooltips
