@@ -75,4 +75,3 @@
                 :path js/location.pathname}]
     (log/info "[request-references] Requesting references for " url ", " params)
     (comlib/ajax-get url nil references-handler params)))
-

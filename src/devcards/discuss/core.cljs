@@ -5,7 +5,8 @@
             [devcards.discuss.atoms]
             [devcards.discuss.molecules]
             [devcards.discuss.components.search]
-            [devcards.discuss.add-statements]))
+            [devcards.discuss.add-statements]
+            [devcards.discuss.components.references]))
 
 (enable-console-print!)
 

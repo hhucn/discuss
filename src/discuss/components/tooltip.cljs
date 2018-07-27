@@ -1,10 +1,10 @@
 (ns discuss.components.tooltip
   (:require-macros [cljs.core.async.macros :refer [go]])
-  (:require [om.core :as om :include-macros true]
-            [om.dom :as dom :include-macros true]
-            [cljs.core.async :refer [put! chan <!]]
+  (:require [cljs.core.async :refer [put! chan <!]]
             [goog.dom :as gdom]
             [goog.events :as events]
+            [om.next :as nom :refer-macros [defui]]
+            [sablono.core :as html :refer-macros [html]]
             [discuss.components.clipboard :as clipboard]
             [discuss.translations :refer [translate]]
             [discuss.utils.common :as lib]
@@ -81,25 +81,24 @@
           (lib/store-to-app-state! 'selection/current selection))
       (hide))))
 
-(let [clicks (listen (.getElementById js/document "discuss-text") "click")]
-  (go (while true
-        (<! clicks)
-        (save-selected-text))))
-
 
 ;;;; Creating the view
-(defn view []
-  (reify om/IRender
-    (render [_]
-      (dom/div nil
-               (vlib/logo)
-               (vlib/safe-space) " | " (vlib/safe-space)
-               (dom/span #js {:className "pointer"
-                              :onClick (fn [] (clipboard/add-item!) (sidebar/show) (hide))}
-                         (vlib/fa-icon "fa-bookmark-o")
-                         (translate :common :save :space))
-               (vlib/safe-space) "  " (vlib/safe-space)
-               (dom/span #js {:className "pointer"
-                              :onClick (fn [] (sidebar/show) (hide))}
-                         (vlib/fa-icon "fa-comment")
-                         (translate :common :show-discuss :space))))))
+(defui Tooltip
+  Object
+  (componentDidMount
+   [this]
+   (let [clicks (listen (gdom/getElement "discuss-text") "click")]
+     (go (while true
+           (<! clicks)
+           (save-selected-text)))))
+  (render [this]
+          (html [:div#discuss-tooltip
+                 (vlib/logo)
+                 (vlib/safe-space) " | " (vlib/safe-space)
+                 [:span.pointer {:onClick (fn [] (clipboard/add-item!) (sidebar/show) (hide))}
+                  (vlib/fa-icon "fa-bookmark-o")
+                  (translate :common :save :space)]
+                 (vlib/safe-space) "  " (vlib/safe-space)
+                 [:span.pointer {:onClick (fn [] (sidebar/show) (hide))}
+                  (vlib/fa-icon "fa-comment")
+                  (translate :common :show-discuss :space)]])))
