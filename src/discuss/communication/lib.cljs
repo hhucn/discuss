@@ -22,6 +22,18 @@
   (when (lib/logged-in?)
     {"X-Authentication" (lib/clj->json {:type "user" :nickname (lib/get-nickname) :token (lib/get-token)})}))
 
+(defn process-and-set-items-and-bubbles
+  "Receive response and prepare UI with the new items and bubbles for the next
+  step in the discussion."
+  [response]
+  (let [{:keys [bubbles attitudes items attacks]} (lib/process-response response)
+        update-items (cond
+                       (seq items) items
+                       (seq attacks) (vals attacks)
+                       (seq attitudes) (vals attitudes)
+                       :default [])]
+    (om/transact! parser/reconciler `[(discussion/bubbles {:value ~bubbles})
+                                      (discussion/items {:value ~update-items})])))
 
 ;;;; Handlers
 (defn error-handler
@@ -32,22 +44,8 @@
 
 (defn index-handler
   [response]
-  (let [{:keys [items bubbles]} (lib/process-response response)]
-    (lib/change-to-next-view!)
-    (om/transact! parser/reconciler `[(discussion/items {:value ~items})
-                                      (discussion/bubbles {:value ~bubbles})])))
-
-(defn process-discussion-step
-  "Handler to process the response from a discussion step when an item is clicked."
-  [response]
-  (let [{:keys [bubbles attitudes items attacks]} (lib/process-response response)
-        update-items (cond
-                       (seq items) items
-                       (seq attacks) (vals attacks)
-                       (seq attitudes) (vals attitudes)
-                       :default [])]
-    (om/transact! parser/reconciler `[(discussion/bubbles {:value ~bubbles})
-                                      (discussion/items {:value ~update-items})])))
+  (lib/change-to-next-view!)
+  (process-and-set-items-and-bubbles response))
 
 (defn ajax-get
   "Make ajax call to dialog based argumentation system."
@@ -60,7 +58,7 @@
          :params        params
          :error-handler error-handler}))
   ([url headers handler] (ajax-get url headers handler nil))
-  ([url headers] (ajax-get url headers process-discussion-step))
+  ([url headers] (ajax-get url headers process-and-set-items-and-bubbles))
   ([url] (ajax-get url (token-header))))
 
 (defn ajax-get-and-change-view
@@ -70,8 +68,7 @@
    (lib/next-view! view)
    (ajax-get url {} handler))
   ([url view]
-   (ajax-get-and-change-view url view process-discussion-step)))
-
+   (ajax-get-and-change-view url view process-and-set-items-and-bubbles)))
 
 (defn jump-to-argument
   "Jump directly into the discussion to let the user argue about the given argument.
@@ -124,5 +121,5 @@
 (s/def ::response (s/keys :req-un [::bubbles]
                           :opt-un [::attitudes ::attacks ::items]))
 
-(s/fdef process-discussion-step
+(s/fdef process-and-set-items-and-bubbles
         :args (s/cat :response ::response))
