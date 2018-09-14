@@ -16,7 +16,7 @@
     "login" (lib/change-view-next! :login)
     "back" (log/info "Not yet implemented")
     "add" (lib/show-add-form!)
-    (comlib/ajax-get url (comlib/token-header) comlib/process-discussion-step)))
+    (comlib/ajax-get url (comlib/token-header) comlib/process-and-set-items-and-bubbles)))
 
 (s/fdef dispatch-click-fn
   :args (s/cat :url string?))

@@ -9,13 +9,13 @@
 (defcard sample-requests
   "Do some sample requests with `ajax-get`."
   (html [:div
-         [:button.btn.btn-sm.btn-primary {:onClick #(comlib/ajax-get "/town-has-to-cut-spending/attitude/36" nil comlib/process-discussion-step)}
+         [:button.btn.btn-sm.btn-primary {:onClick #(comlib/ajax-get "/town-has-to-cut-spending/attitude/36" nil comlib/process-and-set-items-and-bubbles)}
           "/town-has-to-cut-spending/attitude/36"]
          [:br]
-         [:button.btn.btn-sm.btn-primary {:onClick #(comlib/ajax-get "/cat-or-dog" nil comlib/process-discussion-step)}
+         [:button.btn.btn-sm.btn-primary {:onClick #(comlib/ajax-get "/cat-or-dog" nil comlib/process-and-set-items-and-bubbles)}
           "/cat-or-dog"]
          [:br]
-         [:button.btn.btn-sm.btn-primary {:onClick #(comlib/ajax-get "/town-has-to-cut-spending/reaction/47/undercut/48?history=/attitude/38-/justify/38/agree" nil comlib/process-discussion-step)}
+         [:button.btn.btn-sm.btn-primary {:onClick #(comlib/ajax-get "/town-has-to-cut-spending/reaction/47/undercut/48?history=/attitude/38-/justify/38/agree" nil comlib/process-and-set-items-and-bubbles)}
           "/town-has-to-cut-spending/reaction/47/undercut/48?history=/attitude/38-/justify/38/agree"]]))
 
 (defcard-om-next discussion-elements
@@ -41,7 +41,7 @@
 
 (defcard-om-next main-content-view
   views/MainContentView
-  parser/reconciler)
+  parser/reconciler) 
 
 (defcard-om-next main-view
   views/MainView

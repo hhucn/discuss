@@ -1,7 +1,5 @@
 (ns discuss.references.lib
-  (:require [discuss.utils.common :as lib]
-            [om.dom :as dom]
-            [om.core :as om]))
+  (:require [discuss.utils.common :as lib]))
 
 (defn split-at-string
   "Split the input-string at the position of the query-string.

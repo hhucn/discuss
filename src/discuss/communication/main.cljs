@@ -12,14 +12,11 @@
   "React on response after sending a new statement. Reset atom and call newly
   received url."
   [response]
-  (let [res (lib/process-response response)]
-    (log/info "[process-url-handler] Processed Response: " res)
-    (lib/remove-origin!)
-    (search/remove-search-results!)
-    (lib/hide-add-form!)
-    (rint/request-references)
-    (lib/store-multiple-values-to-app-state! [['discussion/items (:items res)]
-                                              ['discussion/bubbles (:bubbles res)]])))
+  (lib/remove-origin!)
+  (search/remove-search-results!)
+  (lib/hide-add-form!)
+  (rint/request-references)
+  (comlib/process-and-set-items-and-bubbles response))
 
 ;;;; Discussion-related functions
 (defn get-conclusion-id
@@ -48,23 +45,6 @@
    (post-json url body handler {"Content-Type" "application/json"}))
   ([url body]
    (post-json url body process-url-handler {"Content-Type" "application/json"})))
-
-#_(defn- post-statement [statement reference origin add-type]
-  (let [app @lib/app-state
-        url (get-in config/api [:add add-type])
-        headers (merge {"Content-Type" "application/json"} (comlib/token-header))
-        body {:statement     (htmlEscape statement)
-              :reference     (htmlEscape reference)
-              :origin        origin
-              :conclusion_id (get-conclusion-id)            ; Relevant for add-start-premise
-              :supportive    (get-in app [:discussion :is_supportive])
-              :arg_uid       (get-in app [:discussion :arg_uid]) ; For premisses for arguments
-              :attack_type   (get-in app [:discussion :attack_type])
-              :host          js/location.host
-              :path          js/location.pathname
-              :issue_id      (get-in app [:issues :uid])
-              :slug          (get-in app [:issues :slug])}]
-    (post-json url body process-url-handler headers)))
 
 (defn post-statement
   "Takes statement and an optional reference to post it to the backend."
