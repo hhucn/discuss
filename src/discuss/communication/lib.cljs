@@ -8,7 +8,8 @@
             [discuss.config :as config]
             [discuss.utils.common :as lib]
             [discuss.parser :as parser]
-            [discuss.utils.logging :as log]))
+            [discuss.utils.logging :as log]
+            [discuss.translations :refer [translate] :rename {translate t}]))
 
 ;;;; Auxiliary functions
 (defn make-url
@@ -22,18 +23,35 @@
   (when (lib/logged-in?)
     {"X-Authentication" (lib/clj->json {:type "user" :nickname (lib/get-nickname) :token (lib/get-token)})}))
 
+(defn login-or-add-item
+  "Check if user is logged in. If not, present item to login. Else present item
+  which triggers the add-form."
+  [logged-in?]
+  (let [translation (if logged-in? (t :discussion :add-position) (t :login :item))
+        url (if logged-in? "add" "login")]
+    {:htmls [translation]
+     :texts [translation]
+     :url url}))
+
 (defn process-and-set-items-and-bubbles
   "Receive response and prepare UI with the new items and bubbles for the next
-  step in the discussion."
+  step in the discussion.
+
+  Dispatch the current add-step, which is the new expected statement or
+  position, which is to be added in the next step."
   [response]
-  (let [{:keys [bubbles attitudes items attacks]} (lib/process-response response)
+  (let [{:keys [bubbles attitudes items attacks positions]} (lib/process-response response)
+        add-step (if (seq positions) :add/position :add/statement)
         update-items (cond
                        (seq items) items
+                       (seq positions) (conj positions (login-or-add-item (lib/logged-in?)))
                        (seq attacks) (vals attacks)
                        (seq attitudes) (vals attitudes)
                        :default [])]
     (om/transact! parser/reconciler `[(discussion/bubbles {:value ~bubbles})
-                                      (discussion/items {:value ~update-items})])))
+                                      (discussion/items {:value ~update-items})
+                                      (discussion/add-step {:value ~add-step})])))
+
 
 ;;;; Handlers
 (defn error-handler
@@ -51,7 +69,7 @@
   "Make ajax call to dialog based argumentation system."
   ([url headers handler params]
    (lib/last-api! url)
-   (log/debug "[ajax-get]" "Request to:" (make-url url))
+   (log/debug "GET Request to:" (make-url url))
    (GET (make-url url)
         {:handler       handler
          :headers       (merge (token-header) headers)
@@ -123,3 +141,7 @@
 
 (s/fdef process-and-set-items-and-bubbles
         :args (s/cat :response ::response))
+
+(s/fdef login-or-add-item
+  :args (s/cat :logged-in? boolean?)
+  :ret ::item)
