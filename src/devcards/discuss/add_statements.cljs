@@ -2,7 +2,8 @@
   (:require [devcards.core :as dc :refer-macros [defcard defcard-om-next]]
             [discuss.parser :as parser]
             [discuss.views :as views]
-            [devcards.discuss.utils :as dutils]))
+            [devcards.discuss.utils :as dutils]
+            [om.next :as om]))
 
 (defcard shortcuts
   dutils/shortcuts)
@@ -19,4 +20,16 @@
 
 (defcard-om-next add-new-statement
   views/AddElement
-  parser/reconciler)
+  (om/reconciler
+   {:state
+    (merge @(om/app-state parser/reconciler)
+           {:discussion/add-step :add/statement})
+    :parser (om/parser {:read parser/read})}))
+
+(defcard-om-next add-new-position
+  views/AddElement
+  (om/reconciler
+   {:state
+    (merge @(om/app-state parser/reconciler)
+           {:discussion/add-step :add/position})
+    :parser (om/parser {:read parser/read})}))

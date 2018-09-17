@@ -7,7 +7,9 @@
             [discuss.components.navigation :as nav]
             [discuss.components.clipboard :as clipboard]
             [om.next :as om]
-            [discuss.components.items :as items]))
+            [discuss.components.items :as items]
+            [discuss.views.alerts :as valerts]
+            [discuss.views.add :as vadd]))
 
 (defcard close-button-next
   views/close-button-next)
@@ -16,7 +18,7 @@
   views/control-elements-next)
 
 (defcard-om-next error-view
-  views/ErrorAlert
+  valerts/ErrorAlert
   (om/reconciler {:state {:layout/error "I am an error message"}
                   :parser (om/parser {:read parser/read})}))
 
@@ -25,7 +27,7 @@
   parser/reconciler)
 
 (defcard-om-next add-element-view
-  views/AddElement
+  vadd/AddElement
   parser/reconciler)
 
 (defcard-om-next option-view
