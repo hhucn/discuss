@@ -66,14 +66,6 @@
            (lib/trim-and-normalize "    foo bar   ")
            (lib/trim-and-normalize "\n\nfoo\t\t\t\tbar\n ")))))
 
-(deftest test-origins
-  (testing "Add an origin and remove it back again."
-    (let [origin {:author "kangaroo", :content "penguins and stuff", :aggregate-id "huepfer.verlag", :entity-id 42, :version 100}]
-      (lib/store-origin! origin)
-      (is (= origin (lib/get-origin)))
-      (lib/remove-origin!)
-      (is (empty? (lib/get-origin))))))
-
 (deftest test-build-transactions
   (testing "A valid collection should be transformed to valid data for the reconciler."
     (let [items [{:item1 "item1"}

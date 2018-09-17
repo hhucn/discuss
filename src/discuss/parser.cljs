@@ -20,7 +20,7 @@
                 :user/token "razupaltuff"
                 :user/logged-in? false
                 :selection/current "This is a selected text passage"
-                :site/origin {}
+                :discussion/add-step :add/position
                 :discussion/items [{:htmls ["the city should reduce the number of street festivals"],
                                     :texts ["the city should reduce the number of street festivals"],
                                     :url "/town-has-to-cut-spending/attitude/36"}

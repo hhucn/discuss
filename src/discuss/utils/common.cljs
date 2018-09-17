@@ -7,7 +7,6 @@
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]
             [discuss.config :as config]
-            [discuss.specs :as specs]
             [discuss.parser :as parser]))
 
 (defn prefix-name
@@ -38,7 +37,6 @@
                              :logged-in? false}
                 :references {:selected nil
                              :highlighted #{}}
-                :origin     {}
                 :clipboard  {:selections nil
                              :current    nil}
                 :sidebar    {:show? true}
@@ -315,28 +313,6 @@
   "Remove current selection for a 'clean' statement."
   []
   (store-to-app-state! 'selection/current nil))
-
-
-;;;; Origins
-(defn store-origin!
-  "Stores an origin into the app-state."
-  [origin]
-  (store-to-app-state! 'site/origin origin))
-
-(defn get-origin
-  "Return the origin of a statement if a statement has a different origin."
-  []
-  (load-from-app-state :site/origin))
-
-(defn remove-origin!
-  "Remove currently stored origin."
-  []
-  (store-to-app-state! 'site/origin nil))
-
-(s/fdef store-origin!
-        :args (s/cat :origin ::specs/origin))
-(s/fdef get-origin
-        :ret ::specs/origin)
 
 
 ;;;; String Stuff
