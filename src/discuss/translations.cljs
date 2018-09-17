@@ -19,10 +19,14 @@
                      :options          "Einstellungen"
                      :save             "Speichern"
                      :show-discuss     "Zeige discuss"
-                     :start-discussion "Starte die Diskussion"}
+                     :start-discussion "Starte die Diskussion"
+                     :that             "dass"}
         :clipboard  {:heading "Clipboard"
                      :instruction "Ziehe diese Referenzen in das Textfeld beim Erzeugen eines neuen Arguments, um die Referenz zu nutzen."}
-        :discussion {:add-argument "Aussage hinzufügen"
+        :discussion {:add-position "Nichts von all dem. Ich habe eine andere Idee"
+                     :add-position-heading "Mein Vorschlag wäre, dass"
+                     :add-position-placeholder "wir dieses oder jenes machen sollten"
+                     :add-reason-placeholder "aus diesen und jenen Gründen"
                      :current      "Aktuelle Diskussion"
                      :restart      "Neustarten"
                      :submit       "Abschicken"}
@@ -31,7 +35,8 @@
                      :hits "Ergebnisse"}
         :login      {:nickname "Benutzername"
                      :password "Passwort"
-                     :hhu-ldap "Wir benutzen das Personenverzeichnug der Heinrich-Heine-Universität Düsseldorf. Alle Daten und Informationen werden natürlich SSL-verschlüsselt gesendet und nach Erhalt unter keinen Umständen an Dritte weitergegeben."}
+                     :hhu-ldap "Wir benutzen das Personenverzeichnug der Heinrich-Heine-Universität Düsseldorf. Alle Daten und Informationen werden natürlich SSL-verschlüsselt gesendet und nach Erhalt unter keinen Umständen an Dritte weitergegeben."
+                     :item "Klicke hier, damit du dich einloggen und eine neue Aussage hinzufügen kannst"}
         :nav        {:home "Start"
                      :find "Suchen"}
         :options    {:heading "Einstellungen"
@@ -61,10 +66,14 @@
                      :options          "Options"
                      :save             "Save"
                      :show-discuss     "Show discuss"
-                     :start-discussion "Start Discussion"}
+                     :start-discussion "Start Discussion"
+                     :that             "that"}
         :clipboard  {:heading "Clipboard"
                      :instruction "Drag a reference into the text-field on new argument creation to link the reference with your argument."}
-        :discussion {:add-argument "Add a new statement"
+        :discussion {:add-position  "Neither of the above, I have a different idea"
+                     :add-position-heading "My suggestion would be that"
+                     :add-position-placeholder "we should do this or that"
+                     :add-reason-placeholder "of this reason"
                      :current "Current Discussion"
                      :restart "Restart"
                      :submit "Submit"}
@@ -73,7 +82,8 @@
                      :hits "Results"}
         :login      {:nickname "Nickname"
                      :password "Password"
-                     :hhu-ldap "We are using the Register of Persons of the Heinrich-Heine-University Düsseldorf. All data and information are of course sent SSL encrypted and will never be passed on to any third parties after receipt."}
+                     :hhu-ldap "We are using the Register of Persons of the Heinrich-Heine-University Düsseldorf. All data and information are of course sent SSL encrypted and will never be passed on to any third parties after receipt."
+                     :item "Click here to authenticate and to be able to submit your own statements"}
         :nav        {:home "Home"
                      :find "Find"}
         :options    {:heading "Options"
