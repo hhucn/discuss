@@ -101,7 +101,7 @@
                     [:div.col-sm-8
                      [:p (vlib/safe-html text)]
                      [:p [:span.btn.btn-sm.btn-primary
-                          {:on-click #(println "I want to use this statement:" text) #_#(lib/store-origin! origin)}
+                          {:on-click #(println "I want to use this statement:" text)}
                           (t :search :reuse)]]]
                     [:div.col-sm-4
                      [:div.text-right

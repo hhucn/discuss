@@ -12,7 +12,6 @@
   "React on response after sending a new statement. Reset atom and call newly
   received url."
   [response]
-  (lib/remove-origin!)
   (search/remove-search-results!)
   (lib/hide-add-form!)
   (rint/request-references)
@@ -48,13 +47,25 @@
 
 (defn post-statement
   "Takes statement and an optional reference to post it to the backend."
-  [statement reference origin]
+  [statement reference]
   (if (seq (lib/get-last-api))
     (let [url (lib/get-last-api)
           headers (merge {"Content-Type" "application/json"} (comlib/token-header))
           body {:reason statement
-                :reference reference
-                :origin origin}]
+                :reference reference}]
+      (post-json url body process-url-handler headers))
+    (log/error ":api/last-call is empty, cannot post statement to empty URL.")))
+
+(defn post-position
+  "Add new position, its reason and an optional reference to post it to the
+  backend."
+  [position reason reference]
+  (if (seq (lib/get-last-api))
+    (let [url (lib/get-last-api)
+          headers (merge {"Content-Type" "application/json"} (comlib/token-header))
+          body {:position position
+                :reason reason
+                :reference reference}]
       (post-json url body process-url-handler headers))
     (log/error ":api/last-call is empty, cannot post statement to empty URL.")))
 
