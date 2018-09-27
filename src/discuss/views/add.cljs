@@ -32,23 +32,21 @@
   "Shows selected text from website if available."
   []
   (let [selection (or (lib/get-selection) (:text (rlib/get-selected-reference)) "")]
-    (if (> (count selection) 1)
-      (dom/div #js {:className "input-group"}
-               (dom/span #js {:className "input-group-addon input-group-addon-left"}
-                         (vlib/fa-icon "fa-quote-left"))
-               (dom/input #js {:className "form-control"
-                               :style #js {:backgroundColor "rgb(250,250,250)"}
-                               :value selection
-                               :title (t :references :disabled/tooltip)
-                               :disabled true})
-               (dom/span #js {:className "input-group-addon"}
-                         (vlib/fa-icon "fa-quote-right"))
-               (dom/span #js {:className "input-group-addon pointer"
-                              :onClick   remove-selection-then-reference!}
-                         (vlib/fa-icon "fa-times")))
-      (dom/div #js {:className "text-center"
-                    :style #js {:paddingBottom "1em"}}
-               (t :references :ask-to-add)))))
+    (html
+     (if (> (count selection) 1)
+       [:div.input-group
+        [:span.input-group-addon.input-group-addon-left
+         (vlib/fa-icon "fa-quote-left")]
+        [:input.form-control {:style {:backgroundColor "rgb(250,250,250)"}
+                              :value selection
+                              :title (t :references :disabled/tooltip)
+                              :disabled true}]
+        [:span.input-group-addon
+         (vlib/fa-icon "fa-quote-right")]
+        [:span.input-group-addon.pointer {:onClick remove-selection-then-reference!}
+         (vlib/fa-icon "fa-times")]]
+       [:div.text-center {:style {:paddingBottom "1em"}}
+        (t :references :ask-to-add)]))))
 
 (defn- input-group
   "Construct input group with placeholder in the left side and input on the right

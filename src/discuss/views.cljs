@@ -94,7 +94,7 @@
 (defui ViewDispatcher
   static om/IQuery
   (query [this]
-         `[:layout/view
+         `[:layout/view :layout/lang
            {:discussion/items ~(om/get-query DiscussionElements)}
            {:discussion/bubbles ~(om/get-query DiscussionElements)}])
   Object
@@ -117,7 +117,7 @@
 (defui MainView
   static om/IQuery
   (query [this]
-         `[:issue/info :layout/add? :discussion/add-step :layout/view :layout/title
+         `[:issue/info :layout/add? :discussion/add-step :layout/view :layout/title :layout/lang
            {:discussion/items ~(om/get-query ViewDispatcher)}
            {:discussion/bubbles ~(om/get-query ViewDispatcher)}
            {:discussion/bubbles ~(om/get-query vadd/StatementForm)}
