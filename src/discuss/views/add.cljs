@@ -8,7 +8,8 @@
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
-            [discuss.views.alerts :as valerts]))
+            [discuss.views.alerts :as valerts]
+            [discuss.components.bubbles :as bubbles]))
 
 (defn- remaining-characters
   "Show remaining characters needed to submit a post."
@@ -30,7 +31,7 @@
 (defn- show-selection
   "Shows selected text from website if available."
   []
-  (let [selection (or (lib/get-selection) (:text (discuss.references.lib/get-selected-reference)) "")]
+  (let [selection (or (lib/get-selection) (:text (rlib/get-selected-reference)) "")]
     (if (> (count selection) 1)
       (dom/div #js {:className "input-group"}
                (dom/span #js {:className "input-group-addon input-group-addon-left"}
@@ -65,48 +66,52 @@
        :value field-value
        :placeholder form-placeholder}]]))
 
-(defn- form-field-statement [this heading current-selection]
-  (let [statement (or (:statement (om/get-state this)) "")]
-    [:div
-     [:h5.text-center heading]
-     (valerts/error-alert (om/props this))
-     (input-group this :statement (t :common :because) (t :discussion :add-reason-placeholder))
-     (show-selection)
-     [:button.btn.btn-default
-      {:onClick #(com/post-statement statement current-selection)
-       :disabled (> 10 (count statement))}
-      (remaining-characters statement)]]))
-
-(defn- form-field-position [this current-selection]
-  (let [position (or (:position (om/get-state this)) "")
-        reason (or (:reason (om/get-state this)) "")
-        smaller-input (first (sort-by count [position reason]))]
-    [:div
-     [:h5.text-center (t :discussion :add-position-heading) "..."]
-     (valerts/error-alert (om/props this))
-     (input-group this :position (t :common :that) (t :discussion :add-position-placeholder))
-     (input-group this :reason (t :common :because) (t :discussion :add-reason-placeholder))
-     (show-selection)
-     [:button.btn.btn-default
-      {:onClick #(com/post-position position reason current-selection)
-       :disabled (> 10 (count smaller-input))}
-      (remaining-characters smaller-input)]]))
-
-(defui AddElement
-  "Form to add new elements to the discussion."
+(defui StatementForm
+  "Form to add a new statement to the discussion."
   static om/IQuery
-  (query [this] [:selection/current :discussion/add-step :discussion/bubbles])
+  (query [this]
+         `[:selection/current
+           {:discussion/bubbles ~(om/get-query bubbles/BubblesView)}])
   Object
   (render [this]
-          (let [{current-selection :selection/current
-                 add-step :discussion/add-step bubbles :discussion/bubbles} (om/props this)]
+          (let [{current-selection :selection/current bubbles :discussion/bubbles} (om/props this)
+                statement (or (:statement (om/get-state this)) "")]
+            (html
+             [:div.panel.panel-default
+              {:onDragOver clipboard/allow-drop
+               :onDrop clipboard/update-reference-drop}
+              [:div.panel-body
+               [:h5.text-center (:text (last bubbles))]
+               (valerts/error-alert (om/props this))
+               (input-group this :statement (t :common :because) (t :discussion :add-reason-placeholder))
+               (show-selection)
+               [:button.btn.btn-default
+                {:onClick #(com/post-statement statement current-selection)
+                 :disabled (> 10 (count statement))}
+                (remaining-characters statement)]]]))))
+(def statement-form (om/factory StatementForm))
+
+(defui PositionForm
+  "Form to add a new position and a reason to the discussion."
+  static om/IQuery
+  (query [this] [:selection/current])
+  Object
+  (render [this]
+          (let [{current-selection :selection/current} (om/props this)
+                position (or (:position (om/get-state this)) "")
+                reason (or (:reason (om/get-state this)) "")
+                smaller-input (first (sort-by count [position reason]))]
             (html [:div.panel.panel-default
                    {:onDragOver clipboard/allow-drop
                     :onDrop clipboard/update-reference-drop}
                    [:div.panel-body
-                    (if (= :add/position add-step)
-                      (form-field-position this current-selection)
-                      (form-field-statement this
-                                            (:text (last bubbles))
-                                            current-selection))]]))))
-(def add-element (om/factory AddElement))
+                    [:h5.text-center (t :discussion :add-position-heading) "..."]
+                    (valerts/error-alert (om/props this))
+                    (input-group this :position (t :common :that) (t :discussion :add-position-placeholder))
+                    (input-group this :reason (t :common :because) (t :discussion :add-reason-placeholder))
+                    (show-selection)
+                    [:button.btn.btn-default
+                     {:onClick #(com/post-position position reason current-selection)
+                      :disabled (> 10 (count smaller-input))}
+                     (remaining-characters smaller-input)]]]))))
+(def position-form (om/factory PositionForm))

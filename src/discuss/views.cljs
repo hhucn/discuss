@@ -81,8 +81,9 @@
 
 (defui DiscussionElements
   static om/IQuery
-  (query [this] [{:discussion/items (om/get-query items/Items)}
-                 {:discussion/bubbles (om/get-query bubbles/BubblesView)}])
+  (query [this]
+         `[{:discussion/items ~(om/get-query items/Items)}
+           {:discussion/bubbles ~(om/get-query bubbles/BubblesView)}])
   Object
   (render [this]
           (html [:div
@@ -92,9 +93,10 @@
 
 (defui ViewDispatcher
   static om/IQuery
-  (query [this] [:layout/view
-                 {:discussion/items (om/get-query DiscussionElements)}
-                 {:discussion/bubbles (om/get-query DiscussionElements)}])
+  (query [this]
+         `[:layout/view
+           {:discussion/items ~(om/get-query DiscussionElements)}
+           {:discussion/bubbles ~(om/get-query DiscussionElements)}])
   Object
   (render [this]
           (let [{:keys [layout/view]} (om/props this)]
@@ -112,53 +114,41 @@
                       control-elements-next)]]))))
 (def view-dispatcher-next (om/factory ViewDispatcher))
 
-(defui MainContentView
-  static om/IQuery
-  (query [this]
-         [:layout/add? :issue/info
-          {:layout/view (om/get-query ViewDispatcher)}
-          {:search/results (om/get-query vadd/AddElement)}
-          {:discussion/items (om/get-query ViewDispatcher)}
-          {:discussion/bubbles (om/get-query ViewDispatcher)}
-          {:clipboard/items (om/get-query clipboard/Clipboard)}])
-  Object
-  (render [this]
-          (let [{:keys [issue/info layout/add?]} (om/props this)]
-            (html [:div
-                   [:div.text-center
-                    (t :discussion :current)
-                    [:br]
-                    [:strong info]]
-                   (view-dispatcher-next (om/props this))
-                   (when add?
-                     [:div (vadd/add-element (om/props this))
-                      (search/results (om/props this))])
-                   (nav/nav)
-                   [:br]
-                   (clipboard/clipboard (om/props this))]))))
-(def main-content-view-next (om/factory MainContentView))
-
 (defui MainView
   static om/IQuery
   (query [this]
-         (vec
-          (merge
-           (lib/filter-keys-by-namespace (keys parser/init-data) "layout")
-           {:layout/view (om/get-query MainContentView)}
-           {:discussion/items (om/get-query MainContentView)}
-           {:discussion/bubbles (om/get-query MainContentView)}
-           {:clipboard/items (om/get-query MainContentView)})))
+         `[:issue/info :layout/add? :discussion/add-step :layout/view :layout/title
+           {:discussion/items ~(om/get-query ViewDispatcher)}
+           {:discussion/bubbles ~(om/get-query ViewDispatcher)}
+           {:discussion/bubbles ~(om/get-query vadd/StatementForm)}
+           {:discussion/bubbles ~(om/get-query vadd/PositionForm)}
+           {:clipboard/items ~(om/get-query clipboard/Clipboard)}])
   Object
   (render [this]
-          (let [{:keys [layout/title]} (om/props this)]
-            (html [:div#discuss-dialog-main
-                   (avatar-view)
-                   [:h4 (vlib/logo)
-                    " "
-                    [:span.pointer {:data-toggle   "collapse"
-                                    :data-target   (str "#" (lib/prefix-name "dialog-collapse"))
-                                    :aria-expanded "true"
-                                    :aria-controls (lib/prefix-name "dialog-collapse")}
-                     title]]
-                   (main-content-view-next (om/props this))]))))
+          (let [{:keys [issue/info layout/add? layout/title discussion/add-step]} (om/props this)]
+            (html
+             [:div#discuss-dialog-main
+              (avatar-view)
+              [:h4 (vlib/logo)
+               " "
+               [:span.pointer {:data-toggle   "collapse"
+                               :data-target   (str "#" (lib/prefix-name "dialog-collapse"))
+                               :aria-expanded "true"
+                               :aria-controls (lib/prefix-name "dialog-collapse")}
+                title]]
+              [:div
+               [:div.text-center
+                (t :discussion :current)
+                [:br]
+                [:strong info]]
+               (view-dispatcher-next (om/props this))
+               (when add?
+                 [:div
+                  (if (= :add/position add-step)
+                    (vadd/position-form (om/props this))
+                    (vadd/statement-form (om/props this)))
+                  (search/results (om/props this))])
+               (nav/nav)
+               [:br]
+               (clipboard/clipboard (om/props this))]]))))
 (def main-view-next (om/factory MainView))

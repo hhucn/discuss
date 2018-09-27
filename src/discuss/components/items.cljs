@@ -23,7 +23,7 @@
 
 (defui Item
   static om/IQuery
-  (query [this] [:htmls :url])
+  (query [this] [:htmls :texts :url])
   Object
   (render [this]
           (let [{:keys [htmls url]} (om/props this)]
@@ -41,10 +41,10 @@
 (defui Items
   static om/IQuery
   (query [this]
-         `[{:discussion/items ~(om/get-query Item)}])
+         [{:discussion/items (om/get-query Item)}])
   Object
   (render [this]
           (let [{:keys [discussion/items]} (om/props this)]
             (html [:div (map item items)]))))
 (def items (om/factory Items))
-
+(om/get-query Items)
