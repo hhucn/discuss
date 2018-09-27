@@ -56,7 +56,7 @@
   "Generate all bubbles based on the data in the reconciler."
   static om/IQuery
   (query [this]
-         [{:discussion/bubbles (om/get-query BubbleView)}])
+         `[{:discussion/bubbles ~(om/get-query BubbleView)}])
   Object
   (render [this]
           (let [{:keys [discussion/bubbles]} (om/props this)]

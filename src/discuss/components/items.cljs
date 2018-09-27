@@ -41,7 +41,8 @@
 (defui Items
   static om/IQuery
   (query [this]
-         [{:discussion/items (om/get-query Item)}])
+         `[:layout/lang
+           {:discussion/items ~(om/get-query Item)}])
   Object
   (render [this]
           (let [{:keys [discussion/items]} (om/props this)]
