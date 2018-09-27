@@ -22,11 +22,14 @@
   views/DiscussionElements
   parser/reconciler)
 
+(defcard-om-next view-dispatcher
+  views/ViewDispatcher
+  parser/reconciler)
+
 (defcard-om-next view-dispatcher-default
   views/ViewDispatcher
   (om/reconciler {:state (merge {:layout/view :default}
-                                (select-keys @(om/app-state parser/reconciler)
-                                             [:discussion/bubbles :discussion/items]))
+                                @(om/app-state parser/reconciler))
                   :parser (om/parser {:read parser/read})}))
 
 (defcard-om-next view-dispatcher-login
@@ -38,10 +41,6 @@
   views/ViewDispatcher
   (om/reconciler {:state {:layout/view :options}
                   :parser (om/parser {:read parser/read})}))
-
-(defcard-om-next main-content-view
-  views/MainContentView
-  parser/reconciler) 
 
 (defcard-om-next main-view
   views/MainView
