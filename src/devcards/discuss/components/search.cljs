@@ -6,8 +6,8 @@
             [om.next :as om]
             [discuss.components.search.statements :as search]))
 
-(defcard-om-next main-content-view
-  views/MainContentView
+(defcard-om-next main-view
+  views/MainView
   parser/reconciler)
 
 (def two-search-results

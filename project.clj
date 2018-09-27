@@ -9,16 +9,16 @@
   :hooks [leiningen.cljsbuild]
 
   :dependencies [[org.clojure/clojure "1.9.0"]
-                 [org.clojure/clojurescript "1.10.238"]
+                 [org.clojure/clojurescript "1.10.339"]
                  [org.clojure/core.async "0.4.474" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
-                 [org.clojure/tools.reader "1.2.2"]
+                 [org.clojure/tools.reader "1.3.0"]
                  [org.omcljs/om "1.0.0-beta3"]
                  [com.cognitect/transit-cljs "0.8.256"]
                  [com.velisco/strgen "0.1.7"]
-                 [cljs-ajax "0.7.3"]
+                 [cljs-ajax "0.7.4"]
                  [lein-doo "0.1.10"]  ;; <-- otherwise it won't find the doo namespaces...
-                 [devcards "0.2.5"]
+                 [devcards "0.2.6"]
                  [sablono "0.8.4"]
                  [inflections "0.13.0"]]
 
@@ -40,9 +40,9 @@
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]
                                   [figwheel-sidecar "0.5.16"]
                                   [org.clojure/tools.nrepl "0.2.13"]
-                                  [cider/piggieback "0.3.5"]]
+                                  [cider/piggieback "0.3.9"]]
                    ;; need to add dev source path here to get user.clj loaded
-                   :source-paths ["src"]
+                   :source-paths ["src" "script"]
                    :repl-options {:init (set! *print-length* 50)
                                   :nrepl-middleware [cider.piggieback/wrap-cljs-repl]}}}
 

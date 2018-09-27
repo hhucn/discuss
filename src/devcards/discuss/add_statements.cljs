@@ -3,7 +3,8 @@
             [discuss.parser :as parser]
             [discuss.views :as views]
             [devcards.discuss.utils :as dutils]
-            [om.next :as om]))
+            [om.next :as om]
+            [discuss.views.add :as vadd]))
 
 (defcard shortcuts
   dutils/shortcuts)
@@ -19,17 +20,9 @@
   sample-api-route)
 
 (defcard-om-next add-new-statement
-  views/AddElement
-  (om/reconciler
-   {:state
-    (merge @(om/app-state parser/reconciler)
-           {:discussion/add-step :add/statement})
-    :parser (om/parser {:read parser/read})}))
+  vadd/StatementForm
+  parser/reconciler)
 
 (defcard-om-next add-new-position
-  views/AddElement
-  (om/reconciler
-   {:state
-    (merge @(om/app-state parser/reconciler)
-           {:discussion/add-step :add/position})
-    :parser (om/parser {:read parser/read})}))
+  vadd/PositionForm
+  parser/reconciler)

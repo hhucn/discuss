@@ -26,10 +26,6 @@
   views/LoginForm
   parser/reconciler)
 
-(defcard-om-next add-element-view
-  vadd/AddElement
-  parser/reconciler)
-
 (defcard-om-next option-view
   options/Options
   parser/reconciler)

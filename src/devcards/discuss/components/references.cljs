@@ -22,6 +22,6 @@
   tooltip/Tooltip
   parser/reconciler)
 
-(defcard-om-next main-content-view
-  views/MainContentView
+(defcard-om-next main-view
+  views/MainView
   parser/reconciler)
