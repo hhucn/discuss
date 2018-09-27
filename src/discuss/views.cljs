@@ -61,14 +61,16 @@
 
 ;; ----------
 
-(def close-button-next
+(defn- close-button-next
   "Close current panel and switch view."
+  []
   (html [:div [:br]
          [:div.text-center
           (bs/button-default-sm #(lib/change-view-next! :default) (vlib/fa-icon "fa-times") (t :common :close :space))]]))
 
-(def control-elements-next
+(defn- control-elements-next
   "Back and restart button."
+  []
   (html [:div [:hr]
          [:div.row
           [:div {:className "col-md-offset-4 col-sm-offset-4 col-xs-offset-4 col-md-4 col-sm-4 col-xs-4 text-center"}
@@ -104,14 +106,14 @@
                    [:div.panel-body
                     (case view
                       :login (login-form)
-                      :options (options/options)
+                      :options (options/options (om/props this))
                       ;; TODO: :reference-usages (om/build ref/usages-view data)
                       ;; TODO: :reference-create-with-ref (om/build ref/create-with-reference-view data)
                       ;; TODO: :find (om/build find/view data)
                       (discussion-elements-next (om/props this)))
                     (if (some #{view} [:login :options :find :reference-usages])
-                      close-button-next
-                      control-elements-next)]]))))
+                      (close-button-next)
+                      (control-elements-next))]]))))
 (def view-dispatcher-next (om/factory ViewDispatcher))
 
 (defui MainView

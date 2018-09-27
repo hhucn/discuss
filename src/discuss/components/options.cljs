@@ -12,6 +12,8 @@
   (bs/button-default-sm #(lib/language-next! lang-keyword) lang-verbose))
 
 (defui Options
+  static om/IQuery
+  (query [this] [:layout/lang])
   Object
   (render [this]
           (html [:div (vlib/view-header (translate :options :heading))
