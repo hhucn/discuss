@@ -8,8 +8,7 @@
             [discuss.components.clipboard :as clipboard]
             [om.next :as om]
             [discuss.components.items :as items]
-            [discuss.views.alerts :as valerts]
-            [discuss.views.add :as vadd]))
+            [discuss.views.alerts :as valerts]))
 
 (defcard close-button-next
   views/close-button-next)
@@ -44,4 +43,8 @@
 
 (defcard-om-next items-view
   items/Items
+  parser/reconciler)
+
+(defcard-om-next avatar
+  views/Avatar
   parser/reconciler)
