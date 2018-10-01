@@ -44,7 +44,3 @@
 (defcard-om-next items-view
   items/Items
   parser/reconciler)
-
-(defcard-om-next avatar
-  views/Avatar
-  parser/reconciler)

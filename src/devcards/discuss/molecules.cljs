@@ -28,8 +28,8 @@
 
 (defcard-om-next view-dispatcher-default
   views/ViewDispatcher
-  (om/reconciler {:state (merge {:layout/view :default}
-                                @(om/app-state parser/reconciler))
+  (om/reconciler {:state (merge @(om/app-state parser/reconciler)
+                                {:layout/view :default})
                   :parser (om/parser {:read parser/read})}))
 
 (defcard-om-next view-dispatcher-login

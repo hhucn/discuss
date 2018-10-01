@@ -1,6 +1,5 @@
 (ns discuss.views
-  (:require [om.dom :as dom :include-macros true]
-            [om.next :as om :refer-macros [defui]]
+  (:require [om.next :as om :refer-macros [defui]]
             [sablono.core :as html :refer-macros [html]]
             [discuss.components.bubbles :as bubbles]
             [discuss.components.clipboard :as clipboard]
@@ -8,6 +7,7 @@
             [discuss.components.navigation :as nav]
             [discuss.components.options :as options]
             [discuss.components.search.statements :as search]
+            [discuss.components.avatar :as avatar]
             [discuss.communication.auth :as auth]
             [discuss.communication.lib :as comlib]
             [discuss.translations :refer [translate] :rename {translate t}]
@@ -17,29 +17,6 @@
             [discuss.views.add :as vadd]
             [discuss.parser :as parser]
             [discuss.views.alerts :as valerts]))
-
-;;;; Elements
-(defui Avatar
-  "Render the users' avatar."
-  static om/IQuery
-  (query [this]
-         [:layout/lang :user/avatar :user/logged-in?])
-  Object
-  (render [this]
-          (let [{:keys [user/avatar user/logged-in?]} (om/props this)]
-            (html
-             [:div {:className (str (lib/prefix-name "avatar-main-wrapper") " pull-right text-muted text-center")}
-              (when logged-in?
-                [:div
-                 (when (string? avatar)
-                   [:img {:className (str (lib/prefix-name "avatar-main-wrapper") " img-responsive img-circle")
-                          :src avatar}])
-                 [:span (str (t :common :hello) " " (lib/get-nickname) "!")]])]))))
-(def avatar (om/factory Avatar))
-
-
-;; -----------------------------------------------------------------------------
-;; Views
 
 (defui LoginForm
   "Form with nickname and password input."
@@ -140,7 +117,7 @@
           (let [{:keys [issue/info layout/add? layout/title discussion/add-step]} (om/props this)]
             (html
              [:div#discuss-dialog-main
-              (avatar (om/props this))
+              (avatar/avatar (om/props this))
               [:h4 (vlib/logo)
                " "
                [:span.pointer {:data-toggle   "collapse"
