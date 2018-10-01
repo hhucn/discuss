@@ -27,7 +27,7 @@
             [lein-codox "0.10.3"]
             [lein-doo "0.1.10"]
             [lein-figwheel "0.5.16"]
-            [lein-kibit "0.1.3"]
+            [lein-kibit "0.1.6"]
             [lein-set-version "0.4.1"]]
 
   :source-paths ["src"]
