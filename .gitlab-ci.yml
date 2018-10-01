@@ -1,6 +1,7 @@
 image: clojure:alpine
 
 cache:
+  key: "$CI_JOB_NAME"
   paths:
     - .m2
   untracked: true
