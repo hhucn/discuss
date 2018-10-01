@@ -32,6 +32,8 @@
 
   :source-paths ["src"]
 
+  :local-repo ".m2/repo"
+
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
   :aliases {"phantomtest" ["do" "clean" ["doo" "phantom" "test" "once"]]
