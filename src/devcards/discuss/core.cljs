@@ -4,9 +4,10 @@
             [discuss.communication.auth :as auth]
             [devcards.discuss.atoms]
             [devcards.discuss.molecules]
-            [devcards.discuss.components.search]
             [devcards.discuss.add-statements]
-            [devcards.discuss.components.references]))
+            [devcards.discuss.components.search]
+            [devcards.discuss.components.references]
+            [devcards.discuss.components.avatar]))
 
 (enable-console-print!)
 

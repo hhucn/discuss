@@ -19,6 +19,7 @@
                 :user/nickname "kangaroo"
                 :user/token "razupaltuff"
                 :user/logged-in? false
+                :user/avatar "img/profile.jpg"
                 :selection/current "This is a selected text passage"
                 :discussion/add-step :add/position
                 :discussion/items [{:htmls ["the city should reduce the number of street festivals"],

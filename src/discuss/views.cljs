@@ -1,6 +1,5 @@
 (ns discuss.views
-  (:require [om.dom :as dom :include-macros true]
-            [om.next :as om :refer-macros [defui]]
+  (:require [om.next :as om :refer-macros [defui]]
             [sablono.core :as html :refer-macros [html]]
             [discuss.components.bubbles :as bubbles]
             [discuss.components.clipboard :as clipboard]
@@ -8,6 +7,7 @@
             [discuss.components.navigation :as nav]
             [discuss.components.options :as options]
             [discuss.components.search.statements :as search]
+            [discuss.components.avatar :as avatar]
             [discuss.communication.auth :as auth]
             [discuss.communication.lib :as comlib]
             [discuss.translations :refer [translate] :rename {translate t}]
@@ -17,20 +17,6 @@
             [discuss.views.add :as vadd]
             [discuss.parser :as parser]
             [discuss.views.alerts :as valerts]))
-
-;;;; Elements
-(defn avatar-view
-  "Get the user's avatar and add login + logout functions to it."
-  []
-  (dom/div #js {:className "discuss-avatar-main-wrapper pull-right text-muted text-center"}
-           (when (lib/logged-in?)
-             (dom/div nil
-                      (dom/img #js {:src       (lib/get-avatar)
-                                    :className "discuss-avatar-main img-responsive img-circle"})
-                      (dom/span nil (str (t :common :hello) " " (lib/get-nickname) "!"))))))
-
-;; -----------------------------------------------------------------------------
-;; Views
 
 (defui LoginForm
   "Form with nickname and password input."
@@ -120,6 +106,7 @@
   static om/IQuery
   (query [this]
          `[:issue/info :layout/add? :discussion/add-step :layout/view :layout/title :layout/lang
+           :user/avatar :user/nickname :user/logged-in?
            {:discussion/items ~(om/get-query ViewDispatcher)}
            {:discussion/bubbles ~(om/get-query ViewDispatcher)}
            {:discussion/bubbles ~(om/get-query vadd/StatementForm)}
@@ -130,7 +117,7 @@
           (let [{:keys [issue/info layout/add? layout/title discussion/add-step]} (om/props this)]
             (html
              [:div#discuss-dialog-main
-              (avatar-view)
+              (avatar/avatar (om/props this))
               [:h4 (vlib/logo)
                " "
                [:span.pointer {:data-toggle   "collapse"
@@ -138,19 +125,18 @@
                                :aria-expanded "true"
                                :aria-controls (lib/prefix-name "dialog-collapse")}
                 title]]
-              [:div
-               [:div.text-center
-                (t :discussion :current)
-                [:br]
-                [:strong info]]
-               (view-dispatcher-next (om/props this))
-               (when add?
-                 [:div
-                  (if (= :add/position add-step)
-                    (vadd/position-form (om/props this))
-                    (vadd/statement-form (om/props this)))
-                  (search/results (om/props this))])
-               (nav/nav)
+              [:div.text-center
+               (t :discussion :current)
                [:br]
-               (clipboard/clipboard (om/props this))]]))))
+               [:strong info]]
+              (view-dispatcher-next (om/props this))
+              (when add?
+                [:div
+                 (if (= :add/position add-step)
+                   (vadd/position-form (om/props this))
+                   (vadd/statement-form (om/props this)))
+                 (search/results (om/props this))])
+              (nav/nav)
+              [:br]
+              (clipboard/clipboard (om/props this))]))))
 (def main-view-next (om/factory MainView))
