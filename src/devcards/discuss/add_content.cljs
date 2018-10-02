@@ -1,10 +1,10 @@
-(ns devcards.discuss.add-statements
+(ns devcards.discuss.add-content
   (:require [devcards.core :as dc :refer-macros [defcard defcard-om-next]]
             [discuss.parser :as parser]
             [discuss.views :as views]
             [devcards.discuss.utils :as dutils]
-            [om.next :as om]
-            [discuss.views.add :as vadd]))
+            [discuss.views.add :as vadd]
+            [discuss.utils.common :as lib]))
 
 (defcard shortcuts
   dutils/shortcuts)
@@ -26,3 +26,6 @@
 (defcard-om-next add-new-position
   vadd/PositionForm
   parser/reconciler)
+
+
+(lib/get-last-api)

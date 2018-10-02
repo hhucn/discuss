@@ -4,7 +4,7 @@
             [discuss.communication.auth :as auth]
             [devcards.discuss.atoms]
             [devcards.discuss.molecules]
-            [devcards.discuss.add-statements]
+            [devcards.discuss.add-content]
             [devcards.discuss.components.search]
             [devcards.discuss.components.references]
             [devcards.discuss.components.avatar]))

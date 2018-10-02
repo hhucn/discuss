@@ -273,10 +273,11 @@
 
 ;;;; Last-api
 (defn last-api!
-  "Keep last-api call. Useful to login and then re-request the url to jump to
-  the same position in the discussion, but this time as a logged in user."
+  "Keep last-api call. Useful to login and then re-request the url to jump to the
+  same position in the discussion, but this time as a logged in user."
   [url]
-  (store-to-app-state! 'api/last-call url))
+  (when-not (empty? url)
+    (store-to-app-state! 'api/last-call url)))
 
 (defn get-last-api
   "Return url of last API call."
