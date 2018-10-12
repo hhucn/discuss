@@ -6,7 +6,6 @@
                 :search/results []
                 :layout/add? false
                 :layout/error nil
-                :layout/error? false  ;; for legacy support
                 :layout/loading? false
                 :layout/sidebar? false
                 :layout/title "discuss"

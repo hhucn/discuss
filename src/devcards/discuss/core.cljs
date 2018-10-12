@@ -7,7 +7,9 @@
             [devcards.discuss.add-content]
             [devcards.discuss.components.search]
             [devcards.discuss.components.references]
-            [devcards.discuss.components.avatar]))
+            [devcards.discuss.components.avatar]
+            [devcards.discuss.views.login]
+            [devcards.discuss.views.alerts]))
 
 (enable-console-print!)
 
