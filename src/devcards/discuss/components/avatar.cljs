@@ -1,5 +1,5 @@
 (ns devcards.discuss.components.avatar
-  (:require [devcards.core :as dc :refer-macros [defcard defcard-om-next]]
+  (:require [devcards.core :as dc :refer-macros [defcard-om-next]]
             [discuss.parser :as parser]
             [discuss.components.avatar :as avatar]
             [om.next :as om]

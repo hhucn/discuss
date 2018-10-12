@@ -20,7 +20,7 @@
 (defn- wrong-login
   "Callback function for invalid credentials."
   [_]
-  (lib/error-msg! (t :errors :login))
+  (lib/error! (t :errors :login))
   (lib/loading? false))
 
 (defn ajax-login

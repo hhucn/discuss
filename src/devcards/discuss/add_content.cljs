@@ -3,8 +3,7 @@
             [discuss.parser :as parser]
             [discuss.views :as views]
             [devcards.discuss.utils :as dutils]
-            [discuss.views.add :as vadd]
-            [discuss.utils.common :as lib]))
+            [discuss.views.add :as vadd]))
 
 (defcard shortcuts
   dutils/shortcuts)
@@ -26,6 +25,3 @@
 (defcard-om-next add-new-position
   vadd/PositionForm
   parser/reconciler)
-
-
-(lib/get-last-api)
