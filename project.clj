@@ -13,7 +13,7 @@
                  [org.clojure/core.async "0.4.474" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
                  [org.clojure/tools.reader "1.3.0"]
-                 [org.omcljs/om "1.0.0-beta3"]
+                 [org.omcljs/om "1.0.0-beta4"]
                  [com.cognitect/transit-cljs "0.8.256"]
                  [com.velisco/strgen "0.1.7"]
                  [cljs-ajax "0.7.4"]
