@@ -1,6 +1,6 @@
 (ns discuss.views
   (:require [om.next :as om :refer-macros [defui]]
-            [sablono.core :as html :refer-macros [html]]
+            [sablono.core :refer-macros [html]]
             [discuss.components.bubbles :as bubbles]
             [discuss.components.clipboard :as clipboard]
             [discuss.components.items :as items]
@@ -8,44 +8,14 @@
             [discuss.components.options :as options]
             [discuss.components.search.statements :as search]
             [discuss.components.avatar :as avatar]
-            [discuss.communication.auth :as auth]
             [discuss.communication.lib :as comlib]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
             [discuss.views.add :as vadd]
-            [discuss.parser :as parser]
-            [discuss.views.alerts :as valerts]))
-
-(defui LoginForm
-  "Form with nickname and password input."
-  Object
-  (render [this]
-          (let [st (om/get-state this)
-                nickname (or (:nickname st) "")
-                password (or (:password st) "")]
-            (html [:div (vlib/view-header (t :common :login))
-                   (valerts/error-alert st)
-                   [:p.text-center (t :login :hhu-ldap)]
-                   [:div.input-group
-                    [:span.input-group-addon (vlib/fa-icon "fa-user fa-fw")]
-                    [:input.form-control {:onChange #(om/update-state! this assoc :nickname (.. % -target -value))
-                                          :value nickname
-                                          :placeholder (t :login :nickname)}]]
-                   [:div.input-group
-                    [:span.input-group-addon (vlib/fa-icon "fa-key fa-fw")]
-                    [:input.form-control {:onChange #(om/update-state! this assoc :password (.. % -target -value))
-                                          :value password
-                                          :type :password
-                                          :placeholder (t :login :password)}]]
-                   [:button.btn.btn-default {:onClick #(auth/login nickname password)
-                                             :disabled (or (empty? nickname)
-                                                           (empty? password))}
-                    (t :common :login)]]))))
-(def login-form (om/factory LoginForm))
-
-;; ----------
+            [discuss.views.login :as vlogin]
+            [discuss.parser :as parser]))
 
 (defn- close-button-next
   "Close current panel and switch view."
@@ -82,7 +52,8 @@
 (defui ViewDispatcher
   static om/IQuery
   (query [this]
-         `[:layout/view :layout/lang
+         `[:layout/view :layout/lang :layout/error
+           {:layout/views ~(om/get-query vlogin/LoginForm)}
            {:discussion/items ~(om/get-query DiscussionElements)}
            {:discussion/bubbles ~(om/get-query DiscussionElements)}])
   Object
@@ -91,7 +62,7 @@
             (html [:div.panel.panel-default
                    [:div.panel-body
                     (case view
-                      :login (login-form)
+                      :login (vlogin/login-form (om/props this))
                       :options (options/options (om/props this))
                       ;; TODO: :reference-usages (om/build ref/usages-view data)
                       ;; TODO: :reference-create-with-ref (om/build ref/create-with-reference-view data)
@@ -105,8 +76,9 @@
 (defui MainView
   static om/IQuery
   (query [this]
-         `[:issue/info :layout/add? :discussion/add-step :layout/view :layout/title :layout/lang
-           :user/avatar :user/nickname :user/logged-in?
+         `[:issue/info :layout/add? :discussion/add-step :layout/view
+           :layout/title :layout/lang :layout/error :user/avatar
+           :user/nickname :user/logged-in? :selection/current :layout/error
            {:discussion/items ~(om/get-query ViewDispatcher)}
            {:discussion/bubbles ~(om/get-query ViewDispatcher)}
            {:discussion/bubbles ~(om/get-query vadd/StatementForm)}
