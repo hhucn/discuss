@@ -6,11 +6,7 @@
             [om.next :as om]
             [discuss.components.search.statements :as search]))
 
-(defcard-om-next main-view
-  views/MainView
-  parser/reconciler)
-
-(def two-search-results
+(def ^:private two-search-results
   [{:position? true
     :text "we should shut down University Park"
     :uid 37
@@ -32,7 +28,19 @@
     :author {:nickname "Not available"
              :uid 0}}])
 
-(defcard-om-next search-results-view
+(defcard-om-next main-view
+  views/MainView
+  parser/reconciler)
+
+(defcard-om-next search-results-view-hardcoded-values
   search/Results
   (om/reconciler {:state {:search/results two-search-results}
                   :parser (om/parser {:read parser/read})}))
+
+(defcard-om-next search-form
+  search/SearchQuery
+  parser/reconciler)
+
+(defcard-om-next search-results-dynamic
+  search/Results
+  parser/reconciler)

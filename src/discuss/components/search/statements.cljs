@@ -1,14 +1,14 @@
 (ns discuss.components.search.statements
   (:require [sablono.core :as html :refer-macros [html]]
+            [cljs.core.async :refer [put! chan <!]]
             [om.next :as om :refer-macros [defui]]
-            [clojure.walk :refer [keywordize-keys]]
             [cljs.spec.alpha :as s]
             [ajax.core :refer [GET]]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.views :as vlib]
             [discuss.parser :as parser]
             [discuss.utils.common :as lib]
-            [discuss.config :as config]))
+            [discuss.communication.lib :as comlib]))
 
 (s/def ::isPosition boolean?)
 (s/def ::content string?)
@@ -41,6 +41,7 @@
 
 (s/def ::search-result-converted
   (s/keys :req-un [::position? ::text ::uid ::issue ::author]))
+
 
 ;; -----------------------------------------------------------------------------
 
@@ -76,16 +77,15 @@
   "Handler which is called with the results from ElasticSearch. Extract statements
   from response and write it to the app-state."
   [response]
-  (let [results (-> response keywordize-keys :hits :hits)
-        data (mapv :_source results)
-        statements (filter (partial s/valid? ::search-result-from-api) data)
-        converted-stmts (map transform-search-result statements)]
-    (set-search-results! converted-stmts)))
+  (-> response
+      lib/json->clj
+      :results
+      set-search-results!))
 
 (defn search
   "Make a GET request and search in ElasticSearch for the requested data."
   [query]
-  (GET (str config/remote-search "_search")
+  (GET (comlib/make-url "/search")
        {:handler handle-search-results
         :params {:q (str query "*")}}))
 

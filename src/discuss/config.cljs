@@ -3,7 +3,6 @@
 
 (goog-define version "0.2.1")
 (goog-define remote-host "http://localhost:4284/api")
-(goog-define remote-search "http://localhost:9200/")
 
 (def project "discuss")
 
