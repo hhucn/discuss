@@ -10,7 +10,7 @@
   (html [:div
          [:button.btn.btn-primary {:onClick #(lib/error! "Razupaltuff")} "Add \"Razupaltuff\""]
          " "
-         [:button.btn.btn-primary {:onClick #(lib/error! nil)} "Remove error"]]))
+         [:button.btn.btn-primary {:onClick #(lib/error!)} "Remove error"]]))
 
 (defcard-om-next error-view-global-app-state
   valerts/ErrorAlert

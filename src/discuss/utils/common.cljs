@@ -173,13 +173,10 @@
 
 (defn error!
   "Set error message."
-  [msg]
-  (store-to-app-state! 'layout/error msg))
-
-(defn no-error!
-  "Macro to remove all error warnings."
-  []
-  (error! nil))
+  ([msg]
+   (store-to-app-state! 'layout/error msg))
+  ([]
+   (error! nil)))
 
 (defn get-error
   "Return error message."
@@ -263,9 +260,8 @@
     (loading? false)
     (if (pos? (count error))
       (error! error)
-      (do (no-error!)
+      (do (error! nil)
           res))))
-
 
 ;;;; Selections
 (defn get-selection

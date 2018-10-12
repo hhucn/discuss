@@ -13,9 +13,8 @@
             (html
              [:div {:id (lib/prefix-name "error-alert")}
               (when (seq error)
-                [:div.alert.alert-info.alert-dismissable {:role "alert"}
-                 [:button.close {:data-dismiss "alert"
-                                 :aria-label "Close"}
+                [:div.alert.alert-info {:role "alert"}
+                 [:button.close
                   [:span {:onClick #(lib/error! nil)
                           :aria-hidden "true"}
                    (vlib/safe-html "&times;")]]
