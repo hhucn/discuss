@@ -14,34 +14,6 @@
   [name]
   (str config/project "-" name))
 
-(defonce app-state
-         (atom {:discussion {}
-                :issues     {}
-                :items      {}
-                :search     {:results []}
-                :layout     {:title         "discuss"
-                             :template      :discussion
-                             :next-template :discussion
-                             :add?          false
-                             :add-type      nil
-                             :loading?      false
-                             :error?        false
-                             :error-msg     nil
-                             :language      :en}
-                :user       {:nickname   "kangaroo"
-                             :token      "razupaltuff"
-                             :avatar     ""
-                             :csrf       nil
-                             :statement  ""
-                             :selection  nil
-                             :logged-in? false}
-                :references {:selected nil
-                             :highlighted #{}}
-                :clipboard  {:selections nil
-                             :current    nil}
-                :sidebar    {:show? true}
-                :common     {:last-api ""}}))
-
 (s/def ::fn-and-val (s/tuple symbol? any?))
 (s/def ::col-of-fn-and-vals (s/coll-of ::fn-and-val))
 
@@ -172,11 +144,6 @@
     (number? issue) (first (filter #(= (str->int (:uid %)) issue) (get-issues)))
     (string? issue) (first (filter #(= (:title %) issue) (get-issues)))))
 
-(defn get-add-premise-text
-  "Return text for adding new premise."
-  []
-  (get-in @app-state [:discussion :add_premise_text]))
-
 
 ;;;; Booleans
 (defn logged-in?
@@ -200,23 +167,19 @@
 
 ;; Show error messages
 (defn error?
-  "Return boolean indicating if there are errors or not. Provide a boolean to
-  change the app-state."
-  ([] (load-from-app-state :layout/error?))
-  ([bool] (store-to-app-state! 'layout/error? bool)))
+  "Return boolean indicating if there are errors or not."
+  []
+  (not (empty? (load-from-app-state :layout/error))))
 
-(defn error-msg!
+(defn error!
   "Set error message."
   [msg]
-  (when (pos? (count msg))
-    (error? true))
   (store-to-app-state! 'layout/error msg))
 
 (defn no-error!
   "Macro to remove all error warnings."
   []
-  (error? false)
-  (error-msg! nil))
+  (error! nil))
 
 (defn get-error
   "Return error message."
@@ -299,7 +262,7 @@
         error (:error res)]
     (loading? false)
     (if (pos? (count error))
-      (error-msg! error)
+      (error! error)
       (do (no-error!)
           res))))
 

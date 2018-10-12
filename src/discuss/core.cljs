@@ -20,7 +20,7 @@
 (main)
 
 ;; Register
-(defn register-view
+#_(defn register-view
   "Register view in the current DOM."
   [[div-name view]]
   (when-let [div (gdom/getElement (lib/prefix-name div-name))]

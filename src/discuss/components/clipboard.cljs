@@ -2,24 +2,28 @@
   (:require [om.next :as om :refer-macros [defui]]
             [sablono.core :as html :refer-macros [html]]
             [discuss.translations :refer [translate] :rename {translate t}]
-            [discuss.utils.common :as lib]))
+            [discuss.utils.common :as lib]
+            [discuss.utils.logging :as log]))
 
 (defn get-stored-selections
   "Return all stored selections."
   []
-  (let [selections (get-in @lib/app-state [:clipboard :selections])]
+  (log/info "Deprecated call to get-stored-selections")
+  #_(let [selections (get-in @lib/app-state [:clipboard :selections])]
     (or selections [])))
 
 (defn remove-item!
   "Removes clicked selection."
   [title]
-  (let [rcol (remove #(= (:title %) title) (get-stored-selections))]
-    #_(lib/update-state-item! :clipboard :selections (fn [] rcol))))
+  (log/info "Deprecated call to remove-item!")
+  #_(let [rcol (remove #(= (:title %) title) (get-stored-selections))]
+    (lib/update-state-item! :clipboard :selections (fn [] rcol))))
 
 (defn add-item!
   "Store current selection in clipboard."
   ([current]
-   (let [selections (get-stored-selections)
+   (log/info "Deprecated call to add-item!")
+   #_(let [selections (get-stored-selections)
          current current
          with-current (distinct (merge selections {:title current}))]
      #_(lib/update-state-item! :clipboard :selections (fn [_] with-current))))
@@ -32,8 +36,9 @@
 (defn update-reference-drop
   "Use text from clipboard item as reference for own statement."
   [_ev]
-  (let [clipboard-item (get-in @lib/app-state [:clipboard :current])]
-    #_(lib/update-state-item! :user :selection (fn [_] (.. clipboard-item -innerText)))))
+  (log/info "Deprecated call to update-reference-drop")
+  #_(let [clipboard-item (get-in @lib/app-state [:clipboard :current])]
+    (lib/update-state-item! :user :selection (fn [_] (.. clipboard-item -innerText)))))
 
 (defn allow-drop [ev]
   (.preventDefault ev))
