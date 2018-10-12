@@ -6,24 +6,13 @@
             [discuss.components.options :as options]
             [discuss.components.navigation :as nav]
             [discuss.components.clipboard :as clipboard]
-            [om.next :as om]
-            [discuss.components.items :as items]
-            [discuss.views.alerts :as valerts]))
+            [discuss.components.items :as items]))
 
 (defcard close-button-next
   views/close-button-next)
 
 (defcard control-elements-next
   views/control-elements-next)
-
-(defcard-om-next error-view
-  valerts/ErrorAlert
-  (om/reconciler {:state {:layout/error "I am an error message"}
-                  :parser (om/parser {:read parser/read})}))
-
-(defcard-om-next login-form
-  views/LoginForm
-  parser/reconciler)
 
 (defcard-om-next option-view
   options/Options
