@@ -1,72 +1,58 @@
 (ns discuss.components.search.statements
   (:require [sablono.core :as html :refer-macros [html]]
-            [cljs.core.async :refer [put! chan <!]]
+            [cljs.core.async :refer [go chan alts! >! <!]]
+            [clojure.set :refer [rename-keys]]
             [om.next :as om :refer-macros [defui]]
             [cljs.spec.alpha :as s]
             [ajax.core :refer [GET]]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.views :as vlib]
-            [discuss.parser :as parser]
             [discuss.utils.common :as lib]
-            [discuss.communication.lib :as comlib]))
+            [discuss.communication.lib :as comlib]
+            [discuss.utils.logging :as log]
+            [discuss.parser :as parser]))
 
-(s/def ::isPosition boolean?)
-(s/def ::content string?)
-(s/def ::statementUid pos-int?)
-(s/def ::textversions (s/keys :req-un [::content ::statementUid]))
-
-(s/def ::uid (s/or :string string? :int nat-int?))  ;; remove String when new API is released
-(s/def ::langUid string?)
-(s/def ::issues (s/keys :req-un [::uid ::langUid]))
-
-(s/def ::search-result-from-api
-  (s/keys :req-un [::isPosition ::textversions ::issues]))
-
-;; -----------------------------------------------------------------------------
-;; New API specification
-
-(s/def ::position? boolean?)
+(s/def ::uid integer?)
 (s/def ::text string?)
+(s/def ::nickname string?)
+(s/def ::author (s/keys :req-un [::uid ::nickname]))
 
 (s/def ::slug string?)
 (s/def ::lang string?)
 (s/def ::title string?)
 (s/def ::info string?)
-(s/def ::issue
-  (s/keys :req-un [::uid ::slug ::lang ::title ::info]))
+(s/def ::issue (s/keys :req-un [::uid ::slug ::lang ::title ::info]))
 
-(s/def ::nickname string?)
-(s/def ::author
-  (s/keys :req-un [::nickname ::uid]))
+(s/def ::position? boolean?)
 
-(s/def ::search-result-converted
-  (s/keys :req-un [::position? ::text ::uid ::issue ::author]))
+(s/def ::search-result
+  (s/keys :req-un [::uid ::text ::author ::issue ::position?]))
+
+(s/def ::search-results
+  (s/coll-of ::search-result))
 
 
 ;; -----------------------------------------------------------------------------
 
-(defn- transform-search-result
-  "Transform results from dbas-search to our data structures."
-  [{:keys [isPosition textversions issues]}]
-  {:position? isPosition
-   :text (:content textversions)
-   :uid (:statementUid textversions)
-   :issue {:uid (:uid issues)
-           :slug "Not available"
-           :lang (:langUid issues)
-           :title "Not available"
-           :info "Not available"}
-   :author {:nickname "Not available"
-            :uid 0}})
+(defonce search-channel (chan))
 
-(s/fdef transform-search-result
-  :args (s/cat :search-result ::search-result-from-api)
-  :ret ::search-result-converted)
+(defn- valid-statement?
+  "Check whether the results from the API are correct and log them if not."
+  [statement]
+  (if (s/valid? ::search-result statement)
+    statement
+    (log/debug "Received invalid statement: " statement)))
+(s/fdef valid-statement?
+  :args (s/cat :statement ::search-result?))
 
-(defn set-search-results!
+(defn- set-search-results!
   "Store the search results into the app-state."
   [statements]
-  (om/transact! parser/reconciler `[(search/results {:value ~statements})]))
+  (let [rename-position (map #(rename-keys % {:isPosition :position?}))
+        validate-statements (map valid-statement?)
+        xform-statements (comp rename-position validate-statements)
+        validated-statements (transduce xform-statements conj statements)]
+    (om/transact! parser/reconciler `[(search/results {:value ~validated-statements})])))
 
 (defn remove-search-results!
   "Reset the search results."
@@ -82,13 +68,33 @@
       :results
       set-search-results!))
 
-(defn search
+(defn- query->server
   "Make a GET request and search in ElasticSearch for the requested data."
   [query]
   (GET (comlib/make-url "/search")
        {:handler handle-search-results
         :params {:q (str query "*")}}))
+(s/fdef query->server
+  :args (s/cat :query string?))
 
+(defn- search-async
+  "Infinite loop waiting for search queries."
+  []
+  (go (while true
+        (query->server (<! search-channel)))))
+
+(defn search
+  "Take input and put it on the search channel."
+  [query]
+  (go (>! search-channel query)))
+(s/fdef search
+  :args (s/cat :query string?))
+
+(defn entrypoint
+  "Entrypoint to start the search module."
+  []
+  (search-async))
+(entrypoint)
 
 ;; -----------------------------------------------------------------------------
 
