@@ -169,7 +169,7 @@
 (defn error?
   "Return boolean indicating if there are errors or not."
   []
-  (not (empty? (load-from-app-state :layout/error))))
+  (seq (load-from-app-state :layout/error)))
 
 (defn error!
   "Set error message."
@@ -236,7 +236,7 @@
   "Keep last-api call. Useful to login and then re-request the url to jump to the
   same position in the discussion, but this time as a logged in user."
   [url]
-  (when-not (empty? url)
+  (when (seq url)
     (store-to-app-state! 'api/last-call url)))
 
 (defn get-last-api
