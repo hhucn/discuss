@@ -16,6 +16,7 @@
                  [org.omcljs/om "1.0.0-beta4"]
                  [com.cognitect/transit-cljs "0.8.256"]
                  [com.velisco/strgen "0.1.7"]
+                 [spec-provider "0.4.14"]
                  [cljs-ajax "0.7.4"]
                  [lein-doo "0.1.10"]  ;; <-- otherwise it won't find the doo namespaces...
                  [devcards "0.2.6"]
