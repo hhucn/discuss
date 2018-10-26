@@ -1,4 +1,4 @@
-(defproject discuss "0.3.891"
+(defproject discuss "0.4.0"
   :description "Embedding dialog-based discussions into arbitrary web-contexts"
   :url "https://discuss.cs.uni-duesseldorf.de"
   :license {:name "MIT"
@@ -93,7 +93,7 @@
                                :main           discuss.core
                                :preloads       [discuss.utils.extensions]
                                :optimizations  :simple
-                               ;; :closure-defines {discuss.config/remote-host ~(or (System/getenv "REMOTE_HOST") "localhost:4284/")}
+                               :closure-defines {discuss.config/remote-host ~(or (System/getenv "REMOTE_HOST") "https://dbas.cs.uni-duesseldorf.de/api")}
                                :parallel-build true
                                :compiler-stats true
                                :pretty-print   false}}]}
