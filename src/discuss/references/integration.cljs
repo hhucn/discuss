@@ -23,9 +23,9 @@
   it, this function will return it."
   [doms ref]
   (last
-    (filter
-      identity
-      (map #(when (lib/substring? ref (lib/trim-and-normalize (.-innerHTML %))) %) doms))))
+   (filter
+    identity
+    (map #(when (lib/substring? ref (lib/trim-and-normalize (.-innerHTML %))) %) doms))))
 
 
 ;;; Integrate references and highlight them in the article
@@ -60,12 +60,12 @@
     (doall (map convert-reference refs))))
 
 (defn- references-handler
-    "Called when received a response on the reference-query."
-    [response]
-    (let [res (lib/process-response response)
-          refs (:references res)]
-      (lib/store-to-app-state! 'references/all refs)
-      (process-references refs)))
+  "Called when received a response on the reference-query."
+  [response]
+  (let [res (lib/process-response response)
+        refs (:references res)]
+    (lib/store-to-app-state! 'references/all refs)
+    (process-references refs)))
 
 (defn request-references
   "When this app is loaded, request all available references from the external discussion system."
