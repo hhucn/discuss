@@ -3,7 +3,7 @@
   (:require [cljs.core.async :refer [put! chan <!]]
             [goog.dom :as gdom]
             [goog.events :as events]
-            [om.next :as nom :refer-macros [defui]]
+            [om.next :as om :refer-macros [defui]]
             [sablono.core :as html :refer-macros [html]]
             [discuss.components.clipboard :as clipboard]
             [discuss.translations :refer [translate]]
@@ -102,3 +102,4 @@
                  [:span.pointer {:onClick (fn [] (sidebar/show) (hide))}
                   (vlib/fa-icon "fa-comment")
                   (translate :common :show-discuss :space)]])))
+(def tooltip (om/factory Tooltip))
