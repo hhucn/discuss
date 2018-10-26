@@ -19,7 +19,7 @@
                 :user/token "razupaltuff"
                 :user/logged-in? false
                 :user/avatar "img/profile.jpg"
-                :selection/current "This is a selected text passage"
+                :selection/current ""
                 :discussion/add-step :add/position
                 :discussion/items [{:htmls ["the city should reduce the number of street festivals"],
                                     :texts ["the city should reduce the number of street festivals"],
@@ -42,8 +42,7 @@
                                       :html "What is your most important reason why <span data-argumentation-type=\"position\">we should shut down University Park</span> <span class='text-success'>holds</span>? <br>Because..."
                                       :text "What is your most important reason why we should shut down University Park holds? Because..."
                                       :url nil}]
-                :clipboard/items [{:title "This is an item from the clipboard"}
-                                  {:title "And yet another item"}]})
+                :clipboard/items []})
 
 ;; -----------------------------------------------------------------------------
 ;; Parsing
