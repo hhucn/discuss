@@ -8,6 +8,7 @@
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.views :as vlib]
             [discuss.utils.common :as lib]
+            [discuss.config :as config]
             [discuss.communication.lib :as comlib]
             [discuss.utils.logging :as log]
             [discuss.parser :as parser]))
@@ -15,7 +16,8 @@
 (s/def ::uid integer?)
 (s/def ::text string?)
 (s/def ::nickname string?)
-(s/def ::author (s/keys :req-un [::uid ::nickname]))
+(s/def ::author (s/keys :req-un [::nickname]
+                        :opt-un [::uid]))
 
 (s/def ::slug string?)
 (s/def ::lang string?)
@@ -25,8 +27,16 @@
 
 (s/def ::position? boolean?)
 
+(s/def ::aggregate-id string?)
+(s/def ::entity-id number?)
+(s/def ::version pos-int?)
+
+(s/def ::identifier
+  (s/keys :req-un [::aggregate-id ::entity-id ::version]))
+
 (s/def ::search-result
-  (s/keys :req-un [::uid ::text ::author ::issue ::position?]))
+  (s/keys :req-un [::text ::author]
+          :opt-un [::uid ::issue ::position? ::identifier]))
 
 (s/def ::search-results
   (s/coll-of ::search-result))
@@ -59,21 +69,48 @@
   []
   (set-search-results! []))
 
-(defn- handle-search-results
+(defn- handle-dbas-search-results
   "Handler which is called with the results from ElasticSearch. Extract statements
   from response and write it to the app-state."
   [response]
-  (-> response
-      lib/json->clj
-      :results
-      set-search-results!))
+  (-> response lib/json->clj :results set-search-results!))
+
+(defn- convert-single-eden-statement
+  "Getting results from EDEN, convert one statement to match local specs."
+  [statement]
+  (let [identifier (:identifier statement)
+        content (:content statement)]
+    {:text (:content-string content)
+     :author {:nickname (:author content)}
+     :identifier {:aggregate-id (:aggregate-id identifier)
+                  :entity-id (int (:entity-id identifier))
+                  :version (:version identifier)}}))
+
+(defn- set-eden-search-results!
+  "Convert data from EDEN aggregators to match the local data structure."
+  [statements]
+  (let [conform-statements (map convert-single-eden-statement)
+        validate-statements (map valid-statement?)
+        xform-statements (comp conform-statements validate-statements)
+        validated-statements (transduce xform-statements conj statements)]
+    (om/transact! parser/reconciler `[(search/results {:value ~validated-statements})])))
+
+(defn- handle-eden-search-results
+  "Handler which is called with the results from ElasticSearch. Extract statements
+  from response and write it to the app-state."
+  [response]
+  (-> response lib/json->clj :statements set-eden-search-results!))
 
 (defn- query->server
   "Make a GET request and search in ElasticSearch for the requested data."
   [query]
-  (GET (comlib/make-url "/search")
-       {:handler handle-search-results
-        :params {:q (str query "*")}}))
+  (if config/search-host
+    (GET (str config/search-host "/statements/contain")
+         {:handler handle-eden-search-results
+          :params {:search-string query}})
+    (GET (comlib/make-url "/search")
+         {:handler handle-dbas-search-results
+          :params {:q (str query "*")}})))
 (s/fdef query->server
   :args (s/cat :query string?))
 
