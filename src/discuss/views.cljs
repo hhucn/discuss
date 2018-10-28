@@ -15,7 +15,9 @@
             [discuss.utils.views :as vlib]
             [discuss.views.add :as vadd]
             [discuss.views.login :as vlogin]
-            [discuss.parser :as parser]))
+            [discuss.parser :as parser]
+            [discuss.components.tooltip :as tooltip]
+            [discuss.components.sidebar :as sidebar]))
 
 (defn- close-button-next
   "Close current panel and switch view."
@@ -87,6 +89,7 @@
   Object
   (render [this]
           (let [{:keys [issue/info layout/add? layout/title discussion/add-step]} (om/props this)]
+            (tooltip/track-user-selection)
             (html
              [:div#discuss-dialog-main
               (avatar/avatar (om/props this))

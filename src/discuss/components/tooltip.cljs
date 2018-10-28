@@ -81,16 +81,20 @@
           (lib/store-to-app-state! 'selection/current selection))
       (hide))))
 
+(defn track-user-selection
+  "Listen to clicks on the websites' text to store it in the app-state."
+  []
+  (let [clicks (listen (gdom/getElement "discuss-text") "click")]
+    (go (while true
+          (<! clicks)
+          (save-selected-text)))))
 
 ;;;; Creating the view
 (defui Tooltip
   Object
   (componentDidMount
    [this]
-   (let [clicks (listen (gdom/getElement "discuss-text") "click")]
-     (go (while true
-           (<! clicks)
-           (save-selected-text)))))
+   (track-user-selection))
   (render [this]
           (html [:div#discuss-tooltip
                  (vlib/logo)
