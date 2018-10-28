@@ -62,6 +62,7 @@
         validate-statements (map valid-statement?)
         xform-statements (comp rename-position validate-statements)
         validated-statements (transduce xform-statements conj statements)]
+    (log/debug "Received" (count validated-statements) "search results from D-BAS instance")
     (om/transact! parser/reconciler `[(search/results {:value ~validated-statements})])))
 
 (defn remove-search-results!
@@ -93,6 +94,7 @@
         validate-statements (map valid-statement?)
         xform-statements (comp conform-statements validate-statements)
         validated-statements (transduce xform-statements conj statements)]
+    (log/debug "Received" (count validated-statements) "search results from EDEN instance")
     (om/transact! parser/reconciler `[(search/results {:value ~validated-statements})])))
 
 (defn- handle-eden-search-results
@@ -134,7 +136,7 @@
 (entrypoint)
 
 ;; -----------------------------------------------------------------------------
-
+@(om/app-state parser/reconciler)
 (defui Result
   Object
   (render [this]
