@@ -14,16 +14,8 @@
   [response]
   (search/remove-search-results!)
   (lib/hide-add-form!)
-  (rint/request-references)
+  #_(rint/request-references)
   (comlib/process-and-set-items-and-bubbles response))
-
-;;;; Discussion-related functions
-(defn get-conclusion-id
-  "Returns statement id to which the newly added statement is referred to.
-   Currently this is stored in the data_statement_uid of the first bubble."
-  []
-  (let [bubble (first (lib/get-bubbles))]
-    (:data_statement_uid bubble)))
 
 
 ;;;; POST functions
@@ -45,27 +37,40 @@
   ([url body]
    (post-json url body process-url-handler {"Content-Type" "application/json"})))
 
+(defn- build-origin-body
+  "Transform search results so that D-BAS can handle it."
+  [search-result]
+  (when-not (nil? search-result)
+    (let [identifier (:identifier search-result)]
+      {:entity-id (:entity-id identifier)
+       :aggregate-id (:aggregate-id identifier)
+       :author (get-in search-result [:author :nickname])
+       :version (:version identifier)})))
+
 (defn post-statement
-  "Takes statement and an optional reference to post it to the backend."
-  [statement reference]
+  "Takes statement, an optional reference and maybe a search-result from EDEN to
+  post it to the backend."
+  [{:keys [statement reference search/selected]}]
   (if (seq (lib/get-last-api))
     (let [url (lib/get-last-api)
           headers (merge {"Content-Type" "application/json"} (comlib/token-header))
-          body {:reason statement
-                :reference reference}]
+          body {:reason (if (nil? selected) statement (:text selected))
+                :reference reference
+                :origin (build-origin-body selected)}]
       (post-json url body process-url-handler headers))
     (log/error ":api/last-call is empty, cannot post statement to empty URL.")))
 
 (defn post-position
   "Add new position, its reason and an optional reference to post it to the
   backend."
-  [position reason reference]
+  [{:keys [position reason reference search/selected]}]
   (if (seq (lib/get-last-api))
     (let [url (lib/get-last-api)
           headers (merge {"Content-Type" "application/json"} (comlib/token-header))
           body {:position position
-                :reason reason
-                :reference reference}]
+                :reason (if (nil? selected) reason (:text selected))
+                :reference reference
+                :origin (build-origin-body selected)}]
       (post-json url body process-url-handler headers))
     (log/error ":api/last-call is empty, cannot post statement to empty URL.")))
 
@@ -74,5 +79,5 @@
 (defn init-with-references!
   "Load discussion and initially get reference to include them in the discussion."
   []
-  (rint/request-references)
+  #_(rint/request-references)
   (comlib/init!))

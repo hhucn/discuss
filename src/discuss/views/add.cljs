@@ -9,15 +9,18 @@
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
             [discuss.views.alerts :as valerts]
-            [discuss.components.bubbles :as bubbles]))
+            [discuss.components.bubbles :as bubbles]
+            [discuss.components.search.statements :as search]))
 
 (defn- remaining-characters
   "Show remaining characters needed to submit a post."
-  [statement]
-  (let [remaining (- 10 (count statement))]
-    (if (pos? remaining)
-      (str remaining " " (t :common :chars-remaining))
-      (t :discussion :submit))))
+  [statement selected-search-results]
+  (if (nil? selected-search-results)
+    (let [remaining (- 10 (count statement))]
+      (if (pos? remaining)
+        (str remaining " " (t :common :chars-remaining))
+        (t :discussion :submit)))
+    (t :discussion :submit)))
 
 (defn- remove-selection-then-reference!
   "Remove selection on first click, then the reference if available."
@@ -51,28 +54,38 @@
 (defn- input-group
   "Construct input group with placeholder in the left side and input on the right
   side. Stores user-input in the calling object."
-  [this field input-group-text form-placeholder]
+  [this field input-group-text form-placeholder with-search? selected-search-result]
   (let [field-value (or (get (om/get-state this) field) "")]
     [:div.input-group
      [:span.input-group-addon.input-group-addon-left
       (str "... " input-group-text)]
-     [:input.form-control
-      {:onChange (fn [e]
-                   (let [form-value (.. e -target -value)]
-                     #_(search/search form-value)  ;; TODO implement search
-                     (om/update-state! this assoc field form-value)))
-       :value field-value
-       :placeholder form-placeholder}]]))
+     (if (nil? selected-search-result)
+       [:input.form-control
+        {:onChange (fn [e]
+                     (let [form-value (.. e -target -value)]
+                       (when with-search?
+                         (search/search form-value))
+                       (om/update-state! this assoc field form-value)))
+         :value (or field-value "")
+         :placeholder form-placeholder}]
+       [[:input.form-control
+         {:style {:backgroundColor "rgb(250,250,250)"}
+          :value (or (:text selected-search-result) "")
+          :disabled true}]
+        [:span.input-group-addon.pointer {:onClick search/remove-selected-search-result!}
+         (vlib/fa-icon "fa-times")]])]))
 
 (defui StatementForm
   "Form to add a new statement to the discussion."
   static om/IQuery
   (query [this]
-         `[:selection/current
+         `[:selection/current :search/selected
            {:discussion/bubbles ~(om/get-query bubbles/BubblesView)}])
   Object
   (render [this]
-          (let [{current-selection :selection/current bubbles :discussion/bubbles} (om/props this)
+          (let [{current-selection :selection/current
+                 bubbles :discussion/bubbles
+                 selected-search :search/selected} (om/props this)
                 statement (or (:statement (om/get-state this)) "")]
             (html
              [:div.panel.panel-default
@@ -81,21 +94,25 @@
               [:div.panel-body
                [:h5.text-center (:text (last bubbles))]
                (valerts/error-alert (om/props this))
-               (input-group this :statement (t :common :because) (t :discussion :add-reason-placeholder))
-               (show-selection)
+               (input-group this :statement (t :common :because) (t :discussion :add-reason-placeholder) true selected-search)
+               #_(show-selection)
                [:button.btn.btn-default
-                {:onClick #(com/post-statement statement current-selection)
-                 :disabled (> 10 (count statement))}
-                (remaining-characters statement)]]]))))
+                {:onClick #(com/post-statement {:statement statement
+                                                :reference current-selection
+                                                :search/selected selected-search})
+                 :disabled (when (nil? selected-search) (> 10 (count statement)))}
+                (remaining-characters statement selected-search)]]])))
+  (componentDidMount [this] (search/remove-all-search-related-results-and-selections)))
 (def statement-form (om/factory StatementForm))
 
 (defui PositionForm
   "Form to add a new position and a reason to the discussion."
   static om/IQuery
-  (query [this] [:selection/current])
+  (query [this] [:selection/current :search/selected])
   Object
   (render [this]
-          (let [{current-selection :selection/current} (om/props this)
+          (let [{current-selection :selection/current
+                 selected-search :search/selected} (om/props this)
                 position (or (:position (om/get-state this)) "")
                 reason (or (:reason (om/get-state this)) "")
                 smaller-input (first (sort-by count [position reason]))]
@@ -105,11 +122,15 @@
                    [:div.panel-body
                     [:h5.text-center (t :discussion :add-position-heading) "..."]
                     (valerts/error-alert (om/props this))
-                    (input-group this :position (t :common :that) (t :discussion :add-position-placeholder))
-                    (input-group this :reason (t :common :because) (t :discussion :add-reason-placeholder))
-                    (show-selection)
+                    (input-group this :position (t :common :that) (t :discussion :add-position-placeholder) false nil)
+                    (input-group this :reason (t :common :because) (t :discussion :add-reason-placeholder) true selected-search)
+                    #_(show-selection)
                     [:button.btn.btn-default
-                     {:onClick #(com/post-position position reason current-selection)
-                      :disabled (> 10 (count smaller-input))}
-                     (remaining-characters smaller-input)]]]))))
+                     {:onClick #(com/post-position {:position position
+                                                    :reason reason
+                                                    :reference current-selection
+                                                    :search/selected selected-search})
+                      :disabled (when (nil? selected-search) (> 10 (count smaller-input)))}
+                     (remaining-characters smaller-input selected-search)]]])))
+  (componentDidMount [this] (search/remove-all-search-related-results-and-selections)))
 (def position-form (om/factory PositionForm))

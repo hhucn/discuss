@@ -3,7 +3,7 @@
   (:require [cljs.core.async :refer [put! chan <!]]
             [goog.dom :as gdom]
             [goog.events :as events]
-            [om.next :as nom :refer-macros [defui]]
+            [om.next :as om :refer-macros [defui]]
             [sablono.core :as html :refer-macros [html]]
             [discuss.components.clipboard :as clipboard]
             [discuss.translations :refer [translate]]
@@ -81,16 +81,20 @@
           (lib/store-to-app-state! 'selection/current selection))
       (hide))))
 
+(defn track-user-selection
+  "Listen to clicks on the websites' text to store it in the app-state."
+  []
+  (let [clicks (listen (gdom/getElement "discuss-text") "click")]
+    (go (while true
+          (<! clicks)
+          (save-selected-text)))))
 
 ;;;; Creating the view
 (defui Tooltip
   Object
   (componentDidMount
    [this]
-   (let [clicks (listen (gdom/getElement "discuss-text") "click")]
-     (go (while true
-           (<! clicks)
-           (save-selected-text)))))
+   (track-user-selection))
   (render [this]
           (html [:div#discuss-tooltip
                  (vlib/logo)
@@ -102,3 +106,4 @@
                  [:span.pointer {:onClick (fn [] (sidebar/show) (hide))}
                   (vlib/fa-icon "fa-comment")
                   (translate :common :show-discuss :space)]])))
+(def tooltip (om/factory Tooltip))

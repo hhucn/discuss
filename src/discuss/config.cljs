@@ -4,6 +4,10 @@
 (goog-define version "0.2.1")
 (goog-define remote-host "http://localhost:4284/api")
 
+;; Optional
+(goog-define search-host "http://muenchhausen.cn.uni-duesseldorf.de:8888")
+
+
 (def project "discuss")
 
 (def log-level

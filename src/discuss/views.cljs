@@ -15,7 +15,9 @@
             [discuss.utils.views :as vlib]
             [discuss.views.add :as vadd]
             [discuss.views.login :as vlogin]
-            [discuss.parser :as parser]))
+            [discuss.parser :as parser]
+            [discuss.components.tooltip :as tooltip]
+            [discuss.components.sidebar :as sidebar]))
 
 (defn- close-button-next
   "Close current panel and switch view."
@@ -79,6 +81,7 @@
          `[:issue/info :layout/add? :discussion/add-step :layout/view
            :layout/title :layout/lang :layout/error :user/avatar
            :user/nickname :user/logged-in? :selection/current :layout/error
+           :search/results :search/selected
            {:discussion/items ~(om/get-query ViewDispatcher)}
            {:discussion/bubbles ~(om/get-query ViewDispatcher)}
            {:discussion/bubbles ~(om/get-query vadd/StatementForm)}
@@ -87,6 +90,7 @@
   Object
   (render [this]
           (let [{:keys [issue/info layout/add? layout/title discussion/add-step]} (om/props this)]
+            #_(tooltip/track-user-selection)
             (html
              [:div#discuss-dialog-main
               (avatar/avatar (om/props this))
