@@ -6,8 +6,9 @@
             [devcards.discuss.molecules]
             [devcards.discuss.add-content]
             [devcards.discuss.components.search]
-            [devcards.discuss.components.references]
             [devcards.discuss.components.avatar]
+            [devcards.discuss.components.references]
+            [devcards.discuss.components.options]
             [devcards.discuss.views.login]
             [devcards.discuss.views.alerts]))
 
