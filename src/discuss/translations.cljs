@@ -39,8 +39,14 @@
                      :item "Klicke hier, damit du dich einloggen und eine neue Aussage hinzufügen kannst"}
         :nav        {:home "Start"
                      :find "Suchen"}
-        :options    {:heading "Einstellungen"
-                     :lang "Interface-Sprache"}
+        :options    {:current "Aktuell"
+                     :default "Standard"
+                     :heading "Einstellungen"
+                     :lang "Interface-Sprache"
+                     :new-route "Neue Route"
+                     :reset "Zurücksetzen"
+                     :routes "Routen"
+                     :save "Speichere"}
         :references {:jump "Springe in die Diskussion"
                      :usages/view-heading "In welchen Aussagen wird dieser Textausschnitt verwendet?"
                      :usages/not-found-lead "Argument konnte nicht gefunden werden"
@@ -86,8 +92,14 @@
                      :item "Click here to authenticate and to be able to submit your own statements"}
         :nav        {:home "Home"
                      :find "Find"}
-        :options    {:heading "Options"
-                     :lang "Interface Language"}
+        :options    {:current "Current"
+                     :default "Default"
+                     :heading "Options"
+                     :lang "Interface Language"
+                     :new-route "Set new Route"
+                     :reset "Reset to Defaults"
+                     :routes "Routes"
+                     :save "Save"}
         :references {:jump "Jump into the discussion"
                      :usages/view-heading "In which statements has this reference been used?"
                      :usages/not-found-lead "No assigned arguments found"

@@ -336,6 +336,14 @@
   (let [element (.getElementById js/document (prefix-name id))]
     (when element (.-value element))))
 
+(defn remove-trailing-slash
+  "Remove trailing slash if it exists."
+  [s]
+  (if (= (last s) \/) (subs s 0 (dec (count s))) s))
+(s/fdef remove-trailing-slash
+  :args (s/cat :s string?)
+  :ret string?)
+
 (defn log
   "Print argument as JS object to be accessible from the console."
   [arg]
@@ -352,6 +360,44 @@
 (s/fdef filter-keys-by-namespace
   :args (s/cat :col coll? :namespace any?)
   :ret coll?)
+
+
+;; -----------------------------------------------------------------------------
+;; Configuration Settings
+
+(defn host-dbas!
+  "Set host to API of a dbas instance."
+  [host]
+  (store-to-app-state! 'host/dbas (remove-trailing-slash host)))
+(s/fdef host-dbas!
+  :args (s/cat :host string?))
+
+(defn host-dbas
+  "Return current address to dbas instance."
+  []
+  (load-from-app-state :host/dbas))
+
+(defn host-dbas-reset!
+  "Reset dbas host to defaults, defined in discuss.config."
+  []
+  (store-to-app-state! 'host/dbas config/remote-host))
+
+(defn host-eden!
+  "Set host to API of a eden instance."
+  [host]
+  (store-to-app-state! 'host/eden (remove-trailing-slash host)))
+(s/fdef host-eden!
+  :args (s/cat :host string?))
+
+(defn host-eden
+  "Return current address to eden instance."
+  []
+  (load-from-app-state :host/eden))
+
+(defn host-eden-reset!
+  "Reset eden host to defaults, defined in discuss.config."
+  []
+  (store-to-app-state! 'host/eden config/search-host))
 
 ;; -----------------------------------------------------------------------------
 ;; Specs

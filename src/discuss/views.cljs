@@ -81,7 +81,7 @@
          `[:issue/info :layout/add? :discussion/add-step :layout/view
            :layout/title :layout/lang :layout/error :user/avatar
            :user/nickname :user/logged-in? :selection/current :layout/error
-           :search/results :search/selected
+           :search/results :search/selected :host/dbas :host/eden
            {:discussion/items ~(om/get-query ViewDispatcher)}
            {:discussion/bubbles ~(om/get-query ViewDispatcher)}
            {:discussion/bubbles ~(om/get-query vadd/StatementForm)}
