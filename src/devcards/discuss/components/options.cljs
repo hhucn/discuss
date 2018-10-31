@@ -13,6 +13,10 @@
   options/HostEDEN
   parser/reconciler)
 
+(defcard-om-next connection-browser
+  options/ConnectionBrowser
+  parser/reconciler)
+
 (defcard-om-next options
   options/Options
   parser/reconciler)

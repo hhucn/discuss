@@ -1,6 +1,6 @@
 (ns discuss.components.navigation
   (:require [om.dom :as dom :include-macros true]
-            [om.next :as nom :refer-macros [defui]]
+            [om.next :as om :refer-macros [defui]]
             [sablono.core :as html :refer-macros [html]]
             [discuss.communication.lib :as comlib]
             [discuss.translations :refer [translate]]
@@ -52,6 +52,9 @@
 ;; om.next
 
 (defui Nav
+  static om/IQuery
+  (query [this]
+         `[:user/logged-in? :layout/lang])
   Object
   (render [this]
           (html [:div.text-muted.discuss-nav
@@ -59,4 +62,4 @@
                   (home) (find-arg) (options)]
                  [:div.col.col-md-6.col-sm-6.col-xs-6.text-right
                   (if (lib/logged-in?) (logout) (login))]])))
-(def nav (nom/factory Nav))
+(def nav (om/factory Nav))

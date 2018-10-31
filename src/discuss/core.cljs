@@ -2,7 +2,7 @@
   "Entrypoint to this application. Loads all requirements, and bootstraps the application."
   (:require [om.next :as om]
             [goog.dom :as gdom]
-            [discuss.communication.main :as com]
+            [discuss.communication.lib :as comlib]
             [discuss.components.sidebar :as sidebar]
             [discuss.components.bubbles]
             [discuss.components.tooltip]
@@ -19,7 +19,7 @@
 (defn ^:export main []
   (lib/log (str "Loaded " config/project " " config/version))
   (om/add-root! parser/reconciler views/MainView (gdom/getElement (lib/prefix-name "main")))
-  (com/init-with-references!))
+  (comlib/init!))
 (main)
 
 (defn on-js-reload []

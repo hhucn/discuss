@@ -4,8 +4,10 @@
             [sablono.core :as html :refer-macros [html]]
             [discuss.utils.bootstrap :as bs]
             [discuss.translations :as translations :refer [translate] :rename {translate t}]
+            [discuss.communication.auth :as auth]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
+            [discuss.communication.lib :as comlib]
             [discuss.config :as config]))
 
 (defn- language-button
@@ -46,7 +48,8 @@
 
 (defui HostDBAS
   static om/IQuery
-  (query [this] [:host/dbas :layout/lang])
+  (query [this]
+         `[:host/dbas :layout/lang])
   Object
   (render [this]
           (let [{:keys [host/dbas]} (om/props this)]
@@ -56,13 +59,51 @@
 
 (defui HostEDEN
   static om/IQuery
-  (query [this] [:host/eden :layout/lang])
+  (query [this]
+         `[:host/eden :layout/lang])
   Object
   (render [this]
           (let [{:keys [host/eden]} (om/props this)]
             (html
              (set-host-config this "EDEN Search" lib/host-eden config/search-host lib/host-eden! lib/host-eden-reset!)))))
 (def host-eden (om/factory HostEDEN))
+
+;; -----------------------------------------------------------------------------
+;; Demo Settings
+
+
+(defn- build-connections [{:keys [name dbas eden]}]
+  [[:button.btn.btn-default
+    {:key (lib/get-unique-key)
+     :onClick (fn [_]
+                (lib/store-multiple-values-to-app-state!
+                 [['host/dbas dbas]
+                  ['host/eden eden]])
+                (comlib/init!)
+                (auth/logout))}
+    "Connect to " name]
+   " "])
+
+(defui ConnectionBrowser
+  static om/IQuery
+  (query [this]
+         `[:layout/lang])
+  Object
+  (render [this]
+          (let [{:keys []} (om/props this)]
+            (html
+             [:div.text-center
+              (map build-connections config/demo-servers)
+              [:br][:br]
+              [:button.btn.btn-default {:onClick #(lib/save-current-and-change-view! :options)}
+               "Custom Settings"] " "
+              [:button.btn.btn-default {:onClick #(auth/login "Walter" "iamatestuser2016")}
+               "Login as Walter"]]))))
+(def connection-browser (om/factory ConnectionBrowser))
+
+
+;; -----------------------------------------------------------------------------
+;; Combine options
 
 (defui Options
   static om/IQuery
@@ -77,8 +118,11 @@
             [:div (vlib/view-header (t :options :heading))
              [:div.row
               [:div.col-md-3 (vlib/fa-icon "fa-flag") (t :options :lang :space)]
-              [:div.col-md-9 (interpose " " (mapv language-button translations/available))]]
-             ]
+              [:div.col-md-9 (interpose " " (mapv language-button translations/available))]]]
+            [:br]
+            [:hr]
+            [:h4.text-center "Connection Browser"]
+            (connection-browser (om/props this))
             [:br]
             [:hr]
             [:h4.text-center (t :options :routes)]
