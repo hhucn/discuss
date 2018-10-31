@@ -15,7 +15,7 @@
 (defn make-url
   "Prefix url with host."
   [url]
-  (str (:host config/api) url))
+  (str (lib/host-dbas) url))
 
 (defn token-header
   "Return token header for ajax request if user is logged in."

@@ -117,8 +117,8 @@
 (defn- query->server
   "Make a GET request and search in ElasticSearch for the requested data."
   [query]
-  (if config/search-host
-    (GET (str config/search-host "/statements/contain")
+  (if (lib/host-eden)
+    (GET (str (lib/host-eden) "/statements/contain")
          {:handler handle-eden-search-results
           :params {:search-string query}})
     (GET (comlib/make-url "/search")

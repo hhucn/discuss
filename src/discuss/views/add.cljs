@@ -56,7 +56,7 @@
   side. Stores user-input in the calling object."
   [this field input-group-text form-placeholder with-search? selected-search-result]
   (let [field-value (or (get (om/get-state this) field) "")]
-    [:div.input-group
+    [:div.input-group {:key (lib/get-unique-key)}
      [:span.input-group-addon.input-group-addon-left
       (str "... " input-group-text)]
      (if (nil? selected-search-result)

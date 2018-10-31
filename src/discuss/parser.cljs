@@ -1,10 +1,11 @@
 (ns discuss.parser
   (:require [om.next :as om]
-            [cljs.spec.alpha :as s]))
+            [cljs.spec.alpha :as s]
+            [discuss.config :as config]))
 
 (def init-data {:api/last-call ""
-                :host/dbas "http://localhost:4284/api"
-                :host/eden "http://muenchhausen.cn.uni-duesseldorf.de:8888"
+                :host/dbas config/remote-host
+                :host/eden (or config/search-host nil)
                 :search/results []
                 :layout/add? false
                 :layout/error nil
