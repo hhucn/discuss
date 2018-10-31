@@ -86,7 +86,8 @@
            {:discussion/bubbles ~(om/get-query ViewDispatcher)}
            {:discussion/bubbles ~(om/get-query vadd/StatementForm)}
            {:discussion/bubbles ~(om/get-query vadd/PositionForm)}
-           {:clipboard/items ~(om/get-query clipboard/Clipboard)}])
+           {:clipboard/items ~(om/get-query clipboard/Clipboard)}
+           {:nav/nav ~(om/get-query nav/Nav)}])
   Object
   (render [this]
           (let [{:keys [issue/info layout/add? layout/title discussion/add-step]} (om/props this)]
@@ -112,10 +113,10 @@
                    (vadd/position-form (om/props this))
                    (vadd/statement-form (om/props this)))
                  (search/results (om/props this))])
-              (nav/nav (om/props this))
+              [:p (nav/nav (om/props this))]
               [:br]
-              (clipboard/clipboard (om/props this))
+              [:p (clipboard/clipboard (om/props this))]
               [:br]
               [:p.text-muted "Connected to: " (lib/host-dbas)]
-              (options/connection-browser (om/props this))]))))
+              [:p (options/connection-browser (om/props this))]]))))
 (def main-view-next (om/factory MainView))

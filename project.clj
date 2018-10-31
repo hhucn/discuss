@@ -75,7 +75,7 @@
                                :closure-defines {discuss.config/version ~(->> (slurp "project.clj")
                                                                               (re-seq #"\".*\"")
                                                                               (first))}
-                               :parallel-build       true
+:parallel-build       true
                                :compiler-stats       true
                                :source-map-timestamp true}}
                {:id           "test"
@@ -93,7 +93,11 @@
                                :main           discuss.core
                                :preloads       [discuss.utils.extensions]
                                :optimizations  :simple
-                               :closure-defines {discuss.config/remote-host ~(or (System/getenv "REMOTE_HOST") "https://dbas.cs.uni-duesseldorf.de/api")}
+                               :closure-defines {discuss.config/version ~(->> (slurp "project.clj")
+                                                                              (re-seq #"\".*\"")
+                                                                              (first))}
+
+                               ;; :closure-defines {discuss.config/remote-host ~(or (System/getenv "REMOTE_HOST") "https://dbas.cs.uni-duesseldorf.de/api")}
                                :parallel-build true
                                :compiler-stats true
                                :pretty-print   false}}]}

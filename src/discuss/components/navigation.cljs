@@ -11,7 +11,8 @@
 (defn- element
   "Create one element for the navigation."
   ([icon [group key] fn left?]
-   (dom/span #js {:className "pointer"
+   (dom/span #js {:key (lib/get-unique-key)
+                  :className "pointer"
                   :onClick   fn
                   :style     (if left? #js {:paddingLeft "1em"} #js {:paddingRight "1em"})}
              (vlib/fa-icon icon)
@@ -54,7 +55,7 @@
 (defui Nav
   static om/IQuery
   (query [this]
-         `[:user/logged-in? :layout/lang])
+         [:user/logged-in? :layout/lang])
   Object
   (render [this]
           (html [:div.text-muted.discuss-nav
