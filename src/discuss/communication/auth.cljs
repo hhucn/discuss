@@ -48,4 +48,5 @@
   []
   (om/transact! parser/reconciler `[(user/nickname {:value nil})
                                     (user/token {:value nil})
-                                    (user/logged-in? {:value false})]))
+                                    (user/logged-in? {:value false})])
+  (comlib/ajax-get (lib/get-last-api)))
