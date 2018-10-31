@@ -70,6 +70,17 @@
   []
   (set-search-results! []))
 
+(defn remove-selected-search-result!
+  "Remove currently selected search result."
+  []
+  (om/transact! parser/reconciler `[(search/selected {:value ~nil})]))
+
+(defn remove-all-search-related-results-and-selections
+  "Clear list of results and currently selected search result."
+  []
+  (om/transact! parser/reconciler `[(search/selected {:value ~nil})
+                                    (search/results {:value []})]))
+
 (defn- handle-dbas-search-results
   "Handler which is called with the results from ElasticSearch. Extract statements
   from response and write it to the app-state."
