@@ -81,6 +81,7 @@
          `[:issue/info :layout/add? :discussion/add-step :layout/view
            :layout/title :layout/lang :layout/error :user/avatar
            :user/nickname :user/logged-in? :selection/current :layout/error
+           :search/results :search/selected
            {:discussion/items ~(om/get-query ViewDispatcher)}
            {:discussion/bubbles ~(om/get-query ViewDispatcher)}
            {:discussion/bubbles ~(om/get-query vadd/StatementForm)}
@@ -89,7 +90,7 @@
   Object
   (render [this]
           (let [{:keys [issue/info layout/add? layout/title discussion/add-step]} (om/props this)]
-            (tooltip/track-user-selection)
+            #_(tooltip/track-user-selection)
             (html
              [:div#discuss-dialog-main
               (avatar/avatar (om/props this))
