@@ -136,26 +136,33 @@
 (entrypoint)
 
 ;; -----------------------------------------------------------------------------
-@(om/app-state parser/reconciler)
+
 (defui Result
   Object
   (render [this]
-          (let [{:keys [text issue author]} (om/props this)]
+          (let [{:keys [text issue author identifier] :as search-result} (om/props this)
+                aggregator (:aggregate-id identifier)]
             (html [:div.bs-callout.bs-callout-info
                    [:div.row
                     [:div.col-sm-8
                      [:p (vlib/safe-html text)]
                      [:p [:span.btn.btn-sm.btn-primary
-                          {:on-click #(println "I want to use this statement:" text)}
+                          {:on-click #(om/transact! parser/reconciler `[(search/selected {:value ~search-result})
+                                                                        (search/results {:value []})])}
                           (t :search :reuse)]]]
                     [:div.col-sm-4
-                     [:div.text-right
-                      [:span.label.label-default
-                       (str (t :common :issue) ": " (:title issue))]
-                      [:br]
+                     [:div.text-rights
+                      (when issue
+                        [:span.label.label-default
+                         (str (t :common :issue) ": " (:title issue))
+                         [:br]])
+                      (when aggregator
+                        [:span.label.label-default
+                         (str (t :search :origin) ": " aggregator)
+                         [:br]])
                       [:span.label.label-default
                        (str (t :search :author) ": " (:nickname author))]]]]]))))
-(def ^:private result (om/factory Result))
+(def result (om/factory Result))
 
 (defui Results
   static om/IQuery
@@ -163,7 +170,7 @@
   Object
   (render [this]
           (let [{:keys [search/results]} (om/props this)]
-            (html [:div.results
+            (html [:div {:className (lib/prefix-name "search-results")}
                    (take 5
                          (map #(result (merge (lib/unique-react-key-dict) %)) results))]))))
 (def results (om/factory Results))
