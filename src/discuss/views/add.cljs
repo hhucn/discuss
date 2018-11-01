@@ -51,30 +51,6 @@
        [:div.text-center {:style {:paddingBottom "1em"}}
         (t :references :ask-to-add)]))))
 
-(defn- input-group
-  "Construct input group with placeholder in the left side and input on the right
-  side. Stores user-input in the calling object."
-  [this field input-group-text form-placeholder with-search? selected-search-result]
-  (let [field-value (or (get (om/get-state this) field) "")]
-    [:div.input-group {:key (lib/get-unique-key)}
-     [:span.input-group-addon.input-group-addon-left
-      (str "... " input-group-text)]
-     (if (nil? selected-search-result)
-       [:input.form-control
-        {:onChange (fn [e]
-                     (let [form-value (.. e -target -value)]
-                       (when with-search?
-                         (search/search form-value))
-                       (om/update-state! this assoc field form-value)))
-         :value (or field-value "")
-         :placeholder form-placeholder}]
-       [[:input.form-control
-         {:style {:backgroundColor "rgb(250,250,250)"}
-          :value (or (:text selected-search-result) "")
-          :disabled true}]
-        [:span.input-group-addon.pointer {:onClick search/remove-selected-search-result!}
-         (vlib/fa-icon "fa-times")]])]))
-
 (defui StatementForm
   "Form to add a new statement to the discussion."
   static om/IQuery
@@ -94,7 +70,18 @@
               [:div.panel-body
                [:h5.text-center (:text (last bubbles))]
                (valerts/error-alert (om/props this))
-               (input-group this :statement (t :common :because) (t :discussion :add-reason-placeholder) true selected-search)
+
+               [:div.input-group
+                [:span.input-group-addon.input-group-addon-left "... " (t :common :because)]
+                [:input.form-control {:style {:backgroundColor (when-not (nil? selected-search) "rgb(250,250,250)")}
+                                      :onChange #(do (om/update-state! this assoc :statement (.. % -target -value))
+                                                     (search/search statement))
+                                      :value (or (:text selected-search) statement "")
+                                      :placeholder (t :discussion :add-reason-placeholder)}]
+                (when-not (nil? selected-search)
+                  [:span.input-group-addon.pointer {:onClick search/remove-selected-search-result!}
+                   (vlib/fa-icon "fa-times")])]
+
                #_(show-selection)
                [:button.btn.btn-default
                 {:onClick #(com/post-statement {:statement statement
@@ -122,8 +109,24 @@
                    [:div.panel-body
                     [:h5.text-center (t :discussion :add-position-heading) "..."]
                     (valerts/error-alert (om/props this))
-                    (input-group this :position (t :common :that) (t :discussion :add-position-placeholder) false nil)
-                    (input-group this :reason (t :common :because) (t :discussion :add-reason-placeholder) true selected-search)
+
+                    [:div.input-group
+                     [:span.input-group-addon.input-group-addon-left "... " (t :common :that)]
+                     [:input.form-control {:onChange #(om/update-state! this assoc :position (.. % -target -value))
+                                           :value (or position "")
+                                           :placeholder (t :discussion :add-position-placeholder)}]]
+
+                    [:div.input-group
+                     [:span.input-group-addon.input-group-addon-left "... " (t :common :because)]
+                     [:input.form-control {:style {:backgroundColor (when-not (nil? selected-search) "rgb(250,250,250)")}
+                                           :onChange #(do (om/update-state! this assoc :reason (.. % -target -value))
+                                                          (search/search reason))
+                                           :value (or (:text selected-search) reason "")
+                                           :placeholder (t :discussion :add-reason-placeholder)}]
+                     (when-not (nil? selected-search)
+                       [:span.input-group-addon.pointer {:onClick search/remove-selected-search-result!}
+                        (vlib/fa-icon "fa-times")])]
+
                     #_(show-selection)
                     [:button.btn.btn-default
                      {:onClick #(com/post-position {:position position

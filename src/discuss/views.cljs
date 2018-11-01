@@ -113,10 +113,10 @@
                    (vadd/position-form (om/props this))
                    (vadd/statement-form (om/props this)))
                  (search/results (om/props this))])
-              [:p (nav/nav (om/props this))]
+              [:div (nav/nav (om/props this))]
               [:br]
-              [:p (clipboard/clipboard (om/props this))]
+              [:div (clipboard/clipboard (om/props this))]
               [:br]
               [:p.text-muted "Connected to: " (lib/host-dbas)]
-              [:p (options/connection-browser (om/props this))]]))))
+              [:div (options/connection-browser (om/props this))]]))))
 (def main-view-next (om/factory MainView))
