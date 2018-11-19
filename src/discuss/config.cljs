@@ -1,5 +1,4 @@
-(ns discuss.config
-  (:require [clojure.string :as str]))
+(ns discuss.config)
 
 (goog-define version "0.4.0")
 (goog-define remote-host "http://muenchhausen.cn.uni-duesseldorf.de:4284/api")

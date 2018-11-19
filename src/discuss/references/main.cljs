@@ -5,16 +5,24 @@
   (:require [om.core :as om]
             [om.dom :as dom]
             [om.next :as nom :refer-macros [defui]]
+            [clojure.spec.alpha :as s]
             [sablono.core :as html :refer-macros [html]]
             [discuss.communication.lib :as comlib]
             [discuss.config :as config]
-            [discuss.components.sidebar :as sidebar]
             [discuss.references.lib :as rlib]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
-            [discuss.utils.views :as vlib]))
+            [discuss.utils.views :as vlib]
+            [discuss.utils.logging :as log]))
 
+(defrecord Reference [id text url])
+
+(s/def ::id pos-int?)
+(s/def ::reference
+  (s/and
+   #(instance? Reference %)
+   (s/keys :req-un [::id ::comlib/text ::comlib/url])))
 
 ;;;; Handlers & Queries
 (defn reference-usage-handler
@@ -27,9 +35,13 @@
 
 (defn query-reference-details
   "Show usages of the provided reference."
-  [reference-id]
-  (let [url (str (get-in config/api [:get :reference-usages]) "/" reference-id)]
-    (comlib/ajax-get url {} reference-usage-handler)))
+  [reference]
+  (let [url (str (get-in config/api [:get :reference-usages]) "/" (:id reference))]
+    (log/info "Requesting information for reference with id" (:id reference))
+    (comlib/ajax-get url nil reference-usage-handler)))
+
+(s/fdef query-reference-details
+  :args (s/cat :reference ::reference))
 
 
 ;;;; Interaction with integrated references
@@ -38,7 +50,10 @@
   give her the choice of what her next steps might be."
   [reference]
   (rlib/save-selected-reference! reference)
-  (query-reference-details (:id reference)))
+  (query-reference-details reference))
+
+(s/fdef click-reference
+  :args (s/cat :reference ::reference))
 
 
 ;;;; Views
@@ -114,15 +129,15 @@
                  (apply dom/div nil
                         (map #(om/build usage-list-view % (lib/unique-key-dict)) usages)))))))
 
-(defui Reference
+(defui ReferenceView
   Object
   (render [this]
-          (let [{:keys [text url id dom-pre dom-post] :as reference} (nom/props this)]
+          (let [{:keys [text url id dom-pre dom-post]} (nom/props this)]
             (html [:span
                    [:span dom-pre]
-                   [:span.arguments.pointer {:onClick #(click-reference reference)}
+                   [:span.arguments.pointer {:onClick #(click-reference (Reference. id text url))}
                     text
                     " "
                     (vlib/logo)]
                    [:span dom-post]]))))
-(def reference (nom/factory Reference))
+(def reference (nom/factory ReferenceView))

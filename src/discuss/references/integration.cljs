@@ -49,7 +49,7 @@
                                                 :id ref-id
                                                 :dom-pre  (vlib/safe-html first-part)
                                                 :dom-post (when (and (< 1 (count dom-parts)) (not= last-part ref-text)) (vlib/safe-html last-part))}})
-                        rmain/Reference
+                        rmain/ReferenceView
                         parent)
           (rlib/highlight! ref-text))))))
 
