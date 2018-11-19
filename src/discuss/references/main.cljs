@@ -4,6 +4,7 @@
   own statement."
   (:require [om.core :as om]
             [om.dom :as dom]
+            [om.next :as nom :refer-macros [defui]]
             [sablono.core :as html :refer-macros [html]]
             [discuss.communication.lib :as comlib]
             [discuss.config :as config]
@@ -37,8 +38,7 @@
   give her the choice of what her next steps might be."
   [reference]
   (rlib/save-selected-reference! reference)
-  (query-reference-details (:id reference))
-  (sidebar/show))
+  (query-reference-details (:id reference)))
 
 
 ;;;; Views
@@ -114,18 +114,15 @@
                  (apply dom/div nil
                         (map #(om/build usage-list-view % (lib/unique-key-dict)) usages)))))))
 
-
-(defn main-view [reference owner]
-  (reify
-    om/IInitState
-    (init-state [_]
-      {:show false})
-    om/IRenderState
-    (render-state [_ {:keys [show]}]
-      (html [:span
-             [:span (:dom-pre reference)]
-             [:span.arguments.pointer {:onClick #(click-reference reference)}
-              (:text reference)
-              " "
-              (vlib/logo #(om/set-state! owner :show (vlib/toggle-show show)))]
-             [:span (:dom-post reference)]]))))
+(defui Reference
+  Object
+  (render [this]
+          (let [{:keys [text url id dom-pre dom-post] :as reference} (nom/props this)]
+            (html [:span
+                   [:span dom-pre]
+                   [:span.arguments.pointer {:onClick #(click-reference reference)}
+                    text
+                    " "
+                    (vlib/logo)]
+                   [:span dom-post]]))))
+(def reference (nom/factory Reference))
