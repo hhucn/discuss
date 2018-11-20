@@ -34,5 +34,5 @@
           :get   {:references       "/references"
                   :reference-usages "/reference/usages"
                   :statements       "/statements"
-                  :statement-url    "/statement/url"}})
-
+                  :statement-url    "/statement/url"}
+          :jump  "/:slug/jump/:argument-id"})

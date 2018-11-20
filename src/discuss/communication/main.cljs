@@ -14,7 +14,7 @@
   [response]
   (search/remove-search-results!)
   (lib/hide-add-form!)
-  #_(rint/request-references)
+  (rint/request-references)
   (comlib/process-and-set-items-and-bubbles response))
 
 
@@ -79,5 +79,5 @@
 (defn init-with-references!
   "Load discussion and initially get reference to include them in the discussion."
   []
-  #_(rint/request-references)
+  (rint/request-references)
   (comlib/init!))

@@ -205,7 +205,7 @@
 (defn change-view-next!
   [view]
   (om/transact! parser/reconciler `[(layout/view {:value ~view})
-                                     (layout/add? {:value false})]))
+                                    (layout/add? {:value false})]))
 
 (defn next-view!
   "Set the next view, which should be loaded after the ajax call has finished."
@@ -273,7 +273,6 @@
   "Remove current selection for a 'clean' statement."
   []
   (store-to-app-state! 'selection/current nil))
-
 
 ;;;; String Stuff
 (defn substring?

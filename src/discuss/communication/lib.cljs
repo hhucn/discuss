@@ -86,15 +86,15 @@
    (lib/next-view! view)
    (ajax-get url {} handler))
   ([url view]
-   (ajax-get-and-change-view url view process-and-set-items-and-bubbles)))
+   (ajax-get-and-change-view url view index-handler)))
 
 (defn jump-to-argument
-  "Jump directly into the discussion to let the user argue about the given argument.
-
-   ** TODO: Update route **"
+  "Jump directly into the discussion to let the user argue about the given argument."
   [slug arg-id]
-  (let [url (str/join "/" ["api" slug "jump" arg-id])]
-    (ajax-get-and-change-view url :discussion)))
+  (let [base-jump (:jump config/api)
+        with-slug (str/replace base-jump #":slug" (str slug))
+        with-arg (str/replace with-slug #":argument-id" (str arg-id))]
+    (ajax-get-and-change-view with-arg :discussion)))
 
 (defn init!
   "Request initial data from API."
