@@ -9,6 +9,7 @@
             [discuss.components.search.statements :as search]
             [discuss.components.avatar :as avatar]
             [discuss.communication.lib :as comlib]
+            [discuss.references.main :as ref]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
@@ -57,7 +58,8 @@
          `[:layout/view :layout/lang :layout/error
            {:layout/views ~(om/get-query vlogin/LoginForm)}
            {:discussion/items ~(om/get-query DiscussionElements)}
-           {:discussion/bubbles ~(om/get-query DiscussionElements)}])
+           {:discussion/bubbles ~(om/get-query DiscussionElements)}
+           {:references/usages ~(om/get-query ref/UsagesView)}])
   Object
   (render [this]
           (let [{:keys [layout/view]} (om/props this)]
@@ -66,7 +68,7 @@
                     (case view
                       :login (vlogin/login-form (om/props this))
                       :options (options/options (om/props this))
-                      ;; TODO: :reference-usages (om/build ref/usages-view data)
+                      :reference-usages (ref/usages-view-next (om/props this))
                       ;; TODO: :reference-create-with-ref (om/build ref/create-with-reference-view data)
                       ;; TODO: :find (om/build find/view data)
                       (discussion-elements-next (om/props this)))
@@ -87,7 +89,8 @@
            {:discussion/bubbles ~(om/get-query vadd/StatementForm)}
            {:discussion/bubbles ~(om/get-query vadd/PositionForm)}
            {:clipboard/items ~(om/get-query clipboard/Clipboard)}
-           {:nav/nav ~(om/get-query nav/Nav)}])
+           {:nav/nav ~(om/get-query nav/Nav)}
+           {:references/usages ~(om/get-query ref/UsagesView)}])
   Object
   (render [this]
           (let [{:keys [issue/info layout/add? layout/title discussion/add-step]} (om/props this)]
