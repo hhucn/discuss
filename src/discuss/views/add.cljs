@@ -82,7 +82,7 @@
                   [:span.input-group-addon.pointer {:onClick search/remove-selected-search-result!}
                    (vlib/fa-icon "fa-times")])]
 
-               #_(show-selection)
+               (show-selection)
                [:button.btn.btn-default
                 {:onClick #(com/post-statement {:statement statement
                                                 :reference current-selection
@@ -127,7 +127,7 @@
                        [:span.input-group-addon.pointer {:onClick search/remove-selected-search-result!}
                         (vlib/fa-icon "fa-times")])]
 
-                    #_(show-selection)
+                    (show-selection)
                     [:button.btn.btn-default
                      {:onClick #(com/post-position {:position position
                                                     :reason reason

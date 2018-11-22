@@ -1,6 +1,6 @@
 (ns discuss.references.integration
   "Listen for mouse clicks, get references and highlight them in the article."
-  (:require [om.core :as om]
+  (:require [om.next :as om :refer-macros [defui]]
             [clojure.string :refer [split lower-case]]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
@@ -44,20 +44,20 @@
             first-part (first dom-parts)
             last-part (second dom-parts)]
         (when (= 2 (count dom-parts))
-          (om/root rmain/main-view
-                   {:text ref-text
-                    :url ref-url
-                    :id ref-id
-                    :dom-pre  (vlib/safe-html first-part)
-                    :dom-post (when (and (< 1 (count dom-parts)) (not= last-part ref-text)) (vlib/safe-html last-part))}
-                   {:target parent})
+          (om/add-root! (om/reconciler {:state {:text ref-text
+                                                :url ref-url
+                                                :id ref-id
+                                                :dom-pre  (vlib/safe-html first-part)
+                                                :dom-post (when (and (< 1 (count dom-parts)) (not= last-part ref-text)) (vlib/safe-html last-part))}})
+                        rmain/ReferenceView
+                        parent)
           (rlib/highlight! ref-text))))))
 
 (defn process-references
   "Receives references through the API and prepares them for the next steps."
   [refs]
-  (when refs
-    (doall (map convert-reference refs))))
+  (doseq [ref refs]
+    (convert-reference ref)))
 
 (defn- references-handler
   "Called when received a response on the reference-query."
