@@ -8,7 +8,6 @@
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.views :as vlib]
             [discuss.utils.common :as lib]
-            [discuss.config :as config]
             [discuss.communication.lib :as comlib]
             [discuss.utils.logging :as log]
             [discuss.parser :as parser]))
@@ -92,7 +91,7 @@
   [statement]
   (let [identifier (:identifier statement)
         content (:content statement)]
-    {:text (:content-string content)
+    {:text (:text content)
      :author {:nickname (:author content)}
      :identifier {:aggregate-id (:aggregate-id identifier)
                   :entity-id (int (:entity-id identifier))

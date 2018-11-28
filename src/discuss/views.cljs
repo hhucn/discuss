@@ -20,14 +20,14 @@
             [discuss.components.tooltip :as tooltip]
             [discuss.components.sidebar :as sidebar]))
 
-(defn- close-button-next
+(defn close-button-next
   "Close current panel and switch view."
   []
   (html [:div [:br]
          [:div.text-center
           (bs/button-default-sm #(lib/change-view-next! :default) (vlib/fa-icon "fa-times") (t :common :close :space))]]))
 
-(defn- control-elements-next
+(defn control-elements-next
   "Back and restart button."
   []
   (html [:div [:hr]
