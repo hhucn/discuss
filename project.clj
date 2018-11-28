@@ -9,16 +9,16 @@
   :hooks [leiningen.cljsbuild]
 
   :dependencies [[org.clojure/clojure "1.9.0"]
-                 [org.clojure/clojurescript "1.10.339"]
-                 [org.clojure/core.async "0.4.474" :exclusions [org.clojure/tools.reader]]
+                 [org.clojure/clojurescript "1.10.439"]
+                 [org.clojure/core.async "0.4.490" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
-                 [org.clojure/tools.reader "1.3.0"]
+                 [org.clojure/tools.reader "1.3.2"]
                  [org.omcljs/om "1.0.0-beta4"]
                  [com.cognitect/transit-cljs "0.8.256"]
                  [com.velisco/strgen "0.1.7"]
                  [spec-provider "0.4.14"]
-                 [cljs-ajax "0.7.4"]
-                 [lein-doo "0.1.10"]  ;; <-- otherwise it won't find the doo namespaces...
+                 [cljs-ajax "0.8.0"]
+                 [lein-doo "0.1.11"]  ;; <-- otherwise it won't find the doo namespaces...
                  [devcards "0.2.6"]
                  [sablono "0.8.4"]
                  [inflections "0.13.0"]]
@@ -26,8 +26,8 @@
   :plugins [[lein-ancient "0.6.10"]
             [lein-cljsbuild "1.1.5" :exclusions [[org.clojure/clojure]]]
             [lein-codox "0.10.3"]
-            [lein-doo "0.1.10"]
-            [lein-figwheel "0.5.16"]
+            [lein-doo "0.1.11"]
+            [lein-figwheel "0.5.17"]
             [lein-kibit "0.1.6"]
             [lein-set-version "0.4.1"]]
 
@@ -41,9 +41,9 @@
             "build" ["do" "clean" ["cljsbuild" "once" "min"]]}
 
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]
-                                  [figwheel-sidecar "0.5.16"]
+                                  [figwheel-sidecar "0.5.17"]
                                   [org.clojure/tools.nrepl "0.2.13"]
-                                  [cider/piggieback "0.3.9"]]
+                                  [cider/piggieback "0.3.10"]]
                    ;; need to add dev source path here to get user.clj loaded
                    :source-paths ["src" "script"]
                    :repl-options {:init (set! *print-length* 50)
@@ -75,7 +75,7 @@
                                :closure-defines {discuss.config/version ~(->> (slurp "project.clj")
                                                                               (re-seq #"\".*\"")
                                                                               (first))}
-:parallel-build       true
+                               :parallel-build       true
                                :compiler-stats       true
                                :source-map-timestamp true}}
                {:id           "test"
