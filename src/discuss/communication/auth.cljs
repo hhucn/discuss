@@ -3,18 +3,18 @@
             [discuss.communication.lib :as comlib]
             [discuss.config :as config]
             [discuss.translations :refer [translate] :rename {translate t}]
-            [discuss.utils.common :as lib]
-            [om.next :as om]
-            [discuss.parser :as parser]))
+            [discuss.utils.common :as lib]))
 
 (defn- success-login
   "Callback function when login was successful. Set attributes of user."
   [response]
-  (let [{:keys [nickname token]} (lib/process-response response)]
-    (om/transact! parser/reconciler `[(user/nickname {:value ~nickname})
-                                      (user/token {:value ~token})
-                                      (user/logged-in? {:value true})
-                                      (layout/view {:value :default})])
+  (let [{:keys [nickname uid token]} (lib/process-response response)]
+    (lib/store-multiple-values-to-app-state!
+     [['user/nickname nickname]
+      ['user/token token]
+      ['user/id uid]
+      ['user/logged-in? true]
+      ['layout/view :default]])
     (comlib/ajax-get (lib/get-last-api))))
 
 (defn- wrong-login
@@ -46,7 +46,9 @@
 (defn logout
   "Reset user credentials."
   []
-  (om/transact! parser/reconciler `[(user/nickname {:value nil})
-                                    (user/token {:value nil})
-                                    (user/logged-in? {:value false})])
+  (lib/store-multiple-values-to-app-state!
+   [['user/nickname nil]
+    ['user/token nil]
+    ['user/id nil]
+    ['user/logged-in? false]])
   (comlib/ajax-get (lib/get-last-api)))

@@ -7,7 +7,8 @@
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]
             [discuss.config :as config]
-            [discuss.parser :as parser]))
+            [discuss.parser :as parser]
+            [discuss.utils.logging :as log]))
 
 (defn prefix-name
   "Create unique id for DOM elements."
@@ -115,12 +116,16 @@
   (load-from-app-state :discussion/bubbles))
 
 
-
 ;;;; Getter
 (defn get-nickname
   "Return the user's nickname, with whom she logged in."
   []
   (load-from-app-state :user/nickname))
+
+(defn get-user-id
+  "Return the user's nickname, with whom she logged in."
+  []
+  (load-from-app-state :user/id))
 
 (defn get-avatar
   "Return the URL of the user's avatar."
@@ -203,6 +208,7 @@
   (load-from-app-state :layout/view))
 
 (defn change-view-next!
+  "Change view."
   [view]
   (om/transact! parser/reconciler `[(layout/view {:value ~view})
                                     (layout/add? {:value false})]))
@@ -210,6 +216,7 @@
 (defn next-view!
   "Set the next view, which should be loaded after the ajax call has finished."
   [view]
+  (log/debug "Setting next view to" view)
   (hide-add-form!)
   (store-to-app-state! 'layout/view-next view))
 
