@@ -19,9 +19,6 @@
 ;; -----------------------------------------------------------------------------
 ;; Set hosts
 
-(s/fdef set-host-config
-  :args (s/cat :this any? :title string? :current-host string?
-               :default-host string? :set-host fn? :reset-host fn?))
 (defn- set-host-config [this title current-host default-host set-host reset-host]
   (let [content (or (get (om/get-state this) :content) "")]
     [:div
@@ -45,6 +42,10 @@
      [:button.btn.btn-sm.btn-warning.pull-right
       {:onClick reset-host}
       (t :options :reset)]]))
+
+(s/fdef set-host-config
+  :args (s/cat :this any? :title string? :current-host string?
+               :default-host string? :set-host fn? :reset-host fn?))
 
 (defui HostDBAS
   static om/IQuery
