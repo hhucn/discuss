@@ -9,7 +9,7 @@
   "Callback function when login was successful. Set attributes of user."
   [response]
   (let [{:keys [nickname uid token]} (lib/process-response response)]
-    (lib/store-multiple-values-to-app-state!
+     (lib/store-multiple-values-to-app-state!
      [['user/nickname nickname]
       ['user/token token]
       ['user/id uid]

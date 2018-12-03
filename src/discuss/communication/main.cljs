@@ -20,21 +20,10 @@
 
 
 ;;;; POST functions
-(defn- do-post [request-url body handler error-handler headers]
-  (log/info (str "Posting " body " to " request-url))
-  (POST request-url
-        {:body            (lib/clj->json body)
-         :handler         handler
-         :error-handler   error-handler
-         :format          :json
-         :response-format :json
-         :headers         headers
-         :keywords?       true}))
-
 (defn post-json
   "Wrapper to prepare a POST request. Sending and receiving JSON."
   ([url body handler headers]
-   (do-post (comlib/make-url url) body handler comlib/error-handler headers))
+   (comlib/do-post (comlib/make-url url) body handler comlib/error-handler headers))
   ([url body handler]
    (post-json url body handler {"Content-Type" "application/json"}))
   ([url body]
@@ -76,23 +65,6 @@
                 :origin (build-origin-body selected)}]
       (post-json url body process-url-handler headers))
     (log/error ":api/last-call is empty, cannot post statement to empty URL.")))
-
-(defn after-eden-post-handler []
-  (lib/change-view-next! :eden/overview))
-
-(defn post-eden-argument
-  "Post an Argument directly to EDEN for later usage."
-  [{:keys [premise conclusion reference search/selected]}]
-  (let [request-url (str (lib/host-eden) (:add/argument config/eden))
-        headers {"Content-Type" "application/json"}
-        handler after-eden-post-handler
-        author (lib/get-nickname)
-        body {:premise premise
-              :conclusion (if (nil? selected) conclusion (:text selected))
-              :author-id 42
-              :reference reference
-              :link-type :support}]
-    (do-post request-url body handler comlib/error-handler headers)))
 
 
 ;;;; Get things started!
