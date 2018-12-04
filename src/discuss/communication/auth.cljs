@@ -1,6 +1,5 @@
 (ns discuss.communication.auth
-  (:require [ajax.core :refer [POST]]
-            [discuss.communication.lib :as comlib]
+  (:require [discuss.communication.lib :as comlib]
             [discuss.config :as config]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.common :as lib]))
@@ -26,15 +25,10 @@
 (defn ajax-login
   "Get cleaned data and send ajax request."
   [nickname password]
-  (let [url (:login config/api)]
-    (POST (comlib/make-url url)
-          {:body            (lib/clj->json {:nickname nickname
-                                            :password password})
-           :handler         success-login
-           :error-handler   wrong-login
-           :response-format :json
-           :headers         {"Content-Type" "application/json"}
-           :keywords?       true})))
+  (let [url (comlib/make-url (:login config/api))
+        body {:nickname nickname
+              :password password}]
+    (comlib/do-post url body success-login wrong-login)))
 
 (defn login
   "Use login form data, validate it and send ajax request."
@@ -43,12 +37,17 @@
              (pos? (count password)))
     (ajax-login nickname password)))
 
-(defn logout
-  "Reset user credentials."
-  []
+(defn success-logout [response]
   (lib/store-multiple-values-to-app-state!
    [['user/nickname nil]
     ['user/token nil]
     ['user/id nil]
     ['user/logged-in? false]])
   (comlib/ajax-get (lib/get-last-api)))
+
+(defn logout
+  "Reset user credentials."
+  []
+  (when (lib/logged-in?)
+    (let [url (comlib/make-url (:logout config/api))]
+      (comlib/do-post url nil success-logout comlib/error-handler))))

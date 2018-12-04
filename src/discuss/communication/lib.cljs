@@ -90,16 +90,18 @@
 
 (defn do-post
   "Get prepared statements and simply fire a POST request."
-  [request-url body handler error-handler headers]
-  (log/info (str "Posting " body " to " request-url))
-  (POST request-url
-        {:body            (lib/clj->json body)
-         :handler         handler
-         :error-handler   error-handler
-         :format          :json
-         :response-format :json
-         :headers         headers
-         :keywords?       true}))
+  ([request-url body handler error-handler headers]
+   (log/info (str "Posting " body " to " request-url))
+   (POST request-url
+         {:body            (lib/clj->json body)
+          :handler         handler
+          :error-handler   error-handler
+          :format          :json
+          :response-format :json
+          :headers         (merge (token-header) headers)
+          :keywords?       true}))
+  ([request-url body handler error-handler]
+   (do-post request-url body handler error-handler {"Content-Type" "application/json"})))
 
 (defn jump-to-argument
   "Jump directly into the discussion to let the user argue about the given argument."
