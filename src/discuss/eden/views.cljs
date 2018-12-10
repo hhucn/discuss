@@ -2,16 +2,25 @@
   (:require [om.next :as om :refer-macros [defui]]
             [sablono.core :as html :refer-macros [html]]
             [discuss.components.clipboard :as clipboard]
-            [discuss.communication.main :as com]
+            [discuss.eden.ajax :as eajax]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.views :as vlib]
             [discuss.views.alerts :as valerts]
             [discuss.components.search.statements :as search]))
 
+(defui OverviewMenu
+  Object
+  (render [this]
+          (html [:div
+                 (vlib/view-header (t :eden :overview))
+                 (valerts/error-alert (om/props this))
+                 ])))
+(def overview-menu (om/factory OverviewMenu))
+
 (defui EDENArgumentForm
   "Form to add a new position and a reason to the discussion."
   static om/IQuery
-  (query [this] [:selection/current :search/selected])
+  (query [this] `[:selection/current :search/selected :layout/lang])
   Object
   (render [this]
           (let [{current-selection :selection/current
@@ -46,7 +55,7 @@
 
                     (vlib/show-selection)
                     [:button.btn.btn-default
-                     {:onClick #(com/post-eden-argument
+                     {:onClick #(eajax/post-eden-argument
                                  {:premise position
                                   :conclusion reason
                                   :reference current-selection
