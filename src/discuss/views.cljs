@@ -18,7 +18,8 @@
             [discuss.views.login :as vlogin]
             [discuss.parser :as parser]
             [discuss.components.tooltip :as tooltip]
-            [discuss.components.sidebar :as sidebar]))
+            [discuss.components.sidebar :as sidebar]
+            [discuss.eden.views :as eviews]))
 
 (defn close-button-next
   "Close current panel and switch view."
@@ -69,6 +70,7 @@
                       :login (vlogin/login-form (om/props this))
                       :options (options/options (om/props this))
                       :reference-usages (ref/usages-view-next (om/props this))
+                      :eden/overview (eviews/overview-menu (om/props this))
                       ;; TODO: :reference-create-with-ref (om/build ref/create-with-reference-view data)
                       ;; TODO: :find (om/build find/view data)
                       (discussion-elements-next (om/props this)))

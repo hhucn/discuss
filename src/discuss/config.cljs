@@ -38,4 +38,5 @@
                   :statement-url    "/statement/url"}
           :jump  "/:slug/jump/:argument-id"})
 
-(def eden {:add/argument "/argument"})
+(def eden {:add/argument               "/argument"
+           :search/arguments-by-author "/arguments/by-author"})
