@@ -33,6 +33,11 @@
   []
   (element "fa-search" [:nav :find] #(lib/save-current-and-change-view! :find)))
 
+(defn- eden-overview
+  "Open view to find statements inside of the discussion."
+  []
+  (element "fa-puzzle-piece" [:nav :eden] #(lib/save-current-and-change-view! :eden/overview)))
+
 (defn- login
   "Login switch."
   []
@@ -60,7 +65,7 @@
   (render [this]
           (html [:div.text-muted.discuss-nav
                  [:div.col.col-md-6.col-sm-6.col-xs-6
-                  (home) (find-arg) (options)]
+                  (home) (eden-overview) #_(find-arg) (options)]
                  [:div.col.col-md-6.col-sm-6.col-xs-6.text-right
                   (if (lib/logged-in?) (logout) (login))]])))
 (def nav (om/factory Nav))
