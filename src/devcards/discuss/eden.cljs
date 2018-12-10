@@ -7,7 +7,7 @@
             [discuss.views :as views]
             [discuss.communication.auth :as auth]
             [discuss.utils.common :as lib]
-            [devcards.discuss.utils :as utils]))
+            [discuss.utils.views :as vlib]))
 
 (defcard-om-next connection-browser
   options/ConnectionBrowser
@@ -15,8 +15,8 @@
 
 (defcard buttons
   (html [:div
-         (utils/button #(auth/login "Christian" "iamgroot") "Login as Christian")
-         (utils/button #(lib/last-api! "/town-has-to-cut-spending/justify/37/agree?history=/attitude/37") "Set :api/last-url")]))
+         (vlib/button #(auth/login "Christian" "iamgroot") "Login as Christian")
+         (vlib/button #(lib/last-api! "/town-has-to-cut-spending/justify/37/agree?history=/attitude/37") "Set :api/last-url")]))
 
 (defcard-om-next new-eden-argument
   eviews/EDENArgumentForm

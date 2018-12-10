@@ -8,6 +8,11 @@
             [discuss.references.lib :as rlib]
             [discuss.translations :refer [translate] :rename {translate t}]))
 
+(defn button [f display-text]
+  [:div.btn.btn-primary {:style {:marginRight "0.5em"}
+                         :onClick f}
+   display-text])
+
 (defn fa-icon
   "Wrapper for font-awesome icons."
   ([class]
