@@ -270,16 +270,25 @@
       (do (error! nil)
           res))))
 
+
 ;;;; Selections
 (defn get-selection
   "Return the stored selection of the user."
   []
   (load-from-app-state :selection/current))
 
+(defn save-selection!
+  "Store current selection to app-state."
+  [selection]
+  (store-to-app-state! 'selection/current selection))
+(s/fdef save-selection!
+  :args (s/cat :selection string?))
+
 (defn remove-selection!
   "Remove current selection for a 'clean' statement."
   []
-  (store-to-app-state! 'selection/current nil))
+  (save-selection! nil))
+
 
 ;;;; String Stuff
 (defn substring?
