@@ -6,7 +6,8 @@
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.views :as vlib]
             [discuss.views.alerts :as valerts]
-            [discuss.components.search.statements :as search]))
+            [discuss.components.search.statements :as search]
+            [discuss.utils.common :as lib]))
 
 (defui OverviewMenu
   Object
@@ -14,8 +15,38 @@
           (html [:div
                  (vlib/view-header (t :eden :overview))
                  (valerts/error-alert (om/props this))
+                 [:p.text-center (t :eden :overview/lead)]
+                 [:div.text-center
+                  (vlib/button #(lib/change-view-next! :eden/add-argument)
+                               (t :eden :arguments/construct))
+                  (vlib/button #(lib/change-view-next! :eden/show-arguments)
+                               (t :eden :arguments/show))]
+
                  ])))
 (def overview-menu (om/factory OverviewMenu))
+
+
+;; -----------------------------------------------------------------------------
+
+(defui Argument
+  Object
+  (render [this]
+          (let [{:keys [] :as argument} (om/props this)]
+            (html [:div "foo"]))))
+(def argument-view (om/factory Argument {:keyfn lib/get-unique-key}))
+
+(defui ShowArguments
+  static om/IQuery
+  (query [this] `[:eden/arguments])
+  Object
+  (componentDidMount
+   [this]
+   (eajax/search-arguments-by-author (lib/get-nickname)))
+  (render [this]
+          (let [{:keys [eden/arguments]} (om/props this)]
+            (html [:div
+                   (map argument-view arguments)]))))
+(def show-arguments (om/factory ShowArguments))
 
 (defui EDENArgumentForm
   "Form to add a new position and a reason to the discussion."
@@ -28,10 +59,10 @@
                 position (or (:position (om/get-state this)) "")
                 reason (or (:reason (om/get-state this)) "")
                 smaller-input (first (sort-by count [position reason]))]
-            (html [:div.panel.panel-default
+            (html [:div  ;; .panel.panel-default
                    {:onDragOver clipboard/allow-drop
                     :onDrop clipboard/update-reference-drop}
-                   [:div.panel-body
+                   [:div  ;; .panel-body
                     [:h5.text-center "Construct a new argument"]
                     (valerts/error-alert (om/props this))
 

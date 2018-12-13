@@ -30,7 +30,10 @@
                      :current      "Aktuelle Diskussion"
                      :restart      "Neustarten"
                      :submit       "Abschicken"}
-        :eden       {:overview "Übersicht deiner Argumente"}
+        :eden       {:overview "Meine Argumente"
+                     :overview/lead "Hier kannst du dich auf die nächste Diskussion vorbereiten. Beispielsweise kannst du ein neues Argument für die nächste Diskussion erzeugen oder deine bisherigen Argumente innerhalb dieses Netzwerkes anschauen."
+                     :arguments/construct "Neues Argument erstellen"
+                     :arguments/show "Meine Argumente anzeigen"}
         :errors     {:login "Login fehlgeschlagen. Vermutlich sind die Zugangsdaten nicht korrekt."}
         :find       {:statement "Finde Aussage in Diskussion"
                      :hits "Ergebnisse"}
@@ -85,7 +88,10 @@
                      :current "Current Discussion"
                      :restart "Restart"
                      :submit "Submit"}
-        :eden       {:overview "Overview of your Arguments"}
+        :eden       {:overview "My Arguments"
+                     :overview/lead "Find here some actions you can take for your next discussions. You can create new arguments to prepare for the next discussion or find your previously stated arguments in this network."
+                     :arguments/construct "Construct new Argument"
+                     :arguments/show "Show my Arguments"}
         :errors     {:login "Could not login. Maybe your credentials are wrong."}
         :find       {:statement "Find statement in the discussion"
                      :hits "Results"}

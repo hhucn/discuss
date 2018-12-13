@@ -7,7 +7,10 @@
             [discuss.views :as views]
             [discuss.communication.auth :as auth]
             [discuss.utils.common :as lib]
-            [discuss.utils.views :as vlib]))
+            [discuss.utils.views :as vlib]
+            [discuss.references.main :as ref]
+            [discuss.references.lib :as rlib]
+            [discuss.utils.faker :as faker]))
 
 (defcard-om-next connection-browser
   options/ConnectionBrowser
@@ -16,6 +19,7 @@
 (defcard buttons
   (html [:div
          (vlib/button #(auth/login "Christian" "iamgroot") "Login as Christian")
+         (vlib/button #(lib/save-selection! (faker/random-sentence)) "Set random reference")
          (vlib/button #(lib/last-api! "/town-has-to-cut-spending/justify/37/agree?history=/attitude/37") "Set :api/last-url")]))
 
 (defcard-om-next new-eden-argument

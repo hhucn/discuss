@@ -56,10 +56,11 @@
 (defui ViewDispatcher
   static om/IQuery
   (query [this]
-         `[:layout/view :layout/lang :layout/error
+         `[:layout/view :layout/lang :layout/error :eden/arguments
            {:layout/views ~(om/get-query vlogin/LoginForm)}
            {:discussion/items ~(om/get-query DiscussionElements)}
            {:discussion/bubbles ~(om/get-query DiscussionElements)}
+           {:eden/add-argument ~(om/get-query eviews/EDENArgumentForm)}
            {:references/usages ~(om/get-query ref/UsagesView)}])
   Object
   (render [this]
@@ -71,6 +72,8 @@
                       :options (options/options (om/props this))
                       :reference-usages (ref/usages-view-next (om/props this))
                       :eden/overview (eviews/overview-menu (om/props this))
+                      :eden/add-argument (eviews/eden-argument-form (om/props this))
+                      :eden/show-arguments (eviews/show-arguments (om/props this))
                       ;; TODO: :reference-create-with-ref (om/build ref/create-with-reference-view data)
                       ;; TODO: :find (om/build find/view data)
                       (discussion-elements-next (om/props this)))
@@ -85,11 +88,12 @@
          `[:issue/info :layout/add? :discussion/add-step :layout/view
            :layout/title :layout/lang :layout/error :user/avatar
            :user/nickname :user/logged-in? :selection/current :layout/error
-           :search/results :search/selected :host/dbas :host/eden
+           :search/results :search/selected :host/dbas :host/eden :eden/arguments
            {:discussion/items ~(om/get-query ViewDispatcher)}
            {:discussion/bubbles ~(om/get-query ViewDispatcher)}
            {:discussion/bubbles ~(om/get-query vadd/StatementForm)}
            {:discussion/bubbles ~(om/get-query vadd/PositionForm)}
+           {:eden/add-argument ~(om/get-query eviews/EDENArgumentForm)}
            {:clipboard/items ~(om/get-query clipboard/Clipboard)}
            {:nav/nav ~(om/get-query nav/Nav)}
            {:references/usages ~(om/get-query ref/UsagesView)}])
