@@ -7,7 +7,21 @@
             [discuss.utils.logging :as log]
             [discuss.eden.specs :as especs]))
 
-(defn after-eden-post-handler []
+(defn- assoc-reference
+  "Add reference to premise and conclusion if it has been selected. Else returns
+  the unmodified body."
+  [body reference]
+  (if (seq reference)
+    (let [ref-list [{:text reference}]]
+      (-> body
+          (assoc-in [:premise :references] ref-list)
+          (assoc-in [:conclusion :references] ref-list)))
+    body))
+(s/fdef assoc-reference
+  :args (s/cat :body map? :reference string?)
+  :ret map?)
+
+(defn- after-eden-post-handler []
   (lib/change-view-next! :eden/overview))
 
 (defn post-eden-argument
@@ -16,13 +30,12 @@
   (let [request-url (str (lib/host-eden) (:add/argument config/eden))
         headers {"Content-Type" "application/json"}
         handler after-eden-post-handler
-        author-id (lib/get-user-id)
-        body {:premise premise
-              :conclusion (if (nil? selected) conclusion (:text selected))
-              :author-id author-id
-              :reference reference
-              :link-type :support}]
-    (comlib/do-post request-url body handler comlib/error-handler headers)))
+        body {:premise {:text premise}
+              :conclusion {:text (if (nil? selected) conclusion (:text selected))}
+              :author-id (lib/get-user-id)
+              :link-type :support}
+        body-with-ref (assoc-reference body reference)]
+    (comlib/do-post request-url body-with-ref handler comlib/error-handler headers)))
 
 (defn- received-arguments-handler [response]
   (let [arguments (-> response lib/json->clj :arguments)
@@ -39,6 +52,3 @@
         {:handler received-arguments-handler
          :params {:author-name author}}))
   ([] (search-arguments-by-author (lib/get-nickname))))
-
-
-(search-arguments-by-author "woot")
