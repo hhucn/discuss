@@ -7,14 +7,16 @@
 (defn- success-login
   "Callback function when login was successful. Set attributes of user."
   [response]
-  (let [{:keys [nickname uid token]} (lib/process-response response)]
+  (let [{:keys [nickname uid token]} (lib/process-response response)
+        last-api-call (lib/get-last-api)]
      (lib/store-multiple-values-to-app-state!
      [['user/nickname nickname]
       ['user/token token]
       ['user/id uid]
       ['user/logged-in? true]
       ['layout/view :default]])
-    (comlib/ajax-get (lib/get-last-api))))
+     (when (seq last-api-call)
+       (comlib/ajax-get last-api-call))))
 
 (defn- wrong-login
   "Callback function for invalid credentials."
