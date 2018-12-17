@@ -343,6 +343,16 @@
   [lang]
   (store-to-app-state! 'layout/lang lang))
 
+(defn language-locale
+  "Return String as a locale for DateTime instances etc. Defaults to en-US."
+  []
+  (let [lang (language)]
+    (case lang
+      :de "de-DE"
+      "en-US")))
+(s/fdef language-locale
+  :ret string?)
+
 
 ;;;; Other
 (defn get-value-by-id
