@@ -28,11 +28,63 @@
 
 ;; -----------------------------------------------------------------------------
 
+(defn- format-unix-time
+  "Format unix timestamp to a readable string."
+  ([seconds locale]
+   (let [js-date (js/Date. (* 1000 seconds))]
+     (str
+      (.toLocaleDateString js-date locale)
+      ", "
+      (.toLocaleTimeString js-date locale))))
+  ([seconds]
+   (format-unix-time seconds (lib/language-locale))))
+
+(defn- maybe-print-timestamp
+  "If there is a timestamp provided, pack it into a string."
+  [seconds]
+  (when (seq seconds) (str ", " (format-unix-time seconds))))
+
+(defn- references-to-list [references]
+  (let [wrapped-refs (map #(str "\"" (:text %) "\"") references)]
+    (if (= 1 (count wrapped-refs))
+      (first wrapped-refs)
+      (into [:ul]
+            (for [e wrapped-refs]
+              [:li e])))))
+
 (defui Argument
   Object
   (render [this]
-          (let [{:keys [] :as argument} (om/props this)]
-            (html [:div "foo"]))))
+          (let [{:keys [link premise conclusion]} (om/props this)
+                argument-author (get-in link [:author :name])
+                premise-author (get-in premise [:content :author :name])
+                conclusion-author (get-in conclusion [:content :author :name])
+                conclusion-references (:references conclusion)]
+            (prn conclusion-references)
+            (html [:div.bs-callout.bs-callout-info
+                   [:p (vlib/safe-html (str (get-in premise [:content :text])
+                                            " " (t :common :because) " "
+                                            (get-in conclusion [:content :text])))]
+                   [:div.row
+                    [:div.col-sm-4
+                     [:p [:span.btn.btn-sm.btn-primary
+                          {:on-click nil #_#(om/transact! parser/reconciler `[(search/selected {:value ~search-result})
+                                                                              (search/results {:value []})])}
+                          (t :search :reuse)]]]
+
+                    [:div.col-sm-8.small
+                     [:dl.dl-horizontal
+                      [:dt "Argument"]
+                      [:dd "By " argument-author (maybe-print-timestamp (:created link))]
+                      [:dt "Premise"]
+                      [:dd "By " premise-author (maybe-print-timestamp (:created (:content premise)))]
+                      [:dt "Conclusion"]
+                      [:dd "By " conclusion-author (maybe-print-timestamp (:created (:content conclusion)))]
+
+                      (when (seq conclusion-references)
+                        [:span
+                         [:dt "References"]
+                         [:dd (references-to-list conclusion-references)]])]]]]))))
 (def argument-view (om/factory Argument {:keyfn lib/get-unique-key}))
 
 (defui ShowArguments
@@ -43,9 +95,10 @@
    [this]
    (eajax/search-arguments-by-author (lib/get-nickname)))
   (render [this]
-          (let [{:keys [eden/arguments]} (om/props this)]
+          (let [{:keys [eden/arguments]} (om/props this)
+                supportive-arguments (filter #(= :support (:type (:link %))) arguments)]
             (html [:div
-                   (map argument-view arguments)]))))
+                   (map argument-view supportive-arguments)]))))
 (def show-arguments (om/factory ShowArguments))
 
 (defui EDENArgumentForm
