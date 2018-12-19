@@ -13,8 +13,10 @@
             [discuss.parser :as parser]))
 
 (s/def ::uid integer?)
+(s/def ::id integer?)
 (s/def ::text string?)
-(s/def ::nickname string?)
+(s/def ::name string?)
+(s/def ::nickname (s/keys :req-un [::name ::id]))
 (s/def ::author (s/keys :req-un [::nickname]
                         :opt-un [::uid]))
 
@@ -48,6 +50,7 @@
 (defn- valid-statement?
   "Check whether the results from the API are correct and log them if not."
   [statement]
+  (prn statement)
   (if (s/valid? ::search-result statement)
     statement
     (log/debug "Received invalid statement: " statement)))
@@ -171,7 +174,7 @@
                          (str (t :search :origin) ": " aggregator)
                          [:br]])
                       [:span.label.label-default
-                       (str (t :search :author) ": " (:nickname author))]]]]]))))
+                       (str (t :search :author) ": " (:name (:nickname author)))]]]]]))))
 (def result (om/factory Result))
 
 (defui Results

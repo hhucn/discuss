@@ -99,7 +99,7 @@
            {:references/usages ~(om/get-query ref/UsagesView)}])
   Object
   (render [this]
-          (let [{:keys [issue/info layout/add? layout/title discussion/add-step]} (om/props this)]
+          (let [{:keys [issue/info layout/add? layout/title layout/view discussion/add-step]} (om/props this)]
             #_(tooltip/track-user-selection)
             (html
              [:div#discuss-dialog-main
@@ -120,10 +120,10 @@
                 [:div
                  (if (= :add/position add-step)
                    (vadd/position-form (om/props this))
-                   (vadd/statement-form (om/props this)))
-                 (search/results (om/props this))])
+                   (vadd/statement-form (om/props this)))])
               [:div (nav/nav (om/props this))]
               [:br]
+              (search/results (om/props this))
               [:div (clipboard/clipboard (om/props this))]
               [:br]
               [:p.text-muted "Connected to: " (lib/host-dbas)]
