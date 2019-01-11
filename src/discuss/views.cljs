@@ -77,7 +77,7 @@
                       ;; TODO: :reference-create-with-ref (om/build ref/create-with-reference-view data)
                       ;; TODO: :find (om/build find/view data)
                       (discussion-elements-next (om/props this)))
-                    (if (some #{view} [:login :options :find :reference-usages])
+                    (if (some #{view} [:login :options :find :reference-usages :eden/overview])
                       (close-button-next)
                       (control-elements-next))]]))))
 (def view-dispatcher-next (om/factory ViewDispatcher))
@@ -120,7 +120,7 @@
                 [:div
                  (if (= :add/position add-step)
                    (vadd/position-form (om/props this))
-                   (vadd/statement-form (om/props this)))])
+                   (vadd/statement-form (merge {:button-fn #(prn "Foo")} (om/props this))))])
               [:div (nav/nav (om/props this))]
               [:br]
               (search/results (om/props this))
