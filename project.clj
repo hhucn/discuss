@@ -6,9 +6,9 @@
 
   :min-lein-version "2.5.3"
 
-  :hooks [leiningen.cljsbuild]
+  ;; :hooks [leiningen.cljsbuild]
 
-  :dependencies [[org.clojure/clojure "1.9.0"]
+  :dependencies [[org.clojure/clojure "1.10.0"]
                  [org.clojure/clojurescript "1.10.439"]
                  [org.clojure/core.async "0.4.490" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
