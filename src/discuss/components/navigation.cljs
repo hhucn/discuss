@@ -62,7 +62,7 @@
 (defui Nav
   static om/IQuery
   (query [this]
-         [:user/logged-in? :layout/lang])
+         [:user/logged-in? :layout/lang :host/eden :host/dbas])
   Object
   (render [this]
           (html [:div.text-muted.discuss-nav
