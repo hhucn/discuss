@@ -5,24 +5,26 @@
             [discuss.utils.common :as lib]
             [discuss.utils.logging :as log]))
 
-(defn get-stored-selections
-  "Return all stored selections."
+(defn get-items
+  "Return collection of previously stored text-passages."
   []
-  (log/info "Deprecated call to get-stored-selections")
-  #_(let [selections (get-in @lib/app-state [:clipboard :selections])]
-    (or selections [])))
+  (lib/load-from-app-state :clipboard/items))
 
 (defn remove-item!
   "Removes clicked selection."
-  [title]
-  (log/info "Deprecated call to remove-item!")
-  #_(let [rcol (remove #(= (:title %) title) (get-stored-selections))]
-    (lib/update-state-item! :clipboard :selections (fn [] rcol))))
+  [item]
+  (let [rcol (remove #(= % item) (get-items))]
+    (lib/store-to-app-state! 'clipboard/items rcol)))
+
+(defn get-stored-selections
+  "Return all stored selections."
+  []
+  (get-items))
 
 (defn add-item!
   "Store current selection in clipboard."
   ([current]
-   (log/info "Deprecated call to add-item!")
+   (lib/store-to-app-state! 'clipboard/items (conj (get-items) current))
    #_(let [selections (get-stored-selections)
          current current
          with-current (distinct (merge selections {:title current}))]
