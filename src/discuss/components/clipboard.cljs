@@ -16,19 +16,10 @@
   (let [rcol (remove #(= % item) (get-items))]
     (lib/store-to-app-state! 'clipboard/items rcol)))
 
-(defn get-stored-selections
-  "Return all stored selections."
-  []
-  (get-items))
-
 (defn add-item!
   "Store current selection in clipboard."
   ([current]
-   (lib/store-to-app-state! 'clipboard/items (conj (get-items) current))
-   #_(let [selections (get-stored-selections)
-         current current
-         with-current (distinct (merge selections {:title current}))]
-     #_(lib/update-state-item! :clipboard :selections (fn [_] with-current))))
+   (lib/store-to-app-state! 'clipboard/items (conj (get-items) current)))
   ([] (add-item! (lib/get-selection))))
 
 
@@ -59,7 +50,7 @@
                     :draggable true
                     :onDragStart drag-event}
               item]))))
-(def clipboard-item-next (om/factory ClipboardItem {:keyfn identity}))
+(def clipboard-item (om/factory ClipboardItem {:keyfn identity}))
 
 (defui Clipboard
   static om/IQuery
@@ -71,5 +62,5 @@
               (html [:div {:style {:paddingTop "rem"}}
                      [:h5 (t :clipboard :heading)]
                      [:p (t :clipboard :instruction)]
-                     (map clipboard-item-next items)])))))
+                     (map clipboard-item items)])))))
 (def clipboard (om/factory Clipboard))
