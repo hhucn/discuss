@@ -5,7 +5,8 @@
             [discuss.references.integration :as rint]
             [discuss.communication.lib :as comlib]
             [discuss.components.search.statements :as search]
-            [discuss.utils.logging :as log]))
+            [discuss.utils.logging :as log]
+            [discuss.config :as config]))
 
 ;; Handler
 (defn process-url-handler
@@ -22,16 +23,7 @@
 (defn post-json
   "Wrapper to prepare a POST request. Sending and receiving JSON."
   ([url body handler headers]
-   (let [request-url (comlib/make-url url)]
-     (log/info (str "Posting " body " to " request-url))
-     (POST request-url
-           {:body            (lib/clj->json body)
-            :handler         handler
-            :error-handler   comlib/error-handler
-            :format          :json
-            :response-format :json
-            :headers         headers
-            :keywords?       true})))
+   (comlib/do-post (comlib/make-url url) body handler comlib/error-handler headers))
   ([url body handler]
    (post-json url body handler {"Content-Type" "application/json"}))
   ([url body]

@@ -28,6 +28,7 @@
 (def api {:init  "/cat-or-dog"
           :base  "/"
           :login "/login"
+          :logout "/logout"
           :add   {:add-start-statement "/add/start_statement"
                   :add-start-premise   "/add/start_premise"
                   :add-justify-premise "/add/justify_premise"}
@@ -36,3 +37,6 @@
                   :statements       "/statements"
                   :statement-url    "/statement/url"}
           :jump  "/:slug/jump/:argument-id"})
+
+(def eden {:add/argument               "/argument"
+           :search/arguments-by-author "/arguments/by-author"})

@@ -10,7 +10,8 @@
             [devcards.discuss.components.references]
             [devcards.discuss.components.options]
             [devcards.discuss.views.login]
-            [devcards.discuss.views.alerts]))
+            [devcards.discuss.views.alerts]
+            [devcards.discuss.eden]))
 
 (enable-console-print!)
 

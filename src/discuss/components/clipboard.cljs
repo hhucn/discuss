@@ -5,24 +5,26 @@
             [discuss.utils.common :as lib]
             [discuss.utils.logging :as log]))
 
-(defn get-stored-selections
-  "Return all stored selections."
+(defn get-items
+  "Return collection of previously stored text-passages."
   []
-  (log/info "Deprecated call to get-stored-selections")
-  #_(let [selections (get-in @lib/app-state [:clipboard :selections])]
-    (or selections [])))
+  (lib/load-from-app-state :clipboard/items))
 
 (defn remove-item!
   "Removes clicked selection."
-  [title]
-  (log/info "Deprecated call to remove-item!")
-  #_(let [rcol (remove #(= (:title %) title) (get-stored-selections))]
-    (lib/update-state-item! :clipboard :selections (fn [] rcol))))
+  [item]
+  (let [rcol (remove #(= % item) (get-items))]
+    (lib/store-to-app-state! 'clipboard/items rcol)))
+
+(defn get-stored-selections
+  "Return all stored selections."
+  []
+  (get-items))
 
 (defn add-item!
   "Store current selection in clipboard."
   ([current]
-   (log/info "Deprecated call to add-item!")
+   (lib/store-to-app-state! 'clipboard/items (conj (get-items) current))
    #_(let [selections (get-stored-selections)
          current current
          with-current (distinct (merge selections {:title current}))]
@@ -35,38 +37,33 @@
 
 (defn update-reference-drop
   "Use text from clipboard item as reference for own statement."
-  [_ev]
-  (log/info "Deprecated call to update-reference-drop")
-  #_(let [clipboard-item (get-in @lib/app-state [:clipboard :current])]
-    (lib/update-state-item! :user :selection (fn [_] (.. clipboard-item -innerText)))))
+  [e]
+  (let [clipboard-item (.getData (.. e -dataTransfer) "reference")]
+    (lib/store-to-app-state! 'selection/current clipboard-item)))
 
 (defn allow-drop [ev]
   (.preventDefault ev))
 
 (defn- drag-event [ev]
-  (let [target (.. ev -target)]
-    #_(lib/update-state-item! :clipboard :current (fn [_] target))))
+  (.setData (.. ev -dataTransfer) "reference" (.. ev -target -innerText)))
 
 
 ;; -----------------------------------------------------------------------------
 
 (defui ClipboardItem
-  static om/IQuery
-  (query [this] [:title])
   Object
   (render [this]
-          (let [{:keys [title]} (om/props this)]
+          (let [item (om/props this)]
             (html
              [:div {:className "bs-callout bs-callout-info"
                     :draggable true
                     :onDragStart drag-event}
-              title]))))
-(def clipboard-item-next (om/factory ClipboardItem {:keyfn :title}))
+              item]))))
+(def clipboard-item-next (om/factory ClipboardItem {:keyfn identity}))
 
 (defui Clipboard
   static om/IQuery
-  (query [this]
-         [{:clipboard/items (om/get-query ClipboardItem)}])
+  (query [this] [:clipboard/items])
   Object
   (render [this]
           (let [{:keys [clipboard/items]} (om/props this)]

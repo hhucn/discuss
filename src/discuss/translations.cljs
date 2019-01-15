@@ -30,6 +30,10 @@
                      :current      "Aktuelle Diskussion"
                      :restart      "Neustarten"
                      :submit       "Abschicken"}
+        :eden       {:overview "Meine Argumente"
+                     :overview/lead "Finde hier deine Argumente, welche du in verschiedenen Diskussionen eingeführt hast und springe direkt in die Diskussionen hinein."
+                     :arguments/construct "Neues Argument erstellen"
+                     :arguments/show "Meine Argumente anzeigen"}
         :errors     {:login "Login fehlgeschlagen. Vermutlich sind die Zugangsdaten nicht korrekt."}
         :find       {:statement "Finde Aussage in Diskussion"
                      :hits "Ergebnisse"}
@@ -38,7 +42,8 @@
                      :hhu-ldap "Wir benutzen das Personenverzeichnug der Heinrich-Heine-Universität Düsseldorf. Alle Daten und Informationen werden natürlich SSL-verschlüsselt gesendet und nach Erhalt unter keinen Umständen an Dritte weitergegeben."
                      :item "Klicke hier, damit du dich einloggen und eine neue Aussage hinzufügen kannst"}
         :nav        {:home "Start"
-                     :find "Suchen"}
+                     :find "Suchen"
+                     :eden "Meine Argumente"}
         :options    {:current "Aktuell"
                      :default "Standard"
                      :heading "Einstellungen"
@@ -83,6 +88,10 @@
                      :current "Current Discussion"
                      :restart "Restart"
                      :submit "Submit"}
+        :eden       {:overview "My Arguments"
+                     :overview/lead "You provided these arguments in your discussions. Create a list of them and directly jump into the discussion."
+                     :arguments/construct "Construct new Argument"
+                     :arguments/show "Show my Arguments"}
         :errors     {:login "Could not login. Maybe your credentials are wrong."}
         :find       {:statement "Find statement in the discussion"
                      :hits "Results"}
@@ -91,6 +100,7 @@
                      :hhu-ldap "We are using the Register of Persons of the Heinrich-Heine-University Düsseldorf. All data and information are of course sent SSL encrypted and will never be passed on to any third parties after receipt."
                      :item "Click here to authenticate and to be able to submit your own statements"}
         :nav        {:home "Home"
+                     :eden "My Arguments"
                      :find "Find"}
         :options    {:current "Current"
                      :default "Default"

@@ -1,21 +1,22 @@
 (ns discuss.communication.auth
-  (:require [ajax.core :refer [POST]]
-            [discuss.communication.lib :as comlib]
+  (:require [discuss.communication.lib :as comlib]
             [discuss.config :as config]
             [discuss.translations :refer [translate] :rename {translate t}]
-            [discuss.utils.common :as lib]
-            [om.next :as om]
-            [discuss.parser :as parser]))
+            [discuss.utils.common :as lib]))
 
 (defn- success-login
   "Callback function when login was successful. Set attributes of user."
   [response]
-  (let [{:keys [nickname token]} (lib/process-response response)]
-    (om/transact! parser/reconciler `[(user/nickname {:value ~nickname})
-                                      (user/token {:value ~token})
-                                      (user/logged-in? {:value true})
-                                      (layout/view {:value :default})])
-    (comlib/ajax-get (lib/get-last-api))))
+  (let [{:keys [nickname uid token]} (lib/process-response response)
+        last-api-call (lib/get-last-api)]
+     (lib/store-multiple-values-to-app-state!
+     [['user/nickname nickname]
+      ['user/token token]
+      ['user/id uid]
+      ['user/logged-in? true]
+      ['layout/view :default]])
+     (when (seq last-api-call)
+       (comlib/ajax-get last-api-call))))
 
 (defn- wrong-login
   "Callback function for invalid credentials."
@@ -26,15 +27,10 @@
 (defn ajax-login
   "Get cleaned data and send ajax request."
   [nickname password]
-  (let [url (:login config/api)]
-    (POST (comlib/make-url url)
-          {:body            (lib/clj->json {:nickname nickname
-                                            :password password})
-           :handler         success-login
-           :error-handler   wrong-login
-           :response-format :json
-           :headers         {"Content-Type" "application/json"}
-           :keywords?       true})))
+  (let [url (comlib/make-url (:login config/api))
+        body {:nickname nickname
+              :password password}]
+    (comlib/do-post url body success-login wrong-login)))
 
 (defn login
   "Use login form data, validate it and send ajax request."
@@ -43,10 +39,17 @@
              (pos? (count password)))
     (ajax-login nickname password)))
 
+(defn success-logout [response]
+  (lib/store-multiple-values-to-app-state!
+   [['user/nickname nil]
+    ['user/token nil]
+    ['user/id nil]
+    ['user/logged-in? false]])
+  (comlib/ajax-get (lib/get-last-api)))
+
 (defn logout
   "Reset user credentials."
   []
-  (om/transact! parser/reconciler `[(user/nickname {:value nil})
-                                    (user/token {:value nil})
-                                    (user/logged-in? {:value false})])
-  (comlib/ajax-get (lib/get-last-api)))
+  (when (lib/logged-in?)
+    (let [url (comlib/make-url (:logout config/api))]
+      (comlib/do-post url nil success-logout comlib/error-handler))))

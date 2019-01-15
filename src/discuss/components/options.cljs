@@ -19,9 +19,6 @@
 ;; -----------------------------------------------------------------------------
 ;; Set hosts
 
-(s/fdef set-host-config
-  :args (s/cat :this any? :title string? :current-host string?
-               :default-host string? :set-host fn? :reset-host fn?))
 (defn- set-host-config [this title current-host default-host set-host reset-host]
   (let [content (or (get (om/get-state this) :content) "")]
     [:div
@@ -46,15 +43,18 @@
       {:onClick reset-host}
       (t :options :reset)]]))
 
+(s/fdef set-host-config
+  :args (s/cat :this any? :title string? :current-host string?
+               :default-host string? :set-host fn? :reset-host fn?))
+
 (defui HostDBAS
   static om/IQuery
   (query [this]
          `[:host/dbas :layout/lang])
   Object
   (render [this]
-          (let [{:keys [host/dbas]} (om/props this)]
-            (html
-             (set-host-config this "D-BAS API" lib/host-dbas config/remote-host lib/host-dbas! lib/host-dbas-reset!)))))
+          (html
+           (set-host-config this "D-BAS API" lib/host-dbas config/remote-host lib/host-dbas! lib/host-dbas-reset!))))
 (def host-dbas (om/factory HostDBAS))
 
 (defui HostEDEN
@@ -63,9 +63,8 @@
          `[:host/eden :layout/lang])
   Object
   (render [this]
-          (let [{:keys [host/eden]} (om/props this)]
-            (html
-             (set-host-config this "EDEN Search" lib/host-eden config/search-host lib/host-eden! lib/host-eden-reset!)))))
+          (html
+           (set-host-config this "EDEN Search" lib/host-eden config/search-host lib/host-eden! lib/host-eden-reset!))))
 (def host-eden (om/factory HostEDEN))
 
 ;; -----------------------------------------------------------------------------
@@ -108,9 +107,9 @@
 (defui Options
   static om/IQuery
   (query [this]
-         `[:layout/lang :host/dbas :host/eden
-           {:options/host-dbas ~(om/get-query HostDBAS)}
-           {:options/host-eden ~(om/get-query HostEDEN)}])
+         `[:layout/lang
+           {:host/dbas ~(om/get-query HostDBAS)}
+           {:host/eden ~(om/get-query HostEDEN)}])
   Object
   (render [this]
           (html

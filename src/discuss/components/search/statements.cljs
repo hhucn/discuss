@@ -8,14 +8,15 @@
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.views :as vlib]
             [discuss.utils.common :as lib]
-            [discuss.config :as config]
             [discuss.communication.lib :as comlib]
             [discuss.utils.logging :as log]
             [discuss.parser :as parser]))
 
 (s/def ::uid integer?)
+(s/def ::id integer?)
 (s/def ::text string?)
-(s/def ::nickname string?)
+(s/def ::name string?)
+(s/def ::nickname (s/keys :req-un [::name ::id]))
 (s/def ::author (s/keys :req-un [::nickname]
                         :opt-un [::uid]))
 
@@ -49,6 +50,7 @@
 (defn- valid-statement?
   "Check whether the results from the API are correct and log them if not."
   [statement]
+  (prn statement)
   (if (s/valid? ::search-result statement)
     statement
     (log/debug "Received invalid statement: " statement)))
@@ -92,7 +94,7 @@
   [statement]
   (let [identifier (:identifier statement)
         content (:content statement)]
-    {:text (:content-string content)
+    {:text (:text content)
      :author {:nickname (:author content)}
      :identifier {:aggregate-id (:aggregate-id identifier)
                   :entity-id (int (:entity-id identifier))
@@ -172,7 +174,7 @@
                          (str (t :search :origin) ": " aggregator)
                          [:br]])
                       [:span.label.label-default
-                       (str (t :search :author) ": " (:nickname author))]]]]]))))
+                       (str (t :search :author) ": " (:name (:nickname author)))]]]]]))))
 (def result (om/factory Result))
 
 (defui Results
