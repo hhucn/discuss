@@ -37,38 +37,33 @@
 
 (defn update-reference-drop
   "Use text from clipboard item as reference for own statement."
-  [_ev]
-  (log/info "Deprecated call to update-reference-drop")
-  #_(let [clipboard-item (get-in @lib/app-state [:clipboard :current])]
-    (lib/update-state-item! :user :selection (fn [_] (.. clipboard-item -innerText)))))
+  [e]
+  (let [clipboard-item (.getData (.. e -dataTransfer) "reference")]
+    (lib/store-to-app-state! 'selection/current clipboard-item)))
 
 (defn allow-drop [ev]
   (.preventDefault ev))
 
 (defn- drag-event [ev]
-  (let [target (.. ev -target)]
-    #_(lib/update-state-item! :clipboard :current (fn [_] target))))
+  (.setData (.. ev -dataTransfer) "reference" (.. ev -target -innerText)))
 
 
 ;; -----------------------------------------------------------------------------
 
 (defui ClipboardItem
-  static om/IQuery
-  (query [this] [:title])
   Object
   (render [this]
-          (let [{:keys [title]} (om/props this)]
+          (let [item (om/props this)]
             (html
              [:div {:className "bs-callout bs-callout-info"
                     :draggable true
                     :onDragStart drag-event}
-              title]))))
-(def clipboard-item-next (om/factory ClipboardItem {:keyfn :title}))
+              item]))))
+(def clipboard-item-next (om/factory ClipboardItem {:keyfn identity}))
 
 (defui Clipboard
   static om/IQuery
-  (query [this]
-         [{:clipboard/items (om/get-query ClipboardItem)}])
+  (query [this] [:clipboard/items])
   Object
   (render [this]
           (let [{:keys [clipboard/items]} (om/props this)]
