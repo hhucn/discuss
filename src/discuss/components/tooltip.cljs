@@ -20,13 +20,13 @@
   "Show tooltip by removing a class."
   []
   (when-let [tooltip (get-tooltip)]
-    (lib/add-class tooltip "discuss-tooltip-active")))
+    (lib/add-class tooltip (lib/prefix-name "tooltip-active"))))
 
 (defn hide
   "Hide tooltip by adding a class."
   []
   (when-let [tooltip (get-tooltip)]
-    (lib/remove-class tooltip "discuss-tooltip-active")))
+    (lib/remove-class tooltip  (lib/prefix-name "tooltip-active"))))
 
 (defn x-position
   "Center tooltip at mouse selection."
@@ -99,11 +99,11 @@
           (html [:div#discuss-tooltip
                  (vlib/logo)
                  (vlib/safe-space) " | " (vlib/safe-space)
-                 [:span.pointer {:onClick (fn [] (clipboard/add-item!) (sidebar/show) (hide))}
+                 [:span.pointer {:onClick (fn [] (clipboard/add-item!) #_(sidebar/show) (hide))}
                   (vlib/fa-icon "fa-bookmark-o")
                   (translate :common :save :space)]
                  (vlib/safe-space) "  " (vlib/safe-space)
-                 [:span.pointer {:onClick (fn [] (sidebar/show) (hide))}
+                 [:span.pointer {:onClick (fn [] #_(sidebar/show) (hide))}
                   (vlib/fa-icon "fa-comment")
                   (translate :common :show-discuss :space)]])))
 (def tooltip (om/factory Tooltip))
