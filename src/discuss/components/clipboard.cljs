@@ -3,7 +3,7 @@
             [sablono.core :as html :refer-macros [html]]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.common :as lib]
-            [discuss.utils.logging :as log]))
+            [discuss.utils.views :as vlib]))
 
 (defn get-items
   "Return collection of previously stored text-passages."
@@ -47,9 +47,18 @@
           (let [item (om/props this)]
             (html
              [:div {:className "bs-callout bs-callout-info"
-                    :draggable true
-                    :onDragStart drag-event}
-              item]))))
+                    ;; :draggable true
+                    ;; :onDragStart drag-event
+                    }
+              item
+              [:div.pull-right
+               [:div.btn.btn-default.btn-xs
+                {:onClick #(lib/save-selection! item)}
+                (t :common :select) " " (vlib/fa-icon "fa-check-square-o")]
+               " "
+               [:div.btn.btn-default.btn-xs
+                {:onClick #(remove-item! item)}
+                (t :common :delete) " " (vlib/fa-icon "fa-times")]]]))))
 (def clipboard-item (om/factory ClipboardItem {:keyfn identity}))
 
 (defui Clipboard
