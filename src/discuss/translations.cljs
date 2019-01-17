@@ -24,7 +24,7 @@
                      :start-discussion "Starte die Diskussion"
                      :that             "dass"}
         :clipboard  {:heading "Clipboard"
-                     :instruction "Ziehe diese Referenzen in das Textfeld beim Erzeugen eines neuen Arguments, um die Referenz zu nutzen."}
+                     :instruction "Wähle eine Referenz aus dieser Liste aus, um beim Erzeugen eines neuen Arguments diese Referenz mit dem neuen Argument zu verknüpfen."}
         :discussion {:add-position "Nichts von all dem. Ich habe eine andere Idee"
                      :add-position-heading "Mein Vorschlag wäre, dass"
                      :add-position-placeholder "wir dieses oder jenes machen sollten"
@@ -84,7 +84,7 @@
                      :start-discussion "Start Discussion"
                      :that             "that"}
         :clipboard  {:heading "Clipboard"
-                     :instruction "Drag a reference into the text-field on new argument creation to link the reference with your argument."}
+                     :instruction "Select a reference from this list on new argument creation to link the reference with your argument."}
         :discussion {:add-position  "Neither of the above, I have a different idea"
                      :add-position-heading "My suggestion would be that"
                      :add-position-placeholder "we should do this or that"
@@ -119,7 +119,6 @@
                      :usages/not-found-lead "No assigned arguments found"
                      :usages/not-found-body "Maybe the assigned arguments have been removed"
                      :where-used "Where has this reference been used?"
-                     :clipboard "Drag these references into the input field when creating a new argument"
                      :ask-to-add "Do you want to add a reference from this site to your statement? Just select the desired text-passage and it will be inserted in this field."
                      :disabled/tooltip "You can't modify this field. Please select the appropriate text-passage from the website. The selection will be automatically added to this field."}
         :search      {:reuse "Select Statement"
