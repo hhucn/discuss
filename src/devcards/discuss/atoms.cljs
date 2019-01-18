@@ -6,11 +6,7 @@
             [discuss.components.options :as options]
             [discuss.components.navigation :as nav]
             [discuss.components.clipboard :as clipboard]
-            [discuss.components.items :as items]
-            [discuss.utils.views :as vlib]))
-
-(defcard-om-next loader
-  vlib/Loader)
+            [discuss.components.items :as items]))
 
 (defcard close-button-next
   views/close-button-next)
