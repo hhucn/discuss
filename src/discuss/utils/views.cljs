@@ -3,6 +3,7 @@
             [goog.dom :as gdom]
             [goog.string :as gstring]
             [om.core :as om]
+            [om.next :as nom :refer-macros [defui]]
             [om.dom :as dom]
             [discuss.utils.common :as lib]
             [discuss.references.lib :as rlib]
@@ -63,14 +64,6 @@
 
 (defn toggle-show [show] (if show false true))
 
-(defn loading-element
-  "Show spinning loading icon when app is loading."
-  []
-  (when (lib/loading?)
-    (dom/div #js {:className "loader"}
-             (dom/svg #js {:className "circular" :viewBox "25 25 50 50"}
-                      (dom/circle #js {:className "path" :cx "50" :cy "50" :r "20" :fill "none" :strokeWidth "5" :strokeMiterlimit "10"})))))
-
 (defn scroll-divs-to-bottom
   "Align divs to bottom. Scrolls down the complete content of each div."
   [class]
@@ -121,3 +114,18 @@
         (str remaining " " (t :common :chars-remaining))
         (t :discussion :submit)))
     (t :discussion :submit)))
+
+
+;; -----------------------------------------------------------------------------
+
+(defui Loader
+  Object
+  (render
+   [this]
+   (html [:div.loader
+          [:svg.circular {:viewBox "25 25 50 50"}
+           [:circle.path {:cx "50" :cy "50" :r "20"
+                          :fill "none" :strokeWidth "5"
+                          :strokeMiterlimit "10"}]]])))
+(def loader (nom/factory Loader))
+

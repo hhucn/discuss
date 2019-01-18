@@ -102,8 +102,8 @@
                  [:span.pointer {:onClick (fn [] (clipboard/add-item!) #_(sidebar/show) (hide))}
                   (vlib/fa-icon "fa-bookmark-o")
                   (translate :common :save :space)]
-                 (vlib/safe-space) "  " (vlib/safe-space)
-                 [:span.pointer {:onClick (fn [] #_(sidebar/show) (hide))}
+                 #_(vlib/safe-space) "  " (vlib/safe-space)
+                 #_[:span.pointer {:onClick (fn [] #_(sidebar/show) (hide))}
                   (vlib/fa-icon "fa-comment")
                   (translate :common :show-discuss :space)]])))
 (def tooltip (om/factory Tooltip))
