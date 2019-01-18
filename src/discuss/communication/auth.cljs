@@ -39,17 +39,14 @@
              (pos? (count password)))
     (ajax-login nickname password)))
 
-(defn success-logout [response]
-  (lib/store-multiple-values-to-app-state!
-   [['user/nickname nil]
-    ['user/token nil]
-    ['user/id nil]
-    ['user/logged-in? false]])
-  (comlib/ajax-get (lib/get-last-api)))
-
 (defn logout
   "Reset user credentials."
   []
   (when (lib/logged-in?)
-    (let [url (comlib/make-url (:logout config/api))]
-      (comlib/do-post url nil success-logout comlib/error-handler))))
+    (comlib/do-post (comlib/make-url (:logout config/api)) nil nil nil)
+    (lib/store-multiple-values-to-app-state!
+     [['user/nickname nil]
+      ['user/token nil]
+      ['user/id nil]
+      ['user/logged-in? false]])
+    (comlib/ajax-get (lib/get-last-api))))
