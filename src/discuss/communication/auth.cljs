@@ -21,8 +21,7 @@
 (defn- wrong-login
   "Callback function for invalid credentials."
   [_]
-  (lib/error! (t :errors :login))
-  (lib/loading? false))
+  (lib/error! (t :errors :login)))
 
 (defn ajax-login
   "Get cleaned data and send ajax request."
