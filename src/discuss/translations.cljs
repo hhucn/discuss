@@ -35,6 +35,7 @@
         :eden       {:overview "Meine Argumente"
                      :overview/lead "Finde hier deine Argumente, welche du in verschiedenen Diskussionen eingeführt hast und springe direkt in die Diskussionen hinein."
                      :arguments/construct "Neues Argument erstellen"
+                     :arguments/not-found "Es konnten noch keine Argumente von dir gefunden werden. Ein guter Zeitpunkt eine Diskussion zu wählen und mit anderen Benutzern zu diskutieren!"
                      :arguments/show "Meine Argumente anzeigen"}
         :errors     {:login "Login fehlgeschlagen. Vermutlich sind die Zugangsdaten nicht korrekt."}
         :find       {:statement "Finde Aussage in Diskussion"
@@ -95,6 +96,7 @@
         :eden       {:overview "My Arguments"
                      :overview/lead "You provided these arguments in your discussions. Create a list of them and directly jump into the discussion."
                      :arguments/construct "Construct new Argument"
+                     :arguments/not-found "Currently there are no arguments from your account. A good starting point to find a discussion and start adding your own arguments!"
                      :arguments/show "Show my Arguments"}
         :errors     {:login "Could not login. Maybe your credentials are wrong."}
         :find       {:statement "Find statement in the discussion"

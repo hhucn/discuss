@@ -79,7 +79,11 @@
           (let [{:keys [eden/arguments]} (om/props this)
                 supportive-arguments (filter #(= :support (:type (:link %))) arguments)]
             (html [:div
-                   (map argument-view supportive-arguments)]))))
+                   (if (zero? (count supportive-arguments))
+                     [:p.text-center.text-info (t :eden :arguments/not-found)]
+                     [:div
+                      [:p.text-center (t :eden :overview/lead)]
+                      (map argument-view supportive-arguments)])]))))
 (def show-arguments (om/factory ShowArguments))
 
 (defui EDENArgumentForm
@@ -183,6 +187,5 @@
           (html [:div
                  (vlib/view-header (t :eden :overview))
                  (valerts/error-alert (om/props this))
-                 [:p.text-center (t :eden :overview/lead)]
                  (show-arguments (om/props this))])))
 (def overview-menu (om/factory OverviewMenu))
