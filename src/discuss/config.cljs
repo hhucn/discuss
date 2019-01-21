@@ -18,6 +18,11 @@
     :dbas "http://localhost:4284/api"
     :eden nil}])
 
+(def demo-discussions
+  [{:slug "cat-or-dog"}
+   {:slug "slug2"}
+   {:slug "slug3"}])
+
 ;; Common
 (def project "discuss")
 

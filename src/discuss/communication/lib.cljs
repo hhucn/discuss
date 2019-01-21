@@ -104,7 +104,8 @@
    (do-post request-url body handler error-handler {"Content-Type" "application/json"})))
 
 (defn jump-to-argument
-  "Jump directly into the discussion to let the user argue about the given argument."
+  "Jump directly into the discussion to let the user argue about the given
+  argument."
   [slug arg-id]
   (let [base-jump (:jump config/api)
         with-slug (str/replace base-jump #":slug" (str slug))
@@ -112,10 +113,15 @@
     (ajax-get-and-change-view with-arg :discussion)))
 
 (defn init!
-  "Request initial data from API."
-  []
-  (let [url (:init config/api)]
-    (ajax-get-and-change-view url :default index-handler)))
+  "Request initial data from API. Optionally provide a slug to change the
+  discussion."
+  ([]
+   (init! (:init config/api)))
+  ([slug]
+   (ajax-get-and-change-view slug :default index-handler)))
+
+(s/fdef init!
+  :args (s/? (s/cat :slug string?)))
 
 
 ;; -----------------------------------------------------------------------------
