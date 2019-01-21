@@ -8,8 +8,6 @@
             [discuss.references.integration :as rint]
             [discuss.references.main :as ref]))
 
-
-
 (def sample-reference-usages
   [{:reference
     {:uid 5,

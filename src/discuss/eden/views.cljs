@@ -41,7 +41,6 @@
                 premise-author (get-in premise [:content :author :name])
                 conclusion-author (get-in conclusion [:content :author :name])
                 conclusion-references (:references conclusion)]
-            (prn conclusion-references)
             (html [:div.bs-callout.bs-callout-info
                    [:p (vlib/safe-html (str (get-in premise [:content :text])
                                             " " (t :common :because) " "
@@ -51,7 +50,7 @@
                      [:p [:span.btn.btn-sm.btn-primary
                           {:on-click nil #_#(om/transact! parser/reconciler `[(search/selected {:value ~search-result})
                                                                               (search/results {:value []})])}
-                          (t :search :reuse)]]]
+                          "Coming soon"]]]
 
                     [:div.col-sm-8.small
                      [:dl.dl-horizontal
