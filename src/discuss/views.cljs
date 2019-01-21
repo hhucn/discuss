@@ -107,6 +107,7 @@
             #_(tooltip/track-user-selection)
             (html
              [:div#discuss-dialog-main
+              (tooltip/tooltip (om/props this))
               (avatar/avatar (om/props this))
               [:h4 (vlib/logo)
                " "
@@ -129,7 +130,8 @@
               [:br]
               (search/results (om/props this))
               [:div (clipboard/clipboard (om/props this))]
-              [:br]
-              [:p.text-muted "Connected to: " (lib/host-dbas)]
-              [:div (options/connection-browser (om/props this))]]))))
+              #_[:div
+               [:br]
+               [:p.text-muted "Connected to: " (lib/host-dbas)]
+               [:div (options/connection-browser (om/props this))]]]))))
 (def main-view-next (om/factory MainView))

@@ -8,8 +8,6 @@
             [discuss.communication.auth :as auth]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
-            [discuss.references.main :as ref]
-            [discuss.references.lib :as rlib]
             [discuss.utils.faker :as faker]))
 
 (defcard-om-next connection-browser
@@ -24,6 +22,10 @@
 
 (defcard-om-next new-eden-argument
   eviews/EDENArgumentForm
+  parser/reconciler)
+
+(defcard-om-next new-eden-statement
+  eviews/StatementForm
   parser/reconciler)
 
 (defcard-om-next overview-menu

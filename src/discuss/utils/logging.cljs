@@ -35,6 +35,10 @@
   (let [msg (fmt s)]
     (glog/warning logger msg)))
 
+(defn fine [& s]
+  (let [msg (fmt s)]
+    (glog/fine logger msg)))
+
 
 ;; -----------------------------------------------------------------------------
 ;; For Startup

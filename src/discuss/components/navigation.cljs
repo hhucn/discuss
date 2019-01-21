@@ -37,7 +37,7 @@
 (defn- eden-overview
   "Open view to find statements inside of the discussion."
   []
-  (when config/search-host
+  (when (and config/search-host (lib/logged-in?))
     (element "fa-puzzle-piece" [:nav :eden] #(lib/save-current-and-change-view! :eden/overview))))
 
 (defn- login

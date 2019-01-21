@@ -50,7 +50,6 @@
 (defn- valid-statement?
   "Check whether the results from the API are correct and log them if not."
   [statement]
-  (prn statement)
   (if (s/valid? ::search-result statement)
     statement
     (log/debug "Received invalid statement: " statement)))

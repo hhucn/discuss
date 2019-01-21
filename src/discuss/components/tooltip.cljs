@@ -3,13 +3,15 @@
   (:require [cljs.core.async :refer [put! chan <!]]
             [goog.dom :as gdom]
             [goog.events :as events]
+            [goog.string :refer [format]]
+            [goog.string.format]
             [om.next :as om :refer-macros [defui]]
             [sablono.core :as html :refer-macros [html]]
             [discuss.components.clipboard :as clipboard]
             [discuss.translations :refer [translate]]
+            [discuss.utils.logging :as log]
             [discuss.utils.common :as lib]
-            [discuss.utils.views :as vlib]
-            [discuss.components.sidebar :as sidebar]))
+            [discuss.utils.views :as vlib]))
 
 (defn- get-tooltip
   "Return DOM element of tooltip"
@@ -51,6 +53,7 @@
         width (.-width rect)
         positioned-top (y-position top tooltip-height)
         positioned-left (x-position left tooltip-width width)]
+    (log/fine (format "Tooltip position: top %f, left %f" positioned-top positioned-left))
     [positioned-top positioned-left]))
 
 (defn move-to-selection
@@ -102,8 +105,8 @@
                  [:span.pointer {:onClick (fn [] (clipboard/add-item!) #_(sidebar/show) (hide))}
                   (vlib/fa-icon "fa-bookmark-o")
                   (translate :common :save :space)]
-                 (vlib/safe-space) "  " (vlib/safe-space)
-                 [:span.pointer {:onClick (fn [] #_(sidebar/show) (hide))}
+                 #_(vlib/safe-space) "  " (vlib/safe-space)
+                 #_[:span.pointer {:onClick (fn [] #_(sidebar/show) (hide))}
                   (vlib/fa-icon "fa-comment")
                   (translate :common :show-discuss :space)]])))
 (def tooltip (om/factory Tooltip))

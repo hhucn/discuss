@@ -41,7 +41,6 @@
                 premise-author (get-in premise [:content :author :name])
                 conclusion-author (get-in conclusion [:content :author :name])
                 conclusion-references (:references conclusion)]
-            (prn conclusion-references)
             (html [:div.bs-callout.bs-callout-info
                    [:p (vlib/safe-html (str (get-in premise [:content :text])
                                             " " (t :common :because) " "
@@ -51,7 +50,7 @@
                      [:p [:span.btn.btn-sm.btn-primary
                           {:on-click nil #_#(om/transact! parser/reconciler `[(search/selected {:value ~search-result})
                                                                               (search/results {:value []})])}
-                          (t :search :reuse)]]]
+                          "Coming soon"]]]
 
                     [:div.col-sm-8.small
                      [:dl.dl-horizontal
@@ -79,7 +78,11 @@
           (let [{:keys [eden/arguments]} (om/props this)
                 supportive-arguments (filter #(= :support (:type (:link %))) arguments)]
             (html [:div
-                   (map argument-view supportive-arguments)]))))
+                   (if (zero? (count supportive-arguments))
+                     [:p.text-center.text-info (t :eden :arguments/not-found)]
+                     [:div
+                      [:p.text-center (t :eden :overview/lead)]
+                      (map argument-view supportive-arguments)])]))))
 (def show-arguments (om/factory ShowArguments))
 
 (defui EDENArgumentForm
@@ -183,6 +186,5 @@
           (html [:div
                  (vlib/view-header (t :eden :overview))
                  (valerts/error-alert (om/props this))
-                 [:p.text-center (t :eden :overview/lead)]
                  (show-arguments (om/props this))])))
 (def overview-menu (om/factory OverviewMenu))
