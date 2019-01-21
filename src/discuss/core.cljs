@@ -8,7 +8,7 @@
             [discuss.components.tooltip]
             [discuss.parser :as parser]
             [discuss.config :as config]
-            [discuss.references.integration]
+            [discuss.references.integration :as rint]
             [discuss.utils.common :as lib]
             [discuss.components.tooltip :as tooltip]
             [discuss.views :as views]))
@@ -19,7 +19,8 @@
 (defn ^:export main []
   (lib/log (str "Loaded " config/project " " config/version))
   (om/add-root! parser/reconciler views/MainView (gdom/getElement (lib/prefix-name "main")))
-  (comlib/init!))
+  (comlib/init!)
+  (rint/request-references))
 (main)
 
 (defn on-js-reload []
