@@ -8,7 +8,8 @@
             [inflections.core :refer [plural]]
             [discuss.config :as config]
             [discuss.parser :as parser]
-            [discuss.utils.logging :as log]))
+            [discuss.utils.logging :as log]
+            [clojure.string :as string]))
 
 (defn prefix-name
   "Create unique id for DOM elements."
@@ -313,6 +314,14 @@
   (gstring/unescapeEntities
    (clojure.string/replace (trim-newline (trim str)) #"\s+" " ")))
 
+(defn remove-trailing-slash
+  "Remove trailing slash if it exists."
+  [s]
+  (if (= (last s) \/) (subs s 0 (dec (count s))) s))
+(s/fdef remove-trailing-slash
+  :args (s/cat :s string?)
+  :ret string?)
+
 
 ;;;; CSS modifications
 (defn toggle-class
@@ -360,14 +369,6 @@
   [id]
   (let [element (.getElementById js/document (prefix-name id))]
     (when element (.-value element))))
-
-(defn remove-trailing-slash
-  "Remove trailing slash if it exists."
-  [s]
-  (if (= (last s) \/) (subs s 0 (dec (count s))) s))
-(s/fdef remove-trailing-slash
-  :args (s/cat :s string?)
-  :ret string?)
 
 (defn log
   "Print argument as JS object to be accessible from the console."

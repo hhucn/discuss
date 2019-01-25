@@ -1,12 +1,10 @@
 (ns discuss.communication.main
   "Functions concerning the communication with the remote discussion system."
-  (:require [ajax.core :refer [GET POST]]
-            [discuss.utils.common :as lib]
+  (:require [discuss.utils.common :as lib]
             [discuss.references.integration :as rint]
             [discuss.communication.lib :as comlib]
             [discuss.components.search.statements :as search]
-            [discuss.utils.logging :as log]
-            [discuss.config :as config]))
+            [discuss.utils.logging :as log]))
 
 ;; Handler
 (defn process-url-handler

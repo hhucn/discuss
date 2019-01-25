@@ -1,4 +1,5 @@
-(ns discuss.config)
+(ns discuss.config
+  (:require [discuss.config-helper :refer [default-slug]]))
 
 (goog-define version "0.4.0")
 (goog-define remote-host "http://muenchhausen.cn.uni-duesseldorf.de:4284/api")
@@ -18,14 +19,18 @@
     :dbas "http://localhost:4284/api"
     :eden nil}])
 
-;; Common
+(def initial-discussions
+  [{:slug "brexit"}
+   {:slug "finanzen"}
+   {:slug "umwelt"}])
+
 (def project "discuss")
 
 (def log-level
   "Available log-levels: :severe :warning :info :config :fine :finer :finest."
   :fine)
 
-(def api {:init  "/cat-or-dog"
+(def api {:init (default-slug initial-discussions)
           :base  "/"
           :login "/login"
           :logout "/logout"

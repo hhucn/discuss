@@ -7,6 +7,7 @@
             [devcards.discuss.add-content]
             [devcards.discuss.components.search]
             [devcards.discuss.components.avatar]
+            [devcards.discuss.components.issue-selector]
             [devcards.discuss.components.loader]
             [devcards.discuss.components.references]
             [devcards.discuss.components.options]
