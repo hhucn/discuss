@@ -4,6 +4,8 @@
             [cljs.spec.alpha :as s]
             [ajax.core :refer [GET POST]]
             [om.next :as om]
+            [goog.string :refer [format]]
+            [goog.string.format]
             [miner.strgen :as sg]
             [discuss.config :as config]
             [discuss.utils.common :as lib]
@@ -116,6 +118,7 @@
   "Request initial data from API. Optionally provide a slug to change the
   discussion."
   ([]
+   (log/fine (format "Initializing discussion: %s" (:init config/api)))
    (init! (:init config/api)))
   ([slug]
    (ajax-get-and-change-view slug :default index-handler)))
