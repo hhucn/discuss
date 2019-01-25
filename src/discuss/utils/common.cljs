@@ -8,7 +8,9 @@
             [inflections.core :refer [plural]]
             [discuss.config :as config]
             [discuss.parser :as parser]
-            [discuss.utils.logging :as log]))
+            [discuss.utils.logging :as log]
+            [clojure.string :as string]
+            [cemerick.url :as url]))
 
 (defn prefix-name
   "Create unique id for DOM elements."
@@ -313,6 +315,22 @@
   (gstring/unescapeEntities
    (clojure.string/replace (trim-newline (trim str)) #"\s+" " ")))
 
+(defn remove-trailing-slash
+  "Remove trailing slash if it exists."
+  [s]
+  (if (= (last s) \/) (subs s 0 (dec (count s))) s))
+(s/fdef remove-trailing-slash
+  :args (s/cat :s string?)
+  :ret string?)
+
+(defn prepend-slash
+  "Prepend slash to string if none found."
+  [s]
+  (if (string/starts-with? s "/") s (str "/" s)))
+(s/fdef prepend-slash
+  :args (s/cat :s string?)
+  :ret string?)
+
 
 ;;;; CSS modifications
 (defn toggle-class
@@ -361,14 +379,6 @@
   (let [element (.getElementById js/document (prefix-name id))]
     (when element (.-value element))))
 
-(defn remove-trailing-slash
-  "Remove trailing slash if it exists."
-  [s]
-  (if (= (last s) \/) (subs s 0 (dec (count s))) s))
-(s/fdef remove-trailing-slash
-  :args (s/cat :s string?)
-  :ret string?)
-
 (defn log
   "Print argument as JS object to be accessible from the console."
   [arg]
@@ -386,6 +396,15 @@
   :args (s/cat :col coll? :namespace any?)
   :ret coll?)
 
+(defn parse-query-parameter
+  "Provide a key which should be parsed from the URL. Return nil if key was not
+  found."
+  [query-parameter]
+  (get (:query (url/url (-> js/window .-location .-href)))
+       query-parameter))
+(s/fdef parse-query-parameter
+  :args (s/cat :query-parameter string?)
+  :ret (s/? string?))
 
 ;; -----------------------------------------------------------------------------
 ;; Configuration Settings
