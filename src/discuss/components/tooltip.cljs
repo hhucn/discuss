@@ -87,10 +87,11 @@
 (defn track-user-selection
   "Listen to clicks on the websites' text to store it in the app-state."
   []
-  (let [clicks (listen (gdom/getElement "discuss-text") "click")]
-    (go (while true
-          (<! clicks)
-          (save-selected-text)))))
+  (when-let [discuss-text-dom (gdom/getElement (lib/prefix-name "text"))]
+    (let [clicks (listen discuss-text-dom "click")]
+      (go (while true
+            (<! clicks)
+            (save-selected-text))))))
 
 ;;;; Creating the view
 (defui Tooltip
