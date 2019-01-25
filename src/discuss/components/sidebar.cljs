@@ -12,12 +12,12 @@
   "Toggle visibility of sidebar."
   ([]
    (let [sidebar-dom (gdom/getElement id)
-         main-wrapper (gdom/getElement "main-wrapper")]
+         main-wrapper (first (gdom/getElementsByTagName "body"))]
      (lib/toggle-class sidebar-dom "active")
      (lib/toggle-class main-wrapper "active")))
   ([bool]
    (let [sidebar-dom (gdom/getElement id)
-         main-wrapper (gdom/getElement "main-wrapper")]
+         main-wrapper (first (gdom/getElementsByTagName "body"))]
      (lib/toggle-class sidebar-dom "active" bool)
      (lib/toggle-class main-wrapper "active" bool))))
 

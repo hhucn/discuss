@@ -1,25 +1,19 @@
 image: clojure:alpine
 
 cache:
+  key: "$CI_JOB_NAME"
   paths:
-    - ~/.m2
-    - /root/.m2
+    - .m2
   untracked: true
 
 variables:
   LC_ALL: "C"
 
-test:
-  image: cmeter/clojure-phantomjs
+compile-js:
   stage: test
   script:
-    - lein phantomtest
-
-deps-check:
-  stage: test
-  script:
-    - lein ancient
-  allow_failure: true
+    - lein clean
+    - lein cljsbuild once min
 
 idiomatic?:
   stage: test

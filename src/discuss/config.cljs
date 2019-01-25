@@ -1,24 +1,47 @@
 (ns discuss.config
-  (:require [clojure.string :as str]))
+  (:require [discuss.config-helper :refer [default-slug]]))
 
-(goog-define version "0.2.1")
-(goog-define remote-host "http://localhost:4284/")
+(goog-define version "0.4.0")
+(goog-define remote-host "http://muenchhausen.cn.uni-duesseldorf.de:4284/api")
+
+;; Optional
+(goog-define search-host "http://muenchhausen.cn.uni-duesseldorf.de:8888")
+
+;; For demo session
+(def demo-servers
+  [{:name "muenchhausen"
+    :dbas "http://muenchhausen.cn.uni-duesseldorf.de:4284/api"
+    :eden "http://muenchhausen.cn.uni-duesseldorf.de:8888"}
+   {:name "slurpy"
+    :dbas "http://slurpy.cn.uni-duesseldorf.de:4284/api"
+    :eden "http://slurpy.cn.uni-duesseldorf.de:8888"}
+   {:name "localhost without eden"
+    :dbas "http://localhost:4284/api"
+    :eden nil}])
+
+(def initial-discussions
+  [{:slug "brexit"}
+   {:slug "finanzen"}
+   {:slug "umwelt"}])
+
 (def project "discuss")
 
-(defn- get-protocol [url]
-  (first (str/split url #":")))
+(def log-level
+  "Available log-levels: :severe :warning :info :config :fine :finer :finest."
+  :fine)
 
-(defn- make-host [host]
-  (str (get-protocol (.. js/window -location -href)) "://" host))
+(def api {:init (default-slug initial-discussions)
+          :base  "/"
+          :login "/login"
+          :logout "/logout"
+          :add   {:add-start-statement "/add/start_statement"
+                  :add-start-premise   "/add/start_premise"
+                  :add-justify-premise "/add/justify_premise"}
+          :get   {:references       "/references"
+                  :reference-usages "/reference/usages"
+                  :statements       "/statements"
+                  :statement-url    "/statement/url"}
+          :jump  "/:slug/jump/:argument-id"})
 
-(def api {:host  remote-host
-          :init  "api/town-has-to-cut-spending"
-          :base  "api/"
-          :login "api/login"
-          :add   {:add-start-statement "api/add/start_statement"
-                  :add-start-premise   "api/add/start_premise"
-                  :add-justify-premise "api/add/justify_premise"}
-          :get   {:references       "api/references"
-                  :reference-usages "api/reference/usages"
-                  :statements       "api/statements"
-                  :statement-url    "api/statement/url"}})
+(def eden {:add/argument               "/argument"
+           :search/arguments-by-author "/arguments/by-author"})

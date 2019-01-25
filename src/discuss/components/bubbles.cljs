@@ -1,69 +1,65 @@
 (ns discuss.components.bubbles
-  (:require [om.core :as om]
-            [om.dom :as dom]
-            [clojure.string :as string]
-            [goog.dom :as gdom]
-            [discuss.history :as history]
+  (:require [om.next :as om :refer-macros [defui]]
+            [sablono.core :as html :refer-macros [html]]
             [discuss.utils.common :as lib]
-            [discuss.communication.main :as com]
-            [discuss.utils.views :as vlib]))
+            [discuss.communication.lib :as comlib]
+            [discuss.utils.views :as vlib]
+            [cljs.spec.alpha :as s]
+            [discuss.parser :as parser]))
 
-(defn- get-bubble-class [bubble]
+(defn- get-bubble-class-next [bubble-type]
   "Check bubble type and return a class-string to match the CSS styles."
-  (cond
-    (:is_user bubble) "bubble-user"
-    (:is_system bubble) "bubble-system"
-    (:is_status bubble) "bubble-status text-center"
-    (:is_info bubble) "bubble-info text-center"))
+  (case bubble-type
+    "user" "bubble-user"
+    "system" "bubble-system"
+    "status" "bubble-status text-center"
+    "info" "bubble-info text-center"
+    ""))
 
-(defn- dispatch-link-destination
-  "Dispatch which link should be set."
-  [anchor]
-  (let [data-href (.getAttribute anchor "data-href")]
-    (cond
-      (= data-href "back") history/back!
-      (= data-href "login") #(lib/change-view! :login)
-      (= data-href "restart") com/init!)))
+(s/fdef get-bubble-class-next
+        :args (s/cat :bubble-type keyword?)
+        :ret string?)
 
-(defn- convert-link
-  "Given a DOM element, search for anchor-children and correctly set onClick and href properties."
-  [dom-node]
-  (let [children (gdom/getChildren dom-node)
-        anchors (filter #(= "a" (string/lower-case (.-nodeName %))) children)]
-    (when (pos? (count anchors))
-      (doall (map (fn [anchor]
-                    (set! (.-href anchor) "javascript:void(0)")
-                    (set! (.-onclick anchor) (dispatch-link-destination anchor)))
-                  anchors)))))
+(defn dispatch-link-destination-next
+  "Look into url field and return its corresponding function to be called onClick
+  on the element."
+  [url]
+  (case url
+    "back" parser/back!
+    "login" #(lib/change-view-next! :login)
+    "restart" comlib/init!))
 
-(defn convert-links-in-bubbles
-  "Reads data attributes and set correct links."
-  []
-  (let [messages (gdom/getElementsByClass (lib/prefix-name "converted-bubbles"))]
-    (doall (map convert-link messages))))
+(s/fdef dispatch-link-destination-next
+        :args (s/cat :url string?)
+        :ret fn?)
 
-(defn bubble-view [bubble]
-  (reify
-    om/IWillUpdate
-    (will-update [_ _ _]
-      (vlib/scroll-divs-to-bottom "bubbles")
-      (convert-links-in-bubbles))
-    om/IRender
-    (render [_]
-      (let [bubble-class (get-bubble-class bubble)]
-        (vlib/scroll-divs-to-bottom "bubbles")
-        (convert-links-in-bubbles)
-        (dom/li #js {:className bubble-class}
-                (dom/div #js {:className "avatar"})
-                (dom/p #js {:className "messages"}
-                       (vlib/safe-html (:message bubble))))))))
+(defui BubbleView
+  "Generate a bubble."
+  static om/IQuery
+  (query [this] [:type :html :text :url])
+  Object
+  (render [this]
+          (vlib/scroll-divs-to-bottom "bubbles")
+          (let [{:keys [type url]} (om/props this)
+                html-content (:html (om/props this))
+                bubble-content (vlib/safe-html html-content)]
+            (html [:li {:className (get-bubble-class-next type)}
+                   [:div.avatar]
+                   [:p.messages
+                    (if (some #{url} ["back" "login" "restart"])
+                      [:a {:href "javascript:void(0)"
+                           :onClick (dispatch-link-destination-next url)} bubble-content]
+                      bubble-content)]]))))
+(def bubble-view-next (om/factory BubbleView {:keyfn :text}))
 
-(defn view []
-  (reify
-    om/IWillUpdate
-    (will-update [_ _ _]
-      (vlib/scroll-divs-to-bottom "bubbles"))
-    om/IRender
-    (render [_]
-      (apply dom/ol #js {:className (lib/prefix-name "bubbles")}
-             (map #(om/build bubble-view (lib/merge-react-key %)) (lib/get-bubbles))))))
+(defui BubblesView
+  "Generate all bubbles based on the data in the reconciler."
+  static om/IQuery
+  (query [this]
+         `[{:discussion/bubbles ~(om/get-query BubbleView)}])
+  Object
+  (render [this]
+          (let [{:keys [discussion/bubbles]} (om/props this)]
+            (html [:ol {:className (lib/prefix-name "bubbles")}
+                   (map bubble-view-next bubbles)]))))
+(def bubbles-view-next (om/factory BubblesView))

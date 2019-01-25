@@ -1,29 +1,25 @@
 (ns discuss.components.clipboard
-  (:require [om.core :as om :include-macros true]
-            [om.dom :as dom :include-macros true]
+  (:require [om.next :as om :refer-macros [defui]]
+            [sablono.core :as html :refer-macros [html]]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
 
-(defn get-stored-selections
-  "Return all stored selections."
+(defn get-items
+  "Return collection of previously stored text-passages."
   []
-  (let [selections (get-in @lib/app-state [:clipboard :selections])]
-    (or selections [])))
+  (lib/load-from-app-state :clipboard/items))
 
 (defn remove-item!
   "Removes clicked selection."
-  [title]
-  (let [rcol (remove #(= (:title %) title) (get-stored-selections))]
-    (lib/update-state-item! :clipboard :selections (fn [] rcol))))
+  [item]
+  (let [rcol (remove #(= % item) (get-items))]
+    (lib/store-to-app-state! 'clipboard/items rcol)))
 
 (defn add-item!
   "Store current selection in clipboard."
   ([current]
-   (let [selections (get-stored-selections)
-         current current
-         with-current (distinct (merge selections {:title current}))]
-     (lib/update-state-item! :clipboard :selections (fn [_] with-current))))
+   (lib/store-to-app-state! 'clipboard/items (conj (get-items) current)))
   ([] (add-item! (lib/get-selection))))
 
 
@@ -32,37 +28,48 @@
 
 (defn update-reference-drop
   "Use text from clipboard item as reference for own statement."
-  [_ev]
-  (let [clipboard-item (get-in @lib/app-state [:clipboard :current])]
-    (lib/update-state-item! :user :selection (fn [_] (.. clipboard-item -innerText)))))
+  [e]
+  (let [clipboard-item (.getData (.. e -dataTransfer) "reference")]
+    (lib/store-to-app-state! 'selection/current clipboard-item)))
 
 (defn allow-drop [ev]
   (.preventDefault ev))
 
-(defn drag-event [ev]
-  (let [target (.. ev -target)]
-    (lib/update-state-item! :clipboard :current (fn [_] target))))
+(defn- drag-event [ev]
+  (.setData (.. ev -dataTransfer) "reference" (.. ev -target -innerText)))
 
 
-;;;; Views
-(defn clipboard-item [data]
-  (reify
-    om/IInitState
-    (init-state [_]
-      {:selected? false})
-    om/IRenderState
-    (render-state [_ {:keys [selected?]}]
-      (dom/div #js {:className   "bs-callout bs-callout-info"
-                    :draggable   true
-                    :onDragStart drag-event}
-               (dom/div nil (:title data))))))
+;; -----------------------------------------------------------------------------
 
-(defn view []
-  (reify om/IRender
-    (render [_]
-      (when (pos? (count (get-stored-selections)))
-        (dom/div #js {:style #js {:paddingTop "3em"}}
-                 (dom/h5 nil (t :clipboard :heading))
-                 (dom/p nil (t :clipboard :instruction))
-                 (apply dom/div nil
-                        (map #(om/build clipboard-item (lib/merge-react-key %)) (get-stored-selections))))))))
+(defui ClipboardItem
+  Object
+  (render [this]
+          (let [item (om/props this)]
+            (html
+             [:div {:className "bs-callout bs-callout-info"
+                    ;; :draggable true
+                    ;; :onDragStart drag-event
+                    }
+              item
+              [:div.pull-right
+               [:div.btn.btn-default.btn-xs
+                {:onClick #(lib/save-selection! item)}
+                (t :common :select) " " (vlib/fa-icon "fa-check-square-o")]
+               " "
+               [:div.btn.btn-default.btn-xs
+                {:onClick #(remove-item! item)}
+                (t :common :delete) " " (vlib/fa-icon "fa-times")]]]))))
+(def clipboard-item (om/factory ClipboardItem {:keyfn identity}))
+
+(defui Clipboard
+  static om/IQuery
+  (query [this] [:clipboard/items])
+  Object
+  (render [this]
+          (let [{:keys [clipboard/items]} (om/props this)]
+            (when (pos? (count items))
+              (html [:div {:style {:paddingTop "rem"}}
+                     [:h5 (t :clipboard :heading)]
+                     [:p (t :clipboard :instruction)]
+                     (map clipboard-item items)])))))
+(def clipboard (om/factory Clipboard))

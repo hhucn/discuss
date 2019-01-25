@@ -1,12 +1,17 @@
 (ns discuss.components.tooltip
-  (:require [om.core :as om :include-macros true]
-            [om.dom :as dom :include-macros true]
+  (:require-macros [cljs.core.async.macros :refer [go]])
+  (:require [cljs.core.async :refer [put! chan <!]]
             [goog.dom :as gdom]
+            [goog.events :as events]
+            [goog.string :refer [format]]
+            [goog.string.format]
+            [om.next :as om :refer-macros [defui]]
+            [sablono.core :as html :refer-macros [html]]
             [discuss.components.clipboard :as clipboard]
             [discuss.translations :refer [translate]]
+            [discuss.utils.logging :as log]
             [discuss.utils.common :as lib]
-            [discuss.utils.views :as vlib]
-            [discuss.components.sidebar :as sidebar]))
+            [discuss.utils.views :as vlib]))
 
 (defn- get-tooltip
   "Return DOM element of tooltip"
@@ -16,14 +21,14 @@
 (defn show
   "Show tooltip by removing a class."
   []
-  (let [tooltip (get-tooltip)]
-    (lib/add-class tooltip "discuss-tooltip-active")))
+  (when-let [tooltip (get-tooltip)]
+    (lib/add-class tooltip (lib/prefix-name "tooltip-active"))))
 
 (defn hide
   "Hide tooltip by adding a class."
   []
-  (let [tooltip (get-tooltip)]
-    (lib/remove-class tooltip "discuss-tooltip-active")))
+  (when-let [tooltip (get-tooltip)]
+    (lib/remove-class tooltip  (lib/prefix-name "tooltip-active"))))
 
 (defn x-position
   "Center tooltip at mouse selection."
@@ -48,31 +53,61 @@
         width (.-width rect)
         positioned-top (y-position top tooltip-height)
         positioned-left (x-position left tooltip-width width)]
+    (log/fine (format "Tooltip position: top %f, left %f" positioned-top positioned-left))
     [positioned-top positioned-left]))
 
 (defn move-to-selection
   "Sets CSS position of tooltip and move it to the mouse selection."
   []
-  (let [tooltip (get-tooltip)
-        [top left] (calc-position tooltip.offsetWidth tooltip.offsetHeight)]
-    (set! (.. tooltip -style -top) (str top "px"))
-    (set! (.. tooltip -style -left) (str left "px"))
-    (show)))
+  (when-let [tooltip (get-tooltip)]
+    (let [[top left] (calc-position tooltip.offsetWidth tooltip.offsetHeight)]
+      (set! (.. tooltip -style -top) (str top "px"))
+      (set! (.. tooltip -style -left) (str left "px"))
+      (show))))
 
+
+;;;; Include listener for tooltips
+(defn- listen
+  "Helper function for mouse-click events."
+  [el type]
+  (let [out (chan)]
+    (events/listen el type (fn [e] (put! out e)))
+    out))
+
+(defn- save-selected-text
+  "Get the users selection and save it."
+  []
+  (let [selection (str (.getSelection js/window))]
+    (if (and (pos? (count selection))
+             (not= selection (lib/get-selection)))
+      (do (move-to-selection)
+          (lib/save-selection! selection))
+      (hide))))
+
+(defn track-user-selection
+  "Listen to clicks on the websites' text to store it in the app-state."
+  []
+  (when-let [discuss-text-dom (gdom/getElement (lib/prefix-name "text"))]
+    (let [clicks (listen discuss-text-dom "click")]
+      (go (while true
+            (<! clicks)
+            (save-selected-text))))))
 
 ;;;; Creating the view
-(defn view []
-  (reify om/IRender
-    (render [_]
-      (dom/div nil
-               (vlib/logo)
-               (vlib/safe-space) " | " (vlib/safe-space)
-               (dom/span #js {:className "pointer"
-                              :onClick   (fn [] (clipboard/add-item!) (sidebar/show) (hide))}
-                         (vlib/fa-icon "fa-bookmark-o")
-                         (translate :common :save :space))
-               (vlib/safe-space) "  " (vlib/safe-space)
-               (dom/span #js {:className "pointer"
-                              :onClick   (fn [] (sidebar/show) (hide))}
-                         (vlib/fa-icon "fa-comment")
-                         (translate :common :show-discuss :space))))))
+(defui Tooltip
+  Object
+  (componentDidMount
+   [this]
+   (track-user-selection))
+  (render [this]
+          (html [:div#discuss-tooltip
+                 (vlib/logo)
+                 (vlib/safe-space) " | " (vlib/safe-space)
+                 [:span.pointer {:onClick (fn [] (clipboard/add-item!) #_(sidebar/show) (hide))}
+                  (vlib/fa-icon "fa-bookmark-o")
+                  (translate :common :save :space)]
+                 #_(vlib/safe-space) "  " (vlib/safe-space)
+                 #_[:span.pointer {:onClick (fn [] #_(sidebar/show) (hide))}
+                  (vlib/fa-icon "fa-comment")
+                  (translate :common :show-discuss :space)]])))
+(def tooltip (om/factory Tooltip))

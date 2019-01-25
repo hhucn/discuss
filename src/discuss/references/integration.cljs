@@ -1,47 +1,16 @@
 (ns discuss.references.integration
   "Listen for mouse clicks, get references and highlight them in the article."
-  (:require-macros [cljs.core.async.macros :refer [go]])
-  (:require [goog.events :as events]
-            [goog.string :as gstring]
-            [om.core :as om]
-            [cljs.core.async :refer [put! chan <!]]
+  (:require [om.next :as om :refer-macros [defui]]
             [clojure.string :refer [split lower-case]]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
-            [discuss.components.tooltip :as tooltip]
             [discuss.references.lib :as rlib]
-            [discuss.views :refer [reference-view]]
+            [discuss.references.main :as rmain]
+            [discuss.communication.lib :as comlib]
             [discuss.config :as config]
-            [discuss.communication.main :as com]))
+            [discuss.utils.logging :as log]))
 
-;; -----------------------------------------------------------------------------
-;; TODO: Move these functions to another namespace
-
-(defn- listen
-  "Helper function for mouse-click events."
-  [el type]
-  (let [out (chan)]
-    (events/listen el type (fn [e] (put! out e)))
-    out))
-
-(defn- save-selected-text
-  "Get the users selection and save it."
-  []
-  (let [selection (str (.getSelection js/window))]
-    (if (and (pos? (count selection))
-             (not= selection (lib/get-selection)))
-      (do (tooltip/move-to-selection)
-          (lib/update-state-item! :user :selection (fn [_] selection)))
-      (tooltip/hide))))
-
-(let [clicks (listen (.getElementById js/document "discuss-text") "click")]
-  (go (while true
-        (<! clicks)
-        (save-selected-text))))
-
-
-;; -----------------------------------------------------------------------------
-
+;;; Include references
 (defn- minify-doms
   "Removes dom-elements, which can never be used as a reference."
   [doms]
@@ -54,9 +23,9 @@
   it, this function will return it."
   [doms ref]
   (last
-    (filter
-      identity
-      (map #(when (lib/substring? ref (lib/trim-and-normalize (.-innerHTML %))) %) doms))))
+   (filter
+    identity
+    (map #(when (lib/substring? ref (lib/trim-and-normalize (.-innerHTML %))) %) doms))))
 
 
 ;;; Integrate references and highlight them in the article
@@ -75,26 +44,27 @@
             first-part (first dom-parts)
             last-part (second dom-parts)]
         (when (= 2 (count dom-parts))
-          (om/root reference-view {:text     ref-text
-                                   :url      ref-url
-                                   :id       ref-id
-                                   :dom-pre  (vlib/safe-html first-part)
-                                   :dom-post (when (and (< 1 (count dom-parts)) (not= last-part ref-text)) (vlib/safe-html last-part))}
-                   {:target parent})
+          (om/add-root! (om/reconciler {:state {:text ref-text
+                                                :url ref-url
+                                                :id ref-id
+                                                :dom-pre  (vlib/safe-html first-part)
+                                                :dom-post (when (and (< 1 (count dom-parts)) (not= last-part ref-text)) (vlib/safe-html last-part))}})
+                        rmain/ReferenceView
+                        parent)
           (rlib/highlight! ref-text))))))
 
 (defn process-references
   "Receives references through the API and prepares them for the next steps."
   [refs]
-  (when refs
-    (doall (map convert-reference refs))))
+  (doseq [ref refs]
+    (convert-reference ref)))
 
 (defn- references-handler
   "Called when received a response on the reference-query."
   [response]
   (let [res (lib/process-response response)
         refs (:references res)]
-    (lib/update-state-item! :common :references (fn [_] refs))
+    (lib/store-to-app-state! 'references/all refs)
     (process-references refs)))
 
 (defn request-references
@@ -103,4 +73,5 @@
   (let [url (get-in config/api [:get :references])
         params {:host js/location.host
                 :path js/location.pathname}]
-    (com/ajax-get url nil references-handler params)))
+    (log/info "[request-references] Requesting references for " url ", " params)
+    (comlib/ajax-get url nil references-handler params)))

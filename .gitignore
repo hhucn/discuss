@@ -36,3 +36,5 @@ bower_components
 compiled
 .sass-cache
 .#*
+.m2/
+.m2

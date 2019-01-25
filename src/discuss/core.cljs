@@ -1,13 +1,14 @@
 (ns discuss.core
   "Entrypoint to this application. Loads all requirements, and bootstraps the application."
-  (:require [om.core :as om :include-macros true]
+  (:require [om.next :as om]
             [goog.dom :as gdom]
-            [discuss.communication.main :as com]
+            [discuss.communication.lib :as comlib]
             [discuss.components.sidebar :as sidebar]
             [discuss.components.bubbles]
+            [discuss.components.tooltip]
+            [discuss.parser :as parser]
             [discuss.config :as config]
-            [discuss.debug :as debug]
-            [discuss.references.integration]
+            [discuss.references.integration :as rint]
             [discuss.utils.common :as lib]
             [discuss.components.tooltip :as tooltip]
             [discuss.views :as views]))
@@ -17,20 +18,10 @@
 ;; Initialization
 (defn ^:export main []
   (lib/log (str "Loaded " config/project " " config/version))
-  (com/init-with-references!))
+  (om/add-root! parser/reconciler views/MainView (gdom/getElement (lib/prefix-name "main")))
+  (comlib/init!)
+  (rint/request-references))
 (main)
-
-;; Register
-(defn register-view
-  "Register view in the current DOM."
-  [[div-name view state]]
-  (when-let [div (gdom/getElement (lib/prefix-name div-name))]
-    (om/root view state {:target div})))
-
-(doall (map register-view [["main" views/main-view lib/app-state]
-                           ["sidebar" sidebar/view lib/app-state]
-                           ["tooltip" tooltip/view lib/app-state]
-                           ["debug" debug/debug-view lib/app-state]]))
 
 (defn on-js-reload []
   ;; optionally touch your app-state to force rerendering depending on

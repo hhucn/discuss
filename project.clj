@@ -1,4 +1,4 @@
-(defproject discuss "0.3.891"
+(defproject discuss "0.4.0"
   :description "Embedding dialog-based discussions into arbitrary web-contexts"
   :url "https://discuss.cs.uni-duesseldorf.de"
   :license {:name "MIT"
@@ -6,46 +6,68 @@
 
   :min-lein-version "2.5.3"
 
-  :hooks [leiningen.cljsbuild]
+  ;; :hooks [leiningen.cljsbuild]
 
-  :dependencies [[org.clojure/clojure "1.9.0-alpha17"]
-                 [org.clojure/clojurescript "1.9.854"]
-                 [org.clojure/core.async "0.3.443" :exclusions [org.clojure/tools.reader]]
+  :dependencies [[org.clojure/clojure "1.10.0"]
+                 [org.clojure/clojurescript "1.10.439"]
+                 [org.clojure/core.async "0.4.490" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
-                 [org.omcljs/om "1.0.0-alpha48"]
-                 [cljs-ajax "0.6.0"]
-                 [com.cognitect/transit-cljs "0.8.239"]
-                 [lein-doo "0.1.7"]  ;; <-- otherwise it won't find the doo namespaces...
+                 [org.clojure/tools.reader "1.3.2"]
+                 [org.omcljs/om "1.0.0-beta4"]
+                 [com.cognitect/transit-cljs "0.8.256"]
+                 [com.velisco/strgen "0.1.7"]
+                 [com.cemerick/url "0.1.1"]
+                 [spec-provider "0.4.14"]
+                 [cljs-ajax "0.8.0"]
+                 [lein-doo "0.1.11"]  ;; <-- otherwise it won't find the doo namespaces...
+                 [devcards "0.2.6"]
+                 [sablono "0.8.4"]
                  [inflections "0.13.0"]]
 
   :plugins [[lein-ancient "0.6.10"]
             [lein-cljsbuild "1.1.5" :exclusions [[org.clojure/clojure]]]
             [lein-codox "0.10.3"]
-            [lein-doo "0.1.7"]
-            [lein-figwheel "0.5.13-SNAPSHOT"]
-            [lein-kibit "0.1.3"]
+            [lein-doo "0.1.11"]
+            [lein-figwheel "0.5.17"]
+            [lein-kibit "0.1.6"]
             [lein-set-version "0.4.1"]]
 
-  :source-paths ["src/discuss" "src/test"]
+  :source-paths ["src"]
+
+  :local-repo ".m2/repo"
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
   :aliases {"phantomtest" ["do" "clean" ["doo" "phantom" "test" "once"]]
             "build" ["do" "clean" ["cljsbuild" "once" "min"]]}
 
-  :profiles {:dev {:dependencies [[binaryage/devtools "0.9.4"]
-                                  [figwheel-sidecar "0.5.13-SNAPSHOT"]
-                                  [com.cemerick/piggieback "0.2.2"]]
+  :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]
+                                  [figwheel-sidecar "0.5.17"]
+                                  [org.clojure/tools.nrepl "0.2.13"]
+                                  [cider/piggieback "0.3.10"]]
                    ;; need to add dev source path here to get user.clj loaded
-                   :source-paths ["src/discuss"]
+                   :source-paths ["src" "script"]
                    :repl-options {:init (set! *print-length* 50)
-                                  :nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}}}
+                                  :nrepl-middleware [cider.piggieback/wrap-cljs-repl]}}}
 
   :cljsbuild {:builds
-              [{:id           "dev"
+              [{:id "dev"
+                :source-paths ["src"]
+                :figwheel {:devcards true
+                           :open-urls ["http://localhost:3449/cards.html"]}
+                :compiler {:main       devcards.discuss.core
+                           :preloads   [discuss.utils.extensions devtools.preload]
+                           :asset-path "js/compiled/discuss_cards_out"
+                           :output-to  "resources/public/js/compiled/discuss_cards.js"
+                           :output-dir "resources/public/js/compiled/discuss_cards_out"
+                           :parallel-build       true
+                           :compiler-stats       true
+                           :source-map-timestamp true}}
+               {:id           "dev-default"
                 :source-paths ["src"]
                 :figwheel     {:on-jsload "discuss.core/on-js-reload"
-                               :open-urls ["http://localhost:3449"]}
+                               ;; :open-urls ["http://localhost:3449"]
+                               }
                 :compiler     {:main            discuss.core
                                :preloads        [discuss.utils.extensions devtools.preload]
                                :asset-path      "js/compiled/out"
@@ -63,7 +85,7 @@
                                :output-dir "resources/public/js/compiled/test/out"
                                :main discuss.tests
                                :process-shim false
-                               ;:preloads [discuss.utils.extensions]
+                               ;; :preloads [discuss.utils.extensions]
                                :optimizations :none}}
                {:id           "min"
                 :source-paths ["src"]
@@ -72,11 +94,22 @@
                                :main           discuss.core
                                :preloads       [discuss.utils.extensions]
                                :optimizations  :simple
-                               :closure-defines {discuss.config/remote-host ~(or (System/getenv "REMOTE_HOST") "/")}
+                               :closure-defines {discuss.config/version ~(->> (slurp "project.clj")
+                                                                              (re-seq #"\".*\"")
+                                                                              (first))}
+
+                               ;; :closure-defines {discuss.config/remote-host ~(or (System/getenv "REMOTE_HOST") "https://dbas.cs.uni-duesseldorf.de/api")}
                                :parallel-build true
                                :compiler-stats true
                                :pretty-print   false}}]}
-  :figwheel {:css-dirs ["resources/public/css"]}             ;; watch and update CSS
+  :figwheel {:nrepl-port 7888
+             :css-dirs ["resources/public/css"]}             ;; watch and update CSS
+
+  :jvm-opts ~(let [version (System/getProperty "java.version")
+                   [major _ _] (clojure.string/split version #"\.")]
+               (if (>= (Integer. major) 9)
+                 ["--add-modules" "java.xml.bind"]
+                 []))
 
   ;; For documentation
   :codox {:language    :clojurescript

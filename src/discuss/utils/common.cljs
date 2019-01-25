@@ -1,45 +1,65 @@
 (ns discuss.utils.common
-  (:require [om.core :as om :include-macros true]
+  (:require [om.next :as om :refer-macros [defui]]
             [clojure.walk :refer [keywordize-keys]]
             [clojure.string :refer [trim trim-newline]]
+            [cljs.spec.alpha :as s]
             [goog.string :as gstring]
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]
-            [discuss.config :as config]))
+            [discuss.config :as config]
+            [discuss.parser :as parser]
+            [discuss.utils.logging :as log]
+            [clojure.string :as string]))
 
 (defn prefix-name
   "Create unique id for DOM elements."
   [name]
   (str config/project "-" name))
 
-(defonce app-state
-         (atom {:discussion {}
-                :issues     {}
-                :items      {}
-                :layout     {:title         "discuss"
-                             :template      :discussion
-                             :next-template :discussion
-                             :add?          false
-                             :add-type      nil
-                             :loading?      false
-                             :error?        false
-                             :error-msg     nil
-                             :language      :en}
-                :user       {:nickname   "kangaroo"
-                             :token      "razupaltuff"
-                             :avatar     ""
-                             :csrf       nil
-                             :statement  ""
-                             :selection  nil
-                             :logged-in? false}
-                :references {:selected nil
-                             :highlighted #{}}
-                :clipboard  {:selections nil
-                             :current    nil}
-                :sidebar    {:show? true}
-                :common     {:last-api ""}}))
+(s/def ::fn-and-val (s/tuple symbol? any?))
+(s/def ::col-of-fn-and-vals (s/coll-of ::fn-and-val))
 
-;;;; CLJS <--> JS
+(defn build-transactions
+  "Takes a list of vectors containing fns and values, which should be transacted with the reconciler.
+
+  Example: (build-transactions [['discussion/items items] ['discussion/bubbles bubbles]])
+  => ((discussion/items {:value [...]})
+      (discussion/bubbles {:value [...]}))"
+  [col-of-fn-and-vals]
+  (vec (for [[f value] col-of-fn-and-vals]
+         `(~f {:value ~value}))))
+(s/fdef build-transactions
+  :args (s/cat :col-of-vectors ::col-of-fn-and-vals)
+  :ret (s/coll-of list?))
+
+(defn store-multiple-values-to-app-state!
+  "Creates one big transaction of multiple mutation functions and the new values,
+  which should be assigned to them.
+
+  Example: (store-multiple-values-to-app-state! [['discussion/items items] ['discussion/bubbles bubbles]])"
+  [col-of-fn-and-vals]
+  (om/transact! parser/reconciler (build-transactions col-of-fn-and-vals)))
+(s/fdef store-multiple-values-to-app-state!
+  :args (s/cat :col-of-vectors ::col-of-fn-and-vals))
+
+(defn store-to-app-state!
+  "Use reconciler to do a transaction on the app-state.
+
+  Example: (store-to-app-state! 'foo \"bar\")"
+  [field value]
+  (store-multiple-values-to-app-state! [[field value]]))
+(s/fdef store-to-app-state!
+  :args (s/cat :field symbol? :value any?))
+
+(defn load-from-app-state
+  "Load data from application state."
+  [field]
+  (field @(om/app-state parser/reconciler)))
+(s/fdef load-from-app-state
+  :args (s/cat :field keyword?))
+
+;; -----------------------------------------------------------------------------
+;; CLJS <--> JS
 (defn clj->json
   "Convert CLJS to valid JSON."
   [col]
@@ -84,32 +104,44 @@
   [col]
   (merge (unique-key-dict) col))
 
+;;;;
+
+(defn get-items
+  "Returns list of items from the discussion."
+  []
+  (load-from-app-state :discussion/items))
+
+(defn get-bubbles
+  "Return message bubbles from DBAS."
+  []
+  (load-from-app-state :discussion/bubbles))
+
 
 ;;;; Getter
-(defn get-cursor
-  "Return a cursor to the corresponding key in the app-state."
-  [key]
-  (om/ref-cursor (key (om/root-cursor app-state))))
-
 (defn get-nickname
   "Return the user's nickname, with whom she logged in."
   []
-  (get-in @app-state [:user :nickname]))
+  (load-from-app-state :user/nickname))
+
+(defn get-user-id
+  "Return the user's nickname, with whom she logged in."
+  []
+  (load-from-app-state :user/id))
 
 (defn get-avatar
   "Return the URL of the user's avatar."
   []
-  (get-in @app-state [:user :avatar]))
+  (load-from-app-state :user/avatar))
 
 (defn get-token
   "Return the user's token for discussion system."
   []
-  (get-in @app-state [:user :token]))
+  (load-from-app-state :user/token))
 
 (defn get-issues
   "Returns list of dictionaries with all available issues."
   []
-  (get-in @app-state [:issues :all]))
+  (load-from-app-state :issue/list))
 
 (defn get-issue
   "Return specific issue, matching by id or title."
@@ -118,40 +150,12 @@
     (number? issue) (first (filter #(= (str->int (:uid %)) issue) (get-issues)))
     (string? issue) (first (filter #(= (:title %) issue) (get-issues)))))
 
-(defn get-items
-  "Returns list of items from the discussion."
-  []
-  (get-in @app-state [:items]))
-
-(defn get-bubbles
-  "Return message bubbles from DBAS."
-  []
-  (get-in @app-state [:discussion :bubbles]))
-
-(defn get-add-premise-text
-  "Return text for adding new premise."
-  []
-  (get-in @app-state [:discussion :add_premise_text]))
-
 
 ;;;; Booleans
 (defn logged-in?
   "Return true if user is logged in."
   []
-  (get-in @app-state [:user :logged-in?]))
-
-
-;;;; State changing
-(defn update-state-item!
-  "Get the cursor for given key and select a field to apply the function to it."
-  [col key f]
-  (om/transact! (get-cursor col) key f))
-
-(defn update-state-map!
-  "Get the cursor for given key and update it with the new collection of data."
-  [key col]
-  (let [state (get-cursor key)]
-    (om/transact! state (fn [] col))))
+  (load-from-app-state :user/logged-in?))
 
 
 ;;;; References
@@ -159,7 +163,7 @@
 (defn get-references
   "Returns a list of references which were received from the discussion system."
   []
-  (get-in @app-state [:common :references]))
+  (load-from-app-state :references/all))
 
 (defn get-reference
   "Returns a map matching a specific id. This id must be a number."
@@ -167,111 +171,94 @@
   ([id] (get-reference id (get-references))))
 
 
-;;;; CSRF Token
-(defn get-csrf
-  "Return the user's csrf token for discussion system."
-  []
-  (get-in @app-state [:user :csrf]))
-
-(defn set-csrf!
-  "Set the newly received CSRF token."
-  [csrf]
-  (update-state-item! :user :csrf (fn [_] csrf)))
-
-
 ;; Show error messages
 (defn error?
-  "Return boolean indicating if there are errors or not. Provide a boolean to
-  change the app-state."
-  ([] (get-in @app-state [:layout :error?]))
-  ([bool] (update-state-item! :layout :error? (fn [_] bool))))
-
-(defn error-msg!
-  "Set error message."
-  [msg]
-  (when (pos? (count msg))
-    (error? true))
-  (update-state-item! :layout :error-msg (fn [_] msg)))
-
-(defn no-error!
-  "Macro to remove all error warnings."
+  "Return boolean indicating if there are errors or not."
   []
-  (error? false)
-  (error-msg! nil))
+  (seq (load-from-app-state :layout/error)))
+
+(defn error!
+  "Set error message."
+  ([msg]
+   (store-to-app-state! 'layout/error msg))
+  ([]
+   (error! nil)))
 
 (defn get-error
   "Return error message."
   []
-  (get-in @app-state [:layout :error-msg]))
+  (load-from-app-state :layout/error))
 
 
 ;; Change views
 (defn hide-add-form!
-  "Hide the user form."
+  "Hide the form which allows to add new content."
   []
-  (update-state-item! :layout :add? (fn [_] false)))
+  (store-to-app-state! 'layout/add? false))
 
 (defn show-add-form!
   "Shows a form to enable user-added content."
   []
   (when (logged-in?)
-    (update-state-item! :layout :add? (fn [_] true))))
+    (store-to-app-state! 'layout/add? true)))
 
 (defn current-view
   "Returns the current selected template, which should be visible in the
   main-content-view."
   []
-  (get-in @app-state [:layout :template]))
+  (load-from-app-state :layout/view))
 
-(defn change-view!
-  "Switch to a different view."
+(defn change-view-next!
+  "Change view."
   [view]
-  (hide-add-form!)
-  (update-state-item! :layout :template (fn [_] view)))
+  (om/transact! parser/reconciler `[(layout/view {:value ~view})
+                                    (layout/add? {:value false})]))
 
 (defn next-view!
   "Set the next view, which should be loaded after the ajax call has finished."
   [view]
+  (log/debug "Setting next view to" view)
   (hide-add-form!)
-  (update-state-item! :layout :next-template (fn [_] view)))
+  (store-to-app-state! 'layout/view-next view))
 
 (defn change-to-next-view!
   "Set next view to current view. Falls back to default if there is no different
   next view."
   []
   (let [current-view (current-view)
-        next-view (get-in @app-state [:layout :next-template])]
+        next-view (load-from-app-state :layout/next-template)]
     (if (= current-view next-view)
-      (change-view! :default)
-      (change-view! next-view!))))
+      (change-view-next! :default)
+      (change-view-next! next-view))))
 
 (defn save-current-and-change-view!
   "Saves the current view and changes to the next specified view. Used for the
   'close' button in some views."
   [view]
   (next-view! (current-view))
-  (change-view! view))
+  (change-view-next! view))
 
 
 ;;;; Last-api
 (defn last-api!
-  "Keep last-api call. Useful to login and then re-request the url to jump to
-  the same position in the discussion, but this time as a logged in user."
+  "Keep last-api call. Useful to login and then re-request the url to jump to the
+  same position in the discussion, but this time as a logged in user."
   [url]
-  (update-state-item! :common :last-api (fn [_] url)))
+  (when (seq url)
+    (store-to-app-state! 'api/last-call url)))
 
 (defn get-last-api
   "Return url of last API call."
   []
-  (get-in @app-state [:common :last-api]))
+  (load-from-app-state :api/last-call))
 
 
 ;;;; Generic Handlers
 (defn loading?
   "Return boolean if app is currently loading content. Provide a boolean to
   change the app-state."
-  ([] (get-in @app-state [:layout :loading?]))
-  ([bool] (update-state-item! :layout :loading? (fn [_] bool))))
+  ([] (load-from-app-state :layout/loading?))
+  ([bool] (store-to-app-state! 'layout/loading? bool)))
 
 (defn process-response
   "Generic success handler, which sets error handling and returns a cljs-compatible response."
@@ -280,35 +267,28 @@
         error (:error res)]
     (loading? false)
     (if (pos? (count error))
-      (error-msg! error)
-      (do (no-error!)
+      (error! error)
+      (do (error! nil)
           res))))
-
-(defn update-all-states!
-  "Update item list with the data provided by the API.
-
-  ** Needs optimizations **"
-  [response]
-  (let [res (process-response response)
-        items (:items res)
-        discussion (:discussion res)
-        issues (:issues res)]
-    (update-state-map! :items items)
-    (update-state-map! :discussion discussion)
-    (update-state-map! :issues issues)
-    (update-state-item! :user :avatar (fn [_] (get-in res [:extras :users_avatar])))))
 
 
 ;;;; Selections
 (defn get-selection
   "Return the stored selection of the user."
   []
-  (get-in @app-state [:user :selection]))
+  (load-from-app-state :selection/current))
+
+(defn save-selection!
+  "Store current selection to app-state."
+  [selection]
+  (store-to-app-state! 'selection/current selection))
+(s/fdef save-selection!
+  :args (s/cat :selection string?))
 
 (defn remove-selection!
   "Remove current selection for a 'clean' statement."
   []
-  (update-state-item! :user :selection (fn [_] nil)))
+  (save-selection! nil))
 
 
 ;;;; String Stuff
@@ -331,7 +311,16 @@
   "Remove all surrounding whitespaces and reduce all 'inner' whitespaces to a
   single space."
   [str]
-  (gstring/unescapeEntities (clojure.string/replace (trim-newline (trim str)) #"\s+" " ")))
+  (gstring/unescapeEntities
+   (clojure.string/replace (trim-newline (trim str)) #"\s+" " ")))
+
+(defn remove-trailing-slash
+  "Remove trailing slash if it exists."
+  [s]
+  (if (= (last s) \/) (subs s 0 (dec (count s))) s))
+(s/fdef remove-trailing-slash
+  :args (s/cat :s string?)
+  :ret string?)
 
 
 ;;;; CSS modifications
@@ -356,12 +345,22 @@
 (defn language
   "Returns currently selected language."
   []
-  (get-in @app-state [:layout :language]))
+  (load-from-app-state :layout/lang))
 
-(defn language!
+(defn language-next!
   "Set new language. Should be a keyword."
   [lang]
-  (update-state-item! :layout :language (fn [] lang)))
+  (store-to-app-state! 'layout/lang lang))
+
+(defn language-locale
+  "Return String as a locale for DateTime instances etc. Defaults to en-US."
+  []
+  (let [lang (language)]
+    (case lang
+      :de "de-DE"
+      "en-US")))
+(s/fdef language-locale
+  :ret string?)
 
 
 ;;;; Other
@@ -375,3 +374,67 @@
   "Print argument as JS object to be accessible from the console."
   [arg]
   (.log js/console arg))
+
+(defn filter-keys-by-namespace
+  "Filter a collection of vectors by their namespaces.
+
+  Example: (filter-keys-by-namespace [:foo/bar :bar/foo] \"foo\")
+  => (:foo/bar)"
+  [col keyword-namespace]
+  (filter #(= keyword-namespace (namespace %)) col))
+
+(s/fdef filter-keys-by-namespace
+  :args (s/cat :col coll? :namespace any?)
+  :ret coll?)
+
+
+;; -----------------------------------------------------------------------------
+;; Configuration Settings
+
+(defn host-dbas!
+  "Set host to API of a dbas instance."
+  [host]
+  (store-to-app-state! 'host/dbas (remove-trailing-slash host)))
+(s/fdef host-dbas!
+  :args (s/cat :host string?))
+
+(defn host-dbas
+  "Return current address to dbas instance."
+  []
+  (load-from-app-state :host/dbas))
+
+(defn host-dbas-reset!
+  "Reset dbas host to defaults, defined in discuss.config."
+  []
+  (store-to-app-state! 'host/dbas config/remote-host))
+
+(defn host-eden!
+  "Set host to API of a eden instance."
+  [host]
+  (store-to-app-state! 'host/eden (remove-trailing-slash host)))
+(s/fdef host-eden!
+  :args (s/cat :host string?))
+
+(defn host-eden
+  "Return current address to eden instance."
+  []
+  (load-from-app-state :host/eden))
+
+(defn host-eden-reset!
+  "Reset eden host to defaults, defined in discuss.config."
+  []
+  (store-to-app-state! 'host/eden config/search-host))
+
+;; -----------------------------------------------------------------------------
+;; Specs
+
+(s/fdef change-view-next!
+        :args (s/cat :view keyword?))
+
+(s/fdef trim-and-normalize
+        :args (s/cat :str string?)
+        :ret string?
+        :fn #(<= (-> % :ret count) (-> % :args :str count)))
+
+(s/fdef language-next!
+        :args (s/cat :lang keyword?))

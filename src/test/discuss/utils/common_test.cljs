@@ -1,12 +1,7 @@
 (ns discuss.utils.common-test
   (:require [cljs.test :refer-macros [deftest is are testing]]
             [clojure.spec.test.alpha :as stest]
-            [clojure.test.check :as tc]
-            [clojure.test.check.clojure-test :refer-macros [defspec]]
-            [clojure.test.check.generators :as gen]
-            [clojure.test.check.properties :as prop :include-macros true]
             [discuss.utils.common :as lib]
-            [discuss.utils.specs]
             [discuss.test.lib :as tlib]))
 
 (deftest conversions
@@ -61,10 +56,6 @@
            (lib/json->clj {"groot?" true})
            (lib/json->clj "{\"groot?\": true}")))))
 
-
-;; -----------------------------------------------------------------------------
-;; Test generation based on specs
-
 (deftest trim-strings
   (testing "Remove trailing whitespace and inline newlines."
     (tlib/check' (stest/check `discuss.utils.common/trim-and-normalize))
@@ -74,3 +65,26 @@
            (lib/trim-and-normalize "foo\t\t\t\tbar")
            (lib/trim-and-normalize "    foo bar   ")
            (lib/trim-and-normalize "\n\nfoo\t\t\t\tbar\n ")))))
+
+(deftest test-build-transactions
+  (testing "A valid collection should be transformed to valid data for the reconciler."
+    (let [items [{:item1 "item1"}
+                 {:item2 "item2"}]
+          bubbles [{:bubble1 "bubble1"}
+                   {:bubble2 "bubble2"}]]
+      (= `[(discussion/items {:value ~items})
+           (discussion/bubbles {:value ~bubbles})]
+         (lib/build-transactions [['discussion/items items]
+                                  ['discussion/bubbles bubbles]]))
+      (= `[(discussion/items {:value nil})]
+         (lib/build-transactions [['discussion/items nil]])))))
+
+(deftest test-filter-keys-by-namespace
+  (testing "Query subset of keys by their namespace."
+    (let [test-data [:api/last-call :search/results :layout/add? :layout/title :layout/view :default]]
+      (= [:api/last-call] (lib/filter-keys-by-namespace test-data "api"))
+      (= [:layout/add? :layout/title :layout/view]
+         (lib/filter-keys-by-namespace test-data "layout"))
+      (= [:default]
+         (lib/filter-keys-by-namespace test-data nil))
+      (empty? (lib/filter-keys-by-namespace test-data :non-existent)))))
