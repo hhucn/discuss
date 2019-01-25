@@ -9,8 +9,7 @@
             [discuss.config :as config]
             [discuss.parser :as parser]
             [discuss.utils.logging :as log]
-            [clojure.string :as string]
-            [cemerick.url :as url]))
+            [clojure.string :as string]))
 
 (defn prefix-name
   "Create unique id for DOM elements."
@@ -323,14 +322,6 @@
   :args (s/cat :s string?)
   :ret string?)
 
-(defn prepend-slash
-  "Prepend slash to string if none found."
-  [s]
-  (if (string/starts-with? s "/") s (str "/" s)))
-(s/fdef prepend-slash
-  :args (s/cat :s string?)
-  :ret string?)
-
 
 ;;;; CSS modifications
 (defn toggle-class
@@ -396,15 +387,6 @@
   :args (s/cat :col coll? :namespace any?)
   :ret coll?)
 
-(defn parse-query-parameter
-  "Provide a key which should be parsed from the URL. Return nil if key was not
-  found."
-  [query-parameter]
-  (get (:query (url/url (-> js/window .-location .-href)))
-       query-parameter))
-(s/fdef parse-query-parameter
-  :args (s/cat :query-parameter string?)
-  :ret (s/? string?))
 
 ;; -----------------------------------------------------------------------------
 ;; Configuration Settings

@@ -118,9 +118,9 @@
   "Request initial data from API. Optionally provide a slug to change the
   discussion."
   ([]
-   (log/fine (format "Initializing discussion: %s" (:init config/api)))
    (init! (:init config/api)))
   ([slug]
+   (log/fine (format "Initializing discussion: %s" (:init config/api)))
    (ajax-get-and-change-view slug :default index-handler)))
 
 (s/fdef init!
