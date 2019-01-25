@@ -39,7 +39,8 @@
             (vlib/fa-icon "fa-step-backward")
             (t :common :back :space)]]
           [:div.col-md-4.col-sm-4.col-xs-4.text-right
-           (bs/button-default-sm comlib/init! (vlib/fa-icon "fa-refresh") (t :discussion :restart :space))]]]))
+           (bs/button-default-sm #(comlib/init!) (vlib/fa-icon "fa-refresh") (t :discussion :restart :space))]]]))
+
 
 (defui DiscussionElements
   static om/IQuery
