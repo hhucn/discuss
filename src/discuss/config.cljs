@@ -2,6 +2,7 @@
   (:require [discuss.config-helper :refer [default-slug]]))
 
 (goog-define version "0.4.0")
+(goog-define build-commit "dev")
 (goog-define remote-host "http://muenchhausen.cn.uni-duesseldorf.de:4284/api")
 
 ;; Optional
