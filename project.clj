@@ -96,8 +96,8 @@
                                :optimizations  :simple
                                :closure-defines {discuss.config/version ~(->> (slurp "project.clj")
                                                                               (re-seq #"\".*\"")
-                                                                              (first))}
-
+                                                                              (first))
+                                                 discuss.config/build-commit ~(subs (slurp ".git/ORIG_HEAD") 0 7)}
                                ;; :closure-defines {discuss.config/remote-host ~(or (System/getenv "REMOTE_HOST") "https://dbas.cs.uni-duesseldorf.de/api")}
                                :parallel-build true
                                :compiler-stats true
