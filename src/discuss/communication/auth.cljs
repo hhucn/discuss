@@ -10,11 +10,11 @@
   (let [{:keys [nickname uid token]} (lib/process-response response)
         last-api-call (lib/get-last-api)]
      (lib/store-multiple-values-to-app-state!
-     [['user/nickname nickname]
-      ['user/token token]
-      ['user/id uid]
-      ['user/logged-in? true]
-      ['layout/view :default]])
+      [['user/nickname nickname]
+       ['user/token token]
+       ['user/id uid]
+       ['user/logged-in? true]
+       ['layout/view :default]])
      (when (seq last-api-call)
        (comlib/ajax-get last-api-call))))
 
