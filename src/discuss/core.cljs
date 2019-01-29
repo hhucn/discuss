@@ -17,7 +17,7 @@
 
 ;; Initialization
 (defn ^:export main []
-  (lib/log (str "Loaded " config/project " " config/version))
+  (lib/log (str "Loaded " config/project " " config/version "-" config/build-commit))
   (om/add-root! parser/reconciler views/MainView (gdom/getElement (lib/prefix-name "main")))
   (comlib/init!)
   (rint/request-references))
