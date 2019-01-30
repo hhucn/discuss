@@ -8,8 +8,7 @@
             [inflections.core :refer [plural]]
             [discuss.config :as config]
             [discuss.parser :as parser]
-            [discuss.utils.logging :as log]
-            [clojure.string :as string]))
+            [discuss.utils.logging :as log]))
 
 (defn prefix-name
   "Create unique id for DOM elements."
@@ -150,6 +149,11 @@
     (number? issue) (first (filter #(= (str->int (:uid %)) issue) (get-issues)))
     (string? issue) (first (filter #(= (:title %) issue) (get-issues)))))
 
+(defn get-current-slug
+  "Return current slug of issue."
+  []
+  (load-from-app-state :issue/current-slug))
+
 
 ;;;; Booleans
 (defn logged-in?
@@ -244,6 +248,13 @@
   [view]
   (next-view! (current-view))
   (change-view! view))
+
+(defn add-step!
+  "Sets the current add-step, e.g. :add/position or :add/statement."
+  [kw]
+  (store-to-app-state! 'discussion/add-step kw))
+(s/fdef add-step!
+  :args (s/cat :kw #{:add/position :add/statement}))
 
 
 ;;;; Last-api
