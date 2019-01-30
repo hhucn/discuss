@@ -107,7 +107,7 @@
                   (vlib/fa-icon "fa-bookmark-o")
                   (translate :common :save :space)]
                  #_(vlib/safe-space) "  " (vlib/safe-space)
-                 [:span.pointer {:onClick (fn [] (lib/change-view! :argument/create) (hide))}
+                 [:span.pointer {:onClick (fn [] (lib/change-view! :create/argument) (hide))}
                   (vlib/fa-icon "fa-comment")
                   (translate :tooltip :discuss/start :space)]])))
 (def tooltip (om/factory Tooltip))

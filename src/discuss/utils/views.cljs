@@ -113,7 +113,5 @@
     (let [remaining (- 10 (count statement))]
       (if (pos? remaining)
         (str remaining " " (t :common :chars-remaining))
-        (if-not (= :create/argument (lib/current-view))
-          (t :discussion :submit)
-          (t :discussion :reference/missing))))
+        (t :discussion :submit)))
     (t :discussion :submit)))
