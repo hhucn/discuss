@@ -7,13 +7,14 @@
             [discuss.utils.views :as vlib]
             [discuss.views.alerts :as valerts]
             [discuss.components.bubbles :as bubbles]
-            [discuss.components.search.statements :as search]))
+            [discuss.components.search.statements :as search]
+            [discuss.utils.common :as lib]))
 
 (defui StatementForm
   "Form to add a new statement to the discussion."
   static om/IQuery
   (query [this]
-         `[:selection/current :search/selected
+         `[:selection/current :search/selected :layout/error
            {:discussion/bubbles ~(om/get-query bubbles/BubblesView)}])
   Object
   (render [this]
@@ -50,10 +51,20 @@
   (componentDidMount [this] (search/remove-all-search-related-results-and-selections)))
 (def statement-form (om/factory StatementForm))
 
+(defn- disabled?
+  "Check if in :create/argument or not. If in this view, the use is forced to add
+  a reference to her position."
+  [selected-search current-selection smaller-input]
+  (if-not (= :create/argument (lib/current-view))
+    (when (nil? selected-search) (> 10 (count smaller-input)))
+    (when (nil? selected-search)
+      (or (not (pos? (count current-selection)))
+          (> 10 (count smaller-input))))))
+
 (defui PositionForm
   "Form to add a new position and a reason to the discussion."
   static om/IQuery
-  (query [this] [:selection/current :search/selected])
+  (query [this] [:selection/current :search/selected :layout/error])
   Object
   (render [this]
           (let [{current-selection :selection/current
@@ -91,7 +102,7 @@
                                                     :reason reason
                                                     :reference current-selection
                                                     :search/selected selected-search})
-                      :disabled (when (nil? selected-search) (> 10 (count smaller-input)))}
+                      :disabled (disabled? selected-search current-selection smaller-input)}
                      (vlib/remaining-characters smaller-input selected-search)]]])))
   (componentDidMount [this] (search/remove-all-search-related-results-and-selections)))
 (def position-form (om/factory PositionForm))

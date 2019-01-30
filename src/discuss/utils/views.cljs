@@ -102,7 +102,9 @@
         [:span.input-group-addon.pointer {:onClick remove-selection-then-reference!}
          (fa-icon "fa-times")]]
        [:div.text-center {:style {:paddingBottom "1em"}}
-        (t :references :ask-to-add)]))))
+        (if (= :create/argument (lib/current-view))
+          (t :references :has-to-add)
+          (t :references :ask-to-add))]))))
 
 (defn remaining-characters
   "Show remaining characters needed to submit a post."
@@ -111,5 +113,7 @@
     (let [remaining (- 10 (count statement))]
       (if (pos? remaining)
         (str remaining " " (t :common :chars-remaining))
-        (t :discussion :submit)))
+        (if-not (= :create/argument (lib/current-view))
+          (t :discussion :submit)
+          (t :discussion :reference/missing))))
     (t :discussion :submit)))
