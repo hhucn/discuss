@@ -77,9 +77,8 @@
                       :eden/overview (eviews/overview-menu (om/props this))
                       :eden/add-argument (eviews/eden-argument-form (om/props this))
                       :eden/show-arguments (eviews/show-arguments (om/props this))
-                      ;; TODO: :reference-create-with-ref (om/build ref/create-with-reference-view data)
-                      ;; TODO: :find (om/build find/view data)
                       :create/argument (carg/create-argument-with-reference (om/props this))
+                      :discussion/main (discussion-elements-next (om/props this))
                       (discussion-elements-next (om/props this)))
                     (cond
                       (some #{view} [:login :options :find :reference-usages :eden/overview])
@@ -108,7 +107,6 @@
   Object
   (render [this]
           (let [{:keys [issue/info layout/add? layout/title discussion/add-step]} (om/props this)]
-            #_(tooltip/track-user-selection)
             (html
              [:div#discuss-dialog-main
               (tooltip/tooltip (om/props this))
@@ -120,10 +118,7 @@
                                :aria-expanded "true"
                                :aria-controls (lib/prefix-name "dialog-collapse")}
                 title]]
-              [:div.text-center
-               #_(t :discussion :current)
-               [:br]
-               #_[:strong info]]
+              [:br]
               (view-dispatcher-next (om/props this))
               (when add?
                 [:div
