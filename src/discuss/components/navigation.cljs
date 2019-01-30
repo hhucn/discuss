@@ -40,6 +40,11 @@
   (when (and config/search-host (lib/logged-in?))
     (element "fa-puzzle-piece" [:nav :eden] #(lib/save-current-and-change-view! :eden/overview))))
 
+(defn- create-argument
+  "Create an argument to a text reference."
+  []
+  (element "fa-paper-plane-o" [:tooltip :discuss/start] #(lib/save-current-and-change-view! :create/argument)))
+
 (defn- login
   "Login switch."
   []
@@ -66,8 +71,8 @@
   Object
   (render [this]
           (html [:div.text-muted.discuss-nav
-                 [:div.col.col-md-6.col-sm-6.col-xs-6
-                  (home) (eden-overview) #_(find-arg) (options)]
-                 [:div.col.col-md-6.col-sm-6.col-xs-6.text-right
+                 [:div.col.col-md-9.col-sm-9.col-xs-9
+                  (home) (create-argument) (eden-overview) #_(find-arg) (options)]
+                 [:div.col.col-md-3.col-sm-3.col-xs-3.text-right
                   (if (lib/logged-in?) (logout) (login))]])))
 (def nav (om/factory Nav))
