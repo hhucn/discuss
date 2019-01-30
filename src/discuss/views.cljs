@@ -18,15 +18,15 @@
             [discuss.views.login :as vlogin]
             [discuss.parser :as parser]
             [discuss.components.tooltip :as tooltip]
-            [discuss.components.sidebar :as sidebar]
-            [discuss.eden.views :as eviews]))
+            [discuss.eden.views :as eviews]
+            [discuss.components.create-argument :as carg]))
 
 (defn close-button-next
   "Close current panel and switch view."
   []
   (html [:div [:br]
          [:div.text-center
-          (bs/button-default-sm #(lib/change-view-next! :default) (vlib/fa-icon "fa-times") (t :common :close :space))]]))
+          (bs/button-default-sm #(lib/change-view! :default) (vlib/fa-icon "fa-times") (t :common :close :space))]]))
 
 (defn control-elements-next
   "Back and restart button."
@@ -79,6 +79,7 @@
                       :eden/show-arguments (eviews/show-arguments (om/props this))
                       ;; TODO: :reference-create-with-ref (om/build ref/create-with-reference-view data)
                       ;; TODO: :find (om/build find/view data)
+                      :create/argument (carg/create-argument-with-reference (om/props this))
                       (discussion-elements-next (om/props this)))
                     (if (some #{view} [:login :options :find :reference-usages :eden/overview])
                       (close-button-next)

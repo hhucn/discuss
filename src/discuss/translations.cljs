@@ -66,7 +66,8 @@
                      :disabled/tooltip "Du kannst dieses Feld nicht direkt modifizieren. Bitte markiere die gewünschte Stelle direkt auf der Webseite. Dieses Feld füllt sich dann automatisch."}
         :search      {:reuse "Statement auswählen"
                       :origin "Herkunft"
-                      :author "Autor"}}
+                      :author "Autor"}
+        :tooltip     {:discuss/start "Argument erzeugen"}}
    :en {:common     {:and              "and"
                      :author           "Author"
                      :back             "Back"
@@ -125,7 +126,8 @@
                      :disabled/tooltip "You can't modify this field. Please select the appropriate text-passage from the website. The selection will be automatically added to this field."}
         :search      {:reuse "Select Statement"
                       :origin "Origin"
-                      :author "Author"}}})
+                      :author "Author"}
+        :tooltip     {:discuss/start "Create Argument"}}})
 
 (defn- prepend-translation
   "Lookup given key and prepend some string to it."
