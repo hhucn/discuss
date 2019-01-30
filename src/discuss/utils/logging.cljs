@@ -22,7 +22,6 @@
   "Takes a format string and sets all parameters if available. When only one
   parameter is provided, this value will be returned."
   ([fstring params]
-   (prn params)
    (apply (partial format fstring) params))
   ([fstring] fstring))
 
