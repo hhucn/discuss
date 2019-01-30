@@ -48,5 +48,8 @@
      [['user/nickname nil]
       ['user/token nil]
       ['user/id nil]
-      ['user/logged-in? false]])
-    (comlib/ajax-get (lib/get-last-api))))
+      ['user/logged-in? false]
+      ['layout/add? false]])
+    (let [last-api-call (lib/get-last-api)]
+      (when (seq last-api-call)
+        (comlib/ajax-get last-api-call)))))
