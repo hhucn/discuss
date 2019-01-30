@@ -23,7 +23,7 @@
   [_]
   (lib/error! (t :errors :login)))
 
-(defn ajax-login
+(defn- ajax-login
   "Get cleaned data and send ajax request."
   [nickname password]
   (let [url (comlib/make-url (:login config/api))
