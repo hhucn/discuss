@@ -370,11 +370,6 @@
   (let [element (.getElementById js/document (prefix-name id))]
     (when element (.-value element))))
 
-(defn log
-  "Print argument as JS object to be accessible from the console."
-  [arg]
-  (.log js/console arg))
-
 (defn filter-keys-by-namespace
   "Filter a collection of vectors by their namespaces.
 
