@@ -254,18 +254,11 @@
 
 
 ;;;; Generic Handlers
-(defn loading?
-  "Return boolean if app is currently loading content. Provide a boolean to
-  change the app-state."
-  ([] (load-from-app-state :layout/loading?))
-  ([bool] (store-to-app-state! 'layout/loading? bool)))
-
 (defn process-response
   "Generic success handler, which sets error handling and returns a cljs-compatible response."
   [response]
   (let [res (json->clj response)
         error (:error res)]
-    (loading? false)
     (if (pos? (count error))
       (error! error)
       (do (error! nil)
