@@ -11,13 +11,14 @@
             [discuss.references.integration :as rint]
             [discuss.utils.common :as lib]
             [discuss.components.tooltip :as tooltip]
-            [discuss.views :as views]))
+            [discuss.views :as views]
+            [discuss.utils.logging :as log]))
 
 (enable-console-print!)
 
 ;; Initialization
 (defn ^:export main []
-  (lib/log (str "Loaded " config/project " " config/version "-" config/build-commit))
+  (log/debug "Loaded %s %s-%s" config/project (subs config/version 1 (dec (count config/version))) config/build-commit)
   (om/add-root! parser/reconciler views/MainView (gdom/getElement (lib/prefix-name "main")))
   (rint/request-references)
   (comlib/init!))

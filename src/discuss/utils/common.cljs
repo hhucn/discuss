@@ -254,18 +254,11 @@
 
 
 ;;;; Generic Handlers
-(defn loading?
-  "Return boolean if app is currently loading content. Provide a boolean to
-  change the app-state."
-  ([] (load-from-app-state :layout/loading?))
-  ([bool] (store-to-app-state! 'layout/loading? bool)))
-
 (defn process-response
   "Generic success handler, which sets error handling and returns a cljs-compatible response."
   [response]
   (let [res (json->clj response)
         error (:error res)]
-    (loading? false)
     (if (pos? (count error))
       (error! error)
       (do (error! nil)
@@ -369,11 +362,6 @@
   [id]
   (let [element (.getElementById js/document (prefix-name id))]
     (when element (.-value element))))
-
-(defn log
-  "Print argument as JS object to be accessible from the console."
-  [arg]
-  (.log js/console arg))
 
 (defn filter-keys-by-namespace
   "Filter a collection of vectors by their namespaces.
