@@ -118,9 +118,9 @@
                                :aria-controls (lib/prefix-name "dialog-collapse")}
                 title]]
               [:div.text-center
-               (t :discussion :current)
+               #_(t :discussion :current)
                [:br]
-               [:strong info]]
+               #_[:strong info]]
               (view-dispatcher-next (om/props this))
               (when add?
                 [:div

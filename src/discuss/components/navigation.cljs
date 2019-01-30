@@ -27,7 +27,7 @@
 (defn- home
   "Show home screen and initialize discussion."
   []
-  (element "fa-home" [:nav :home] comlib/init!))
+  (element "fa-home" [:nav :home] #(comlib/init!)))
 
 (defn- find-arg
   "Open view to find statements inside of the discussion."
