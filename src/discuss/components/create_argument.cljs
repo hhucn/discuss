@@ -4,27 +4,26 @@
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
-            [discuss.views.alerts :as valerts]
-            [discuss.views.add :as vadd]))
+            [discuss.views.alerts :as valerts]))
 
 (defui CreateArgumentWithReference
+  static om/IQuery
+  (query [this]
+         [:layout/error :layout/lang])
   Object
   (render [this]
+          (lib/show-add-form!)
           (html [:div
-                 (vlib/view-header "Erzeuge ein Argument zu einer Textstelle")
+                 (vlib/view-header (t :create/argument :header))
                  (valerts/error-alert (om/props this))
-
-                 (if (lib/logged-in?)
-                   [:p.text-center
-                    "Du kannst hier Position zu einer Textstelle beziehen.
-                    Fülle dazu die folgenden Felder aus!"]
-                   [:div
-                    [:p.text-center
-                     "Du kannst hier Position zu einer Textstelle beziehen. Aber
-                     vorher musst du dich einlogggen."]
-                    (vlib/button #(lib/change-view-next! :login) "Login")])
-
-                 (lib/show-add-form!)
-
-                 ])))
+                 [:p.text-center
+                  [:span (t :create/argument :lead)]
+                  (if (lib/logged-in?)
+                    [:span (t :create/argument :logged-in)]
+                    [:span " " (t :create/argument :not-logged-in :space)])]
+                 (when-not (lib/logged-in?)
+                   [:div.text-center
+                    (vlib/button (fn []
+                                   (lib/next-view! (lib/current-view))
+                                   (lib/change-view! :login)) (t :common :login))])])))
 (def create-argument-with-reference (om/factory CreateArgumentWithReference))
