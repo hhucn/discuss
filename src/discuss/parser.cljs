@@ -14,10 +14,11 @@
                 :layout/title "discuss"
                 :layout/view :default
                 :layout/view-next nil
-                :layout/lang :en
+                :layout/lang :de
                 :issue/title "Town has to cut spending"
                 :issue/info "Our town needs to cut spending. Please discuss ideas how this should be done."
                 :issue/list [:list :of :issues]
+                :issue/current-slug (:init config/api)
                 :user/nickname "kangaroo"
                 :user/token "razupaltuff"
                 :user/logged-in? false

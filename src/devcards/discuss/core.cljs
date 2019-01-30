@@ -5,6 +5,7 @@
             [devcards.discuss.atoms]
             [devcards.discuss.molecules]
             [devcards.discuss.add-content]
+            [devcards.discuss.components.create-argument]
             [devcards.discuss.components.search]
             [devcards.discuss.components.avatar]
             [devcards.discuss.components.issue-selector]

@@ -15,8 +15,9 @@
        ['user/id uid]
        ['user/logged-in? true]
        ['layout/view :default]])
-     (when (seq last-api-call)
-       (comlib/ajax-get last-api-call))))
+     (cond
+       (lib/next-view?) (lib/change-to-next-view!)
+       (seq last-api-call) (comlib/ajax-get last-api-call))))
 
 (defn- wrong-login
   "Callback function for invalid credentials."
@@ -47,5 +48,8 @@
      [['user/nickname nil]
       ['user/token nil]
       ['user/id nil]
-      ['user/logged-in? false]])
-    (comlib/ajax-get (lib/get-last-api))))
+      ['user/logged-in? false]
+      ['layout/add? false]])
+    (let [last-api-call (lib/get-last-api)]
+      (when (seq last-api-call)
+        (comlib/ajax-get last-api-call)))))

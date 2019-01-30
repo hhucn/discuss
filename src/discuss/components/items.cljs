@@ -13,7 +13,7 @@
   "Dispatch which function should be applied if there is a click on an item."
   [url]
   (case url
-    "login" (lib/change-view-next! :login)
+    "login" (lib/change-view! :login)
     "back" (log/info "Not yet implemented")
     "add" (lib/show-add-form!)
     (comlib/ajax-get url (comlib/token-header) comlib/process-and-set-items-and-bubbles)))

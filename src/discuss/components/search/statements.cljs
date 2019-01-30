@@ -52,7 +52,7 @@
   [statement]
   (if (s/valid? ::search-result statement)
     statement
-    (log/debug "Received invalid statement: " statement)))
+    (log/debug "Received invalid statement: %s" statement)))
 (s/fdef valid-statement?
   :args (s/cat :statement ::search-result?))
 
@@ -63,7 +63,7 @@
         validate-statements (map valid-statement?)
         xform-statements (comp rename-position validate-statements)
         validated-statements (transduce xform-statements conj statements)]
-    (log/debug "Received" (count validated-statements) "search results from D-BAS instance")
+    (log/debug "Received %d search results from D-BAS instance" (count validated-statements))
     (om/transact! parser/reconciler `[(search/results {:value ~validated-statements})])))
 
 (defn remove-search-results!
@@ -106,7 +106,7 @@
         validate-statements (map valid-statement?)
         xform-statements (comp conform-statements validate-statements)
         validated-statements (transduce xform-statements conj statements)]
-    (log/debug "Received" (count validated-statements) "search results from EDEN instance")
+    (log/debug "Received %d search results from EDEN instance" (count validated-statements))
     (om/transact! parser/reconciler `[(search/results {:value ~validated-statements})])))
 
 (defn- handle-eden-search-results

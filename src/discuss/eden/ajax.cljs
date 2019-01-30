@@ -22,7 +22,7 @@
   :ret map?)
 
 (defn- after-eden-post-handler []
-  (lib/change-view-next! :eden/overview))
+  (lib/change-view! :eden/overview))
 
 (defn post-eden-argument
   "Post an Argument directly to EDEN for later usage."

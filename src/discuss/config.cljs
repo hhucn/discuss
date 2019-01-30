@@ -1,6 +1,7 @@
 (ns discuss.config
   (:require [discuss.config-helper :refer [default-slug]]))
 
+(def project "discuss")
 (goog-define version "0.4.0")
 (goog-define build-commit "dev")
 (goog-define remote-host "http://muenchhausen.cn.uni-duesseldorf.de:4284/api")
@@ -24,8 +25,6 @@
   [{:slug "brexit"}
    {:slug "finanzen"}
    {:slug "umwelt"}])
-
-(def project "discuss")
 
 (def log-level
   "Available log-levels: :severe :warning :info :config :fine :finer :finest."

@@ -25,11 +25,16 @@
                      :that             "dass"}
         :clipboard  {:heading "Clipboard"
                      :instruction "Wähle eine Referenz aus dieser Liste aus, um beim Erzeugen eines neuen Arguments diese Referenz mit dem neuen Argument zu verknüpfen."}
+        :create/argument {:header "Erzeuge ein Argument zu einer Textstelle"
+                          :lead "Du kannst hier Position zu einer Textstelle beziehen."
+                          :logged-in "Fülle dazu die folgenden Felder aus!"
+                          :not-logged-in "Aber vorher musst du dich einlogggen."}
         :discussion {:add-position "Nichts von all dem. Ich habe eine andere Idee"
                      :add-position-heading "Mein Vorschlag wäre, dass"
                      :add-position-placeholder "wir dieses oder jenes machen sollten"
                      :add-reason-placeholder "aus diesen und jenen Gründen"
                      :current      "Aktuelle Diskussion"
+                     :reference/missing "Du musst dich auf eine Textstelle beziehen"
                      :restart      "Neustarten"
                      :submit       "Abschicken"}
         :eden       {:overview "Meine Argumente"
@@ -63,10 +68,12 @@
                      :find-statement "Finde Aussage in der Diskussion"
                      :clipboard  "Ziehe diese Referenzen in das Textfeld beim Erzeugen eines neuen Arguments, um die Referenz zu nutzen."
                      :ask-to-add "Möchten Sie Ihre Aussage durch eine Referenz von dieser Seite stützen? Dann markieren Sie einfach einen Teil des Textes mit der Maus."
+                     :has-to-add "Um dich auf eine Stelle im Artikel zu beziehen, musst du ihn mit der Maus markieren. Dann erscheint der Text in diesem Textfeld."
                      :disabled/tooltip "Du kannst dieses Feld nicht direkt modifizieren. Bitte markiere die gewünschte Stelle direkt auf der Webseite. Dieses Feld füllt sich dann automatisch."}
         :search      {:reuse "Statement auswählen"
                       :origin "Herkunft"
-                      :author "Autor"}}
+                      :author "Autor"}
+        :tooltip     {:discuss/start "Argument erzeugen"}}
    :en {:common     {:and              "and"
                      :author           "Author"
                      :back             "Back"
@@ -86,11 +93,16 @@
                      :that             "that"}
         :clipboard  {:heading "Clipboard"
                      :instruction "Select a reference from this list on new argument creation to link the reference with your argument."}
+        :create/argument {:header "Create an argument with a text reference"
+                          :lead "You can refer position to a text passage here."
+                          :logged-in "Please fill in the following fields."
+                          :not-logged-in "But first you need to login."}
         :discussion {:add-position  "Neither of the above, I have a different idea"
                      :add-position-heading "My suggestion would be that"
                      :add-position-placeholder "we should do this or that"
                      :add-reason-placeholder "of this reason"
                      :current "Current Discussion"
+                     :reference/missing "You need to refer to a text passage"
                      :restart "Restart"
                      :submit "Submit"}
         :eden       {:overview "My Arguments"
@@ -122,10 +134,12 @@
                      :usages/not-found-body "Maybe the assigned arguments have been removed"
                      :where-used "Where has this reference been used?"
                      :ask-to-add "Do you want to add a reference from this site to your statement? Just select the desired text-passage and it will be inserted in this field."
+                     :has-to-add "To refer position to a passage in the article, you have to select the desired text-passage with your mouse selection."
                      :disabled/tooltip "You can't modify this field. Please select the appropriate text-passage from the website. The selection will be automatically added to this field."}
         :search      {:reuse "Select Statement"
                       :origin "Origin"
-                      :author "Author"}}})
+                      :author "Author"}
+        :tooltip     {:discuss/start "Create Argument"}}})
 
 (defn- prepend-translation
   "Lookup given key and prepend some string to it."
