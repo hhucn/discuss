@@ -208,10 +208,11 @@
   []
   (load-from-app-state :layout/view))
 
-(defn change-view-next!
-  "Change view."
+(defn change-view!
+  "Change view to the provided one."
   [view]
-  (om/transact! parser/reconciler `[(layout/view {:value ~view})
+  (om/transact! parser/reconciler `[(layout/next-template {:value nil})
+                                    (layout/view {:value ~view})
                                     (layout/add? {:value false})]))
 
 (defn next-view!
@@ -227,16 +228,17 @@
   []
   (let [current-view (current-view)
         next-view (load-from-app-state :layout/next-template)]
-    (if (= current-view next-view)
-      (change-view-next! :default)
-      (change-view-next! next-view))))
+    (if (and (not (nil? next-view!))
+             (= current-view next-view))
+      (change-view! :default)
+      (change-view! next-view))))
 
 (defn save-current-and-change-view!
   "Saves the current view and changes to the next specified view. Used for the
   'close' button in some views."
   [view]
   (next-view! (current-view))
-  (change-view-next! view))
+  (change-view! view))
 
 
 ;;;; Last-api
@@ -416,7 +418,7 @@
 ;; -----------------------------------------------------------------------------
 ;; Specs
 
-(s/fdef change-view-next!
+(s/fdef change-view!
         :args (s/cat :view keyword?))
 
 (s/fdef trim-and-normalize
