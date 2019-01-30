@@ -211,9 +211,8 @@
 (defn change-view!
   "Change view to the provided one."
   [view]
-  (om/transact! parser/reconciler `[(layout/next-template {:value nil})
-                                    (layout/view {:value ~view})
-                                    (layout/add? {:value false})]))
+  (store-multiple-values-to-app-state!
+   [['layout/view view] ['layout/add? false]]))
 
 (defn next-view!
   "Set the next view, which should be loaded after the ajax call has finished."
@@ -222,16 +221,22 @@
   (hide-add-form!)
   (store-to-app-state! 'layout/view-next view))
 
+(defn next-view?
+  "Check whether a defined next-view exists."
+  []
+  (not (nil? (load-from-app-state :layout/view-next))))
+
 (defn change-to-next-view!
   "Set next view to current view. Falls back to default if there is no different
   next view."
   []
   (let [current-view (current-view)
-        next-view (load-from-app-state :layout/next-template)]
+        next-view (load-from-app-state :layout/view-next)]
     (if (and (not (nil? next-view!))
              (= current-view next-view))
       (change-view! :default)
-      (change-view! next-view))))
+      (do (change-view! next-view)
+          (next-view! nil)))))
 
 (defn save-current-and-change-view!
   "Saves the current view and changes to the next specified view. Used for the
