@@ -59,7 +59,7 @@
 (defn error-handler
   "Generic error handler for ajax requests."
   [{:keys [status status-text response]}]
-  (log/error (str "Request failed with status code " status " (" status-text ")"))
+  (log/error "Request failed with status code %s (%s)" status status-text)
   (lib/error! (str/join (str " " (t :common :and) " ") (map :name (:errors response)))))
 
 (defn index-handler
