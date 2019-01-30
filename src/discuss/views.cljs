@@ -81,9 +81,11 @@
                       ;; TODO: :find (om/build find/view data)
                       :create/argument (carg/create-argument-with-reference (om/props this))
                       (discussion-elements-next (om/props this)))
-                    (if (some #{view} [:login :options :find :reference-usages :eden/overview])
+                    (cond
+                      (some #{view} [:login :options :find :reference-usages :eden/overview])
                       (close-button-next)
-                      (control-elements-next))]]))))
+                      (some #{view} [:create/argument]) nil
+                      :default (control-elements-next))]]))))
 (def view-dispatcher-next (om/factory ViewDispatcher))
 
 (defui MainView
