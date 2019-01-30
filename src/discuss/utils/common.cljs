@@ -217,7 +217,7 @@
 (defn next-view!
   "Set the next view, which should be loaded after the ajax call has finished."
   [view]
-  (log/debug "Setting next view to" view)
+  (log/debug "Setting next view to %s" view)
   (hide-add-form!)
   (store-to-app-state! 'layout/view-next view))
 
