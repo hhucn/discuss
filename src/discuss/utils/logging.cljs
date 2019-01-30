@@ -18,14 +18,12 @@
 (defn- set-level! [level]
   (.setLevel logger (get levels level (:info levels))))
 
-(defn- fmt [msgs]
-  (string/join " " (map pr-str msgs)))
-
 (defn- format-string
   "Takes a format string and sets all parameters if available. When only one
   parameter is provided, this value will be returned."
   ([fstring params]
-   (apply #(format fstring %) params))
+   (prn params)
+   (apply (partial format fstring) params))
   ([fstring] fstring))
 
 (defn- make-logging-fn [f fstring params]
