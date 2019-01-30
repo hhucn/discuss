@@ -26,7 +26,7 @@
   []
   (html [:div [:br]
          [:div.text-center
-          (bs/button-default-sm #(lib/change-view! :default) (vlib/fa-icon "fa-times") (t :common :close :space))]]))
+          (bs/button-default-sm #(lib/change-to-next-view!) (vlib/fa-icon "fa-times") (t :common :close :space))]]))
 
 (defn control-elements-next
   "Back and restart button."

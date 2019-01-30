@@ -15,8 +15,9 @@
        ['user/id uid]
        ['user/logged-in? true]
        ['layout/view :default]])
-     (when (seq last-api-call)
-       (comlib/ajax-get last-api-call))))
+     (cond
+       (lib/next-view?) (lib/change-to-next-view!)
+       (seq last-api-call) (comlib/ajax-get last-api-call))))
 
 (defn- wrong-login
   "Callback function for invalid credentials."
