@@ -29,4 +29,3 @@
    (or (parse-query-parameter "slug") (:slug (first initial-discussions)))))
 (s/fdef default-slug
   :ret string?)
-

@@ -12,7 +12,7 @@
                 :layout/loading? false
                 :layout/sidebar? false
                 :layout/title "discuss"
-                :layout/view :default
+                :layout/view :create/argument
                 :layout/view-next nil
                 :layout/lang :de
                 :issue/title "Town has to cut spending"
