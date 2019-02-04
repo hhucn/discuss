@@ -2,7 +2,7 @@
   (:require [discuss.config-helper :refer [default-slug]]))
 
 (def project "discuss")
-(goog-define version "0.4.0")
+(goog-define version "x.y.z")
 (goog-define build-commit "dev")
 #_(goog-define remote-host "http://discuss.cn.uni-duesseldorf.de:4284/api")
 (def remote-host
