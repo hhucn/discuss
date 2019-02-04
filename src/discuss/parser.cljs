@@ -48,6 +48,8 @@
                                       :url nil}]
                 :eden/arguments []
                 :clipboard/items []
+                :references/all []
+                :references/on-webpage []
                 :references/usages []})
 
 ;; -----------------------------------------------------------------------------
