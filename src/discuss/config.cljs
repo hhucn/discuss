@@ -1,11 +1,17 @@
 (ns discuss.config
   (:require [discuss.config-helper :refer [default-slug]]))
 
-(goog-define version "0.4.0")
-(goog-define remote-host "http://muenchhausen.cn.uni-duesseldorf.de:4284/api")
+(def project "discuss")
+(goog-define version "x.y.z")
+(goog-define build-commit "dev")
+#_(goog-define remote-host "http://discuss.cn.uni-duesseldorf.de:4284/api")
+(def remote-host
+  (str "http://" (.. js/window -location -hostname) ":4284/api"))
 
 ;; Optional
-(goog-define search-host "http://muenchhausen.cn.uni-duesseldorf.de:8888")
+#_(goog-define search-host "http://discuss.cn.uni-duesseldorf.de:8888")
+(def search-host
+  (str "http://" (.. js/window -location -hostname) ":8888"))
 
 ;; For demo session
 (def demo-servers
@@ -15,16 +21,15 @@
    {:name "slurpy"
     :dbas "http://slurpy.cn.uni-duesseldorf.de:4284/api"
     :eden "http://slurpy.cn.uni-duesseldorf.de:8888"}
+   {:name "discuss"
+    :dbas "http://discuss.cn.uni-duesseldorf.de:4284/api"
+    :eden "http://discuss.cn.uni-duesseldorf.de:8888"}
    {:name "localhost without eden"
     :dbas "http://localhost:4284/api"
     :eden nil}])
 
 (def initial-discussions
-  [{:slug "brexit"}
-   {:slug "finanzen"}
-   {:slug "umwelt"}])
-
-(def project "discuss")
+  [{:slug "public"}])
 
 (def log-level
   "Available log-levels: :severe :warning :info :config :fine :finer :finest."
@@ -32,6 +37,7 @@
 
 (def api {:init (default-slug initial-discussions)
           :base  "/"
+          :graphql "/v2/query"
           :login "/login"
           :logout "/logout"
           :add   {:add-start-statement "/add/start_statement"

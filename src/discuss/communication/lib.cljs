@@ -59,7 +59,7 @@
 (defn error-handler
   "Generic error handler for ajax requests."
   [{:keys [status status-text response]}]
-  (log/error (str "Request failed with status code " status " (" status-text ")"))
+  (log/error "Request failed with status code %s (%s)" status status-text)
   (lib/error! (str/join (str " " (t :common :and) " ") (map :name (:errors response)))))
 
 (defn index-handler
@@ -71,7 +71,7 @@
   "Make ajax call to dialog based argumentation system."
   ([url headers handler params]
    (lib/last-api! url)
-   (log/debug "GET Request to:" (make-url url))
+   (log/debug "GET Request to: %s" (make-url url))
    (GET (make-url url)
         {:handler       handler
          :headers       (merge (token-header) headers)
@@ -94,6 +94,7 @@
   "Get prepared statements and simply fire a POST request."
   ([request-url body handler error-handler headers]
    (log/info (str "Posting " (dissoc body :password) " to " request-url))
+   (lib/save-selection! nil)
    (POST request-url
          {:body            (lib/clj->json body)
           :handler         handler

@@ -50,6 +50,6 @@ into a separate leiningen task:
 
 ## License
 
-Copyright © 2016-2017 Christian Meter
+Copyright © 2016-2019 Christian Meter
 
 Distributed under the [MIT License](LICENSE).

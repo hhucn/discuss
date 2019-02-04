@@ -2,6 +2,7 @@
   "Listen for mouse clicks, get references and highlight them in the article."
   (:require [om.next :as om :refer-macros [defui]]
             [clojure.string :refer [split lower-case]]
+            [clojure.set :refer [difference]]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
             [discuss.references.lib :as rlib]
@@ -53,11 +54,14 @@
                         parent)
           (rlib/highlight! ref-text))))))
 
-(defn process-references
+(defn- process-references!
   "Receives references through the API and prepares them for the next steps."
   [refs]
-  (doseq [ref refs]
-    (convert-reference ref)))
+  (let [refs-on-webpage (lib/load-from-app-state :references/on-webpage)
+        refs-to-be-rendered (difference (set refs) (set refs-on-webpage))]
+    (doseq [ref refs-to-be-rendered]
+      (lib/store-to-app-state! 'references/on-webpage (conj refs-on-webpage ref))
+      (convert-reference ref))))
 
 (defn- references-handler
   "Called when received a response on the reference-query."
@@ -65,13 +69,14 @@
   (let [res (lib/process-response response)
         refs (:references res)]
     (lib/store-to-app-state! 'references/all refs)
-    (process-references refs)))
+    (process-references! refs)))
 
 (defn request-references
-  "When this app is loaded, request all available references from the external discussion system."
+  "When this app is loaded, request all available references from the external
+  discussion system."
   []
   (let [url (get-in config/api [:get :references])
         params {:host js/location.host
                 :path js/location.pathname}]
-    (log/info "[request-references] Requesting references for " url ", " params)
+    (log/info "[request-references] Requesting references for %s, %s " url params)
     (comlib/ajax-get url nil references-handler params)))

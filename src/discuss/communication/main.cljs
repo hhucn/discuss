@@ -14,6 +14,7 @@
   (search/remove-search-results!)
   (lib/hide-add-form!)
   (rint/request-references)
+  (lib/change-to-next-view!)
   (comlib/process-and-set-items-and-bubbles response))
 
 
@@ -54,20 +55,11 @@
   "Add new position, its reason and an optional reference to post it to the
   backend."
   [{:keys [position reason reference search/selected]}]
-  (if (seq (lib/get-last-api))
-    (let [url (lib/get-last-api)
-          headers (merge {"Content-Type" "application/json"} (comlib/token-header))
-          body {:position position
-                :reason (if (nil? selected) reason (:text selected))
-                :reference reference
-                :origin (build-origin-body selected)}]
-      (post-json url body process-url-handler headers))
-    (log/error ":api/last-call is empty, cannot post statement to empty URL.")))
-
-
-;;;; Get things started!
-(defn init-with-references!
-  "Load discussion and initially get reference to include them in the discussion."
-  []
-  (rint/request-references)
-  (comlib/init!))
+  (lib/next-view! :discussion/main)
+  (let [url (lib/get-current-slug)
+        headers (merge {"Content-Type" "application/json"} (comlib/token-header))
+        body {:position position
+              :reason (if (nil? selected) reason (:text selected))
+              :reference reference
+              :origin (build-origin-body selected)}]
+    (post-json url body process-url-handler headers)))

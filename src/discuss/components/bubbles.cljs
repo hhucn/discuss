@@ -26,7 +26,7 @@
   [url]
   (case url
     "back" parser/back!
-    "login" #(lib/change-view-next! :login)
+    "login" #(lib/change-view! :login)
     "restart" comlib/init!))
 
 (s/fdef dispatch-link-destination-next

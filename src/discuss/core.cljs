@@ -11,16 +11,17 @@
             [discuss.references.integration :as rint]
             [discuss.utils.common :as lib]
             [discuss.components.tooltip :as tooltip]
-            [discuss.views :as views]))
+            [discuss.views :as views]
+            [discuss.utils.logging :as log]))
 
 (enable-console-print!)
 
 ;; Initialization
 (defn ^:export main []
-  (lib/log (str "Loaded " config/project " " config/version))
+  (log/debug "Loaded %s %s" config/project (lib/project-version))
   (om/add-root! parser/reconciler views/MainView (gdom/getElement (lib/prefix-name "main")))
-  (comlib/init!)
-  (rint/request-references))
+  (rint/request-references)
+  (comlib/init!))
 (main)
 
 (defn on-js-reload []

@@ -1,7 +1,9 @@
 (ns discuss.utils.logging
   (:require [goog.log :as glog]
             [discuss.config :as config]
-            [clojure.string :as string]))
+            [clojure.string :as string]
+            [goog.string :refer [format]]
+            [goog.string.format]))
 
 (def logger (glog/getLogger config/project))
 
@@ -13,31 +15,33 @@
              :finer goog.debug.Logger.Level.FINER
              :finest goog.debug.Logger.Level.FINEST})
 
-(defn set-level! [level]
+(defn- set-level! [level]
   (.setLevel logger (get levels level (:info levels))))
 
-(defn fmt [msgs]
-  (string/join " " (map pr-str msgs)))
+(defn- format-string
+  "Takes a format string and sets all parameters if available. When only one
+  parameter is provided, this value will be returned."
+  ([fstring params]
+   (apply (partial format fstring) params))
+  ([fstring] fstring))
 
-(defn info [& s]
-  (let [msg (fmt s)]
-    (glog/info logger msg)))
+(defn- make-logging-fn [f fstring params]
+  (f logger (format-string fstring params)))
 
-(defn debug [& s]
-  (let [msg (fmt s)]
-    (glog/fine logger msg)))
+(defn info [fstring & params]
+  (make-logging-fn glog/info fstring params))
 
-(defn error [& s]
-  (let [msg (fmt s)]
-    (glog/error logger msg)))
+(defn debug [fstring & params]
+  (make-logging-fn glog/fine fstring params))
 
-(defn warning [& s]
-  (let [msg (fmt s)]
-    (glog/warning logger msg)))
+(defn error [fstring & params]
+  (make-logging-fn glog/error fstring params))
 
-(defn fine [& s]
-  (let [msg (fmt s)]
-    (glog/fine logger msg)))
+(defn warning [fstring & params]
+  (make-logging-fn glog/warning fstring params))
+
+(defn fine [fstring & params]
+  (make-logging-fn glog/fine fstring params))
 
 
 ;; -----------------------------------------------------------------------------

@@ -3,7 +3,8 @@
             [clojure.walk :refer [keywordize-keys]]
             [clojure.string :refer [trim trim-newline]]
             [cljs.spec.alpha :as s]
-            [goog.string :as gstring]
+            [goog.string :as gstring :refer [format]]
+            [goog.string.format]
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]
             [discuss.config :as config]
@@ -15,6 +16,13 @@
   "Create unique id for DOM elements."
   [name]
   (str config/project "-" name))
+
+(defn project-version
+  "Return the project's current version."
+  []
+  (format "%s-%s" (string/replace config/version "\"" "") config/build-commit))
+(s/fdef project-version
+  :ret string?)
 
 (s/def ::fn-and-val (s/tuple symbol? any?))
 (s/def ::col-of-fn-and-vals (s/coll-of ::fn-and-val))
@@ -150,6 +158,11 @@
     (number? issue) (first (filter #(= (str->int (:uid %)) issue) (get-issues)))
     (string? issue) (first (filter #(= (:title %) issue) (get-issues)))))
 
+(defn get-current-slug
+  "Return current slug of issue."
+  []
+  (load-from-app-state :issue/current-slug))
+
 
 ;;;; Booleans
 (defn logged-in?
@@ -208,35 +221,49 @@
   []
   (load-from-app-state :layout/view))
 
-(defn change-view-next!
-  "Change view."
+(defn change-view!
+  "Change view to the provided one."
   [view]
-  (om/transact! parser/reconciler `[(layout/view {:value ~view})
-                                    (layout/add? {:value false})]))
+  (store-multiple-values-to-app-state!
+   [['layout/view view] ['layout/add? false]]))
 
 (defn next-view!
   "Set the next view, which should be loaded after the ajax call has finished."
   [view]
-  (log/debug "Setting next view to" view)
+  (log/debug "Setting next view to %s" view)
   (hide-add-form!)
   (store-to-app-state! 'layout/view-next view))
+
+(defn next-view?
+  "Check whether a defined next-view exists."
+  []
+  (not (nil? (load-from-app-state :layout/view-next))))
 
 (defn change-to-next-view!
   "Set next view to current view. Falls back to default if there is no different
   next view."
   []
   (let [current-view (current-view)
-        next-view (load-from-app-state :layout/next-template)]
-    (if (= current-view next-view)
-      (change-view-next! :default)
-      (change-view-next! next-view))))
+        next-view (load-from-app-state :layout/view-next)]
+    (if (and (not (nil? next-view!))
+             (= current-view next-view))
+      (change-view! :default)
+      (do (change-view! next-view)
+          (next-view! nil)))))
 
 (defn save-current-and-change-view!
   "Saves the current view and changes to the next specified view. Used for the
   'close' button in some views."
   [view]
   (next-view! (current-view))
-  (change-view-next! view))
+  (change-view! view))
+
+(defn add-step!
+  "Sets the current add-step, e.g. :add/position or :add/statement."
+  [kw]
+  (store-to-app-state! 'discussion/add-step kw))
+(s/fdef add-step!
+  :args (s/cat :kw #{:add/position :add/statement}))
 
 
 ;;;; Last-api
@@ -254,18 +281,11 @@
 
 
 ;;;; Generic Handlers
-(defn loading?
-  "Return boolean if app is currently loading content. Provide a boolean to
-  change the app-state."
-  ([] (load-from-app-state :layout/loading?))
-  ([bool] (store-to-app-state! 'layout/loading? bool)))
-
 (defn process-response
   "Generic success handler, which sets error handling and returns a cljs-compatible response."
   [response]
   (let [res (json->clj response)
         error (:error res)]
-    (loading? false)
     (if (pos? (count error))
       (error! error)
       (do (error! nil)
@@ -370,11 +390,6 @@
   (let [element (.getElementById js/document (prefix-name id))]
     (when element (.-value element))))
 
-(defn log
-  "Print argument as JS object to be accessible from the console."
-  [arg]
-  (.log js/console arg))
-
 (defn filter-keys-by-namespace
   "Filter a collection of vectors by their namespaces.
 
@@ -428,7 +443,7 @@
 ;; -----------------------------------------------------------------------------
 ;; Specs
 
-(s/fdef change-view-next!
+(s/fdef change-view!
         :args (s/cat :view keyword?))
 
 (s/fdef trim-and-normalize
