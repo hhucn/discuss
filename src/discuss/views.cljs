@@ -117,7 +117,8 @@
                                :data-target   (str "#" (lib/prefix-name "dialog-collapse"))
                                :aria-expanded "true"
                                :aria-controls (lib/prefix-name "dialog-collapse")}
-                title]]
+                title
+                [:small " " (lib/project-version)]]]
               [:br]
               (view-dispatcher-next (om/props this))
               (when add?
