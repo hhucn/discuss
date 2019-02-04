@@ -3,17 +3,26 @@
             [clojure.walk :refer [keywordize-keys]]
             [clojure.string :refer [trim trim-newline]]
             [cljs.spec.alpha :as s]
-            [goog.string :as gstring]
+            [goog.string :as gstring :refer [format]]
+            [goog.string.format]
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]
             [discuss.config :as config]
             [discuss.parser :as parser]
-            [discuss.utils.logging :as log]))
+            [discuss.utils.logging :as log]
+            [clojure.string :as string]))
 
 (defn prefix-name
   "Create unique id for DOM elements."
   [name]
   (str config/project "-" name))
+
+(defn project-version
+  "Return the project's current version."
+  []
+  (format "%s-%s" (string/replace config/version "\"" "") config/build-commit))
+(s/fdef project-version
+  :ret string?)
 
 (s/def ::fn-and-val (s/tuple symbol? any?))
 (s/def ::col-of-fn-and-vals (s/coll-of ::fn-and-val))
