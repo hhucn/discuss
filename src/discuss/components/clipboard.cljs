@@ -30,7 +30,7 @@
   "Use text from clipboard item as reference for own statement."
   [e]
   (let [clipboard-item (.getData (.. e -dataTransfer) "reference")]
-    (lib/store-to-app-state! 'selection/current clipboard-item)))
+    (lib/save-selection! clipboard-item)))
 
 (defn allow-drop [ev]
   (.preventDefault ev))
