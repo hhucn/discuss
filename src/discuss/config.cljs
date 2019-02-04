@@ -37,6 +37,7 @@
 
 (def api {:init (default-slug initial-discussions)
           :base  "/"
+          :graphql "/v2/query"
           :login "/login"
           :logout "/logout"
           :add   {:add-start-statement "/add/start_statement"
