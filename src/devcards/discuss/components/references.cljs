@@ -4,7 +4,6 @@
             [discuss.views :as views]
             [om.next :as om]
             [sablono.core :as html :refer-macros [html]]
-            [discuss.components.tooltip :as tooltip]
             [discuss.references.integration :as rint]
             [discuss.references.main :as ref]))
 
@@ -63,10 +62,6 @@
 (defcard sample-passage
   "<p id='discuss-text'>Currently, the city council discusses to close the University Park, because of its high running expenses of about $100.000 per year. But apparently there is an anonymous investor ensuring to pay the running costs for at least the next five years. Thanks to this anonymous person, the city does not loose a beautiful park, but this again fires up the discussion about possible savings for the future. </p>")
 
-(defcard-om-next tooltip
-  tooltip/Tooltip
-  parser/reconciler)
-
 (defcard-om-next single-reference-usage
   ref/ReferenceUsageForSingleArgumentView
   (om/reconciler {:state sample-reference-with-single-argument
@@ -82,5 +77,5 @@
   parser/reconciler)
 
 (defcard-om-next main-view
-  views/MainView
+  views/Discuss
   parser/reconciler)
