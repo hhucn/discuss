@@ -104,10 +104,9 @@
            {:references/usages ~(om/get-query ref/UsagesView)}])
   Object
   (render [this]
-          (let [{:keys [issue/info layout/add? layout/title discussion/add-step]} (om/props this)]
+          (let [{:keys [layout/add? layout/title discussion/add-step]} (om/props this)]
             (html
              [:div#discuss-dialog-main
-              (tooltip/tooltip (om/props this))
               (avatar/avatar (om/props this))
               [:h4 (vlib/logo)
                " "
@@ -127,9 +126,39 @@
               [:div (nav/nav (om/props this))]
               [:br]
               (search/results (om/props this))
-              [:div (clipboard/clipboard (om/props this))]
-              #_[:div
-               [:br]
-               [:p.text-muted "Connected to: " (lib/host-dbas)]
-               [:div (options/connection-browser (om/props this))]]]))))
-(def main-view-next (om/factory MainView))
+              [:div (clipboard/clipboard (om/props this))]]))))
+(def main-view (om/factory MainView))
+
+(defui Overlay
+  Object
+  (render
+   [this]
+   (let [modal-name (lib/prefix-name "overlay")]
+     (html [:div {:className "modal fade"
+                  :id modal-name
+                  :tabIndex -1
+                  :role "dialog"
+                  :aria-labelledby (str modal-name "Label")}
+            [:div {:className "modal-dialog modal-lg"
+                   :role "document"}
+             [:div.modal-content
+              [:div.modal-header
+               [:button {:type "button"
+                         :className "close"
+                         :data-dismiss "modal"
+                         :aria-label "Close"}
+                [:span {:aria-hidden true}
+                 (vlib/safe-html "&times;")]]]
+              [:div.modal-body
+               (main-view (om/props this))]]]]))))
+(def overlay (om/factory Overlay))
+
+(defui Discuss
+  Object
+  (render [this]
+          (html
+           [:div
+            (tooltip/tooltip (om/props this))
+            (overlay (om/props this))
+            (main-view (om/props this))])))
+(def discuss (om/factory Discuss {:keyfn identity}))
