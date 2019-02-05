@@ -96,8 +96,6 @@
            :search/results :search/selected :eden/arguments
            {:discussion/items ~(om/get-query ViewDispatcher)}
            {:discussion/bubbles ~(om/get-query ViewDispatcher)}
-           {:discussion/bubbles ~(om/get-query vadd/StatementForm)}
-           {:discussion/bubbles ~(om/get-query vadd/PositionForm)}
            {:eden/add-argument ~(om/get-query eviews/EDENArgumentForm)}
            {:clipboard/items ~(om/get-query clipboard/Clipboard)}
            {:host/dbas ~(om/get-query options/Options)}
