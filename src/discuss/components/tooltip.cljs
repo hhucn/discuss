@@ -33,7 +33,10 @@
 (defn x-position
   "Center tooltip at mouse selection."
   [left twidth ewidth]
-  (+ left js/window.scrollX (/ (- ewidth twidth) 2)))
+  (let [tooltip (get-tooltip)
+        tooltip-parent-offset (.-offsetLeft (.-offsetParent tooltip))]
+    (- (+ left js/window.scrollX (/ (- ewidth twidth) 2))
+       tooltip-parent-offset)))
 
 (defn y-position
   "Move tooltip a bit above the mouse selection."
