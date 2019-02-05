@@ -1,12 +1,10 @@
-(defproject discuss "0.6.0"
+(defproject discuss "0.6.1"
   :description "Embedding dialog-based discussions into arbitrary web-contexts"
   :url "https://discuss.cs.uni-duesseldorf.de"
   :license {:name "MIT"
             :url  "https://choosealicense.com/licenses/mit/"}
 
   :min-lein-version "2.5.3"
-
-  ;; :hooks [leiningen.cljsbuild]
 
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [org.clojure/clojurescript "1.10.516"]
@@ -97,7 +95,7 @@
                                                                               (re-seq #"\".*\"")
                                                                               (first))
                                                  discuss.config/build-commit ~(if (.exists (clojure.java.io/as-file ".git/ORIG_HEAD"))
-                                                                                (subs (slurp ".git/ORIG_HEAD") 0 7)
+                                                                                (subs (slurp ".git/ORIG_HEAD") 0 6)
                                                                                 "dev")}
                                ;; :closure-defines {discuss.config/remote-host ~(or (System/getenv "REMOTE_HOST") "https://dbas.cs.uni-duesseldorf.de/api")}
                                :parallel-build true

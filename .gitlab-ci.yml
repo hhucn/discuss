@@ -33,19 +33,19 @@ build-image:
   only:
     - master
 
-build-dev-image:
-  image: docker:git
+deploy-stable:
+  image: clojure:openjdk-8-lein-alpine
   stage: deploy
-  services:
-    - docker:dind
+  tags:
+    - 40c
+  before_script:
+    - apk add --no-cache ca-certificates
+    - rm -f mc
+    - wget https://dl.minio.io/client/mc/release/linux-amd64/mc
+    - chmod +x mc
+    - ./mc config host add argyou https://gitlab-cache.cs.uni-duesseldorf.de:9003 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY
   script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE .
-    - docker tag $CI_REGISTRY_IMAGE $CI_REGISTRY_IMAGE:develop
-    - docker push $CI_REGISTRY_IMAGE:develop
-    # Build docs
-    - docker build -t $CI_REGISTRY_IMAGE -f Dockerfile.docs .
-    - docker tag $CI_REGISTRY_IMAGE $CI_REGISTRY_IMAGE:docs
-    - docker push $CI_REGISTRY_IMAGE:docs
+    - lein do clean, cljsbuild once min
+    - ./mc cp resources/public/js/compiled/discuss.js argyou/discuss-common/discuss_stable.js
   only:
-    - develop
+    - master
