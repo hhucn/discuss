@@ -106,13 +106,18 @@
    (track-user-selection))
   (render [this]
           (html [:div#discuss-tooltip
-                 (vlib/logo)
-                 (vlib/safe-space) " | " (vlib/safe-space)
                  [:span.pointer {:onClick (fn [] (clipboard/add-item!) #_(sidebar/show) (hide))}
                   (vlib/fa-icon "fa-bookmark-o")
                   (translate :common :save :space)]
-                 #_(vlib/safe-space) "  " (vlib/safe-space)
+                 (vlib/safe-space) " " (vlib/safe-space)
+
                  [:span.pointer {:onClick (fn [] (lib/change-view! :create/argument) (hide))}
                   (vlib/fa-icon "fa-comment")
-                  (translate :tooltip :discuss/start :space)]])))
+                  (translate :tooltip :discuss/start :space)]
+
+                 (vlib/safe-space) " " (vlib/safe-space)
+
+                 [:span.pointer {:onClick #(.modal ((js* "$") "#discuss-overlay"))}
+                  (vlib/fa-icon "fa-comments")
+                  (translate :common :show-discuss :space)]])))
 (def tooltip (om/factory Tooltip))
