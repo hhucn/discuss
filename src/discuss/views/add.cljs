@@ -6,7 +6,6 @@
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.views :as vlib]
             [discuss.views.alerts :as valerts]
-            [discuss.components.bubbles :as bubbles]
             [discuss.components.search.statements :as search]
             [discuss.utils.common :as lib]))
 
@@ -14,8 +13,7 @@
   "Form to add a new statement to the discussion."
   static om/IQuery
   (query [this]
-         `[:selection/current :search/selected :layout/error
-           {:discussion/bubbles ~(om/get-query bubbles/BubblesView)}])
+         [:selection/current :search/selected :layout/error :discussion/bubbles])
   Object
   (render [this]
           (let [{current-selection :selection/current
