@@ -58,12 +58,14 @@
 
 (defn move-to-selection
   "Sets CSS position of tooltip and move it to the mouse selection."
-  []
-  (when-let [tooltip (get-tooltip)]
-    (let [[top left] (calc-position tooltip.offsetWidth tooltip.offsetHeight)]
-      (set! (.. tooltip -style -top) (str top "px"))
-      (set! (.. tooltip -style -left) (str left "px"))
-      (show))))
+  ([[top left]]
+   (let [tooltip (get-tooltip)]
+     (set! (.. tooltip -style -top) (str top "px"))
+     (set! (.. tooltip -style -left) (str left "px"))
+     (show)))
+  ([]
+   (when-let [tooltip (get-tooltip)]
+     (move-to-selection (calc-position tooltip.offsetWidth tooltip.offsetHeight)))))
 
 
 ;;;; Include listener for tooltips
