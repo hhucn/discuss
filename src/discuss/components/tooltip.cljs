@@ -107,12 +107,12 @@
    (track-user-selection))
   (render [this]
           (html [:div#discuss-tooltip
-                 [:span.pointer {:onClick (fn [] (clipboard/add-item!) (hide))}
+                 [:span.pointer {:onClick #((clipboard/add-item!) (hide))}
                   (vlib/fa-icon "fa-bookmark-o")
                   (translate :common :save :space)]
                  (vlib/safe-space) " " (vlib/safe-space)
 
-                 [:span.pointer {:onClick (fn [] (lib/change-view! :create/argument) (hide))}
+                 [:span.pointer {:onClick #((lib/change-view! :create/argument) (lib/show-overlay) (hide))}
                   (vlib/fa-icon "fa-comment")
                   (translate :tooltip :discuss/start :space)]
 
