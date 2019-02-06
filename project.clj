@@ -91,8 +91,6 @@
                                :main           discuss.core
                                :preloads       [discuss.utils.extensions]
                                :optimizations  :simple
-                               :parallel-build true
-                               :compiler-stats true
                                :closure-defines {experimental-features? false
                                                  discuss.config/version ~(->> (slurp "project.clj")
                                                                               (re-seq #"\".*\"")
