@@ -9,6 +9,12 @@
             [discuss.utils.logging :as log]
             [cljs.spec.alpha :as s]))
 
+(defn- item-click
+  "Store the currently clicked url in the app-state."
+  [url]
+  (lib/save-clicked-item! url)
+  (comlib/ajax-get url (comlib/token-header) comlib/process-and-set-items-and-bubbles))
+
 (defn- dispatch-click-fn
   "Dispatch which function should be applied if there is a click on an item."
   [url]
@@ -16,7 +22,7 @@
     "login" (lib/change-view! :login)
     "back" (log/info "Not yet implemented")
     "add" (lib/show-add-form!)
-    (comlib/ajax-get url (comlib/token-header) comlib/process-and-set-items-and-bubbles)))
+    (item-click url)))
 
 (s/fdef dispatch-click-fn
   :args (s/cat :url string?))

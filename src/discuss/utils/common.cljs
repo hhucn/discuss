@@ -394,6 +394,21 @@
   :ret string?)
 
 
+;;;; History
+(defn get-clicked-items
+  "Return URLs of clicked items."
+  []
+  (load-from-app-state :history/clicked-items))
+(s/fdef get-clicked-items
+  :ret (s/coll-of string?))
+
+(defn save-clicked-item!
+  "Takes a URL from the clicked item and stores it in the app-state."
+  [url]
+  (store-to-app-state! 'history/clicked-items (conj (get-clicked-items) url)))
+(s/fdef save-clicked-item!
+  :args (s/cat :url string?))
+
 ;;;; Other
 (defn get-value-by-id
   "Return value of element matching the id."
