@@ -5,7 +5,8 @@
             [discuss.communication.lib :as comlib]
             [discuss.utils.views :as vlib]
             [cljs.spec.alpha :as s]
-            [discuss.parser :as parser]))
+            [discuss.parser :as parser]
+            [discuss.history.core :as history]))
 
 (defn- get-bubble-class-next [bubble-type]
   "Check bubble type and return a class-string to match the CSS styles."
@@ -25,7 +26,7 @@
   on the element."
   [url]
   (case url
-    "back" parser/back!
+    "back" history/back!
     "login" #(lib/change-view! :login)
     "restart" comlib/init!))
 
