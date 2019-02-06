@@ -50,40 +50,11 @@
   give her the choice of what her next steps might be."
   [reference]
   (rlib/save-selected-reference! reference)
-  (query-reference-details reference))
+  (query-reference-details reference)
+  (lib/show-overlay))
 
 (s/fdef click-reference
   :args (s/cat :reference ::reference))
-
-
-;;;; Views
-(defn create-with-reference-view
-  "View containing information about which reference has been chosen and give
-  possibility to find an entry point into the discussion."
-  [data]
-  (reify om/IRender
-    (render [_]
-      (dom/div nil
-               (dom/h5 #js {:className "text-center"} (t :references :usages))
-               #_(om/build rlib/current-reference-component {})
-               #_(om/build find/form-view {})
-               #_(om/build find/results-view data)))))
-
-(defn dialog-view
-  "Show a dialog to give the user the option to choose, whether she wants to get
-  some information about the statement or just wants to construct a new
-  statement."
-  []
-  (reify om/IRender
-    (render [_]
-      (dom/div #js {:className "text-center"}
-               #_(om/build rlib/current-reference-component {})
-               (bs/button-primary #(query-reference-details (:id (rlib/get-selected-reference)))
-                                  (t :references :where-used))
-               " "
-               (dom/button #js {:className "btn btn-primary"
-                                :onClick   #(lib/change-view! :reference-create-with-ref)}
-                           (t :references :jump))))))
 
 
 ;; -----------------------------------------------------------------------------
