@@ -1,7 +1,7 @@
 (ns discuss.utils.common
   (:require [om.next :as om :refer-macros [defui]]
             [clojure.walk :refer [keywordize-keys]]
-            [clojure.string :refer [trim trim-newline]]
+            [clojure.string :as string :refer [trim trim-newline]]
             [cljs.spec.alpha :as s]
             [goog.string :as gstring :refer [format]]
             [goog.string.format]
@@ -9,8 +9,7 @@
             [inflections.core :refer [plural]]
             [discuss.config :as config]
             [discuss.parser :as parser]
-            [discuss.utils.logging :as log]
-            [clojure.string :as string]))
+            [discuss.utils.logging :as log]))
 
 (defn prefix-name
   "Create unique id for DOM elements."
@@ -359,6 +358,18 @@
   "Add a specific class to a DOM element."
   [dom-element class]
   (toggle-class dom-element class true))
+
+
+;;;; DOM Modifications
+(defn show-overlay
+  "Show discuss in an overlay."
+  []
+  (.modal ((js* "$") "#discuss-overlay")))
+
+(defn hide-overlay
+  "Hide the overlay."
+  []
+  (.modal ((js* "$") "#discuss-overlay") "hide"))
 
 
 ;;;; Language

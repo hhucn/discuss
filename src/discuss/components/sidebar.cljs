@@ -1,10 +1,10 @@
 (ns discuss.components.sidebar
   "Controlling the sidebar."
-  (:require [om.core :as om]
-            [om.dom :as dom]
-            [goog.dom :as gdom]
+  (:require [om.next :as om :refer-macros [defui]]
+            [sablono.core :refer-macros [html]]
             [discuss.utils.common :as lib]
-            [discuss.utils.views :as vlib]))
+            [discuss.utils.views :as vlib]
+            [goog.dom :as gdom]))
 
 (def id (lib/prefix-name "sidebar"))
 
@@ -35,9 +35,12 @@
 
 
 ;;;; Sidebar
-(defn view [data]
-  (reify om/IRender
-    (render [_]
-      (dom/div nil
-               (vlib/fa-icon "fa-bars" hide)
-               (om/build (resolve 'discuss.views/main-view) data)))))
+(defui Sidebar
+  Object
+  (render [this]
+          (html
+           [:div
+            [:div.discuss-sidebar
+             (vlib/fa-icon "fa-bars" hide)
+             ((resolve 'discuss.views/main-view) (om/props this))]])))
+(def sidebar (om/factory Sidebar {:keyfn identity}))
