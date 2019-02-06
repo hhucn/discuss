@@ -116,10 +116,9 @@
                   (vlib/fa-icon "fa-comment")
                   (translate :tooltip :discuss/start :space)]
 
-                 (when config/experimental-features?
-                   [:span
-                    (vlib/safe-space) " " (vlib/safe-space)
-                    [:span.pointer {:onClick #((lib/show-overlay) (hide))}
-                     (vlib/fa-icon "fa-comments")
-                     (translate :common :show-discuss :space)]])])))
+                 [:span
+                  (vlib/safe-space) " " (vlib/safe-space)
+                  [:span.pointer {:onClick #((lib/show-overlay) (hide))}
+                   (vlib/fa-icon "fa-comments")
+                   (translate :common :show-discuss :space)]]])))
 (def tooltip (om/factory Tooltip))
