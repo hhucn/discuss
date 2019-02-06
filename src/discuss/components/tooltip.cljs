@@ -8,9 +8,10 @@
             [om.next :as om :refer-macros [defui]]
             [sablono.core :as html :refer-macros [html]]
             [discuss.components.clipboard :as clipboard]
+            [discuss.config :as config]
             [discuss.translations :refer [translate]]
-            [discuss.utils.logging :as log]
             [discuss.utils.common :as lib]
+            [discuss.utils.logging :as log]
             [discuss.utils.views :as vlib]))
 
 (defn- get-tooltip
@@ -106,7 +107,7 @@
    (track-user-selection))
   (render [this]
           (html [:div#discuss-tooltip
-                 [:span.pointer {:onClick (fn [] (clipboard/add-item!) #_(sidebar/show) (hide))}
+                 [:span.pointer {:onClick (fn [] (clipboard/add-item!) (hide))}
                   (vlib/fa-icon "fa-bookmark-o")
                   (translate :common :save :space)]
                  (vlib/safe-space) " " (vlib/safe-space)
@@ -115,9 +116,10 @@
                   (vlib/fa-icon "fa-comment")
                   (translate :tooltip :discuss/start :space)]
 
-                 (vlib/safe-space) " " (vlib/safe-space)
-
-                 [:span.pointer {:onClick #(.modal ((js* "$") "#discuss-overlay"))}
-                  (vlib/fa-icon "fa-comments")
-                  (translate :common :show-discuss :space)]])))
+                 (when config/experimental-features?
+                   [:span
+                    (vlib/safe-space) " " (vlib/safe-space)
+                    [:span.pointer {:onClick #(.modal ((js* "$") "#discuss-overlay"))}
+                     (vlib/fa-icon "fa-comments")
+                     (translate :common :show-discuss :space)]])])))
 (def tooltip (om/factory Tooltip))
