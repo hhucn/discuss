@@ -118,7 +118,7 @@
             [:div {:className "modal-dialog modal-lg"
                    :role "document"}
              [:div.modal-content
-              [:div.modal-header
+              [:div.modal-header {:style {:paddingBottom 0}}
                [:button {:type "button"
                          :className "close"
                          :data-dismiss "modal"
