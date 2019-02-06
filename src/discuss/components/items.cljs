@@ -5,15 +5,9 @@
             [discuss.communication.lib :as comlib]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.common :as lib]
-            [discuss.utils.views :as vlib]
             [discuss.utils.logging :as log]
+            [discuss.utils.views :as vlib]
             [cljs.spec.alpha :as s]))
-
-(defn- item-click
-  "Store the currently clicked url in the app-state."
-  [url]
-  (lib/save-clicked-item! url)
-  (comlib/ajax-get url (comlib/token-header) comlib/process-and-set-items-and-bubbles))
 
 (defn- dispatch-click-fn
   "Dispatch which function should be applied if there is a click on an item."
@@ -22,7 +16,7 @@
     "login" (lib/change-view! :login)
     "back" (log/info "Not yet implemented")
     "add" (lib/show-add-form!)
-    (item-click url)))
+    (comlib/item-click url)))
 
 (s/fdef dispatch-click-fn
   :args (s/cat :url string?))
