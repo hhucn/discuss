@@ -43,10 +43,6 @@
 
 
 (defui DiscussionElements
-  static om/IQuery
-  (query [this]
-         `[{:discussion/items ~(om/get-query items/Items)}
-           {:discussion/bubbles ~(om/get-query bubbles/BubblesView)}])
   Object
   (render [this]
           (html [:div
@@ -56,15 +52,7 @@
 
 (defui ViewDispatcher
   static om/IQuery
-  (query [this]
-         `[:layout/view :layout/lang :layout/error :eden/arguments
-           {:layout/views ~(om/get-query vlogin/LoginForm)}
-           {:discussion/items ~(om/get-query DiscussionElements)}
-           {:discussion/bubbles ~(om/get-query DiscussionElements)}
-           {:host/dbas ~(om/get-query options/Options)}
-           {:host/eden ~(om/get-query options/Options)}
-           {:eden/add-argument ~(om/get-query eviews/EDENArgumentForm)}
-           {:references/usages ~(om/get-query ref/UsagesView)}])
+  (query [this] [:layout/view])
   Object
   (render [this]
           (let [{:keys [layout/view]} (om/props this)]
@@ -89,19 +77,7 @@
 
 (defui MainView
   static om/IQuery
-  (query [this]
-         `[:issue/info :layout/add? :discussion/add-step :layout/view
-           :layout/title :layout/lang :layout/error :user/avatar
-           :user/nickname :user/logged-in? :selection/current :layout/error
-           :search/results :search/selected :eden/arguments
-           {:discussion/items ~(om/get-query ViewDispatcher)}
-           {:discussion/bubbles ~(om/get-query ViewDispatcher)}
-           {:eden/add-argument ~(om/get-query eviews/EDENArgumentForm)}
-           {:clipboard/items ~(om/get-query clipboard/Clipboard)}
-           {:host/dbas ~(om/get-query options/Options)}
-           {:host/eden ~(om/get-query options/Options)}
-           {:nav/nav ~(om/get-query nav/Nav)}
-           {:references/usages ~(om/get-query ref/UsagesView)}])
+  (query [this] [:layout/add? :layout/title :discussion/add-step])
   Object
   (render [this]
           (let [{:keys [layout/add? layout/title discussion/add-step]} (om/props this)]
