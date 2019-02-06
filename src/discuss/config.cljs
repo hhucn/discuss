@@ -4,6 +4,8 @@
 (def project "discuss")
 (goog-define version "x.y.z")
 (goog-define build-commit "dev")
+(goog-define experimental-features? true)
+
 #_(goog-define remote-host "http://discuss.cn.uni-duesseldorf.de:4284/api")
 (def remote-host
   (str "http://" (.. js/window -location -hostname) ":4284/api"))
