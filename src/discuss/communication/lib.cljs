@@ -123,7 +123,7 @@
    (init! (:init config/api)))
   ([slug]
    (log/fine (format "Initializing discussion: %s" (:init config/api)))
-   (hdis/save-discussion-url! slug)
+   (hdis/save-discussion-urls! [slug])
    (ajax-get-and-change-view slug :default index-handler)))
 (s/fdef init!
   :args (s/? (s/cat :slug string?)))
