@@ -1,25 +1,25 @@
 (ns discuss.views
   (:require [om.next :as om :refer-macros [defui]]
             [sablono.core :refer-macros [html]]
+            [discuss.communication.lib :as comlib]
+            [discuss.components.avatar :as avatar]
             [discuss.components.bubbles :as bubbles]
             [discuss.components.clipboard :as clipboard]
+            [discuss.components.create-argument :as carg]
             [discuss.components.items :as items]
             [discuss.components.navigation :as nav]
             [discuss.components.options :as options]
             [discuss.components.search.statements :as search]
-            [discuss.components.avatar :as avatar]
-            [discuss.communication.lib :as comlib]
+            [discuss.components.tooltip :as tooltip]
+            [discuss.eden.views :as eviews]
+            [discuss.history.core :as history]
             [discuss.references.main :as ref]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
             [discuss.views.add :as vadd]
-            [discuss.views.login :as vlogin]
-            [discuss.parser :as parser]
-            [discuss.components.tooltip :as tooltip]
-            [discuss.eden.views :as eviews]
-            [discuss.components.create-argument :as carg]))
+            [discuss.views.login :as vlogin]))
 
 (defn close-button-next
   "Close current panel and switch view."
@@ -34,8 +34,8 @@
   (html [:div [:hr]
          [:div.row
           [:div {:className "col-md-offset-4 col-sm-offset-4 col-xs-offset-4 col-md-4 col-sm-4 col-xs-4 text-center"}
-           [:button.btn.btn-default.btn-sm {:onClick parser/back!
-                                            :disabled  (neg? (count (parser/mutation-history parser/reconciler)))}
+           [:button.btn.btn-default.btn-sm {:onClick history/back!
+                                            :disabled (not (history/back-possible?))}
             (vlib/fa-icon "fa-step-backward")
             (t :common :back :space)]]
           [:div.col-md-4.col-sm-4.col-xs-4.text-right

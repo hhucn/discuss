@@ -11,7 +11,8 @@
             [discuss.utils.common :as lib]
             [discuss.parser :as parser]
             [discuss.utils.logging :as log]
-            [discuss.translations :refer [translate] :rename {translate t}]))
+            [discuss.translations :refer [translate] :rename {translate t}]
+            [discuss.history.discussion :as hdis]))
 
 ;;;; Auxiliary functions
 (defn make-url
@@ -122,10 +123,26 @@
    (init! (:init config/api)))
   ([slug]
    (log/fine (format "Initializing discussion: %s" (:init config/api)))
+   (hdis/save-discussion-urls! [slug])
    (ajax-get-and-change-view slug :default index-handler)))
-
 (s/fdef init!
   :args (s/? (s/cat :slug string?)))
+
+(defn discussion-step
+  "Receives the next step in the discussion and performs a GET request to this
+  url."
+  [url]
+  (ajax-get url (token-header) process-and-set-items-and-bubbles))
+(s/fdef discussion-step
+  :args (s/cat :url string?))
+
+(defn item-click
+  "Store the currently clicked url in the app-state."
+  [url]
+  (hdis/save-discussion-url! url)
+  (discussion-step url))
+(s/fdef item-click
+  :args (s/cat :url string?))
 
 
 ;; -----------------------------------------------------------------------------
@@ -165,7 +182,7 @@
                           :opt-un [::attitudes ::attacks ::items]))
 
 (s/fdef process-and-set-items-and-bubbles
-        :args (s/cat :response ::response))
+  :args (s/cat :response ::response))
 
 (s/fdef login-or-add-item
   :args (s/cat :logged-in? boolean?)
