@@ -19,12 +19,4 @@
 
 (enable-console-print!)
 
-;; -----------------------------------------------------------------------------
-;; Start devcards
-
-(defn main []
-  ;; conditionally start the app based on whether the #main-app-area
-  ;; node is on the page
-  (when-let [node (.getElementById js/document "main-app-area")]
-    (.render js/ReactDOM (html [:div "This is working"]) node)))
-(main)
+(devcards.core/start-devcard-ui!)
