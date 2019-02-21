@@ -6,5 +6,4 @@
 
 (def shortcuts
   (html [:div
-         (vlib/button #(auth/login "Christian" "iamgroot") "Login as Christian")
-         (vlib/button #(lib/last-api! "/town-has-to-cut-spending/justify/37/agree?history=/attitude/37") "Set :api/last-url")]))
+         (vlib/button #(auth/login "Christian" "iamgroot") "Login as Christian")]))

@@ -265,20 +265,6 @@
   :args (s/cat :kw #{:add/position :add/statement}))
 
 
-;;;; Last-api
-(defn last-api!
-  "Keep last-api call. Useful to login and then re-request the url to jump to the
-  same position in the discussion, but this time as a logged in user."
-  [url]
-  (when (seq url)
-    (store-to-app-state! 'api/last-call url)))
-
-(defn get-last-api
-  "Return url of last API call."
-  []
-  (load-from-app-state :api/last-call))
-
-
 ;;;; Generic Handlers
 (defn process-response
   "Generic success handler, which sets error handling and returns a cljs-compatible response."

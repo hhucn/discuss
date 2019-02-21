@@ -17,8 +17,7 @@
 (defcard buttons
   (html [:div
          (vlib/button #(auth/login "Christian" "iamgroot") "Login as Christian")
-         (vlib/button #(lib/save-selection! (faker/random-sentence)) "Set random reference")
-         (vlib/button #(lib/last-api! "/town-has-to-cut-spending/justify/37/agree?history=/attitude/37") "Set :api/last-url")]))
+         (vlib/button #(lib/save-selection! (faker/random-sentence)) "Set random reference")]))
 
 (defcard-om-next new-eden-argument
   eviews/EDENArgumentForm
