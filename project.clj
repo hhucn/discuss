@@ -39,7 +39,7 @@
   :aliases {"fig" ["trampoline" "run" "-m" "figwheel.main" "--build" "dev" "--repl"]}
 
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]
-                                  [org.clojure/tools.nrepl "0.2.13"]
+                                  [nrepl "0.6.0"]
                                   [cider/piggieback "0.4.0"]]
                    :source-paths ["src" "script"]
                    :resource-paths ["target"]
