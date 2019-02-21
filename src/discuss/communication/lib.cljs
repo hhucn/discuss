@@ -114,6 +114,7 @@
   (let [base-jump (:jump config/api)
         with-slug (str/replace base-jump #":slug" (str slug))
         with-arg (str/replace with-slug #":argument-id" (str arg-id))]
+    (hdis/save-discussion-urls! [with-arg])
     (ajax-get-and-change-view with-arg :discussion)))
 
 (defn init!
