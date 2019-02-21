@@ -4,7 +4,8 @@
             [discuss.references.integration :as rint]
             [discuss.communication.lib :as comlib]
             [discuss.components.search.statements :as search]
-            [discuss.utils.logging :as log]))
+            [discuss.utils.logging :as log]
+            [discuss.history.discussion :as hdis]))
 
 ;; Handler
 (defn process-url-handler
@@ -42,14 +43,15 @@
   "Takes statement, an optional reference and maybe a search-result from EDEN to
   post it to the backend."
   [{:keys [statement reference search/selected]}]
-  (if (seq (lib/get-last-api))
-    (let [url (lib/get-last-api)
+  (if (seq (hdis/get-last-discussion-url))
+    (let [url (hdis/get-last-discussion-url)
           headers (merge {"Content-Type" "application/json"} (comlib/token-header))
           body {:reason (if (nil? selected) statement (:text selected))
                 :reference reference
                 :origin (build-origin-body selected)}]
       (post-json url body process-url-handler headers))
-    (log/error ":api/last-call is empty, cannot post statement to empty URL.")))
+    (log/error "Can't determine last used discussion step, cannot post statement
+    to empty URL.")))
 
 (defn post-position
   "Add new position, its reason and an optional reference to post it to the

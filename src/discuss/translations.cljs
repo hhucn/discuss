@@ -61,7 +61,7 @@
                      :routes "Routen"
                      :save "Speichere"}
         :references {:jump "Springe in die Diskussion"
-                     :usages/view-heading "In welchen Aussagen wird dieser Textausschnitt verwendet?"
+                     :usages/view-heading "Folgende Argumente sind mit diesem Textausschnitt verknüpft"
                      :usages/not-found-lead "Argument konnte nicht gefunden werden"
                      :usages/not-found-body "Vielleicht wurden die mit dieser Referenz verknüpften Argumente entfernt"
                      :where-used "Wo wird diese Referenz verwendet?"
@@ -129,7 +129,7 @@
                      :routes "Routes"
                      :save "Save"}
         :references {:jump "Jump into the discussion"
-                     :usages/view-heading "In which statements has this reference been used?"
+                     :usages/view-heading "The following statements are connected with the selected reference"
                      :usages/not-found-lead "No assigned arguments found"
                      :usages/not-found-body "Maybe the assigned arguments have been removed"
                      :where-used "Where has this reference been used?"

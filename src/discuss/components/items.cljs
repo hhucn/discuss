@@ -5,8 +5,8 @@
             [discuss.communication.lib :as comlib]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.common :as lib]
-            [discuss.utils.views :as vlib]
             [discuss.utils.logging :as log]
+            [discuss.utils.views :as vlib]
             [cljs.spec.alpha :as s]))
 
 (defn- dispatch-click-fn
@@ -16,7 +16,7 @@
     "login" (lib/change-view! :login)
     "back" (log/info "Not yet implemented")
     "add" (lib/show-add-form!)
-    (comlib/ajax-get url (comlib/token-header) comlib/process-and-set-items-and-bubbles)))
+    (comlib/item-click url)))
 
 (s/fdef dispatch-click-fn
   :args (s/cat :url string?))

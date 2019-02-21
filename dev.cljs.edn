@@ -1,0 +1,7 @@
+^{:watch-dirs ["src"]
+  :css-dirs ["resources/public"]
+  :extra-main-files {:cards {:main devcards.discuss.core}}
+  :ring-handler discuss.server/handler}
+{:main discuss.core
+ :devcards true
+ :preloads [discuss.utils.extensions devtools.preload]}

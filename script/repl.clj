@@ -1,3 +1,2 @@
-(use 'figwheel-sidecar.repl-api)
-(start-figwheel!) ;; <-- fetches configuration
-(cljs-repl)
+(require '[figwheel.main.api :as fig])
+(fig/start "dev")

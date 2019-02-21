@@ -1,25 +1,25 @@
 (ns discuss.views
   (:require [om.next :as om :refer-macros [defui]]
             [sablono.core :refer-macros [html]]
+            [discuss.communication.lib :as comlib]
+            [discuss.components.avatar :as avatar]
             [discuss.components.bubbles :as bubbles]
             [discuss.components.clipboard :as clipboard]
+            [discuss.components.create-argument :as carg]
             [discuss.components.items :as items]
             [discuss.components.navigation :as nav]
             [discuss.components.options :as options]
             [discuss.components.search.statements :as search]
-            [discuss.components.avatar :as avatar]
-            [discuss.communication.lib :as comlib]
+            [discuss.components.tooltip :as tooltip]
+            [discuss.eden.views :as eviews]
+            [discuss.history.core :as history]
             [discuss.references.main :as ref]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
             [discuss.views.add :as vadd]
-            [discuss.views.login :as vlogin]
-            [discuss.parser :as parser]
-            [discuss.components.tooltip :as tooltip]
-            [discuss.eden.views :as eviews]
-            [discuss.components.create-argument :as carg]))
+            [discuss.views.login :as vlogin]))
 
 (defn close-button-next
   "Close current panel and switch view."
@@ -34,8 +34,8 @@
   (html [:div [:hr]
          [:div.row
           [:div {:className "col-md-offset-4 col-sm-offset-4 col-xs-offset-4 col-md-4 col-sm-4 col-xs-4 text-center"}
-           [:button.btn.btn-default.btn-sm {:onClick parser/back!
-                                            :disabled  (neg? (count (parser/mutation-history parser/reconciler)))}
+           [:button.btn.btn-default.btn-sm {:onClick history/back!
+                                            :disabled (not (history/back-possible?))}
             (vlib/fa-icon "fa-step-backward")
             (t :common :back :space)]]
           [:div.col-md-4.col-sm-4.col-xs-4.text-right
@@ -43,10 +43,6 @@
 
 
 (defui DiscussionElements
-  static om/IQuery
-  (query [this]
-         `[{:discussion/items ~(om/get-query items/Items)}
-           {:discussion/bubbles ~(om/get-query bubbles/BubblesView)}])
   Object
   (render [this]
           (html [:div
@@ -56,15 +52,7 @@
 
 (defui ViewDispatcher
   static om/IQuery
-  (query [this]
-         `[:layout/view :layout/lang :layout/error :eden/arguments
-           {:layout/views ~(om/get-query vlogin/LoginForm)}
-           {:discussion/items ~(om/get-query DiscussionElements)}
-           {:discussion/bubbles ~(om/get-query DiscussionElements)}
-           {:host/dbas ~(om/get-query options/Options)}
-           {:host/eden ~(om/get-query options/Options)}
-           {:eden/add-argument ~(om/get-query eviews/EDENArgumentForm)}
-           {:references/usages ~(om/get-query ref/UsagesView)}])
+  (query [this] [:layout/view])
   Object
   (render [this]
           (let [{:keys [layout/view]} (om/props this)]
@@ -89,25 +77,12 @@
 
 (defui MainView
   static om/IQuery
-  (query [this]
-         `[:issue/info :layout/add? :discussion/add-step :layout/view
-           :layout/title :layout/lang :layout/error :user/avatar
-           :user/nickname :user/logged-in? :selection/current :layout/error
-           :search/results :search/selected :eden/arguments
-           {:discussion/items ~(om/get-query ViewDispatcher)}
-           {:discussion/bubbles ~(om/get-query ViewDispatcher)}
-           {:eden/add-argument ~(om/get-query eviews/EDENArgumentForm)}
-           {:clipboard/items ~(om/get-query clipboard/Clipboard)}
-           {:host/dbas ~(om/get-query options/Options)}
-           {:host/eden ~(om/get-query options/Options)}
-           {:nav/nav ~(om/get-query nav/Nav)}
-           {:references/usages ~(om/get-query ref/UsagesView)}])
+  (query [this] [:layout/add? :layout/title :discussion/add-step])
   Object
   (render [this]
-          (let [{:keys [issue/info layout/add? layout/title discussion/add-step]} (om/props this)]
+          (let [{:keys [layout/add? layout/title discussion/add-step]} (om/props this)]
             (html
              [:div#discuss-dialog-main
-              (tooltip/tooltip (om/props this))
               (avatar/avatar (om/props this))
               [:h4 (vlib/logo)
                " "
@@ -127,9 +102,39 @@
               [:div (nav/nav (om/props this))]
               [:br]
               (search/results (om/props this))
-              [:div (clipboard/clipboard (om/props this))]
-              #_[:div
-               [:br]
-               [:p.text-muted "Connected to: " (lib/host-dbas)]
-               [:div (options/connection-browser (om/props this))]]]))))
-(def main-view-next (om/factory MainView))
+              [:div (clipboard/clipboard (om/props this))]]))))
+(def main-view (om/factory MainView))
+
+(defui Overlay
+  Object
+  (render
+   [this]
+   (let [modal-name (lib/prefix-name "overlay")]
+     (html [:div {:className "modal fade"
+                  :id modal-name
+                  :tabIndex -1
+                  :role "dialog"
+                  :aria-labelledby (str modal-name "Label")}
+            [:div {:className "modal-dialog modal-lg"
+                   :role "document"}
+             [:div.modal-content
+              [:div.modal-header {:style {:paddingBottom 0}}
+               [:button {:type "button"
+                         :className "close"
+                         :data-dismiss "modal"
+                         :aria-label "Close"}
+                [:span {:aria-hidden true}
+                 (vlib/safe-html "&times;")]]]
+              [:div.modal-body
+               (main-view (om/props this))]]]]))))
+(def overlay (om/factory Overlay))
+
+(defui Discuss
+  Object
+  (render [this]
+          (html
+           [:div
+            (tooltip/tooltip (om/props this))
+            (overlay (om/props this))
+            (main-view (om/props this))])))
+(def discuss (om/factory Discuss {:keyfn identity}))
