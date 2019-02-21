@@ -71,7 +71,6 @@
 (defn ajax-get
   "Make ajax call to dialog based argumentation system."
   ([url headers handler params]
-   (lib/last-api! url)
    (log/debug "GET Request to: %s" (make-url url))
    (GET (make-url url)
         {:handler       handler
@@ -114,6 +113,7 @@
   (let [base-jump (:jump config/api)
         with-slug (str/replace base-jump #":slug" (str slug))
         with-arg (str/replace with-slug #":argument-id" (str arg-id))]
+    (hdis/save-discussion-urls! [with-arg])
     (ajax-get-and-change-view with-arg :discussion)))
 
 (defn init!

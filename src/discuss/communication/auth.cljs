@@ -4,7 +4,8 @@
             [discuss.communication.lib :as comlib]
             [discuss.config :as config]
             [discuss.translations :refer [translate] :rename {translate t}]
-            [discuss.utils.common :as lib]))
+            [discuss.utils.common :as lib]
+            [discuss.history.discussion :as hdis]))
 
 (defn- handle-profile-picture
   "Extract profile-picture and store it in the app-state."
@@ -22,7 +23,7 @@
   "Callback function when login was successful. Set attributes of user."
   [response]
   (let [{:keys [nickname uid token]} (lib/process-response response)
-        last-api-call (lib/get-last-api)]
+        last-api-call (hdis/get-last-discussion-url)]
      (lib/store-multiple-values-to-app-state!
       [['user/nickname nickname]
        ['user/token token]
@@ -65,6 +66,6 @@
       ['user/id nil]
       ['user/logged-in? false]
       ['layout/add? false]])
-    (let [last-api-call (lib/get-last-api)]
+    (let [last-api-call (hdis/get-last-discussion-url)]
       (when (seq last-api-call)
         (comlib/ajax-get last-api-call)))))

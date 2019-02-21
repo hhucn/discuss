@@ -81,8 +81,7 @@
 
 (deftest test-filter-keys-by-namespace
   (testing "Query subset of keys by their namespace."
-    (let [test-data [:api/last-call :search/results :layout/add? :layout/title :layout/view :default]]
-      (= [:api/last-call] (lib/filter-keys-by-namespace test-data "api"))
+    (let [test-data [:search/results :layout/add? :layout/title :layout/view :default]]
       (= [:layout/add? :layout/title :layout/view]
          (lib/filter-keys-by-namespace test-data "layout"))
       (= [:default]

@@ -4,8 +4,7 @@
             [discuss.config :as config]))
 
 (def init-data
-  {:api/last-call ""
-   :discussion/add-step :add/position
+  {:discussion/add-step :add/position
    :history/discussion-steps []
    :host/dbas config/remote-host
    :host/eden (or config/search-host nil)
