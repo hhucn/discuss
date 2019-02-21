@@ -41,50 +41,13 @@
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]
                                   [org.clojure/tools.nrepl "0.2.13"]
                                   [cider/piggieback "0.4.0"]]
-                   ;; need to add dev source path here to get user.clj loaded
                    :source-paths ["src" "script"]
                    :resource-paths ["target"]
                    :repl-options {:init (set! *print-length* 50)
                                   :nrepl-middleware [cider.piggieback/wrap-cljs-repl]}}}
 
   :cljsbuild {:builds
-              [{:id "dev"
-                :source-paths ["src"]
-                :figwheel {:devcards true
-                           :open-urls ["http://localhost:3449/cards.html"]}
-                :compiler {:main       devcards.discuss.core
-                           :preloads   [discuss.utils.extensions devtools.preload]
-                           :asset-path "js/compiled/discuss_cards_out"
-                           :output-to  "resources/public/js/compiled/discuss_cards.js"
-                           :output-dir "resources/public/js/compiled/discuss_cards_out"
-                           :parallel-build       true
-                           :compiler-stats       true
-                           :source-map-timestamp true}}
-               {:id           "dev-default"
-                :source-paths ["src"]
-                :figwheel     {:on-jsload "discuss.core/on-js-reload"
-                               ;; :open-urls ["http://localhost:3449"]
-                               }
-                :compiler     {:main            discuss.core
-                               :preloads        [discuss.utils.extensions devtools.preload]
-                               :asset-path      "js/compiled/out"
-                               :output-to       "resources/public/js/compiled/discuss.js"
-                               :output-dir      "resources/public/js/compiled/out"
-                               :closure-defines {discuss.config/version ~(->> (slurp "project.clj")
-                                                                              (re-seq #"\".*\"")
-                                                                              (first))}
-                               :parallel-build       true
-                               :compiler-stats       true
-                               :source-map-timestamp true}}
-               {:id           "test"
-                :source-paths ["src"]
-                :compiler     {:output-to "resources/public/js/compiled/testable.js"
-                               :output-dir "resources/public/js/compiled/test/out"
-                               :main discuss.tests
-                               :process-shim false
-                               ;; :preloads [discuss.utils.extensions]
-                               :optimizations :none}}
-               {:id           "min"
+              [{:id           "min"
                 :source-paths ["src"]
                 :compiler     {:output-to      "resources/public/js/compiled/discuss.js"
                                :output-dir     "resources/public/js/compiled/min/out"
@@ -98,7 +61,6 @@
                                                  discuss.config/build-commit ~(if (.exists (clojure.java.io/as-file ".git/ORIG_HEAD"))
                                                                                 (subs (slurp ".git/ORIG_HEAD") 0 6)
                                                                                 "dev")}
-                               ;; :closure-defines {discuss.config/remote-host ~(or (System/getenv "REMOTE_HOST") "https://dbas.cs.uni-duesseldorf.de/api")}
                                :parallel-build true
                                :compiler-stats true
                                :pretty-print   false}}]}
