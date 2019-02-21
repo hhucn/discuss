@@ -51,7 +51,7 @@ into a separate leiningen task:
 ## Publications
 
 This tool is being used in research projects (see [Google
-Scholar])(https://scholar.google.de/scholar?cites=16210704751689306722&as_sdt=2005&sciodt=0,5&hl=de).
+Scholar](https://scholar.google.de/scholar?cites=16210704751689306722&as_sdt=2005&sciodt=0,5&hl=de).
 Here are several references:
 
 Alexander Schneider and Christian Meter. "Various Efforts of Enhancing Real
