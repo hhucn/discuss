@@ -7,7 +7,7 @@
   :min-lein-version "2.5.3"
 
   :dependencies [[org.clojure/clojure "1.10.0"]
-                 [org.clojure/clojurescript "1.10.516"]
+                 [org.clojure/clojurescript "1.10.520"]
                  [org.clojure/core.async "0.4.490" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
                  [org.clojure/tools.reader "1.3.2"]
