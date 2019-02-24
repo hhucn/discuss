@@ -120,9 +120,10 @@
                                                          (lib/change-view! :create/argument))}
                         (t :create/argument :short)]]
                       (when (seq usages)
-                        [:hr]
-                        [:p.text-center (t :references :usages/list) "."]
-                        (map reference-usages-for-arguments usages))]
+                        [:div
+                         [:hr]
+                         [:p.text-center (t :references :usages/list) "."]
+                         (map reference-usages-for-arguments usages)])]
                      [:div.text-center
                       (vlib/view-header (t :references :usages/not-found-lead))
                       [:p (t :references :usages/not-found-body) "."]])]))))
