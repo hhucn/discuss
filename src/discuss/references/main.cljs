@@ -98,6 +98,8 @@
                     arguments)]))))
 (def reference-usages-for-arguments (nom/factory ReferenceUsagesForArgumentsView {:keyfn identity}))
 
+(lib/store-to-app-state! 'references/selected {:text "foo"})
+
 (defui UsagesView
   "Complete list of all references and all their usages in their arguments."
   static nom/IQuery
@@ -112,14 +114,15 @@
                       (vlib/view-header (t :references :usages/view-heading))
                       [:p.text-center (t :references :usages/lead)]
                       [:div.text-center
-                       [:p
-                        [:em.text-info (format "\"%s\"" (:text selected))]]
-                       [:div.btn.btn-primary {:onClick #(prn "foo")}
-                        "Neues Argument zur Referenz erstellen"]]
-                      [:hr]
-                      [:p.text-center
-                       "Hier ist eine Liste der bisherigen Verwendungen dieser Textstelle in anderen Argumenten."]
-                      (map reference-usages-for-arguments usages)]
+                       [:p [:em.text-info (format "\"%s\"" (:text selected))]]
+                       [:div.btn.btn-primary {:onClick (fn [_e]
+                                                         (lib/save-selection! (:text selected))
+                                                         (lib/change-view! :create/argument))}
+                        (t :create/argument :short)]]
+                      (when (seq usages)
+                        [:hr]
+                        [:p.text-center (t :references :usages/list) "."]
+                        (map reference-usages-for-arguments usages))]
                      [:div.text-center
                       (vlib/view-header (t :references :usages/not-found-lead))
                       [:p (t :references :usages/not-found-body) "."]])]))))
