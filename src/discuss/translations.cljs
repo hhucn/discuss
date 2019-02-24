@@ -26,11 +26,12 @@
         :clipboard  {:heading "Clipboard"
                      :instruction "Wähle eine Referenz aus dieser Liste aus, um beim Erzeugen eines neuen Arguments diese Referenz mit dem neuen Argument zu verknüpfen."}
         :create/argument {:header "Erzeuge ein Argument zu einer Textstelle"
+                          :short "Neues Argument zur Referenz erstellen"
                           :lead "Du kannst hier Position zu einer Textstelle beziehen."
                           :logged-in "Fülle dazu die folgenden Felder aus!"
                           :not-logged-in "Aber vorher musst du dich einlogggen."}
         :discussion {:add-position "Nichts von all dem. Ich habe eine andere Idee"
-                     :add-position-heading "Mein Vorschlag wäre, dass"
+                     :add-position-heading "Ich denke, dass"
                      :add-position-placeholder "wir dieses oder jenes machen sollten"
                      :add-reason-placeholder "aus diesen und jenen Gründen"
                      :current      "Aktuelle Diskussion"
@@ -61,9 +62,11 @@
                      :routes "Routen"
                      :save "Speichere"}
         :references {:jump "Springe in die Diskussion"
-                     :usages/view-heading "Folgende Argumente sind mit diesem Textausschnitt verknüpft"
+                     :usages/view-heading "Interaktionen mit dem Artikel"
+                     :usages/lead "Beziehe dich hier auf die ausgewählte Referenz oder schau dir an, wo diese Referenz bereits in der Diskussion verwendet wurde."
                      :usages/not-found-lead "Argument konnte nicht gefunden werden"
                      :usages/not-found-body "Vielleicht wurden die mit dieser Referenz verknüpften Argumente entfernt"
+                     :usages/list "Hier ist eine Liste der bisherigen Verwendungen dieser Textstelle in anderen Argumenten"
                      :where-used "Wo wird diese Referenz verwendet?"
                      :find-statement "Finde Aussage in der Diskussion"
                      :clipboard  "Ziehe diese Referenzen in das Textfeld beim Erzeugen eines neuen Arguments, um die Referenz zu nutzen."
@@ -94,11 +97,12 @@
         :clipboard  {:heading "Clipboard"
                      :instruction "Select a reference from this list on new argument creation to link the reference with your argument."}
         :create/argument {:header "Create an argument with a text reference"
+                          :short "Create Argument with Reference"
                           :lead "You can refer position to a text passage here."
                           :logged-in "Please fill in the following fields."
                           :not-logged-in "But first you need to login."}
         :discussion {:add-position  "Neither of the above, I have a different idea"
-                     :add-position-heading "My suggestion would be that"
+                     :add-position-heading "I think that"
                      :add-position-placeholder "we should do this or that"
                      :add-reason-placeholder "of this reason"
                      :current "Current Discussion"
@@ -129,9 +133,11 @@
                      :routes "Routes"
                      :save "Save"}
         :references {:jump "Jump into the discussion"
-                     :usages/view-heading "The following statements are connected with the selected reference"
+                     :usages/view-heading "Interacting with the Article"
+                     :usages/lead "Create your own argument based on the text selection or take a look at those arguments, which already refer to this position."
                      :usages/not-found-lead "No assigned arguments found"
                      :usages/not-found-body "Maybe the assigned arguments have been removed"
+                     :usages/list "Here you can find a list of those arguments, which refer to the selected text passage"
                      :where-used "Where has this reference been used?"
                      :ask-to-add "Do you want to add a reference from this site to your statement? Just select the desired text-passage and it will be inserted in this field."
                      :has-to-add "To refer position to a passage in the article, you have to select the desired text-passage with your mouse selection."
