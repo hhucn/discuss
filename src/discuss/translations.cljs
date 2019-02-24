@@ -30,7 +30,7 @@
                           :logged-in "Fülle dazu die folgenden Felder aus!"
                           :not-logged-in "Aber vorher musst du dich einlogggen."}
         :discussion {:add-position "Nichts von all dem. Ich habe eine andere Idee"
-                     :add-position-heading "Mein Vorschlag wäre, dass"
+                     :add-position-heading "Ich denke, dass"
                      :add-position-placeholder "wir dieses oder jenes machen sollten"
                      :add-reason-placeholder "aus diesen und jenen Gründen"
                      :current      "Aktuelle Diskussion"
@@ -61,7 +61,8 @@
                      :routes "Routen"
                      :save "Speichere"}
         :references {:jump "Springe in die Diskussion"
-                     :usages/view-heading "Folgende Argumente sind mit diesem Textausschnitt verknüpft"
+                     :usages/view-heading "Interaktionen mit dem Artikel"
+                     :usages/lead "Beziehe dich hier auf die ausgewählte Referenz oder schau dir an, wo diese Referenz bereits in der Diskussion verwendet wurde."
                      :usages/not-found-lead "Argument konnte nicht gefunden werden"
                      :usages/not-found-body "Vielleicht wurden die mit dieser Referenz verknüpften Argumente entfernt"
                      :where-used "Wo wird diese Referenz verwendet?"
@@ -98,7 +99,7 @@
                           :logged-in "Please fill in the following fields."
                           :not-logged-in "But first you need to login."}
         :discussion {:add-position  "Neither of the above, I have a different idea"
-                     :add-position-heading "My suggestion would be that"
+                     :add-position-heading "I think that"
                      :add-position-placeholder "we should do this or that"
                      :add-reason-placeholder "of this reason"
                      :current "Current Discussion"
@@ -129,7 +130,8 @@
                      :routes "Routes"
                      :save "Save"}
         :references {:jump "Jump into the discussion"
-                     :usages/view-heading "The following statements are connected with the selected reference"
+                     :usages/view-heading "Interacting with the Article"
+                     :usages/lead "Create your own argument based on the text selection or take a look at those arguments, which already refer to this position."
                      :usages/not-found-lead "No assigned arguments found"
                      :usages/not-found-body "Maybe the assigned arguments have been removed"
                      :where-used "Where has this reference been used?"

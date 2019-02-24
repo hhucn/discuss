@@ -6,6 +6,8 @@
             [om.dom :as dom]
             [om.next :as nom :refer-macros [defui]]
             [clojure.spec.alpha :as s]
+            [goog.string :refer [format]]
+            [goog.string.format]
             [sablono.core :as html :refer-macros [html]]
             [discuss.communication.lib :as comlib]
             [discuss.config :as config]
@@ -100,15 +102,27 @@
   "Complete list of all references and all their usages in their arguments."
   static nom/IQuery
   (query [this]
-         `[:references/usages])
+         `[:references/usages :references/selected])
   Object
   (render [this]
-          (let [{:keys [references/usages]} (nom/props this)]
+          (let [{:keys [references/usages references/selected]} (nom/props this)]
             (html [:div
-                   (vlib/view-header (t :references :usages/view-heading))
-                   ;; TODO: Add current reference
-                   (map reference-usages-for-arguments usages)
-                   ]))))
+                   (if-not (empty? selected)
+                     [:div
+                      (vlib/view-header (t :references :usages/view-heading))
+                      [:p.text-center (t :references :usages/lead)]
+                      [:div.text-center
+                       [:p
+                        [:em.text-info (format "\"%s\"" (:text selected))]]
+                       [:div.btn.btn-primary {:onClick #(prn "foo")}
+                        "Neues Argument zur Referenz erstellen"]]
+                      [:hr]
+                      [:p.text-center
+                       "Hier ist eine Liste der bisherigen Verwendungen dieser Textstelle in anderen Argumenten."]
+                      (map reference-usages-for-arguments usages)]
+                     [:div.text-center
+                      (vlib/view-header (t :references :usages/not-found-lead))
+                      [:p (t :references :usages/not-found-body) "."]])]))))
 (def usages-view-next (nom/factory UsagesView))
 
 (defui ReferenceView
