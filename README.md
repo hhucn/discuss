@@ -48,6 +48,32 @@ into a separate leiningen task:
 
     lein phantomtest
 
+## Publications
+
+This tool is being used in research projects (see [Google
+Scholar](https://scholar.google.de/scholar?cites=16210704751689306722&as_sdt=2005&sciodt=0,5&hl=de)).
+Here are several references:
+
+Alexander Schneider and Christian Meter. "Various Efforts of Enhancing Real
+World Online Discussions", 3rd European Conference on Argumentation – ECA, 2019.
+
+Tobias Krauthoff, Christian Meter, Michael Baurmann, Gregor Betz and Martin
+Mauve. "D-BAS -- A Dialog-Based Online Argumentation System", Computational
+Models of Argument, 2018.
+
+Christian Meter, Alexander Schneider and Martin Mauve. "EDEN: Extensible
+Discussion Entity Network", Computational Models of Argument, 2018.
+
+Alexander Schneider and Christian Meter. "Reusable Statements in Dialog-Based
+Argumentation Systems." AI^ 3@ AI* IA. 2017.
+
+Christian Meter, Tobias Krauthoff and Martin Mauve. "discuss: Embedding
+dialog-based Discussions into Websites." International Conference on Learning
+and Collaboration Technologies. Springer, Cham, 2017.
+
+Tobias Krauthoff and Christian Meter. "Dialogbasierte Argumentation und ihre
+Einbettung im Web." 2017.
+
 ## License
 
 Copyright © 2016-2019 Christian Meter

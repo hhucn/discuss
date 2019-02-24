@@ -51,7 +51,8 @@
    :clipboard/items []
    :references/all []
    :references/on-webpage []
-   :references/usages []})
+   :references/usages []
+   :references/selected {}})
 
 ;; -----------------------------------------------------------------------------
 ;; Parsing
