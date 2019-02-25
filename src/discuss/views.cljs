@@ -21,12 +21,20 @@
             [discuss.views.add :as vadd]
             [discuss.views.login :as vlogin]))
 
+(def modal-name (lib/prefix-name "overlay"))
+
 (defn close-button-next
   "Close current panel and switch view."
   []
-  (html [:div [:br]
-         [:div.text-center
-          (bs/button-default-sm #(lib/change-to-next-view!) (vlib/fa-icon "fa-times") (t :common :close :space))]]))
+  (html
+   [:div [:br]
+    [:div.text-center
+     (bs/button-default-sm
+      (fn [e]
+        (when (lib/inside-overlay? (.-target e)) (lib/hide-overlay))
+        (lib/change-to-next-view!))
+      (vlib/fa-icon "fa-times")
+      (t :common :close :space))]]))
 
 (defn control-elements-next
   "Back and restart button."
@@ -109,24 +117,23 @@
   Object
   (render
    [this]
-   (let [modal-name (lib/prefix-name "overlay")]
-     (html [:div {:className "modal fade"
-                  :id modal-name
-                  :tabIndex -1
-                  :role "dialog"
-                  :aria-labelledby (str modal-name "Label")}
-            [:div {:className "modal-dialog modal-lg"
-                   :role "document"}
-             [:div.modal-content
-              [:div.modal-header {:style {:paddingBottom 0}}
-               [:button {:type "button"
-                         :className "close"
-                         :data-dismiss "modal"
-                         :aria-label "Close"}
-                [:span {:aria-hidden true}
-                 (vlib/safe-html "&times;")]]]
-              [:div.modal-body
-               (main-view (om/props this))]]]]))))
+   (html [:div {:className "modal fade"
+                :id modal-name
+                :tabIndex -1
+                :role "dialog"
+                :aria-labelledby (str modal-name "Label")}
+          [:div {:className "modal-dialog modal-lg"
+                 :role "document"}
+           [:div.modal-content
+            [:div.modal-header {:style {:paddingBottom 0}}
+             [:button {:type "button"
+                       :className "close"
+                       :data-dismiss "modal"
+                       :aria-label "Close"}
+              [:span {:aria-hidden true}
+               (vlib/safe-html "&times;")]]]
+            [:div.modal-body
+             (main-view (om/props this))]]]])))
 (def overlay (om/factory Overlay))
 
 (defui Discuss
