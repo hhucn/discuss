@@ -21,20 +21,26 @@
             [discuss.views.add :as vadd]
             [discuss.views.login :as vlogin]))
 
-(def modal-name (lib/prefix-name "overlay"))
+(def ^:private modal-name
+  (lib/prefix-name "overlay"))
+
+(def ^:private dismissable-views
+  #{:login :options :create/argument :eden/overview})
 
 (defn close-button-next
   "Close current panel and switch view."
   []
-  (html
-   [:div [:br]
-    [:div.text-center
-     (bs/button-default-sm
-      (fn [e]
-        (when (lib/inside-overlay? (.-target e)) (lib/hide-overlay))
-        (lib/change-to-next-view!))
-      (vlib/fa-icon "fa-times")
-      (t :common :close :space))]]))
+  (html [:div [:br]
+         [:div.text-center
+          (bs/button-default-sm
+           (fn [e]
+             (if (lib/inside-overlay? (.-target e))
+               (if (some #{(lib/current-view)} dismissable-views)
+                 (lib/change-to-next-view!)
+                 (lib/hide-overlay))
+               (lib/change-to-next-view!)))
+           (vlib/fa-icon "fa-times")
+           (t :common :close :space))]]))
 
 (defn control-elements-next
   "Back and restart button."
