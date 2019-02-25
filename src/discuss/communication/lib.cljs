@@ -72,6 +72,7 @@
   "Make ajax call to dialog based argumentation system."
   ([url headers handler params]
    (log/debug "GET Request to: %s" (make-url url))
+   (lib/hide-add-form!)
    (GET (make-url url)
         {:handler       handler
          :headers       (merge (token-header) headers)

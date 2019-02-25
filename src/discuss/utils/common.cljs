@@ -346,6 +346,21 @@
   (toggle-class dom-element class true))
 
 
+;;;; DOM Query
+(defn one-of-parent-has-class?
+  "Traverse all the parents of the node and return true, if there is one parent,
+  who has the desired class, id, or whatever.
+
+  Example: (one-of-parent-has-class? \"#discuss-text\" \".modal\")"
+  [selector class]
+  (pos-int? (.-length (.closest ((js* "$") selector) class))))
+
+(defn inside-overlay?
+  "Test if provided node is rendered inside a modal."
+  [query-selector]
+  (one-of-parent-has-class? query-selector "#discuss-overlay"))
+
+
 ;;;; DOM Modifications
 (defn show-overlay
   "Show discuss in an overlay."
