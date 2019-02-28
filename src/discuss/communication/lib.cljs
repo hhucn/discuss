@@ -3,13 +3,11 @@
   (:require [clojure.string :as str]
             [cljs.spec.alpha :as s]
             [ajax.core :refer [GET POST]]
-            [om.next :as om]
             [goog.string :refer [format]]
             [goog.string.format]
             [miner.strgen :as sg]
             [discuss.config :as config]
             [discuss.utils.common :as lib]
-            [discuss.parser :as parser]
             [discuss.utils.logging :as log]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.history.discussion :as hdis]))
@@ -36,6 +34,18 @@
      :texts [translation]
      :url url}))
 
+(defn replace-congratulation-bubble
+  "Takes a bubble and modifies the content if it is a congratulation-bubble from
+  dbas."
+  [bubble]
+  (let [{btype :type, hbubble :html} bubble]
+    (if (and (= "info" btype)
+             (re-find #"fa-trophy" hbubble))
+      (assoc bubble
+             :html (t :discussion :bubble/congrats)
+             :text (t :discussion :bubble/congrats))
+      bubble)))
+
 (defn process-and-set-items-and-bubbles
   "Receive response and prepare UI with the new items and bubbles for the next
   step in the discussion.
@@ -51,9 +61,9 @@
                        (seq attacks) (vals attacks)
                        (seq attitudes) (vals attitudes)
                        :default [])]
-    (om/transact! parser/reconciler `[(discussion/bubbles {:value ~bubbles})
-                                      (discussion/items {:value ~update-items})
-                                      (discussion/add-step {:value ~add-step})])))
+    (lib/store-multiple-values-to-app-state! [['discussion/bubbles bubbles]
+                                              ['discussion/items update-items]
+                                              ['discussion/add-step add-step]])))
 
 
 ;;;; Handlers
@@ -188,3 +198,7 @@
 (s/fdef login-or-add-item
   :args (s/cat :logged-in? boolean?)
   :ret ::item)
+
+(s/fdef replace-congratulation-bubble
+  :args (s/cat :bubble ::bubble)
+  :ret ::bubble)
