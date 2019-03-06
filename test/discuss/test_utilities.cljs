@@ -1,4 +1,4 @@
-(ns discuss.test.lib
+(ns discuss.test-utilities
   (:require [cljs.pprint :as pprint]
             [cljs.test :refer-macros [is]]))
 
