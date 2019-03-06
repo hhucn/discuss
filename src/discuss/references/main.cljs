@@ -78,7 +78,7 @@
                     [:strong (vlib/safe-html (:text argument))]]
                    [:div (t :common :author) ": " (:nickname author)]
                    [:div (t :common :issue) ": " (:title issue)]]))))
-(def reference-usage-for-single-argument (om/factory ReferenceUsageForSingleArgumentView {:keyfn identity}))
+(def reference-usage-for-single-argument (om/factory ReferenceUsageForSingleArgumentView {:keyfn :argument}))
 
 (defui ReferenceUsagesForArgumentsView
   static om/IQuery
@@ -94,7 +94,7 @@
                        :issue issue
                        :argument %})
                     arguments)]))))
-(def reference-usages-for-arguments (om/factory ReferenceUsagesForArgumentsView {:keyfn identity}))
+(def reference-usages-for-arguments (om/factory ReferenceUsagesForArgumentsView {:keyfn :arguments}))
 
 (defui UsagesView
   "Complete list of all references and all their usages in their arguments."
