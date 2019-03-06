@@ -6,8 +6,7 @@
             [om.dom :as dom]
             [discuss.utils.common :as lib]
             [discuss.references.lib :as rlib]
-            [discuss.translations :refer [translate] :rename {translate t}]
-            [discuss.communication.lib :as comlib]))
+            [discuss.translations :refer [translate] :rename {translate t}]))
 
 (defn button [f display-text]
   [:div.btn.btn-primary {:style {:marginRight "0.5em"}
