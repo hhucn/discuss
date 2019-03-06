@@ -52,7 +52,8 @@
    :references/all []
    :references/on-webpage []
    :references/usages []
-   :references/selected {}})
+   :references/selected {}
+   :references/highlighted #{}})
 
 ;; -----------------------------------------------------------------------------
 ;; Parsing

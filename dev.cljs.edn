@@ -1,7 +1,10 @@
-^{:watch-dirs ["src"]
+^{:watch-dirs ["src" "test"]
   :css-dirs ["resources/public"]
-  :extra-main-files {:cards {:main devcards.discuss.core}}
+  :extra-main-files {:cards {:main devcards.discuss.core}
+                     :tests {:main discuss.test-runner}}
   :ring-handler discuss.server/handler}
 {:main discuss.core
  :devcards true
- :preloads [discuss.utils.extensions devtools.preload]}
+ :preloads [discuss.utils.extensions devtools.preload]
+ :closure-defines {cljs-test-display.core/root-node-id "app-tests"
+                   cljs-test-display.core/printing true}}
