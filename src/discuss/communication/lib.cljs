@@ -3,13 +3,11 @@
   (:require [clojure.string :as str]
             [cljs.spec.alpha :as s]
             [ajax.core :refer [GET POST]]
-            [om.next :as om]
             [goog.string :refer [format]]
             [goog.string.format]
             [miner.strgen :as sg]
             [discuss.config :as config]
             [discuss.utils.common :as lib]
-            [discuss.parser :as parser]
             [discuss.utils.logging :as log]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.history.discussion :as hdis]))
@@ -36,6 +34,24 @@
      :texts [translation]
      :url url}))
 
+(defn replace-congratulation-bubble-text
+  "Takes a bubble and modifies the content if it is a congratulation-bubble from
+  dbas."
+  [bubble]
+  (let [{btype :type, hbubble :html} bubble]
+    (if (and (= "info" btype)
+             (re-find #"fa-trophy" hbubble))
+      (assoc bubble
+             :html (t :discussion :bubble/congrats)
+             :text (t :discussion :bubble/congrats))
+      bubble)))
+
+(defn replace-congratulation-bubble
+  "Takes collection of bubbles, finds the congratulation-bubble and replaces it
+  with a new text."
+  [bubbles]
+  (mapv replace-congratulation-bubble-text bubbles))
+
 (defn process-and-set-items-and-bubbles
   "Receive response and prepare UI with the new items and bubbles for the next
   step in the discussion.
@@ -50,10 +66,11 @@
                        (seq positions) (conj positions (login-or-add-item (lib/logged-in?)))
                        (seq attacks) (vals attacks)
                        (seq attitudes) (vals attitudes)
-                       :default [])]
-    (om/transact! parser/reconciler `[(discussion/bubbles {:value ~bubbles})
-                                      (discussion/items {:value ~update-items})
-                                      (discussion/add-step {:value ~add-step})])))
+                       :default [])
+        with-replaced-congratulation-bubble (replace-congratulation-bubble bubbles)]
+    (lib/store-multiple-values-to-app-state! [['discussion/bubbles with-replaced-congratulation-bubble]
+                                              ['discussion/items update-items]
+                                              ['discussion/add-step add-step]])))
 
 
 ;;;; Handlers
@@ -72,6 +89,7 @@
   "Make ajax call to dialog based argumentation system."
   ([url headers handler params]
    (log/debug "GET Request to: %s" (make-url url))
+   (lib/hide-add-form!)
    (GET (make-url url)
         {:handler       handler
          :headers       (merge (token-header) headers)
@@ -187,3 +205,11 @@
 (s/fdef login-or-add-item
   :args (s/cat :logged-in? boolean?)
   :ret ::item)
+
+(s/fdef replace-congratulation-bubble-text
+  :args (s/cat :bubble ::bubble)
+  :ret ::bubble)
+
+(s/fdef replace-congratulation-bubble
+  :args (s/cat :bubbles (s/coll-of ::bubble))
+  :ret (s/coll-of ::bubble))

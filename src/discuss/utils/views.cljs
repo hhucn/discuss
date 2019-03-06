@@ -93,10 +93,10 @@
        [:div.input-group
         [:span.input-group-addon.input-group-addon-left
          (fa-icon "fa-quote-left")]
-        [:input.form-control {:style {:backgroundColor "rgb(250,250,250)"}
-                              :value selection
-                              :title (t :references :disabled/tooltip)
-                              :disabled true}]
+        [:textarea.form-control {:style {:backgroundColor "rgb(250,250,250)"}
+                                 :title (t :references :disabled/tooltip)
+                                 :disabled true}
+         selection]
         [:span.input-group-addon
          (fa-icon "fa-quote-right")]
         [:span.input-group-addon.pointer {:onClick remove-selection-then-reference!}

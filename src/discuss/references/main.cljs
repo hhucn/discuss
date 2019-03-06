@@ -2,9 +2,7 @@
   "Handle interaction with already existing references, for example showing
   usages in other statements / arguments or providing a form to use it in the
   own statement."
-  (:require [om.core :as om]
-            [om.dom :as dom]
-            [om.next :as nom :refer-macros [defui]]
+  (:require [om.next :as om :refer-macros [defui]]
             [clojure.spec.alpha :as s]
             [goog.string :refer [format]]
             [goog.string.format]
@@ -63,12 +61,12 @@
 
 (defui ReferenceUsageForSingleArgumentView
   "Build single usage of a reference in an argument."
-  static nom/IQuery
+  static om/IQuery
   (query [this]
          `[:argument])
   Object
   (render [this]
-          (let [{:keys [argument]} (nom/props this)
+          (let [{:keys [argument]} (om/props this)
                 {:keys [author issue]} argument]
             (html [:div.bs-callout.bs-callout-info
                    [:div.pull-right
@@ -80,15 +78,15 @@
                     [:strong (vlib/safe-html (:text argument))]]
                    [:div (t :common :author) ": " (:nickname author)]
                    [:div (t :common :issue) ": " (:title issue)]]))))
-(def reference-usage-for-single-argument (nom/factory ReferenceUsageForSingleArgumentView {:keyfn identity}))
+(def reference-usage-for-single-argument (om/factory ReferenceUsageForSingleArgumentView {:keyfn :argument}))
 
 (defui ReferenceUsagesForArgumentsView
-  static nom/IQuery
+  static om/IQuery
   (query [this]
          `[:arguments])
   Object
   (render [this]
-          (let [{:keys [issue arguments author]} (nom/props this)]
+          (let [{:keys [issue arguments author]} (om/props this)]
             (html [:div
                    (map
                     #(reference-usage-for-single-argument
@@ -96,18 +94,16 @@
                        :issue issue
                        :argument %})
                     arguments)]))))
-(def reference-usages-for-arguments (nom/factory ReferenceUsagesForArgumentsView {:keyfn identity}))
-
-(lib/store-to-app-state! 'references/selected {:text "foo"})
+(def reference-usages-for-arguments (om/factory ReferenceUsagesForArgumentsView {:keyfn :arguments}))
 
 (defui UsagesView
   "Complete list of all references and all their usages in their arguments."
-  static nom/IQuery
+  static om/IQuery
   (query [this]
          `[:references/usages :references/selected])
   Object
   (render [this]
-          (let [{:keys [references/usages references/selected]} (nom/props this)]
+          (let [{:keys [references/usages references/selected]} (om/props this)]
             (html [:div
                    (if-not (empty? selected)
                      [:div
@@ -127,16 +123,16 @@
                      [:div.text-center
                       (vlib/view-header (t :references :usages/not-found-lead))
                       [:p (t :references :usages/not-found-body) "."]])]))))
-(def usages-view-next (nom/factory UsagesView))
+(def usages-view-next (om/factory UsagesView))
 
 (defui ReferenceView
   "Nested reference link in text."
   Object
   (render [this]
-          (let [{:keys [text url id dom-pre dom-post]} (nom/props this)]
+          (let [{:keys [text url id dom-pre dom-post]} (om/props this)]
             (html [:span
                    [:span dom-pre]
                    [:span.arguments.pointer {:onClick #(click-reference (Reference. id text url))}
                     text " " (vlib/logo)]
                    [:span dom-post]]))))
-(def reference (nom/factory ReferenceView))
+(def reference (om/factory ReferenceView))

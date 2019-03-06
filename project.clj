@@ -1,4 +1,4 @@
-(defproject discuss "0.8.0"
+(defproject discuss "0.9.0"
   :description "Embedding dialog-based discussions into arbitrary web-contexts"
   :url "https://discuss.cs.uni-duesseldorf.de"
   :license {:name "MIT"
@@ -15,6 +15,7 @@
                  [com.cognitect/transit-cljs "0.8.256"]
                  [com.bhauman/figwheel-main "0.2.0"]
                  [com.bhauman/rebel-readline-cljs "0.1.4"]
+                 [com.bhauman/cljs-test-display "0.1.1"]
                  [com.velisco/strgen "0.1.8"]
                  [com.cemerick/url "0.1.1"]
                  [spec-provider "0.4.14"]
@@ -36,12 +37,13 @@
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
-  :aliases {"fig" ["trampoline" "run" "-m" "figwheel.main" "--build" "dev" "--repl"]}
+  :aliases {"fig" ["trampoline" "run" "-m" "figwheel.main" "--build" "dev" "--repl"]
+            "fig:test" ["trampoline" "run" "-m" "figwheel.main" "-m" "discuss.test-runner"]}
 
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]
                                   [nrepl "0.6.0"]
                                   [cider/piggieback "0.4.0"]]
-                   :source-paths ["src" "script"]
+                   :source-paths ["src" "script" "test"]
                    :resource-paths ["target"]
                    :repl-options {:init (set! *print-length* 50)
                                   :nrepl-middleware [cider.piggieback/wrap-cljs-repl]}}}

@@ -16,9 +16,9 @@ Pull all bower components with:
 
 To get an interactive development environment run:
 
-    rlwrap lein figwheel
+    lein fig
 
-and open your browser at [localhost:3449](http://localhost:3449). This will auto
+and open your browser at [localhost:9500](http://localhost:9500). This will auto
 compile and send all changes to the browser without the need to reload. After
 the compilation process is complete, you will get a Browser Connected REPL. An
 easy way to try it is:
@@ -40,13 +40,10 @@ reloading, nor a REPL.
 
 ### Testing and Development
 
-#### Property-based tests
+The testing environment is automatically launched when you start the
+dev-environment of this project. You can then access the test-page at
+http://localhost:9500/tests.html
 
-Some property-based tests have been added. These tests and additionally all
-other tests can be executed with the phantomjs runner, which has been packed
-into a separate leiningen task:
-
-    lein phantomtest
 
 ## Publications
 
@@ -76,6 +73,6 @@ Einbettung im Web." 2017.
 
 ## License
 
-Copyright © 2016-2019 Christian Meter
+Copyright © 2016 - 2019 Christian Meter
 
 Distributed under the [MIT License](LICENSE).
