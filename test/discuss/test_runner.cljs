@@ -15,8 +15,7 @@
    'discuss.utils.common-test
    'discuss.references.lib-test
    'discuss.communication.lib-test))
-
-#_(test-run)
+(test-run)
 
 
 (defn -main [& args]
