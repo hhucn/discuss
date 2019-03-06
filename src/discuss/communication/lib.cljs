@@ -34,7 +34,7 @@
      :texts [translation]
      :url url}))
 
-(defn replace-congratulation-bubble
+(defn replace-congratulation-bubble-text
   "Takes a bubble and modifies the content if it is a congratulation-bubble from
   dbas."
   [bubble]
@@ -45,6 +45,12 @@
              :html (t :discussion :bubble/congrats)
              :text (t :discussion :bubble/congrats))
       bubble)))
+
+(defn replace-congratulation-bubble
+  "Takes collection of bubbles, finds the congratulation-bubble and replaces it
+  with a new text."
+  [bubbles]
+  (mapv replace-congratulation-bubble-text bubbles))
 
 (defn process-and-set-items-and-bubbles
   "Receive response and prepare UI with the new items and bubbles for the next
@@ -199,6 +205,10 @@
   :args (s/cat :logged-in? boolean?)
   :ret ::item)
 
-(s/fdef replace-congratulation-bubble
+(s/fdef replace-congratulation-bubble-text
   :args (s/cat :bubble ::bubble)
   :ret ::bubble)
+
+(s/fdef replace-congratulation-bubble
+  :args (s/cat :bubbles (s/coll-of ::bubble))
+  :ret (s/coll-of ::bubble))
