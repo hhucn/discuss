@@ -21,6 +21,11 @@ idiomatic?:
     - lein kibit
   allow_failure: true
 
+test:
+  stage: test
+  script:
+    - lein fig:test
+
 build-image:
   image: docker:git
   stage: deploy
