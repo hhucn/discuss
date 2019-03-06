@@ -18,4 +18,10 @@
   congratulation-bubble."
     (let [with-converted-congratulation-bubble (comlib/replace-congratulation-bubble bubbles)]
       (is (not= bubbles with-converted-congratulation-bubble))
-      (is (= (count bubbles) (count with-converted-congratulation-bubble))))))
+      (is (= (count bubbles) (count with-converted-congratulation-bubble)))))
+
+  (testing "If there is no trophy-bubble, nothing should have changed"
+    (let [no-trophy-bubbles (take 3 bubbles)
+          bubbles-after-fn  (comlib/replace-congratulation-bubble no-trophy-bubbles)]
+      (is (= no-trophy-bubbles bubbles-after-fn))
+      (is (= (count no-trophy-bubbles) (count bubbles-after-fn))))))

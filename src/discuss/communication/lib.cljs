@@ -66,8 +66,9 @@
                        (seq positions) (conj positions (login-or-add-item (lib/logged-in?)))
                        (seq attacks) (vals attacks)
                        (seq attitudes) (vals attitudes)
-                       :default [])]
-    (lib/store-multiple-values-to-app-state! [['discussion/bubbles bubbles]
+                       :default [])
+        with-replaced-congratulation-bubble (replace-congratulation-bubble bubbles)]
+    (lib/store-multiple-values-to-app-state! [['discussion/bubbles with-replaced-congratulation-bubble]
                                               ['discussion/items update-items]
                                               ['discussion/add-step add-step]])))
 
