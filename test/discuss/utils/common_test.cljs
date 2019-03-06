@@ -74,18 +74,18 @@
                  {:item2 "item2"}]
           bubbles [{:bubble1 "bubble1"}
                    {:bubble2 "bubble2"}]]
-      (= `[(discussion/items {:value ~items})
-           (discussion/bubbles {:value ~bubbles})]
-         (lib/build-transactions [['discussion/items items]
-                                  ['discussion/bubbles bubbles]]))
-      (= `[(discussion/items {:value nil})]
-         (lib/build-transactions [['discussion/items nil]])))))
+      (is (= `[(discussion/items {:value ~items})
+               (discussion/bubbles {:value ~bubbles})]
+             (lib/build-transactions [['discussion/items items]
+                                      ['discussion/bubbles bubbles]])))
+      (is (= `[(discussion/items {:value nil})]
+             (lib/build-transactions [['discussion/items nil]]))))))
 
 (deftest filter-keys-by-namespace-test
   (testing "Query subset of keys by their namespace."
     (let [test-data [:search/results :layout/add? :layout/title :layout/view :default]]
-      (= [:layout/add? :layout/title :layout/view]
-         (lib/filter-keys-by-namespace test-data "layout"))
-      (= [:default]
-         (lib/filter-keys-by-namespace test-data nil))
-      (empty? (lib/filter-keys-by-namespace test-data :non-existent)))))
+      (is (= [:layout/add? :layout/title :layout/view]
+             (lib/filter-keys-by-namespace test-data "layout")))
+      (is (= [:default]
+             (lib/filter-keys-by-namespace test-data nil)))
+      (is (empty? (lib/filter-keys-by-namespace test-data :non-existent))))))
