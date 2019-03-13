@@ -3,15 +3,11 @@
   (:require [cljs.core.async :refer [put! chan <!]]
             [goog.dom :as gdom]
             [goog.events :as events]
-            [goog.string :refer [format]]
-            [goog.string.format]
             [om.next :as om :refer-macros [defui]]
             [sablono.core :as html :refer-macros [html]]
             [discuss.components.clipboard :as clipboard]
-            [discuss.config :as config]
             [discuss.translations :refer [translate]]
             [discuss.utils.common :as lib]
-            [discuss.utils.logging :as log]
             [discuss.utils.views :as vlib]))
 
 (defn- get-tooltip
@@ -31,7 +27,7 @@
   (when-let [tooltip (get-tooltip)]
     (lib/remove-class tooltip  (lib/prefix-name "tooltip-active"))))
 
-(defn x-position
+(defn- x-position
   "Center tooltip at mouse selection."
   [left twidth ewidth]
   (let [tooltip (get-tooltip)
@@ -39,7 +35,7 @@
     (- (+ left js/window.scrollX (/ (- ewidth twidth) 2))
        tooltip-parent-offset)))
 
-(defn y-position
+(defn- y-position
   "Move tooltip a bit above the mouse selection."
   [top theight]
   (let [offset 5]
@@ -57,10 +53,9 @@
         width (.-width rect)
         positioned-top (y-position top tooltip-height)
         positioned-left (x-position left tooltip-width width)]
-    (log/fine (format "Tooltip position: top %f, left %f" positioned-top positioned-left))
     [positioned-top positioned-left]))
 
-(defn move-to-selection
+(defn- move-to-selection
   "Sets CSS position of tooltip and move it to the mouse selection."
   ([[top left]]
    (let [tooltip (get-tooltip)]

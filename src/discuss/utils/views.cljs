@@ -87,8 +87,8 @@
          (fa-icon "fa-quote-left")]
         [:textarea.form-control {:style {:backgroundColor "rgb(250,250,250)"}
                                  :title (t :references :disabled/tooltip)
-                                 :disabled true}
-         selection]
+                                 :disabled true
+                                 :value selection}]
         [:span.input-group-addon
          (fa-icon "fa-quote-right")]
         [:span.input-group-addon.pointer {:onClick remove-selection-then-reference!}
