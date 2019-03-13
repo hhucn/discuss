@@ -41,7 +41,7 @@
   (let [offset 5]
     (+ (- top theight offset) js/window.scrollY)))
 
-(defn calc-position
+(defn- calc-position
   "Create a new tooltip at given selection. Creates a rectangle around the selection,
    which has position-properties and which are useful for positioning of the tooltip."
   [tooltip-width tooltip-height]
@@ -67,7 +67,29 @@
      (move-to-selection (calc-position tooltip.offsetWidth tooltip.offsetHeight)))))
 
 
-;;;; Include listener for tooltips
+;; -----------------------------------------------------------------------------
+;; Selection corrections
+
+(defn- snap-selection
+  "Selection optimizations. Snaps to a specific pattern. Currently selects the
+  whole sentence, where the selected parts are part of."
+  []
+  (let [sel (js/document.getSelection)]
+    (when (-> sel str count pos?)
+      (.modify sel "move"   "backward" "sentence")
+      (.modify sel "extend" "forward"  "sentence")
+      (.modify sel "extend" "backward" "character")
+      sel)))
+
+(defn- save-selected-text
+  "Get the user's selection and save it."
+  []
+  (let [selection (snap-selection)]
+    (if-not (nil? selection)
+      (do (move-to-selection)
+          (lib/save-selection! (str selection)))
+      (hide))))
+
 (defn- listen
   "Helper function for mouse-click events."
   [el type]
@@ -75,17 +97,7 @@
     (events/listen el type (fn [e] (put! out e)))
     out))
 
-(defn- save-selected-text
-  "Get the users selection and save it."
-  []
-  (let [selection (str (.getSelection js/window))]
-    (if (and (pos? (count selection))
-             (not= selection (lib/get-selection)))
-      (do (move-to-selection)
-          (lib/save-selection! selection))
-      (hide))))
-
-(defn track-user-selection
+(defn- track-user-selection
   "Listen to clicks on the websites' text to store it in the app-state."
   []
   (when-let [discuss-text-dom (gdom/getElement (lib/prefix-name "text"))]
@@ -113,7 +125,7 @@
 
                  [:span
                   (vlib/safe-space) " " (vlib/safe-space)
-                  [:span.pointer {:onClick #((lib/show-overlay) (hide))}
+                  [:span.pointer {:onClick #(do (lib/show-overlay) (hide))}
                    (vlib/fa-icon "fa-comments")
                    (translate :common :show-discuss :space)]]])))
 (def tooltip (om/factory Tooltip))
