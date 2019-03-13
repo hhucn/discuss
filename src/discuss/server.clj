@@ -2,7 +2,6 @@
   (:require [clojure.java.io :as io]))
 
 (def home (slurp (io/resource "public/index.html")))
-(def cards (slurp (io/resource "public/cards.html")))
 
 (defn handler [request]
   (if (and (= :get (:request-method request))
