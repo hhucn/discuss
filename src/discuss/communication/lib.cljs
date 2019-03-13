@@ -112,7 +112,6 @@
   "Get prepared statements and simply fire a POST request."
   ([request-url body handler error-handler headers]
    (log/info (str "Posting " (dissoc body :password) " to " request-url))
-   (lib/save-selection! nil)
    (POST request-url
          {:body            (lib/clj->json body)
           :handler         handler
