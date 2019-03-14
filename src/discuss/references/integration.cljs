@@ -16,7 +16,7 @@
   "Removes dom-elements, which can never be used as a reference."
   [doms]
   (let [tags #{"script" "path" "svg" "circle" "html" "head" "meta" "link" "img"
-               "input" "label" "hr" "title" "button"}]
+               "input" "label" "hr" "title" "button" "h1"}]
     (remove #(contains? tags (lower-case (.-nodeName %))) doms)))
 
 (defn- get-parent

@@ -3,16 +3,12 @@
   (:require [om.next :as om]
             [goog.dom :as gdom]
             [discuss.communication.lib :as comlib]
-            [discuss.components.sidebar :as sidebar]
-            [discuss.components.bubbles]
-            [discuss.components.tooltip]
-            [discuss.parser :as parser]
             [discuss.config :as config]
+            [discuss.parser :as parser]
             [discuss.references.integration :as rint]
             [discuss.utils.common :as lib]
-            [discuss.components.tooltip :as tooltip]
-            [discuss.views :as views]
-            [discuss.utils.logging :as log]))
+            [discuss.utils.logging :as log]
+            [discuss.views :as views]))
 
 (enable-console-print!)
 

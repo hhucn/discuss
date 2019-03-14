@@ -3,9 +3,9 @@
             [goog.string.format]
             [discuss.communication.lib :as comlib]
             [discuss.config :as config]
+            [discuss.history.discussion :as hdis]
             [discuss.translations :refer [translate] :rename {translate t}]
-            [discuss.utils.common :as lib]
-            [discuss.history.discussion :as hdis]))
+            [discuss.utils.common :as lib]))
 
 (defn- handle-profile-picture
   "Extract profile-picture and store it in the app-state."
