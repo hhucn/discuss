@@ -1,6 +1,6 @@
 {
   "name": "discuss",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "![Build Status](https://gitlab.cs.uni-duesseldorf.de/project/discuss/badges/branch/build.svg)",
   "main": "discuss.core",
   "directories": {
