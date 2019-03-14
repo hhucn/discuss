@@ -19,19 +19,21 @@
                    (vlib/view-header (t :common :login))
                    (valerts/error-alert (om/props this))
                    [:p.text-center (t :login :hhu-ldap)]
-                   [:div.input-group
-                    [:span.input-group-addon (vlib/fa-icon "fa-user fa-fw")]
-                    [:input.form-control {:onChange #(om/update-state! this assoc :nickname (.. % -target -value))
-                                          :value nickname
-                                          :placeholder (t :login :nickname)}]]
-                   [:div.input-group
-                    [:span.input-group-addon (vlib/fa-icon "fa-key fa-fw")]
-                    [:input.form-control {:onChange #(om/update-state! this assoc :password (.. % -target -value))
-                                          :value password
-                                          :type :password
-                                          :placeholder (t :login :password)}]]
-                   [:button.btn.btn-default {:onClick #(auth/login nickname password)
-                                             :disabled (or (empty? nickname)
-                                                           (empty? password))}
-                    (t :common :login)]]))))
+                   [:form {:onSubmit #(do (.preventDefault %)
+                                          (auth/login nickname password))}
+                    [:div.input-group
+                     [:span.input-group-addon (vlib/fa-icon "fa-user fa-fw")]
+                     [:input.form-control {:onChange #(om/update-state! this assoc :nickname (.. % -target -value))
+                                           :value nickname
+                                           :placeholder (t :login :nickname)}]]
+                    [:div.input-group
+                     [:span.input-group-addon (vlib/fa-icon "fa-key fa-fw")]
+                     [:input.form-control {:onChange #(om/update-state! this assoc :password (.. % -target -value))
+                                           :value password
+                                           :type :password
+                                           :placeholder (t :login :password)}]]
+                    [:button.btn.btn-default {:type :submit
+                                              :disabled (or (empty? nickname)
+                                                            (empty? password))}
+                     (t :common :login)]]]))))
 (def login-form (om/factory LoginForm))

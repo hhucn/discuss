@@ -1,22 +1,19 @@
-(ns discuss.test-runner
-  (:require [cljs.test]
+(ns ^:figwheel-hooks discuss.test-runner
+  (:require [cljs.test :refer-macros [run-tests]]
             [cljs-test-display.core]
             [figwheel.main.testing :refer-macros [run-tests-async]]
             [discuss.translations-test]
             [discuss.utils.common-test]
             [discuss.references.lib-test]
-            [discuss.communication.lib-test])
-  (:require-macros [cljs.test]))
+            [discuss.communication.lib-test]))
 
-(defn test-run []
-  (cljs.test/run-tests
+(defn ^:after-load test-run []
+  (run-tests
    (cljs-test-display.core/init! "app-tests")
    'discuss.translations-test
    'discuss.utils.common-test
    'discuss.references.lib-test
    'discuss.communication.lib-test))
-(test-run)
-
 
 (defn -main [& args]
   ;; this needs to be the last statement in the main function so that it can

@@ -46,14 +46,6 @@
   (when (string? escaped)
     (lib/trim-and-normalize (gstring/unescapeEntities escaped))))
 
-(defn commit-component-state
-  "Set local state of view, parse the value of the target of val."
-  [key val owner]
-  (cond
-    (= (type val) js/Event) (om/set-state! owner key (.. val -target -value))
-    (= (type val) js/String) (om/set-state! owner key val)
-    :else (om/set-state! owner key (.. val -target -value))))
-
 (defn display
   "Toggle display view."
   [show]
@@ -95,8 +87,8 @@
          (fa-icon "fa-quote-left")]
         [:textarea.form-control {:style {:backgroundColor "rgb(250,250,250)"}
                                  :title (t :references :disabled/tooltip)
-                                 :disabled true}
-         selection]
+                                 :disabled true
+                                 :value selection}]
         [:span.input-group-addon
          (fa-icon "fa-quote-right")]
         [:span.input-group-addon.pointer {:onClick remove-selection-then-reference!}
