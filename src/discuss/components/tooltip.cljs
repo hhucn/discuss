@@ -71,14 +71,14 @@
 ;; Selection corrections
 
 (defn- snap-selection
-  "Selection optimizations. Snaps to a specific pattern. Currently selects the
-  whole sentence, where the selected parts are part of."
+  "Selection optimizations. Snaps to a specific pattern. Currently there are no
+  optimizations available, because there is not browser-independent standard."
   []
   (let [sel (js/document.getSelection)]
     (when (-> sel str count pos?)
-      (.modify sel "move"   "backward" "sentence")
-      (.modify sel "extend" "forward"  "sentence")
-      (.modify sel "extend" "backward" "character")
+      (comment (.modify sel "move"   "backward" "sentence")
+               (.modify sel "extend" "forward"  "sentence")
+               (.modify sel "extend" "backward" "character"))
       sel)))
 
 (defn- save-selected-text
