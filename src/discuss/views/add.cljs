@@ -77,30 +77,32 @@
                     [:h5.text-center (t :discussion :add-position-heading) "..."]
                     (valerts/error-alert (om/props this))
 
-                    [:div.input-group
-                     [:span.input-group-addon.input-group-addon-left "... " (t :common :that)]
-                     [:input.form-control {:onChange #(om/update-state! this assoc :position (.. % -target -value))
-                                           :value (or position "")
-                                           :placeholder (t :discussion :add-position-placeholder)}]]
+                    [:form {:onSubmit #(do (.preventDefault %)
+                                           (com/post-position {:position position
+                                                               :reason reason
+                                                               :reference current-selection
+                                                               :search/selected selected-search}))}
+                     [:div.input-group
+                      [:span.input-group-addon.input-group-addon-left "... " (t :common :that)]
+                      [:input.form-control {:onChange #(om/update-state! this assoc :position (.. % -target -value))
+                                            :value (or position "")
+                                            :placeholder (t :discussion :add-position-placeholder)}]]
 
-                    [:div.input-group
-                     [:span.input-group-addon.input-group-addon-left "... " (t :common :because)]
-                     [:input.form-control {:style {:backgroundColor (when-not (nil? selected-search) "rgb(250,250,250)")}
-                                           :onChange #(do (om/update-state! this assoc :reason (.. % -target -value))
-                                                          (search/search reason))
-                                           :value (or (:text selected-search) reason "")
-                                           :placeholder (t :discussion :add-reason-placeholder)}]
-                     (when-not (nil? selected-search)
-                       [:span.input-group-addon.pointer {:onClick search/remove-selected-search-result!}
-                        (vlib/fa-icon "fa-times")])]
+                     [:div.input-group
+                      [:span.input-group-addon.input-group-addon-left "... " (t :common :because)]
+                      [:input.form-control {:style {:backgroundColor (when-not (nil? selected-search) "rgb(250,250,250)")}
+                                            :onChange #(do (om/update-state! this assoc :reason (.. % -target -value))
+                                                           (search/search reason))
+                                            :value (or (:text selected-search) reason "")
+                                            :placeholder (t :discussion :add-reason-placeholder)}]
+                      (when-not (nil? selected-search)
+                        [:span.input-group-addon.pointer {:onClick search/remove-selected-search-result!}
+                         (vlib/fa-icon "fa-times")])]
 
-                    (vlib/show-selection)
-                    [:button.btn.btn-default
-                     {:onClick #(com/post-position {:position position
-                                                    :reason reason
-                                                    :reference current-selection
-                                                    :search/selected selected-search})
-                      :disabled (disabled? selected-search current-selection smaller-input)}
-                     (vlib/remaining-characters smaller-input selected-search)]]])))
+                     (vlib/show-selection)
+                     [:button.btn.btn-default
+                      {:type :submit
+                       :disabled (disabled? selected-search current-selection smaller-input)}
+                      (vlib/remaining-characters smaller-input selected-search)]]]])))
   (componentDidMount [this] (search/remove-all-search-related-results-and-selections)))
 (def position-form (om/factory PositionForm))
