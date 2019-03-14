@@ -20,7 +20,6 @@
                  [com.cemerick/url "0.1.1"]
                  [spec-provider "0.4.14"]
                  [cljs-ajax "0.8.0"]
-                 [lein-doo "0.1.11"]  ;; <-- otherwise it won't find the doo namespaces...
                  [devcards "0.2.6"]
                  [sablono "0.8.5"]
                  [inflections "0.13.2"]]
@@ -28,7 +27,6 @@
   :plugins [[lein-ancient "0.6.10"]
             [lein-cljsbuild "1.1.5" :exclusions [[org.clojure/clojure]]]
             [lein-codox "0.10.6"]
-            [lein-doo "0.1.11"]
             [lein-kibit "0.1.6"]]
 
   :source-paths ["src"]
@@ -38,7 +36,9 @@
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
   :aliases {"fig" ["trampoline" "run" "-m" "figwheel.main" "--build" "dev" "--repl"]
-            "fig:test" ["trampoline" "run" "-m" "figwheel.main" "-m" "discuss.test-runner"]}
+            "fig:test" ["run" "-m" "figwheel.main" "-co" "test.cljs.edn" "-m" "discuss.test-runner"]
+            ;; "fig:test" ["trampoline" "run" "-m" "figwheel.main" "-m" "discuss.test-runner"]
+            }
 
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]
                                   [nrepl "0.6.0"]
