@@ -24,25 +24,25 @@
                      :start-discussion "Starte die Diskussion"
                      :that             "dass"}
         :clipboard  {:heading "Clipboard"
-                     :instruction "Wähle eine Referenz aus dieser Liste aus, um beim Erzeugen eines neuen Arguments diese Referenz mit dem neuen Argument zu verknüpfen."}
-        :create/argument {:header "Erzeuge ein Argument zu einer Textstelle"
+                     :instruction "Wählen Sie eine Referenz aus dieser Liste aus, um beim Erzeugen eines neuen Arguments diese Referenz mit dem neuen Argument zu verknüpfen."}
+        :create/argument {:header "Erzeugen Sie ein Argument zu einer Textstelle"
                           :short "Neues Argument zur Referenz erstellen"
-                          :lead "Du kannst hier Position zu einer Textstelle beziehen."
-                          :logged-in "Fülle dazu die folgenden Felder aus!"
-                          :not-logged-in "Aber vorher musst du dich einlogggen."}
+                          :lead "Sie können hier Position zu einer Textstelle beziehen."
+                          :logged-in "Füllen Sie dazu die folgenden Felder aus."
+                          :not-logged-in "Aber vorher müssen Sie sich einlogggen."}
         :discussion {:add-position "Nichts von all dem. Ich habe eine andere Idee"
                      :add-position-heading "Ich denke, dass"
                      :add-position-placeholder "wir dieses oder jenes machen sollten"
                      :add-reason-placeholder "aus diesen und jenen Gründen"
-                     :bubble/congrats "Du hast das Ende der Diskussion erreicht. Suche dir einen anderen Einstiegspunkt in dem Artikel, um weiter zu diskutieren."
+                     :bubble/congrats "Sie haben das Ende der Diskussion erreicht. Suchen Sie sich einen anderen Einstiegspunkt in dem Artikel, um weiter zu diskutieren."
                      :current      "Aktuelle Diskussion"
-                     :reference/missing "Du musst dich auf eine Textstelle beziehen"
+                     :reference/missing "Sie müssen sich auf eine Textstelle beziehen"
                      :restart      "Neustarten"
                      :submit       "Abschicken"}
         :eden       {:overview "Meine Argumente"
-                     :overview/lead "Finde hier deine Argumente, welche du in verschiedenen Diskussionen eingeführt hast und springe direkt in die Diskussionen hinein."
+                     :overview/lead "Finden Sie hier Ihre Argumente, welche Sie in verschiedenen Diskussionen eingeführt haben und springen Sie direkt in die Diskussionen hinein."
                      :arguments/construct "Neues Argument erstellen"
-                     :arguments/not-found "Es konnten noch keine Argumente von dir gefunden werden. Ein guter Zeitpunkt eine Diskussion zu wählen und mit anderen Benutzern zu diskutieren!"
+                     :arguments/not-found "Es konnten noch keine Argumente von Ihnen gefunden werden. Ein guter Zeitpunkt eine Diskussion zu wählen und mit anderen Benutzern zu diskutieren!"
                      :arguments/show "Meine Argumente anzeigen"}
         :errors     {:login "Login fehlgeschlagen. Vermutlich sind die Zugangsdaten nicht korrekt."}
         :find       {:statement "Finde Aussage in Diskussion"
@@ -50,7 +50,7 @@
         :login      {:nickname "Benutzername"
                      :password "Passwort"
                      :hhu-ldap "Wir benutzen das Personenverzeichnug der Heinrich-Heine-Universität Düsseldorf. Alle Daten und Informationen werden natürlich SSL-verschlüsselt gesendet und nach Erhalt unter keinen Umständen an Dritte weitergegeben."
-                     :item "Klicke hier, damit du dich einloggen und eine neue Aussage hinzufügen kannst"}
+                     :item "Hier klicken, damit Sie sich einloggen und eine neue Aussage hinzufügen können"}
         :nav        {:home "Start"
                      :find "Suchen"
                      :eden "Meine Argumente"}
@@ -64,16 +64,16 @@
                      :save "Speichere"}
         :references {:jump "Springe in die Diskussion"
                      :usages/view-heading "Interaktionen mit dem Artikel"
-                     :usages/lead "Beziehe dich hier auf die ausgewählte Referenz oder schau dir an, wo diese Referenz bereits in der Diskussion verwendet wurde."
+                     :usages/lead "Beziehen Sie sich hier auf die ausgewählte Referenz oder schauen Sie sich an, wo diese Referenz bereits in der Diskussion verwendet wurde."
                      :usages/not-found-lead "Argument konnte nicht gefunden werden"
                      :usages/not-found-body "Vielleicht wurden die mit dieser Referenz verknüpften Argumente entfernt"
                      :usages/list "Hier ist eine Liste der bisherigen Verwendungen dieser Textstelle in anderen Argumenten"
                      :where-used "Wo wird diese Referenz verwendet?"
                      :find-statement "Finde Aussage in der Diskussion"
-                     :clipboard  "Ziehe diese Referenzen in das Textfeld beim Erzeugen eines neuen Arguments, um die Referenz zu nutzen."
+                     :clipboard  "Ziehen Sie diese Referenzen in das Textfeld beim Erzeugen eines neuen Arguments hinein, um die Referenz zu nutzen."
                      :ask-to-add "Möchten Sie Ihre Aussage durch eine Referenz von dieser Seite stützen? Dann markieren Sie einfach einen Teil des Textes mit der Maus."
-                     :has-to-add "Um dich auf eine Stelle im Artikel zu beziehen, musst du ihn mit der Maus markieren. Dann erscheint der Text in diesem Textfeld."
-                     :disabled/tooltip "Du kannst dieses Feld nicht direkt modifizieren. Bitte markiere die gewünschte Stelle direkt auf der Webseite. Dieses Feld füllt sich dann automatisch."}
+                     :has-to-add "Um sich auf eine Stelle im Artikel zu beziehen, müssen Sie die Stelle mit der Maus markieren. Dann erscheint der Text in diesem Textfeld."
+                     :disabled/tooltip "Dieses Feld kann nicht direkt modifiziert werden. Bitte markieren Sie die gewünschte Stelle direkt auf der Webseite. Dieses Feld füllt sich dann automatisch."}
         :search      {:reuse "Statement auswählen"
                       :origin "Herkunft"
                       :author "Autor"}
