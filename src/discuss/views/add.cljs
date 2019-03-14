@@ -28,24 +28,26 @@
                [:h5.text-center (:text (last bubbles))]
                (valerts/error-alert (om/props this))
 
-               [:div.input-group
-                [:span.input-group-addon.input-group-addon-left "... " (t :common :because)]
-                [:input.form-control {:style {:backgroundColor (when-not (nil? selected-search) "rgb(250,250,250)")}
-                                      :onChange #(do (om/update-state! this assoc :statement (.. % -target -value))
-                                                     (search/search statement))
-                                      :value (or (:text selected-search) statement "")
-                                      :placeholder (t :discussion :add-reason-placeholder)}]
-                (when-not (nil? selected-search)
-                  [:span.input-group-addon.pointer {:onClick search/remove-selected-search-result!}
-                   (vlib/fa-icon "fa-times")])]
+               [:form {:onSubmit #(do (.preventDefault %)
+                                      (com/post-statement {:statement statement
+                                                           :reference current-selection
+                                                           :search/selected selected-search}))}
+                [:div.input-group
+                 [:span.input-group-addon.input-group-addon-left "... " (t :common :because)]
+                 [:input.form-control {:style {:backgroundColor (when-not (nil? selected-search) "rgb(250,250,250)")}
+                                       :onChange #(do (om/update-state! this assoc :statement (.. % -target -value))
+                                                      (search/search statement))
+                                       :value (or (:text selected-search) statement "")
+                                       :placeholder (t :discussion :add-reason-placeholder)}]
+                 (when-not (nil? selected-search)
+                   [:span.input-group-addon.pointer {:onClick search/remove-selected-search-result!}
+                    (vlib/fa-icon "fa-times")])]
 
-               (vlib/show-selection)
-               [:button.btn.btn-default
-                {:onClick #(com/post-statement {:statement statement
-                                                :reference current-selection
-                                                :search/selected selected-search})
-                 :disabled (when (nil? selected-search) (> 10 (count statement)))}
-                (vlib/remaining-characters statement selected-search)]]])))
+                (vlib/show-selection)
+                [:button.btn.btn-default
+                 {:type :submit
+                  :disabled (when (nil? selected-search) (> 10 (count statement)))}
+                 (vlib/remaining-characters statement selected-search)]]]])))
   (componentDidMount [this] (search/remove-all-search-related-results-and-selections)))
 (def statement-form (om/factory StatementForm))
 
