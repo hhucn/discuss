@@ -67,9 +67,24 @@
            (set-host-config this "EDEN Search" lib/host-eden config/search-host lib/host-eden! lib/host-eden-reset!))))
 (def host-eden (om/factory HostEDEN))
 
+
+;; -----------------------------------------------------------------------------
+;; Connectivity Information
+
+(defui ConnectivityStatus
+  static om/IQuery
+  (query [this]
+         `[:host/dbas-is-up? :host/eden-is-up?])
+  Object
+  (render [this]
+          (html [:div
+                 [:h5 "Status"
+                  ]])))
+
+
+
 ;; -----------------------------------------------------------------------------
 ;; Demo Settings
-
 
 (defn- build-connections [{:keys [name dbas eden]}]
   [[:button.btn.btn-default
