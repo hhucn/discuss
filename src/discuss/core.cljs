@@ -8,14 +8,16 @@
             [discuss.references.integration :as rint]
             [discuss.utils.common :as lib]
             [discuss.utils.logging :as log]
-            [discuss.views :as views]))
+            [discuss.views :as views]
+            [discuss.communication.connectivity :as comcon]))
 
-(enable-console-print!)
 
 ;; Initialization
 (defn ^:export main []
+  (enable-console-print!)
   (log/debug "Loaded %s %s" config/project (lib/project-version))
   (om/add-root! parser/reconciler views/Discuss (gdom/getElement (lib/prefix-name "main")))
+  (comcon/check-connectivity-of-hosts)
   (rint/request-references)
   (comlib/init!))
 (main)
