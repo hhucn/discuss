@@ -5,12 +5,11 @@
             [om.next :as om :refer-macros [defui]]
             [cljs.spec.alpha :as s]
             [ajax.core :refer [GET]]
-            [discuss.translations :refer [translate] :rename {translate t}]
-            [discuss.utils.views :as vlib]
-            [discuss.utils.common :as lib]
             [discuss.communication.lib :as comlib]
+            [discuss.translations :refer [translate] :rename {translate t}]
+            [discuss.utils.common :as lib]
             [discuss.utils.logging :as log]
-            [discuss.parser :as parser]))
+            [discuss.utils.views :as vlib]))
 
 (s/def ::uid integer?)
 (s/def ::id integer?)
@@ -64,7 +63,7 @@
         xform-statements (comp rename-position validate-statements)
         validated-statements (transduce xform-statements conj statements)]
     (log/debug "Received %d search results from D-BAS instance" (count validated-statements))
-    (om/transact! parser/reconciler `[(search/results {:value ~validated-statements})])))
+    (lib/store-to-app-state! 'search/results validated-statements)))
 
 (defn remove-search-results!
   "Reset the search results."
@@ -74,13 +73,13 @@
 (defn remove-selected-search-result!
   "Remove currently selected search result."
   []
-  (om/transact! parser/reconciler `[(search/selected {:value ~nil})]))
+  (lib/store-to-app-state! 'search/selected nil))
 
 (defn remove-all-search-related-results-and-selections
   "Clear list of results and currently selected search result."
   []
-  (om/transact! parser/reconciler `[(search/selected {:value ~nil})
-                                    (search/results {:value []})]))
+  (lib/store-multiple-values-to-app-state! [['search/selected nil]
+                                            ['search/results []]]))
 
 (defn- handle-dbas-search-results
   "Handler which is called with the results from ElasticSearch. Extract statements
@@ -107,7 +106,7 @@
         xform-statements (comp conform-statements validate-statements)
         validated-statements (transduce xform-statements conj statements)]
     (log/debug "Received %d search results from EDEN instance" (count validated-statements))
-    (om/transact! parser/reconciler `[(search/results {:value ~validated-statements})])))
+    (lib/store-to-app-state! 'search/results validated-statements)))
 
 (defn- handle-eden-search-results
   "Handler which is called with the results from ElasticSearch. Extract statements
@@ -118,7 +117,7 @@
 (defn- query->server
   "Make a GET request and search in ElasticSearch for the requested data."
   [query]
-  (if (lib/host-eden)
+  (if (lib/host-eden-is-up?)
     (GET (str (lib/host-eden) "/statements/contain")
          {:handler handle-eden-search-results
           :params {:search-string query}})
@@ -159,8 +158,8 @@
                     [:div.col-sm-8
                      [:p (vlib/safe-html text)]
                      [:p [:span.btn.btn-sm.btn-primary
-                          {:on-click #(om/transact! parser/reconciler `[(search/selected {:value ~search-result})
-                                                                        (search/results {:value []})])}
+                          {:on-click #(lib/store-multiple-values-to-app-state! [['search/selected search-result]
+                                                                                ['search/results []]])}
                           (t :search :reuse)]]]
                     [:div.col-sm-4
                      [:div.text-rights

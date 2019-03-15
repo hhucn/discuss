@@ -56,6 +56,7 @@
                      :eden "Meine Argumente"}
         :options    {:current "Aktuell"
                      :default "Standard"
+                     :delete "Löschen"
                      :heading "Einstellungen"
                      :lang "Interface-Sprache"
                      :new-route "Neue Route"
@@ -128,6 +129,7 @@
                      :find "Find"}
         :options    {:current "Current"
                      :default "Default"
+                     :delete "Delete"
                      :heading "Options"
                      :lang "Interface Language"
                      :new-route "Set new Route"

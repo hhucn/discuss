@@ -39,6 +39,7 @@
   :fine)
 
 (def api {:init (default-slug initial-discussions)
+          :test "/hello"
           :base  "/"
           :graphql "/v2/query"
           :login "/login"

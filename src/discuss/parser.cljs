@@ -7,7 +7,9 @@
   {:discussion/add-step :add/position
    :history/discussion-steps []
    :host/dbas config/remote-host
+   :host/dbas-is-up? nil
    :host/eden (or config/search-host nil)
+   :host/eden-is-up? nil
    :issue/current-slug (:init config/api)
    :issue/info "Our town needs to cut spending. Please discuss ideas how this should be done."
    :issue/list [:list :of :issues]
@@ -79,7 +81,19 @@
 
 (s/def ::reconciler #(instance? om/Reconciler %))
 
+(defn- change-hooks [tx-data changes]
+  (let [touched-symbols (->> changes
+                             :tx
+                             (map first)
+                             (map keyword)
+                             (into #{}))]
+    (cond
+      (or
+       (contains? touched-symbols :host/dbas)
+       (contains? touched-symbols :host/eden)) ((resolve 'discuss.communication.connectivity/check-connectivity-of-hosts)))))
+
 (defonce reconciler
   (om/reconciler
    {:state  init-data
-    :parser (om/parser {:read read :mutate mutate})}))
+    :parser (om/parser {:read read :mutate mutate})
+    :tx-listen change-hooks}))

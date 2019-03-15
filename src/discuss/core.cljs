@@ -3,23 +3,21 @@
   (:require [om.next :as om]
             [goog.dom :as gdom]
             [discuss.communication.lib :as comlib]
-            [discuss.components.sidebar :as sidebar]
-            [discuss.components.bubbles]
-            [discuss.components.tooltip]
-            [discuss.parser :as parser]
             [discuss.config :as config]
+            [discuss.parser :as parser]
             [discuss.references.integration :as rint]
             [discuss.utils.common :as lib]
-            [discuss.components.tooltip :as tooltip]
+            [discuss.utils.logging :as log]
             [discuss.views :as views]
-            [discuss.utils.logging :as log]))
+            [discuss.communication.connectivity :as comcon]))
 
-(enable-console-print!)
 
 ;; Initialization
 (defn ^:export main []
+  (enable-console-print!)
   (log/debug "Loaded %s %s" config/project (lib/project-version))
   (om/add-root! parser/reconciler views/Discuss (gdom/getElement (lib/prefix-name "main")))
+  (comcon/check-connectivity-of-hosts)
   (rint/request-references)
   (comlib/init!))
 (main)
