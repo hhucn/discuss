@@ -149,6 +149,7 @@
   "Receives the next step in the discussion and performs a GET request to this
   url."
   [url]
+  (lib/store-to-app-state! 'search/results [])
   (ajax-get url (token-header) process-and-set-items-and-bubbles))
 (s/fdef discussion-step
   :args (s/cat :url string?))

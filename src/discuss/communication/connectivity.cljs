@@ -19,9 +19,9 @@
 (defn check-connectivity-of-hosts
   "Query the configured remote hosts."
   []
-  (when-not (empty? (lib/host-dbas))
+  (when (seq (lib/host-dbas))
     (check-connectivity (str (lib/host-dbas) (:test config/api))
                         :host/dbas-is-up?))
-  (when-not (empty? (lib/host-eden))
+  (when (seq (lib/host-eden))
     (check-connectivity (lib/host-eden)
                         :host/eden-is-up?)))
