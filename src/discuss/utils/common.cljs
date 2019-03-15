@@ -435,6 +435,11 @@
   []
   (store-to-app-state! 'host/dbas config/remote-host))
 
+(defn host-dbas-is-up?
+  "Return result of the connectivity-check."
+  []
+  (load-from-app-state :host/dbas-is-up?))
+
 (defn host-eden!
   "Set host to API of a eden instance."
   [host]
@@ -451,6 +456,11 @@
   "Reset eden host to defaults, defined in discuss.config."
   []
   (store-to-app-state! 'host/eden config/search-host))
+
+(defn host-eden-is-up?
+  "Return result of the connectivity-check."
+  []
+  (load-from-app-state :host/eden-is-up?))
 
 ;; -----------------------------------------------------------------------------
 ;; Specs
