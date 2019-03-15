@@ -81,7 +81,19 @@
 
 (s/def ::reconciler #(instance? om/Reconciler %))
 
+(defn- change-hooks [tx-data changes]
+  (let [touched-symbols (->> changes
+                             :tx
+                             (map first)
+                             (map keyword)
+                             (into #{}))]
+    (cond
+      (or
+       (contains? touched-symbols :host/dbas)
+       (contains? touched-symbols :host/eden)) ((resolve 'discuss.communication.connectivity/check-connectivity-of-hosts)))))
+
 (defonce reconciler
   (om/reconciler
    {:state  init-data
-    :parser (om/parser {:read read :mutate mutate})}))
+    :parser (om/parser {:read read :mutate mutate})
+    :tx-listen change-hooks}))
