@@ -2,6 +2,8 @@
   "Entrypoint to this application. Loads all requirements, and bootstraps the application."
   (:require [om.next :as om]
             [goog.dom :as gdom]
+            [react :as react]
+            [create-react-class :as create-react-class]
             [discuss.communication.lib :as comlib]
             [discuss.config :as config]
             [discuss.parser :as parser]
@@ -11,6 +13,8 @@
             [discuss.views :as views]
             [discuss.communication.connectivity :as comcon]))
 
+;; this is to support om with the latest version of React
+(set! (.-createClass react) create-react-class)
 
 ;; Initialization
 (defn ^:export main []
