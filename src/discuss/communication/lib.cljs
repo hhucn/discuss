@@ -50,8 +50,8 @@
                        (seq attacks) (vals attacks)
                        (seq attitudes) (vals attitudes)
                        :default [])
-        with-replaced-congratulation-bubble (breps/replace-congratulation-bubble bubbles)]
-    (lib/store-multiple-values-to-app-state! [['discussion/bubbles with-replaced-congratulation-bubble]
+        bubbles' (-> bubbles breps/replace-congratulation-bubbles breps/replace-profile-link-bubbles)]
+    (lib/store-multiple-values-to-app-state! [['discussion/bubbles bubbles']
                                               ['discussion/items update-items]
                                               ['discussion/add-step add-step]])))
 
