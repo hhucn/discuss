@@ -5,7 +5,7 @@
             [discuss.translations-test]
             [discuss.utils.common-test]
             [discuss.references.lib-test]
-            [discuss.communication.lib-test]))
+            [discuss.communication.bubble-replacements-test]))
 
 (defn ^:after-load test-run []
   (run-tests
@@ -13,7 +13,7 @@
    'discuss.translations-test
    'discuss.utils.common-test
    'discuss.references.lib-test
-   'discuss.communication.lib-test))
+   'discuss.communication.bubble-replacements-test))
 
 (defn -main [& args]
   ;; this needs to be the last statement in the main function so that it can

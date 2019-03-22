@@ -21,6 +21,7 @@
                  [com.bhauman/cljs-test-display "0.1.1"]
                  [com.velisco/strgen "0.1.8"]
                  [com.cemerick/url "0.1.1"]
+                 [hickory "0.7.1"]
                  [spec-provider "0.4.14"]
                  [cljs-ajax "0.8.0"]
                  [devcards "0.2.6"]

@@ -10,7 +10,8 @@
             [discuss.utils.common :as lib]
             [discuss.utils.logging :as log]
             [discuss.translations :refer [translate] :rename {translate t}]
-            [discuss.history.discussion :as hdis]))
+            [discuss.history.discussion :as hdis]
+            [discuss.communication.bubble-replacements :as breps]))
 
 ;;;; Auxiliary functions
 (defn make-url
@@ -34,24 +35,6 @@
      :texts [translation]
      :url url}))
 
-(defn replace-congratulation-bubble-text
-  "Takes a bubble and modifies the content if it is a congratulation-bubble from
-  dbas."
-  [bubble]
-  (let [{btype :type, hbubble :html} bubble]
-    (if (and (= "info" btype)
-             (re-find #"fa-trophy" hbubble))
-      (assoc bubble
-             :html (t :discussion :bubble/congrats)
-             :text (t :discussion :bubble/congrats))
-      bubble)))
-
-(defn replace-congratulation-bubble
-  "Takes collection of bubbles, finds the congratulation-bubble and replaces it
-  with a new text."
-  [bubbles]
-  (mapv replace-congratulation-bubble-text bubbles))
-
 (defn process-and-set-items-and-bubbles
   "Receive response and prepare UI with the new items and bubbles for the next
   step in the discussion.
@@ -67,8 +50,8 @@
                        (seq attacks) (vals attacks)
                        (seq attitudes) (vals attitudes)
                        :default [])
-        with-replaced-congratulation-bubble (replace-congratulation-bubble bubbles)]
-    (lib/store-multiple-values-to-app-state! [['discussion/bubbles with-replaced-congratulation-bubble]
+        bubbles' (-> bubbles breps/replace-congratulation-bubbles breps/replace-profile-link-bubbles)]
+    (lib/store-multiple-values-to-app-state! [['discussion/bubbles bubbles']
                                               ['discussion/items update-items]
                                               ['discussion/add-step add-step]])))
 

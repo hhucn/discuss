@@ -119,7 +119,6 @@
                 (lib/store-multiple-values-to-app-state!
                  [['host/dbas dbas]
                   ['host/eden eden]])
-                (comlib/init!)
                 (auth/logout))}
     "Connect to " name]
    " "])

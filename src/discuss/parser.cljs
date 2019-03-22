@@ -96,4 +96,5 @@
   (om/reconciler
    {:state  init-data
     :parser (om/parser {:read read :mutate mutate})
+    :logger nil
     :tx-listen change-hooks}))
