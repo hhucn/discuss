@@ -1,8 +1,8 @@
 (ns discuss.utils.views
   (:require [sablono.core :as html :refer-macros [html]]
             [goog.dom :as gdom]
-            [goog.string :as gstring]
-            [om.core :as om]
+            [goog.string :as gstring :refer [format]]
+            [goog.string.format]
             [om.dom :as dom]
             [discuss.utils.common :as lib]
             [discuss.references.lib :as rlib]
@@ -104,6 +104,6 @@
   (if (nil? selected-search-results)
     (let [remaining (- 10 (count statement))]
       (if (pos? remaining)
-        (str remaining " " (t :common :chars-remaining))
+        (format (t :common :chars-remaining) remaining)
         (t :discussion :submit)))
     (t :discussion :submit)))
