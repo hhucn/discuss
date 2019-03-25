@@ -83,7 +83,7 @@
                      :author           "Author"
                      :back             "Back"
                      :because          "because"
-                     :chars-remaining  "add at least %d more characters"
+                     :chars-remaining  "add at least %d more character(s)"
                      :close            "Close"
                      :delete           "Delete"
                      :hello            "Hello"
