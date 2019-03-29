@@ -326,6 +326,16 @@
   :args (s/cat :s string?)
   :ret string?)
 
+(defn drop-words
+  "Drop n words of string s."
+  [n s]
+  (->> (string/split s #" ")
+       (drop n)
+       (string/join " ")))
+(s/fdef drop-words
+  :args (s/cat :n pos-int? :s string?)
+  :ret string?)
+
 
 ;;;; CSS modifications
 (defn toggle-class

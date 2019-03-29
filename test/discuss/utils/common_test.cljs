@@ -89,3 +89,13 @@
       (is (= [:default]
              (lib/filter-keys-by-namespace test-data nil)))
       (is (empty? (lib/filter-keys-by-namespace test-data :non-existent))))))
+
+(deftest drop-words-test
+  (testing "Dropping the first words in a string."
+    (are [x y] (= x y)
+      "baz" (lib/drop-words 2 "foo bar baz")
+      ""    (lib/drop-words 2 "foo bar")
+      ""    (lib/drop-words 2 "foo")
+      ""    (lib/drop-words 2 "")
+      "foo" (lib/drop-words -2 "foo")
+      "foo" (lib/drop-words 0 "foo"))))
