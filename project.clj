@@ -1,4 +1,4 @@
-(defproject discuss "0.10.0"
+(defproject discuss "0.11.0"
   :description "Embedding dialog-based discussions into arbitrary web-contexts"
   :url "https://discuss.cs.uni-duesseldorf.de"
   :license {:name "MIT"
@@ -11,6 +11,9 @@
                  [org.clojure/core.async "0.4.490" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
                  [org.clojure/tools.reader "1.3.2"]
+                 [cljsjs/react "16.8.3-0"]
+                 [cljsjs/react-dom "16.8.3-0"]
+                 [cljsjs/create-react-class "15.6.3-1"]
                  [org.omcljs/om "1.0.0-beta4"]
                  [com.cognitect/transit-cljs "0.8.256"]
                  [com.bhauman/figwheel-main "0.2.0"]
@@ -18,6 +21,7 @@
                  [com.bhauman/cljs-test-display "0.1.1"]
                  [com.velisco/strgen "0.1.8"]
                  [com.cemerick/url "0.1.1"]
+                 [hickory "0.7.1"]
                  [spec-provider "0.4.14"]
                  [cljs-ajax "0.8.0"]
                  [devcards "0.2.6"]

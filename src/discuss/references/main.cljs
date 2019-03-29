@@ -36,8 +36,8 @@
 (defn query-reference-details
   "Show usages of the provided reference."
   [reference]
-  (let [url (str (get-in config/api [:get :reference-usages]) "/" (:id reference))]
-    (log/info "Requesting information for reference with id" (:id reference))
+  (let [url (format "%s/%d" (get-in config/api [:get :reference-usages]) (:id reference))]
+    (log/info "Requesting information for reference with id %d" (:id reference))
     (comlib/ajax-get url nil reference-usage-handler)))
 
 (s/fdef query-reference-details

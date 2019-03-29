@@ -33,6 +33,23 @@ build-image:
   only:
     - master
 
+deploy-dev:
+  image: clojure:openjdk-8-lein-alpine
+  stage: deploy
+  tags:
+    - 40c
+  before_script:
+    - apk add --no-cache ca-certificates
+    - rm -f mc
+    - wget https://dl.minio.io/client/mc/release/linux-amd64/mc
+    - chmod +x mc
+    - ./mc config host add argyou https://gitlab-cache.cs.uni-duesseldorf.de:9003 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY
+  script:
+    - lein do clean, cljsbuild once min
+    - ./mc cp resources/public/js/compiled/discuss.js argyou/discuss-common/discuss.js
+  only:
+    - develop
+
 deploy-stable:
   image: clojure:openjdk-8-lein-alpine
   stage: deploy

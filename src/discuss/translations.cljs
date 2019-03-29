@@ -10,7 +10,7 @@
                      :author           "Autor"
                      :back             "Zurück"
                      :because          "weil"
-                     :chars-remaining  "Zeichen verbleibend"
+                     :chars-remaining  "noch mind. %d Zeichen eingeben"
                      :close            "Schließen"
                      :delete           "Löschen"
                      :hello            "Hallo"
@@ -56,6 +56,7 @@
                      :eden "Meine Argumente"}
         :options    {:current "Aktuell"
                      :default "Standard"
+                     :delete "Löschen"
                      :heading "Einstellungen"
                      :lang "Interface-Sprache"
                      :new-route "Neue Route"
@@ -82,7 +83,7 @@
                      :author           "Author"
                      :back             "Back"
                      :because          "because"
-                     :chars-remaining  "characters remaining"
+                     :chars-remaining  "add at least %d more character(s)"
                      :close            "Close"
                      :delete           "Delete"
                      :hello            "Hello"
@@ -128,6 +129,7 @@
                      :find "Find"}
         :options    {:current "Current"
                      :default "Default"
+                     :delete "Delete"
                      :heading "Options"
                      :lang "Interface Language"
                      :new-route "Set new Route"

@@ -229,7 +229,6 @@
 (defn next-view!
   "Set the next view, which should be loaded after the ajax call has finished."
   [view]
-  (log/debug "Setting next view to %s" view)
   (hide-add-form!)
   (store-to-app-state! 'layout/view-next view))
 
@@ -325,6 +324,16 @@
   (if (= (last s) \/) (subs s 0 (dec (count s))) s))
 (s/fdef remove-trailing-slash
   :args (s/cat :s string?)
+  :ret string?)
+
+(defn drop-words
+  "Drop n words of string s."
+  [n s]
+  (->> (string/split s #" ")
+       (drop n)
+       (string/join " ")))
+(s/fdef drop-words
+  :args (s/cat :n pos-int? :s string?)
   :ret string?)
 
 
@@ -435,6 +444,11 @@
   []
   (store-to-app-state! 'host/dbas config/remote-host))
 
+(defn host-dbas-is-up?
+  "Return result of the connectivity-check."
+  []
+  (load-from-app-state :host/dbas-is-up?))
+
 (defn host-eden!
   "Set host to API of a eden instance."
   [host]
@@ -451,6 +465,11 @@
   "Reset eden host to defaults, defined in discuss.config."
   []
   (store-to-app-state! 'host/eden config/search-host))
+
+(defn host-eden-is-up?
+  "Return result of the connectivity-check."
+  []
+  (load-from-app-state :host/eden-is-up?))
 
 ;; -----------------------------------------------------------------------------
 ;; Specs

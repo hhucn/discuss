@@ -38,7 +38,8 @@
                                        :onChange #(do (om/update-state! this assoc :statement (.. % -target -value))
                                                       (search/search statement))
                                        :value (or (:text selected-search) statement "")
-                                       :placeholder (t :discussion :add-reason-placeholder)}]
+                                       :placeholder (t :discussion :add-reason-placeholder)
+                                       :disabled (not (nil? selected-search))}]
                  (when-not (nil? selected-search)
                    [:span.input-group-addon.pointer {:onClick search/remove-selected-search-result!}
                     (vlib/fa-icon "fa-times")])]
@@ -96,7 +97,8 @@
                                             :onChange #(do (om/update-state! this assoc :reason (.. % -target -value))
                                                            (search/search reason))
                                             :value (or (:text selected-search) reason "")
-                                            :placeholder (t :discussion :add-reason-placeholder)}]
+                                            :placeholder (t :discussion :add-reason-placeholder)
+                                            :disabled (not (nil? selected-search))}]
                       (when-not (nil? selected-search)
                         [:span.input-group-addon.pointer {:onClick search/remove-selected-search-result!}
                          (vlib/fa-icon "fa-times")])]
