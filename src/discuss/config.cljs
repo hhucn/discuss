@@ -10,7 +10,7 @@
 (goog-define host-dbas "http://localhost:4284/api")
 
 ;; Optional
-(goog-define host-eden "http://discuss.cn.uni-duesseldorf.de:8888")
+(goog-define host-eden "http://localhost:8888")
 
 ;; For demo session
 (def demo-servers

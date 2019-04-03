@@ -2,6 +2,7 @@
   "Helper-functions for the communication component."
   (:require [clojure.string :as str]
             [cljs.spec.alpha :as s]
+            [cljs.reader]
             [ajax.core :refer [GET POST]]
             [goog.string :refer [format]]
             [goog.string.format]
@@ -11,7 +12,8 @@
             [discuss.history.discussion :as hdis]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.common :as lib]
-            [discuss.utils.logging :as log]))
+            [discuss.utils.logging :as log]
+            [discuss.communication.connectivity :as comcon]))
 
 ;;;; Auxiliary functions
 (defn make-url
@@ -145,10 +147,6 @@
 (s/fdef item-click
   :args (s/cat :url string?))
 
-
-;; -----------------------------------------------------------------------------
-;; Add compatibility to D-BAS' new API
-
 (s/fdef process-and-set-items-and-bubbles
   :args (s/cat :response ::comspecs/response))
 
@@ -156,3 +154,22 @@
   :args (s/cat :logged-in? boolean?)
   :ret ::comspecs/item)
 
+(defn set-remote-service-config!
+  "Query remote configuration of dbas and eden instances and store them in the
+  app-state."
+  []
+  (let [url (:services/configuration config/api)]
+    (when (and (string? url)
+               (seq url))
+      (log/info "Querying service information from %s" url)
+      (GET url
+           {:handler (fn [response]
+                       (let [{dbas :dbas/api
+                              eden :eden/api} (cljs.reader/read-string response)]
+                         (log/info "Found a valid service configuration file. Setting hosts to dbas: %s and eden: %s" dbas eden)
+                         (lib/host-dbas! dbas)
+                         (lib/host-eden! eden)))
+            :error-handler #((log/warning "Remote service configuration could
+                             not be found, although it is configured. Please
+                             check the URL.")
+                             (comcon/check-connectivity-of-hosts))}))))
