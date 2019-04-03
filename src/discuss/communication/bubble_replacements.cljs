@@ -1,11 +1,13 @@
 (ns discuss.communication.bubble-replacements
   (:require [hickory.render :as hickrender]
+            [hickory.core :as hickory]
+            [cljs.spec.alpha :as s]
+            [clojure.string :as string]
             [goog.string :refer [format]]
             [goog.string.format]
-            [clojure.string :as string]
-            [hickory.core :as hickory]
             [discuss.translations :refer [translate] :rename {translate t}]
-            [discuss.utils.common :as lib]))
+            [discuss.utils.common :as lib]
+            [discuss.communication.specs :as comspecs]))
 
 (defn replace-profile-link
   "Replace bubble which contains a profile link to a user. This link must be
@@ -47,3 +49,19 @@
   with a new text."
   [bubbles]
   (mapv replace-congratulation-bubble-text bubbles))
+
+(s/fdef replace-profile-link
+  :args (s/cat :bubble ::comspecs/bubble)
+  :ret ::comspecs/bubble)
+
+(s/fdef replace-profile-link-bubbles
+  :args (s/cat :bubbles (s/coll-of ::comspecs/bubble))
+  :ret (s/coll-of ::comspecs/bubble))
+
+(s/fdef replace-congratulation-bubble-text
+  :args (s/cat :bubble ::comspecs/bubble)
+  :ret ::comspecs/bubble)
+
+(s/fdef replace-congratulation-bubbles
+  :args (s/cat :bubbles (s/coll-of ::comspecs/bubble))
+  :ret (s/coll-of ::comspecs/bubble))
