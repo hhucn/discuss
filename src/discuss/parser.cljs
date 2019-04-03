@@ -6,9 +6,9 @@
 (def init-data
   {:discussion/add-step :add/position
    :history/discussion-steps []
-   :host/dbas config/remote-host
+   :host/dbas config/host-dbas
    :host/dbas-is-up? nil
-   :host/eden (or config/search-host nil)
+   :host/eden (or config/host-eden nil)
    :host/eden-is-up? nil
    :issue/current-slug (:init config/api)
    :issue/info "Our town needs to cut spending. Please discuss ideas how this should be done."

@@ -442,7 +442,7 @@
 (defn host-dbas-reset!
   "Reset dbas host to defaults, defined in discuss.config."
   []
-  (store-to-app-state! 'host/dbas config/remote-host))
+  (store-to-app-state! 'host/dbas config/host-dbas))
 
 (defn host-dbas-is-up?
   "Return result of the connectivity-check."
@@ -464,7 +464,7 @@
 (defn host-eden-reset!
   "Reset eden host to defaults, defined in discuss.config."
   []
-  (store-to-app-state! 'host/eden config/search-host))
+  (store-to-app-state! 'host/eden config/host-eden))
 
 (defn host-eden-is-up?
   "Return result of the connectivity-check."

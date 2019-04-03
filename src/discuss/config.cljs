@@ -7,14 +7,10 @@
 (goog-define experimental-features? true)
 (goog-define generative-tests? false)
 
-#_(goog-define remote-host "http://discuss.cn.uni-duesseldorf.de:4284/api")
-(def remote-host
-  (str "http://" (.. js/window -location -hostname) ":4284/api"))
+(goog-define host-dbas "http://localhost:4284/api")
 
 ;; Optional
-#_(goog-define search-host "http://discuss.cn.uni-duesseldorf.de:8888")
-(def search-host
-  (str "http://" (.. js/window -location -hostname) ":8888"))
+(goog-define host-eden "http://discuss.cn.uni-duesseldorf.de:8888")
 
 ;; For demo session
 (def demo-servers
@@ -39,6 +35,7 @@
   :fine)
 
 (def api {:init (default-slug initial-discussions)
+          :services/configuration "/services.edn"
           :test "/hello"
           :base  "/"
           :graphql "/v2/query"

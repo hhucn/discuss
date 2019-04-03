@@ -61,7 +61,7 @@
   Object
   (render [this]
           (html
-           (set-host-config this "D-BAS API" lib/host-dbas config/remote-host lib/host-dbas! lib/host-dbas-reset! #(lib/host-dbas! nil)))))
+           (set-host-config this "D-BAS API" lib/host-dbas config/host-dbas lib/host-dbas! lib/host-dbas-reset! #(lib/host-dbas! nil)))))
 (def host-dbas (om/factory HostDBAS))
 
 (defui HostEDEN
@@ -71,7 +71,7 @@
   Object
   (render [this]
           (html
-           (set-host-config this "EDEN Search" lib/host-eden config/search-host lib/host-eden! lib/host-eden-reset! #(lib/host-eden! nil)))))
+           (set-host-config this "EDEN Search" lib/host-eden config/host-eden lib/host-eden! lib/host-eden-reset! #(lib/host-eden! nil)))))
 (def host-eden (om/factory HostEDEN))
 
 
