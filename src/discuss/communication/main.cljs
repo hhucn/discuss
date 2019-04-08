@@ -74,19 +74,25 @@
 ;; -----------------------------------------------------------------------------
 ;; Load remote configuration
 
-(defn- after-loading-config []
+(defn- after-loading-config
+  "In all cases, we want to initialize discuss with the init-functions."
+  []
   (comcon/check-connectivity-of-hosts)
   (rint/request-references)
   (comlib/init!))
 
-(defn- config-found [response]
+(defn- config-found
+  "Handler for valid request, when a configuration file was found. Parse edn file
+  and store the values in the app-state."
+  [response]
   (let [{dbas :dbas/api
          eden :eden/api
-         slug :discussion/slug} (cljs.reader/read-string response)]
+         slug :discussion/slug} (cljs.reader/read-string response)
+        to-be-called-fns [[slug lib/set-slug!] [dbas lib/host-dbas!] [eden lib/host-eden!]]]
     (log/info "Found a valid service configuration file. Setting hosts to dbas: %s, eden: %s, slug: %s" dbas eden slug)
-    (when slug (lib/set-slug!  slug))
-    (when dbas (lib/host-dbas! dbas))
-    (when eden (lib/host-eden! eden))
+    (doseq [[value f] to-be-called-fns]
+      (when (not-empty value)
+        (f value)))
     (after-loading-config)))
 
 (defn- config-not-found [_response]
@@ -95,6 +101,7 @@
   (after-loading-config))
 
 (defn load-remote-configuration!
+  "Function to query remote configuration file and call the appropriate handlers."
   ([url handler error-handler]
    (when (and (string? url) (seq url))
      (log/info "Querying service information from %s" url)
