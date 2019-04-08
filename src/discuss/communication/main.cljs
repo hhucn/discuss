@@ -85,14 +85,15 @@
   "Handler for valid request, when a configuration file was found. Parse edn file
   and store the values in the app-state."
   [response]
-  (let [{dbas :dbas/api
-         eden :eden/api
-         slug :discussion/slug} (cljs.reader/read-string response)
-        to-be-called-fns [[slug lib/set-slug!] [dbas lib/host-dbas!] [eden lib/host-eden!]]]
-    (log/info "Found a valid service configuration file. Setting hosts to dbas: %s, eden: %s, slug: %s" dbas eden slug)
-    (doseq [[value f] to-be-called-fns]
-      (when (not-empty value)
-        (f value)))
+  (let [mappings {:discussion/slug lib/set-slug!
+                  :dbas/api lib/host-dbas!
+                  :eden/api lib/host-eden!}
+        response' (cljs.reader/read-string response)]
+    (log/debug "Found a configuration file: %s" (str response'))
+    (doseq [[k v] response'
+            :let [f (get mappings k)]
+            :when (not-empty v)]
+      (f v))
     (after-loading-config)))
 
 (defn- config-not-found [_response]
@@ -104,7 +105,7 @@
   "Function to query remote configuration file and call the appropriate handlers."
   ([url handler error-handler]
    (when (and (string? url) (seq url))
-     (log/info "Querying service information from %s" url)
+     (log/debug "Querying service information from %s" url)
      (GET url
           {:handler handler
            :error-handler error-handler})))
