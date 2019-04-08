@@ -1,7 +1,6 @@
 (ns discuss.utils.logging
   (:require [goog.log :as glog]
             [discuss.config :as config]
-            [clojure.string :as string]
             [goog.string :refer [format]]
             [goog.string.format]))
 

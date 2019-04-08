@@ -2,6 +2,7 @@
   "Helper-functions for the communication component."
   (:require [clojure.string :as str]
             [cljs.spec.alpha :as s]
+            [cljs.reader]
             [ajax.core :refer [GET POST]]
             [goog.string :refer [format]]
             [goog.string.format]
@@ -120,11 +121,12 @@
   "Request initial data from API. Optionally provide a slug to change the
   discussion."
   ([]
-   (init! (:init config/api)))
+   (init! (lib/get-slug)))
   ([slug]
-   (log/fine (format "Initializing discussion: %s" (:init config/api)))
-   (hdis/save-discussion-urls! [slug])
-   (ajax-get-and-change-view slug :default index-handler)))
+   (let [slug-corrected (lib/prepend-slash slug)]
+     (log/fine (format "Initializing discussion: %s" slug-corrected))
+     (hdis/save-discussion-urls! [slug-corrected])
+     (ajax-get-and-change-view slug-corrected :default index-handler))))
 (s/fdef init!
   :args (s/? (s/cat :slug string?)))
 
@@ -144,10 +146,6 @@
   (discussion-step url))
 (s/fdef item-click
   :args (s/cat :url string?))
-
-
-;; -----------------------------------------------------------------------------
-;; Add compatibility to D-BAS' new API
 
 (s/fdef process-and-set-items-and-bubbles
   :args (s/cat :response ::comspecs/response))

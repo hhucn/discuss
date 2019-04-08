@@ -124,6 +124,17 @@
   (load-from-app-state :discussion/bubbles))
 
 
+;; Set discussion topic
+(defn set-slug!
+  "Set new discussion slug."
+  [slug]
+  (store-to-app-state! 'issue/current-slug slug))
+
+(defn get-slug
+  "Get current discussion slug."
+  []
+  (load-from-app-state :issue/current-slug))
+
 ;;;; Getter
 (defn get-nickname
   "Return the user's nickname, with whom she logged in."
@@ -323,6 +334,14 @@
   [s]
   (if (= (last s) \/) (subs s 0 (dec (count s))) s))
 (s/fdef remove-trailing-slash
+  :args (s/cat :s string?)
+  :ret string?)
+
+(defn prepend-slash
+  "Prepend slash to string if none found."
+  [s]
+  (if (string/starts-with? s "/") s (str "/" s)))
+(s/fdef prepend-slash
   :args (s/cat :s string?)
   :ret string?)
 

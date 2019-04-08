@@ -4,14 +4,12 @@
             [goog.dom :as gdom]
             [react :as react]
             [create-react-class :as create-react-class]
-            [discuss.communication.lib :as comlib]
             [discuss.config :as config]
             [discuss.parser :as parser]
-            [discuss.references.integration :as rint]
             [discuss.utils.common :as lib]
             [discuss.utils.logging :as log]
             [discuss.views :as views]
-            [discuss.communication.connectivity :as comcon]))
+            [discuss.communication.main :as com]))
 
 ;; this is to support om with the latest version of React
 (set! (.-createClass react) create-react-class)
@@ -21,9 +19,7 @@
   (enable-console-print!)
   (log/debug "Loaded %s %s" config/project (lib/project-version))
   (om/add-root! parser/reconciler views/Discuss (gdom/getElement (lib/prefix-name "main")))
-  (comcon/check-connectivity-of-hosts)
-  (rint/request-references)
-  (comlib/init!))
+  (com/load-remote-configuration!))
 (main)
 
 (defn on-js-reload []
