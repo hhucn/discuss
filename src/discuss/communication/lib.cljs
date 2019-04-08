@@ -12,8 +12,7 @@
             [discuss.history.discussion :as hdis]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.common :as lib]
-            [discuss.utils.logging :as log]
-            [discuss.communication.connectivity :as comcon]))
+            [discuss.utils.logging :as log]))
 
 ;;;; Auxiliary functions
 (defn make-url
@@ -122,11 +121,12 @@
   "Request initial data from API. Optionally provide a slug to change the
   discussion."
   ([]
-   (init! (:init config/api)))
+   (init! (lib/get-slug)))
   ([slug]
-   (log/fine (format "Initializing discussion: %s" (:init config/api)))
-   (hdis/save-discussion-urls! [slug])
-   (ajax-get-and-change-view slug :default index-handler)))
+   (let [slug-corrected (lib/prepend-slash slug)]
+     (log/fine (format "Initializing discussion: %s" slug-corrected))
+     (hdis/save-discussion-urls! [slug-corrected])
+     (ajax-get-and-change-view slug-corrected :default index-handler))))
 (s/fdef init!
   :args (s/? (s/cat :slug string?)))
 
@@ -154,22 +154,3 @@
   :args (s/cat :logged-in? boolean?)
   :ret ::comspecs/item)
 
-(defn set-remote-service-config!
-  "Query remote configuration of dbas and eden instances and store them in the
-  app-state."
-  []
-  (let [url (:services/configuration config/api)]
-    (when (and (string? url)
-               (seq url))
-      (log/info "Querying service information from %s" url)
-      (GET url
-           {:handler (fn [response]
-                       (let [{dbas :dbas/api
-                              eden :eden/api} (cljs.reader/read-string response)]
-                         (log/info "Found a valid service configuration file. Setting hosts to dbas: %s and eden: %s" dbas eden)
-                         (lib/host-dbas! dbas)
-                         (lib/host-eden! eden)))
-            :error-handler #((log/warning "Remote service configuration could
-                             not be found, although it is configured. Please
-                             check the URL.")
-                             (comcon/check-connectivity-of-hosts))}))))

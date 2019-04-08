@@ -1,11 +1,15 @@
 (ns discuss.communication.main
   "Functions concerning the communication with the remote discussion system."
-  (:require [discuss.utils.common :as lib]
+  (:require [cljs.reader]
+            [ajax.core :refer [GET]]
+            [discuss.utils.common :as lib]
             [discuss.references.integration :as rint]
             [discuss.communication.lib :as comlib]
             [discuss.components.search.statements :as search]
             [discuss.utils.logging :as log]
-            [discuss.history.discussion :as hdis]))
+            [discuss.history.discussion :as hdis]
+            [discuss.communication.connectivity :as comcon]
+            [discuss.config :as config]))
 
 ;; Handler
 (defn process-url-handler
@@ -65,3 +69,36 @@
               :reference reference
               :origin (build-origin-body selected)}]
     (post-json url body process-url-handler headers)))
+
+
+;; -----------------------------------------------------------------------------
+;; Load remote configuration
+
+(defn- after-loading-config []
+  (comcon/check-connectivity-of-hosts)
+  (rint/request-references)
+  (comlib/init!))
+
+(defn- config-found [response]
+  (let [{dbas :dbas/api
+         eden :eden/api
+         slug :discussion/slug} (cljs.reader/read-string response)]
+    (log/info "Found a valid service configuration file. Setting hosts to dbas: %s, eden: %s, slug: %s" dbas eden slug)
+    (when slug (lib/set-slug!  slug))
+    (when dbas (lib/host-dbas! dbas))
+    (when eden (lib/host-eden! eden))
+    (after-loading-config)))
+
+(defn- config-not-found [_response]
+  (log/warning "Remote service configuration could not be found, although it is
+  configured. Please check the URL.")
+  (after-loading-config))
+
+(defn load-remote-configuration!
+  ([url handler error-handler]
+   (when (and (string? url) (seq url))
+     (log/info "Querying service information from %s" url)
+     (GET url
+          {:handler handler
+           :error-handler error-handler})))
+  ([] (load-remote-configuration! config/remote-configuration config-found config-not-found)))
