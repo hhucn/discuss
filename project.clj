@@ -1,4 +1,4 @@
-(defproject discuss "0.12.0"
+(defproject discuss "0.12.1"
   :description "Embedding dialog-based discussions into arbitrary web-contexts"
   :url "https://discuss.cs.uni-duesseldorf.de"
   :license {:name "MIT"
