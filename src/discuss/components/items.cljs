@@ -48,4 +48,3 @@
           (let [{:keys [discussion/items]} (om/props this)]
             (html [:div (map item items)]))))
 (def items (om/factory Items))
-(om/get-query Items)

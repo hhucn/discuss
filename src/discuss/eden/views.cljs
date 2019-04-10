@@ -48,8 +48,6 @@
                    [:div.row
                     [:div.col-sm-4
                      [:p [:span.btn.btn-sm.btn-primary
-                          {:on-click nil #_#(om/transact! parser/reconciler `[(search/selected {:value ~search-result})
-                                                                              (search/results {:value []})])}
                           "Coming soon"]]]
 
                     [:div.col-sm-8.small

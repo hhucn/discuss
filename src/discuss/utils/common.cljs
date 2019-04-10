@@ -8,8 +8,7 @@
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]
             [discuss.config :as config]
-            [discuss.parser :as parser]
-            [discuss.utils.logging :as log]))
+            [discuss.parser :as parser]))
 
 (defn prefix-name
   "Create unique id for DOM elements."
@@ -123,17 +122,6 @@
   []
   (load-from-app-state :discussion/bubbles))
 
-
-;; Set discussion topic
-(defn set-slug!
-  "Set new discussion slug."
-  [slug]
-  (store-to-app-state! 'issue/current-slug slug))
-
-(defn get-slug
-  "Get current discussion slug."
-  []
-  (load-from-app-state :issue/current-slug))
 
 ;;;; Getter
 (defn get-nickname
@@ -489,6 +477,16 @@
   "Return result of the connectivity-check."
   []
   (load-from-app-state :host/eden-is-up?))
+
+(defn set-slug!
+  "Set new discussion slug."
+  [slug]
+  (store-to-app-state! 'issue/current-slug (prepend-slash slug)))
+
+(defn get-slug
+  "Get current discussion slug."
+  []
+  (load-from-app-state :issue/current-slug))
 
 ;; -----------------------------------------------------------------------------
 ;; Specs

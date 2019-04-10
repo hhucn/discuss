@@ -77,6 +77,7 @@
   [{:keys [state] :as env} field {:keys [value]}]
   {:action (fn [] (swap! state assoc (keyword field) value))})
 
+
 ;; -----------------------------------------------------------------------------
 
 (s/def ::reconciler #(instance? om/Reconciler %))
