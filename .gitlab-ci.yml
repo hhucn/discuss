@@ -46,7 +46,7 @@ deploy-dev:
     - ./mc config host add argyou https://s3.cs.uni-duesseldorf.de $MINIO_ACCESS_KEY $MINIO_SECRET_KEY
   script:
     - lein do clean, cljsbuild once min
-    - ./mc cp resources/public/js/compiled/discuss.js argyou/discuss.js
+    - ./mc cp resources/public/js/compiled/discuss.js argyou/argyou/discuss.js
   only:
     - develop
 
@@ -63,6 +63,6 @@ deploy-stable:
     - ./mc config host add argyou https://s3.cs.uni-duesseldorf.de $MINIO_ACCESS_KEY $MINIO_SECRET_KEY
   script:
     - lein do clean, cljsbuild once min
-    - ./mc cp resources/public/js/compiled/discuss.js argyou/discuss_stable.js
+    - ./mc cp resources/public/js/compiled/discuss.js argyou/argyou/discuss_stable.js
   only:
     - master
