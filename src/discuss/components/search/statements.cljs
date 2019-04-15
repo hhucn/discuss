@@ -15,7 +15,8 @@
 (s/def ::id integer?)
 (s/def ::text string?)
 (s/def ::name string?)
-(s/def ::nickname (s/keys :req-un [::name ::id]))
+(s/def ::nickname (s/or :eden (s/keys :req-un [::name ::id])
+                        :dbas string?))
 (s/def ::author (s/keys :req-un [::nickname]
                         :opt-un [::uid]))
 
@@ -93,7 +94,7 @@
   (let [identifier (:identifier statement)
         content (:content statement)]
     {:text (:text content)
-     :author {:nickname (:author content)}
+     :author {:nickname (:name (:author content))}
      :identifier {:aggregate-id (:aggregate-id identifier)
                   :entity-id (int (:entity-id identifier))
                   :version (:version identifier)}}))
@@ -172,7 +173,7 @@
                          (str (t :search :origin) ": " aggregator)
                          [:br]])
                       [:span.label.label-default
-                       (str (t :search :author) ": " (:name (:nickname author)))]]]]]))))
+                       (str (t :search :author) ": " (:nickname author))]]]]]))))
 (def result (om/factory Result))
 
 (defui Results
