@@ -10,6 +10,7 @@
             [discuss.communication.lib :as comlib]
             [discuss.config :as config]
             [discuss.references.lib :as rlib]
+            [discuss.texts.references :as textref]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.bootstrap :as bs]
             [discuss.utils.common :as lib]
@@ -62,11 +63,10 @@
 (defui ReferenceUsageForSingleArgumentView
   "Build single usage of a reference in an argument."
   static om/IQuery
-  (query [this]
-         `[:argument])
+  (query [this] [:argument :intro])
   Object
   (render [this]
-          (let [{:keys [argument]} (om/props this)
+          (let [{:keys [argument intro]} (om/props this)
                 {:keys [author issue]} argument]
             (html [:div.bs-callout.bs-callout-info
                    [:div.pull-right
@@ -75,24 +75,22 @@
                      (vlib/fa-icon "fa-search"))]
                    [:a {:href "javascript:void(0)"
                         :onClick #(comlib/jump-to-argument (:slug issue) (:uid argument))}
-                    [:strong (vlib/safe-html (:text argument))]]
+                    [:strong (vlib/safe-html intro)]]
                    [:div (t :common :author) ": " (:nickname author)]
                    [:div (t :common :issue) ": " (:title issue)]]))))
 (def reference-usage-for-single-argument (om/factory ReferenceUsageForSingleArgumentView {:keyfn :argument}))
 
 (defui ReferenceUsagesForArgumentsView
   static om/IQuery
-  (query [this]
-         `[:arguments])
+  (query [this] [:arguments])
   Object
   (render [this]
-          (let [{:keys [issue arguments author]} (om/props this)]
+          (let [{:keys [arguments raw]} (om/props this)]
             (html [:div
                    (map
                     #(reference-usage-for-single-argument
-                      {:author author
-                       :issue issue
-                       :argument %})
+                      {:argument %
+                       :intro (textref/reference-usage-intro (get-in % [:author :nickname]) (:conclusions raw) (:premises raw))})
                     arguments)]))))
 (def reference-usages-for-arguments (om/factory ReferenceUsagesForArgumentsView {:keyfn :arguments}))
 
@@ -100,7 +98,7 @@
   "Complete list of all references and all their usages in their arguments."
   static om/IQuery
   (query [this]
-         `[:references/usages :references/selected])
+         [:references/usages :references/selected])
   Object
   (render [this]
           (let [{:keys [references/usages references/selected]} (om/props this)]
