@@ -7,6 +7,7 @@
 
 (def translations
   {:de {:common     {:and              "und"
+                     :argue/that       "sagt, dass"
                      :author           "Autor"
                      :back             "Zurück"
                      :because          "weil"
@@ -80,6 +81,7 @@
                       :author "Autor"}
         :tooltip     {:discuss/start "Argument erzeugen"}}
    :en {:common     {:and              "and"
+                     :argue/that       "says that"
                      :author           "Author"
                      :back             "Back"
                      :because          "because"
