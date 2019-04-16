@@ -18,11 +18,10 @@
      :author {:uid 2, :nickname "Tobias"}},
     :arguments
     [{:uid 59,
-      :text
-      "Sie argumentieren, dass E-Autos das autonome Fahren vorantreiben, weil Tesla mutig bestehende Techniken einsetzt und zeigt was sie können",
+      :texts {:display "Sie argumentieren, dass E-Autos das autonome Fahren vorantreiben, weil Tesla mutig bestehende Techniken einsetzt und zeigt was sie können"
+              :conclusion "E-Autos das autonome Fahren vorantreiben"
+              :premise "Tesla mutig bestehende Techniken einsetzt und zeigt was sie können"}
       :author {:uid 1, :nickname "anonymous"},
-      :conclusion "E-Autos das autonome Fahren vorantreiben",
-      :premise "Tesla mutig bestehende Techniken einsetzt und zeigt was sie können",
       :issue
       {:title "Elektroautos",
        :slug "elektroautos",
@@ -33,10 +32,10 @@
        :language "de",
        :date "2017-08-19 11:25:09+00:00"}}
      {:uid 42,
-      :text "Irgendein anderes Argument aus einer anderen Diskussion",
+      :texts {:display "Irgendein anderes Argument aus einer anderen Diskussion"
+              :conclusion "meine conclusion"
+              :premise "mein generierter premisegroup-text"}
       :author {:uid 3, :nickname "Christian"},
-      :conclusion "meine conclusion",
-      :premise "mein generierter premisegroup-text",
       :issue
       {:title "Anderes Thema",
        :slug nil,

@@ -66,8 +66,8 @@
   (query [this] [:uid :author :issue :conclusion :premise])
   Object
   (render [this]
-          (let [{:keys [uid author issue conclusion premise]} (om/props this)
-                intro (textref/reference-usage-intro (:nickname author) conclusion premise)]
+          (let [{:keys [uid author issue texts]} (om/props this)
+                intro (textref/reference-usage-intro (:nickname author) (:conclusion texts) (:premise texts))]
             (html [:div.bs-callout.bs-callout-info
                    [:div.pull-right
                     (bs/button-default-sm #(comlib/jump-to-argument (:slug issue) uid)
