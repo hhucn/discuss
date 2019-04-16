@@ -63,35 +63,30 @@
 (defui ReferenceUsageForSingleArgumentView
   "Build single usage of a reference in an argument."
   static om/IQuery
-  (query [this] [:argument :intro])
+  (query [this] [:uid :author :issue :conclusion :premise])
   Object
   (render [this]
-          (let [{:keys [argument intro]} (om/props this)
-                {:keys [author issue]} argument]
+          (let [{:keys [uid author issue conclusion premise]} (om/props this)
+                intro (textref/reference-usage-intro (:nickname author) conclusion premise)]
             (html [:div.bs-callout.bs-callout-info
                    [:div.pull-right
-                    (bs/button-default-sm
-                     #(comlib/jump-to-argument (:slug issue) (:uid argument))
+                    (bs/button-default-sm #(comlib/jump-to-argument (:slug issue) uid)
                      (vlib/fa-icon "fa-search"))]
                    [:a {:href "javascript:void(0)"
-                        :onClick #(comlib/jump-to-argument (:slug issue) (:uid argument))}
+                        :onClick #(comlib/jump-to-argument (:slug issue) uid)}
                     [:strong (vlib/safe-html intro)]]
                    [:div (t :common :author) ": " (:nickname author)]
                    [:div (t :common :issue) ": " (:title issue)]]))))
-(def reference-usage-for-single-argument (om/factory ReferenceUsageForSingleArgumentView {:keyfn :argument}))
+(def reference-usage-for-single-argument (om/factory ReferenceUsageForSingleArgumentView {:keyfn :uid}))
 
 (defui ReferenceUsagesForArgumentsView
   static om/IQuery
   (query [this] [:arguments])
   Object
   (render [this]
-          (let [{:keys [arguments raw]} (om/props this)]
+          (let [{:keys [arguments]} (om/props this)]
             (html [:div
-                   (map
-                    #(reference-usage-for-single-argument
-                      {:argument %
-                       :intro (textref/reference-usage-intro (get-in % [:author :nickname]) (:conclusions raw) (:premises raw))})
-                    arguments)]))))
+                   (map reference-usage-for-single-argument arguments)]))))
 (def reference-usages-for-arguments (om/factory ReferenceUsagesForArgumentsView {:keyfn :arguments}))
 
 (defui UsagesView
