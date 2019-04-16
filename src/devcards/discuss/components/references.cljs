@@ -21,6 +21,8 @@
       :text
       "Sie argumentieren, dass E-Autos das autonome Fahren vorantreiben, weil Tesla mutig bestehende Techniken einsetzt und zeigt was sie können",
       :author {:uid 1, :nickname "anonymous"},
+      :conclusion "E-Autos das autonome Fahren vorantreiben",
+      :premise "Tesla mutig bestehende Techniken einsetzt und zeigt was sie können",
       :issue
       {:title "Elektroautos",
        :slug "elektroautos",
@@ -31,9 +33,10 @@
        :language "de",
        :date "2017-08-19 11:25:09+00:00"}}
      {:uid 42,
-      :text
-      "Irgendein anderes Argument aus einer anderen Diskussion",
+      :text "Irgendein anderes Argument aus einer anderen Diskussion",
       :author {:uid 3, :nickname "Christian"},
+      :conclusion "meine conclusion",
+      :premise "mein generierter premisegroup-text",
       :issue
       {:title "Anderes Thema",
        :slug nil,
@@ -47,9 +50,6 @@
      :url "/api/elektroautos/justify/68/agree",
      :text "Tesla mutig bestehende Techniken einsetzt und zeigt was sie können"}}])
 
-(def sample-reference-with-single-argument
-  {:argument (first (:arguments (first sample-reference-usages)))})
-
 
 ;; -----------------------------------------------------------------------------
 
@@ -61,11 +61,6 @@
 
 (defcard sample-passage
   "<p id='discuss-text'>Currently, the city council discusses to close the University Park, because of its high running expenses of about $100.000 per year. But apparently there is an anonymous investor ensuring to pay the running costs for at least the next five years. Thanks to this anonymous person, the city does not loose a beautiful park, but this again fires up the discussion about possible savings for the future. </p>")
-
-(defcard-om-next single-reference-usage
-  ref/ReferenceUsageForSingleArgumentView
-  (om/reconciler {:state sample-reference-with-single-argument
-                  :parser (om/parser {:read parser/read})}))
 
 (defcard-om-next reference-usages-for-all-arguments
   ref/ReferenceUsagesForArgumentsView
