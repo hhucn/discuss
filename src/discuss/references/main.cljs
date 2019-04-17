@@ -67,7 +67,7 @@
   Object
   (render [this]
           (let [{:keys [uid author issue texts]} (om/props this)
-                intro (textref/reference-usage-intro (:nickname author) (:conclusion texts) (:premise texts))]
+                intro (textref/reference-usage-intro (:nickname author) (:conclusion texts) (:premise texts) (:attacks texts))]
             (html [:div.bs-callout.bs-callout-info
                    [:div.pull-right
                     (bs/button-default-sm #(comlib/jump-to-argument (:slug issue) uid)

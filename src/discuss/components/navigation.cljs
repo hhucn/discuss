@@ -6,8 +6,7 @@
             [discuss.translations :refer [translate]]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
-            [discuss.communication.auth :as auth]
-            [discuss.config :as config]))
+            [discuss.communication.auth :as auth]))
 
 (defn- element
   "Create one element for the navigation."
