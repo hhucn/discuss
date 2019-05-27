@@ -1,5 +1,4 @@
-(ns discuss.config
-  (:require [discuss.config-helper :refer [default-slug]]))
+(ns discuss.config)
 
 (def project "discuss")
 (goog-define version "x.y.z")
@@ -7,14 +6,11 @@
 (goog-define experimental-features? true)
 (goog-define generative-tests? false)
 
-#_(goog-define remote-host "http://discuss.cn.uni-duesseldorf.de:4284/api")
-(def remote-host
-  (str "http://" (.. js/window -location -hostname) ":4284/api"))
+(def remote-configuration "/services.edn")
 
+(def host-dbas "http://localhost:4284/api")
 ;; Optional
-#_(goog-define search-host "http://discuss.cn.uni-duesseldorf.de:8888")
-(def search-host
-  (str "http://" (.. js/window -location -hostname) ":8888"))
+(def host-eden nil)
 
 ;; For demo session
 (def demo-servers
@@ -38,8 +34,7 @@
   "Available log-levels: :severe :warning :info :config :fine :finer :finest."
   :fine)
 
-(def api {:init (default-slug initial-discussions)
-          :test "/hello"
+(def api {:test "/hello"
           :base  "/"
           :graphql "/v2/query"
           :login "/login"

@@ -6,11 +6,11 @@
 (def init-data
   {:discussion/add-step :add/position
    :history/discussion-steps []
-   :host/dbas config/remote-host
+   :host/dbas config/host-dbas
    :host/dbas-is-up? nil
-   :host/eden (or config/search-host nil)
+   :host/eden (or config/host-eden nil)
    :host/eden-is-up? nil
-   :issue/current-slug (:init config/api)
+   :issue/current-slug "/cat-or-dog"
    :issue/info "Our town needs to cut spending. Please discuss ideas how this should be done."
    :issue/list [:list :of :issues]
    :issue/title "Town has to cut spending"
@@ -76,6 +76,7 @@
 (defmethod mutate :default
   [{:keys [state] :as env} field {:keys [value]}]
   {:action (fn [] (swap! state assoc (keyword field) value))})
+
 
 ;; -----------------------------------------------------------------------------
 

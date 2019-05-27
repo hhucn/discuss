@@ -6,8 +6,7 @@
             [discuss.translations :refer [translate]]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
-            [discuss.communication.auth :as auth]
-            [discuss.config :as config]))
+            [discuss.communication.auth :as auth]))
 
 (defn- element
   "Create one element for the navigation."
@@ -37,7 +36,7 @@
 (defn- eden-overview
   "Open view to find statements inside of the discussion."
   []
-  (when (and config/search-host (lib/logged-in?))
+  (when (and (lib/host-eden) (lib/logged-in?))
     (element "fa-puzzle-piece" [:nav :eden] #(lib/save-current-and-change-view! :eden/overview))))
 
 (defn- create-argument

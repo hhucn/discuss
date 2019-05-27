@@ -2,16 +2,17 @@
   "Helper-functions for the communication component."
   (:require [clojure.string :as str]
             [cljs.spec.alpha :as s]
+            [cljs.reader]
             [ajax.core :refer [GET POST]]
             [goog.string :refer [format]]
             [goog.string.format]
-            [miner.strgen :as sg]
+            [discuss.communication.bubble-replacements :as breps]
+            [discuss.communication.specs :as comspecs]
             [discuss.config :as config]
-            [discuss.utils.common :as lib]
-            [discuss.utils.logging :as log]
-            [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.history.discussion :as hdis]
-            [discuss.communication.bubble-replacements :as breps]))
+            [discuss.translations :refer [translate] :rename {translate t}]
+            [discuss.utils.common :as lib]
+            [discuss.utils.logging :as log]))
 
 ;;;; Auxiliary functions
 (defn make-url
@@ -120,11 +121,12 @@
   "Request initial data from API. Optionally provide a slug to change the
   discussion."
   ([]
-   (init! (:init config/api)))
+   (init! (lib/get-slug)))
   ([slug]
-   (log/fine (format "Initializing discussion: %s" (:init config/api)))
-   (hdis/save-discussion-urls! [slug])
-   (ajax-get-and-change-view slug :default index-handler)))
+   (let [slug-corrected (lib/prepend-slash slug)]
+     (log/fine (format "Initializing discussion: %s" slug-corrected))
+     (hdis/save-discussion-urls! [slug-corrected])
+     (ajax-get-and-change-view slug-corrected :default index-handler))))
 (s/fdef init!
   :args (s/? (s/cat :slug string?)))
 
@@ -145,54 +147,10 @@
 (s/fdef item-click
   :args (s/cat :url string?))
 
-
-;; -----------------------------------------------------------------------------
-;; Add compatibility to D-BAS' new API
-
-(s/def ::text (let [re #"[^<>]*"]
-                (s/spec (s/and string? #(re-matches re %))
-                        :gen #(sg/string-generator re))))
-(s/def ::texts (s/coll-of ::text))
-
-(s/def ::html string?)
-(s/def ::htmls (s/coll-of ::html))
-
-(s/def ::url (s/or :has-url string? :no-url nil?))
-
-(s/def ::bubble (s/keys :req-un [::html ::text ::url]))
-(s/def ::bubbles (s/coll-of ::bubble))
-
-(s/def ::item (s/and (s/keys :req-un [::htmls ::texts ::url])
-                     #(= (count (:htmls %)) (count (:texts %)))))
-(s/def ::items (s/coll-of ::item))
-
-(s/def ::agree ::item)
-(s/def ::disagree ::item)
-(s/def ::dontknow ::item)
-(s/def ::attitudes (s/keys :req-un [::agree ::disagree ::dontknow]))
-
-(s/def ::step_back ::item)
-(s/def ::undermine ::item)
-(s/def ::undercut ::item)
-(s/def ::rebut ::item)
-
-(s/def ::attacks (s/keys :req-un [::step_back]
-                         :opt-un [::undermine ::undercut ::rebut]))
-
-(s/def ::response (s/keys :req-un [::bubbles]
-                          :opt-un [::attitudes ::attacks ::items]))
-
 (s/fdef process-and-set-items-and-bubbles
-  :args (s/cat :response ::response))
+  :args (s/cat :response ::comspecs/response))
 
 (s/fdef login-or-add-item
   :args (s/cat :logged-in? boolean?)
-  :ret ::item)
+  :ret ::comspecs/item)
 
-(s/fdef replace-congratulation-bubble-text
-  :args (s/cat :bubble ::bubble)
-  :ret ::bubble)
-
-(s/fdef replace-congratulation-bubble
-  :args (s/cat :bubbles (s/coll-of ::bubble))
-  :ret (s/coll-of ::bubble))

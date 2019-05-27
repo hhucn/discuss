@@ -18,8 +18,8 @@
                  [:p.text-center
                   [:span (t :create/argument :lead)]
                   (if (lib/logged-in?)
-                    [:span (t :create/argument :logged-in)]
-                    [:span " " (t :create/argument :not-logged-in :space)])]
+                    [:span " " (t :create/argument :logged-in)]
+                    [:span " " (t :create/argument :not-logged-in)])]
                  (when-not (lib/logged-in?)
                    [:div.text-center
                     (vlib/button (fn []

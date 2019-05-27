@@ -8,8 +8,7 @@
             [cognitect.transit :as transit]
             [inflections.core :refer [plural]]
             [discuss.config :as config]
-            [discuss.parser :as parser]
-            [discuss.utils.logging :as log]))
+            [discuss.parser :as parser]))
 
 (defn prefix-name
   "Create unique id for DOM elements."
@@ -326,6 +325,14 @@
   :args (s/cat :s string?)
   :ret string?)
 
+(defn prepend-slash
+  "Prepend slash to string if none found."
+  [s]
+  (if (string/starts-with? s "/") s (str "/" s)))
+(s/fdef prepend-slash
+  :args (s/cat :s string?)
+  :ret string?)
+
 (defn drop-words
   "Drop n words of string s."
   [n s]
@@ -442,7 +449,7 @@
 (defn host-dbas-reset!
   "Reset dbas host to defaults, defined in discuss.config."
   []
-  (store-to-app-state! 'host/dbas config/remote-host))
+  (store-to-app-state! 'host/dbas config/host-dbas))
 
 (defn host-dbas-is-up?
   "Return result of the connectivity-check."
@@ -464,12 +471,22 @@
 (defn host-eden-reset!
   "Reset eden host to defaults, defined in discuss.config."
   []
-  (store-to-app-state! 'host/eden config/search-host))
+  (store-to-app-state! 'host/eden config/host-eden))
 
 (defn host-eden-is-up?
   "Return result of the connectivity-check."
   []
   (load-from-app-state :host/eden-is-up?))
+
+(defn set-slug!
+  "Set new discussion slug."
+  [slug]
+  (store-to-app-state! 'issue/current-slug (prepend-slash slug)))
+
+(defn get-slug
+  "Get current discussion slug."
+  []
+  (load-from-app-state :issue/current-slug))
 
 ;; -----------------------------------------------------------------------------
 ;; Specs
