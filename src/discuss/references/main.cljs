@@ -26,7 +26,7 @@
    (s/keys :req-un [::id ::comlib/text ::comlib/url])))
 
 ;;;; Handlers & Queries
-(defn reference-usage-handler
+(defn- reference-usage-handler
   "Handler to process information about the reference. Store results and change
   view."
   [response]
@@ -112,7 +112,7 @@
                         [:div
                          [:hr]
                          [:p.text-center (t :references :usages/list) "."]
-                         (map reference-usages-for-arguments usages)])]
+                         (reference-usages-for-arguments usages)])]
                      [:div.text-center
                       (vlib/view-header (t :references :usages/not-found-lead))
                       [:p (t :references :usages/not-found-body) "."]])]))))
