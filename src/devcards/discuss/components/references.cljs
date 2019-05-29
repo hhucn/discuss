@@ -15,7 +15,7 @@
      :host "localhost:9500",
      :path "/cards.html",
      :statement-uid 94,
-     :author {:uid 40, :nickname "Das Känguru"}},
+     :author {:uid 40, :nickname "Känguru"}},
     :arguments
     [{:uid 81,
       :texts
@@ -26,7 +26,7 @@
        :attacks
        {:conclusion "ein solches Leitbild sinnlos ist",
         :premise "das viel zu unkonkret ist"}},
-      :author {:uid 42, :nickname "Das Känguru"},
+      :author {:uid 42, :nickname "Känguru"},
       :issue
       {:description ".",
        :date "2019-04-10 07:42:03+00:00",
@@ -46,7 +46,7 @@
        :conclusion "ein solches Leitbild sinnlos ist",
        :premise "das viel zu unkonkret ist",
        :attacks {}},
-      :author {:uid 40, :nickname "Der Pinguin"},
+      :author {:uid 40, :nickname "Pinguin"},
       :issue
       {:description ".",
        :date "2019-04-10 07:42:03+00:00",
