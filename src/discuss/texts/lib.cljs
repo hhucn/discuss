@@ -24,6 +24,6 @@
   (format "<span class=\"text-warning\">%s</span>" premise))
 
 (defn highlight-undercut [premise]
-  (format "<span class=\"text-primary\">%s</span>" premise))
+  (format "<span class=\"text-success\">%s</span>" premise))
 
 

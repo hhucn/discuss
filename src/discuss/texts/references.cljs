@@ -10,10 +10,10 @@
   an argument itself, which makes the whole attack an undercut."
   [nickname conclusion premise attacks]
   (if (seq attacks)
-    (format "%s glaubt nicht, dass \"%s\" zu \"%s\" passt, weil %s."
+    (format "Laut %s kann man die Aussage, dass \"%s\", nicht damit begründen, dass \"%s\", weil %s."
             nickname
-            (textlib/highlight-premise (:premise attacks))
             (textlib/highlight-conclusion (:conclusion attacks))
+            (textlib/highlight-premise (:premise attacks))
             (textlib/highlight-undercut premise))
     (format "%s %s %s, %s %s."
             nickname
