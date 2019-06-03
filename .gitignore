@@ -32,9 +32,9 @@ figwheel_server.log
 *.iml
 *.css
 *.css.map
-bower_components
 compiled
 .sass-cache
 .#*
 .m2/
 .m2
+yarn-error.log
