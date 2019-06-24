@@ -1,3 +1,4 @@
-{:dbas/api "http://localhost:4284/api"
+{:layout/lang :en
+ :dbas/api "http://localhost:4284/api"
  :eden/api nil
- :discussion/slug "cat-or-dog"}
+ :discussion/slug "town-has-to-cut-spending"}
