@@ -8,7 +8,7 @@
 (defn- undercut-text
   "Create string which represents an undercut."
   [nickname premise attacks]
-  (format "Laut %s kann man die Aussage, dass \"%s\", nicht damit begründen, dass \"%s\", weil %s."
+  (format (t :undercut :text)
           nickname
           (textlib/highlight-conclusion (:conclusion attacks))
           (textlib/highlight-premise (:premise attacks))
@@ -36,6 +36,7 @@
 (s/def ::conclusion string?)
 (s/def ::premise string?)
 (s/def ::attacks (s/or :empty nil? :undercut map?))
+(s/def ::undercut string?)
 
 (s/fdef reference-usage-intro
   :args (s/cat :nickname ::nickname :conclusion ::conclusion :premise ::premise :attacks ::attacks)

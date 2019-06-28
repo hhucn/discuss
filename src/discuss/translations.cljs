@@ -79,7 +79,8 @@
         :search      {:reuse "Statement auswählen"
                       :origin "Herkunft"
                       :author "Autor"}
-        :tooltip     {:discuss/start "Argument erzeugen"}}
+        :tooltip     {:discuss/start "Argument erzeugen"}
+        :undercut    {:text "Laut %s kann man die Aussage, dass \"%s\", nicht damit begründen, dass \"%s\", weil %s."}}
    :en {:common     {:and              "and"
                      :argue/that       "says that"
                      :author           "Author"
@@ -151,7 +152,8 @@
         :search      {:reuse "Select Statement"
                       :origin "Origin"
                       :author "Author"}
-        :tooltip     {:discuss/start "Create Argument"}}})
+        :tooltip     {:discuss/start "Create Argument"}
+        :undercut    {:text "According to %s, the statement that \"%s\" can not be explained by the fact that \"%s\", because %s."}}})
 
 (defn- prepend-translation
   "Lookup given key and prepend some string to it."
