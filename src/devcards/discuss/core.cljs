@@ -15,7 +15,8 @@
             [devcards.discuss.molecules]
             [devcards.discuss.views]
             [devcards.discuss.views.alerts]
-            [devcards.discuss.views.login]))
+            [devcards.discuss.views.login]
+            [devcards.discuss.views.my-arguments]))
 
 (enable-console-print!)
 
