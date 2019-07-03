@@ -1,13 +1,14 @@
 (ns discuss.eden.views
   (:require [om.next :as om :refer-macros [defui]]
             [sablono.core :refer-macros [html]]
+            [discuss.communication.lib :as comlib]
             [discuss.components.clipboard :as clipboard]
+            [discuss.components.search.statements :as search]
             [discuss.eden.ajax :as eajax]
             [discuss.translations :refer [translate] :rename {translate t}]
+            [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
-            [discuss.views.alerts :as valerts]
-            [discuss.components.search.statements :as search]
-            [discuss.utils.common :as lib]))
+            [discuss.views.alerts :as valerts]))
 
 (defn- format-unix-time
   "Format unix timestamp to a readable string."
@@ -48,7 +49,8 @@
                    [:div.row
                     [:div.col-sm-4
                      [:p [:span.btn.btn-sm.btn-primary
-                          "Coming soon"]]]
+                          "Coming soon"
+                          #_{:onClick #(comlib/jump-to-argument (get-in premise [:content :identifier :entity-id]))}]]]
 
                     [:div.col-sm-8.small
                      [:dl.dl-horizontal
@@ -71,7 +73,8 @@
   Object
   (componentDidMount
    [this]
-   (eajax/search-arguments-by-author (lib/get-nickname)))
+   (when (lib/host-eden-is-up?)
+     (eajax/search-arguments-by-author (lib/get-nickname))))
   (render [this]
           (let [{:keys [eden/arguments]} (om/props this)
                 supportive-arguments (filter #(= :support (:type (:link %))) arguments)]
