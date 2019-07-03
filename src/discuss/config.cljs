@@ -49,4 +49,5 @@
           :jump  "/:slug/jump/:argument-id"})
 
 (def eden {:add/argument               "/argument"
-           :search/arguments-by-author "/arguments/by-author"})
+           :search/arguments-by-author "/arguments/by-author"
+           :discussion/base-slug       "public"})
