@@ -61,6 +61,7 @@
                      :heading "Einstellungen"
                      :lang "Interface-Sprache"
                      :new-route "Neue Route"
+                     :reconnect "Neu verbinden"
                      :reset "Zurücksetzen"
                      :routes "Routen"
                      :save "Speichere"}
@@ -136,6 +137,7 @@
                      :heading "Options"
                      :lang "Interface Language"
                      :new-route "Set new Route"
+                     :reconnect "Reconnect"
                      :reset "Reset to Defaults"
                      :routes "Routes"
                      :save "Save"}

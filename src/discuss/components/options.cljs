@@ -9,7 +9,6 @@
             [discuss.communication.auth :as auth]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
-            [discuss.communication.lib :as comlib]
             [discuss.communication.connectivity :as comcon]
             [discuss.config :as config]))
 
@@ -104,7 +103,7 @@
                    (connection-icon eden-is-up? "EDEN" eden)
                    [:br]
                    [:button.btn.btn-sm.btn-default {:onClick comcon/check-connectivity-of-hosts}
-                    "Neu verbinden"]]))))
+                    (t :options :reconnect)]]))))
 (def connectivity-status (om/factory ConnectivityStatus))
 
 

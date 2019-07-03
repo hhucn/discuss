@@ -40,14 +40,14 @@
 (defn- received-arguments-handler [response]
   (let [arguments (-> response lib/json->clj :arguments)
         valid-arguments (filter #(s/valid? ::especs/argument %) arguments)]
-    (log/debug "Received" (count valid-arguments) "argument(s)")
+    (log/debug "Received %d argument(s)" (count valid-arguments))
     (lib/store-to-app-state! 'eden/arguments arguments)))
 
 (defn search-arguments-by-author
   "Send current author-name to EDEN instance and return all associated arguments.
   When no author is provided, use the currently logged in user."
   ([author]
-   (log/debug "Querying arguments from EDEN instance for " author)
+   (log/debug "Querying arguments from EDEN instance for %s" author)
    (GET (str (lib/host-eden) (:search/arguments-by-author config/eden))
         {:handler received-arguments-handler
          :params {:author-name author}}))
