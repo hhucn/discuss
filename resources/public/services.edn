@@ -1,4 +1,5 @@
 {:layout/lang :en
  :dbas/api "http://localhost:4284/api"
  :eden/api nil
- :discussion/slug "town-has-to-cut-spending"}
+ :discussion/slug "town-has-to-cut-spending"
+ :layout/show-in-div? true}

@@ -18,6 +18,7 @@
    :layout/error nil
    :layout/lang :de
    :layout/loading? false
+   :layout/show-in-div? true
    :layout/sidebar? false
    :layout/title "discuss"
    :layout/view :create/argument

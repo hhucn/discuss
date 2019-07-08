@@ -149,5 +149,6 @@
            [:div
             (tooltip/tooltip (om/props this))
             (overlay (om/props this))
-            (main-view (om/props this))])))
+            (when (lib/append-to-div?)
+              (main-view (om/props this)))])))
 (def discuss (om/factory Discuss {:keyfn identity}))

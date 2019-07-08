@@ -389,6 +389,21 @@
   (.modal ((js* "$") "#discuss-overlay") "hide"))
 
 
+;;;; Append to div
+(defn append-to-div!
+  "Show discuss in a separate div."
+  [bool]
+  (store-to-app-state! 'layout/show-in-div? bool))
+(s/fdef append-to-div!
+  :args (s/cat :bool boolean?))
+
+(defn append-to-div?
+  "Show if discuss is embedded in separate div."
+  []
+  (load-from-app-state :layout/show-in-div?))
+(s/fdef append-to-div?
+  :ret boolean?)
+
 ;;;; Language
 (defn language
   "Returns currently selected language."

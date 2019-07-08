@@ -88,7 +88,8 @@
   (let [mappings {:layout/lang lib/language-next!
                   :discussion/slug lib/set-slug!
                   :dbas/api lib/host-dbas!
-                  :eden/api lib/host-eden!}
+                  :eden/api lib/host-eden!
+                  :layout/show-in-div? lib/append-to-div!}
         response' (cljs.reader/read-string response)]
     (log/debug "Found a configuration file: %s" (str response'))
     (doseq [[k v] response'
