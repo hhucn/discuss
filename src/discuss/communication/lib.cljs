@@ -95,7 +95,7 @@
 (defn do-post
   "Get prepared statements and simply fire a POST request."
   ([request-url body handler error-handler headers]
-   (log/info (str "Posting %s to %s" (dissoc body :password) request-url))
+   (log/info "Posting %s to %s" (dissoc body :password) request-url)
    (POST request-url
          {:body            (lib/clj->json body)
           :handler         handler
