@@ -425,6 +425,22 @@
 (s/fdef language-locale
   :ret string?)
 
+;;;; Experimental Features
+(defn experimental?
+  "See if experimental features are enabled."
+  []
+  (load-from-app-state :discuss/experimental?))
+(s/fdef experimental?
+  :ret boolean?)
+
+(defn experimental!
+  "Set current status of experimental features."
+  [bool]
+  (store-to-app-state! 'discuss/experimental? bool))
+(s/fdef experimental!
+  :args (s/cat :bool boolean?))
+
+
 
 ;;;; Other
 (defn get-value-by-id

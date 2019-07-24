@@ -50,7 +50,7 @@
                      :hits "Ergebnisse"}
         :login      {:nickname "Benutzername"
                      :password "Passwort"
-                     :hhu-ldap "Wir benutzen das Personenverzeichnug der Heinrich-Heine-Universität Düsseldorf. Alle Daten und Informationen werden natürlich SSL-verschlüsselt gesendet und nach Erhalt unter keinen Umständen an Dritte weitergegeben."
+                     :hhu-ldap "Wir benutzen das Personenverzeichnis der Heinrich-Heine-Universität Düsseldorf. Alle Daten und Informationen werden natürlich SSL-verschlüsselt gesendet und nach Erhalt unter keinen Umständen an Dritte weitergegeben."
                      :item "Hier klicken, damit Sie sich einloggen und eine neue Aussage hinzufügen können"}
         :nav        {:home "Start"
                      :find "Suchen"

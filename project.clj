@@ -60,8 +60,7 @@
                                :main           discuss.core
                                :preloads       [discuss.utils.extensions]
                                :optimizations  :simple
-                               :closure-defines {discuss.config/experimental-features? false
-                                                 discuss.config/version ~(->> (slurp "project.clj")
+                               :closure-defines {discuss.config/version ~(->> (slurp "project.clj")
                                                                               (re-seq #"\".*\"")
                                                                               (first))
                                                  discuss.config/build-commit ~(if (.exists (clojure.java.io/as-file ".git/ORIG_HEAD"))
