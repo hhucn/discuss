@@ -114,9 +114,9 @@
    (track-user-selection))
   (render [this]
           (html [:div#discuss-tooltip
-                 [:span.pointer {:onClick #((clipboard/add-item!) (hide))}
+                 [:span.pointer {:onClick #((clipboard/add-item!) (lib/show-overlay))}
                   (vlib/fa-icon "fa-bookmark-o")
-                  (translate :common :save :space)]
+                  (translate :references :save/to-clipboard :space)]
                  (vlib/safe-space) " " (vlib/safe-space)
 
                  [:span.pointer {:onClick #((lib/change-view! :create/argument) (lib/show-overlay) (hide))}

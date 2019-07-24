@@ -3,7 +3,6 @@
 (def project "discuss")
 (goog-define version "x.y.z")
 (goog-define build-commit "dev")
-(goog-define experimental-features? true)
 (goog-define generative-tests? false)
 
 (def remote-configuration "/services.edn")

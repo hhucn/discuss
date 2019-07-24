@@ -46,10 +46,7 @@
   (render [this]
           (let [item (om/props this)]
             (html
-             [:div {:className "bs-callout bs-callout-info"
-                    ;; :draggable true
-                    ;; :onDragStart drag-event
-                    }
+             [:div {:className "bs-callout bs-callout-info"}
               item
               [:div.pull-right
                [:div.btn.btn-default.btn-xs

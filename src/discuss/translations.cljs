@@ -24,7 +24,7 @@
                      :show-discuss     "Zeige discuss"
                      :start-discussion "Starte die Diskussion"
                      :that             "dass"}
-        :clipboard  {:heading "Clipboard"
+        :clipboard  {:heading "Zwischenablage"
                      :instruction "Wählen Sie eine Referenz aus dieser Liste aus, um beim Erzeugen eines neuen Arguments diese Referenz mit dem neuen Argument zu verknüpfen."}
         :create/argument {:header "Erzeugen Sie ein Argument zu einer Textstelle"
                           :short "Neues Argument zur Referenz erstellen"
@@ -66,6 +66,7 @@
                      :routes "Routen"
                      :save "Speichere"}
         :references {:jump "Springe in die Diskussion"
+                     :save/to-clipboard "In Zwischenablage"
                      :usages/view-heading "Interaktionen mit dem Artikel"
                      :usages/lead "Beziehen Sie sich hier auf die ausgewählte Referenz oder schauen Sie sich an, wo diese Referenz bereits in der Diskussion verwendet wurde."
                      :usages/not-found-lead "Argument konnte nicht gefunden werden"
@@ -142,6 +143,7 @@
                      :routes "Routes"
                      :save "Save"}
         :references {:jump "Jump into the discussion"
+                     :save/to-clipboard "Save into Clipboard"
                      :usages/view-heading "Interacting with the Article"
                      :usages/lead "Create your own argument based on the text selection or take a look at those arguments, which already refer to this position."
                      :usages/not-found-lead "No assigned arguments found"
