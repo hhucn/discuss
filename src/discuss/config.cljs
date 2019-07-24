@@ -8,27 +8,15 @@
 
 (def remote-configuration "/services.edn")
 
+;; Default configurations for the remote servers
 (def host-dbas "http://localhost:4284/api")
-;; Optional
 (def host-eden nil)
 
 ;; For demo session
 (def demo-servers
-  [{:name "muenchhausen"
-    :dbas "http://muenchhausen.cn.uni-duesseldorf.de:4284/api"
-    :eden "http://muenchhausen.cn.uni-duesseldorf.de:8888"}
-   {:name "slurpy"
-    :dbas "http://slurpy.cn.uni-duesseldorf.de:4284/api"
-    :eden "http://slurpy.cn.uni-duesseldorf.de:8888"}
-   {:name "discuss"
-    :dbas "http://discuss.cn.uni-duesseldorf.de:4284/api"
-    :eden "http://discuss.cn.uni-duesseldorf.de:8888"}
-   {:name "localhost without eden"
+  [{:name "localhost without eden"
     :dbas "http://localhost:4284/api"
     :eden nil}])
-
-(def initial-discussions
-  [{:slug "public"}])
 
 (def log-level
   "Available log-levels: :severe :warning :info :config :fine :finer :finest."

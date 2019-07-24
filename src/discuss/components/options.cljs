@@ -146,29 +146,32 @@
 (defui Options
   static om/IQuery
   (query [this]
-         `[:layout/lang
+         `[:layout/lang :discuss/experimental?
            {:host/dbas ~(om/get-query HostDBAS)}
            {:host/eden ~(om/get-query HostEDEN)}])
   Object
   (render [this]
-          (html
-           [:div
-            [:div (vlib/view-header (t :options :heading))
-             [:div.row
-              [:div.col-md-3 (vlib/fa-icon "fa-flag") (t :options :lang :space)]
-              [:div.col-md-9 (interpose " " (mapv language-button translations/available))]]]
-            [:br]
-            [:hr]
-            [:h4.text-center "Connection Browser"]
-            (connection-browser (om/props this))
-            [:br]
-            [:hr]
-            [:h4.text-center "Connectivity"]
-            (connectivity-status (om/props this))
-            [:br]
-            [:hr]
-            [:h4.text-center (t :options :routes)]
-            (host-dbas (om/props this))
-            [:hr]
-            (host-eden (om/props this))])))
+          (let [{:keys [discuss/experimental?]} (om/props this)]
+            (html
+             [:div
+              [:div (vlib/view-header (t :options :heading))
+               [:div.row
+                [:div.col-md-3 (vlib/fa-icon "fa-flag") (t :options :lang :space)]
+                [:div.col-md-9 (interpose " " (mapv language-button translations/available))]]]
+              (when experimental?
+                [:div
+                 [:br]
+                 [:hr]
+                 [:h4.text-center "Connection Browser"]
+                 (connection-browser (om/props this))
+                 [:br]
+                 [:hr]
+                 [:h4.text-center "Connectivity"]
+                 (connectivity-status (om/props this))
+                 [:br]
+                 [:hr]
+                 [:h4.text-center (t :options :routes)]
+                 (host-dbas (om/props this))
+                 [:hr]
+                 (host-eden (om/props this))])]))))
 (def options (om/factory Options))
