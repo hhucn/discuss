@@ -6,7 +6,6 @@
             [devcards.discuss.atoms]
             [devcards.discuss.components.avatar]
             [devcards.discuss.components.create-argument]
-            [devcards.discuss.components.issue-selector]
             [devcards.discuss.components.loader]
             [devcards.discuss.components.options]
             [devcards.discuss.components.references]
