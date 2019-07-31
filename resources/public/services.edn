@@ -1,7 +1,7 @@
-{:discuss/clipboard? false
+{:dbas/api "http://localhost:4284/api"
+ :discuss/clipboard? true
  :discuss/experimental? true
- :layout/lang :de
- :dbas/api "http://localhost:4284/api"
- :eden/api nil
  :discussion/slug "town-has-to-cut-spending"
+ :eden/api nil
+ :layout/lang :de
  :layout/show-in-div? true}

@@ -86,6 +86,7 @@
   and store the values in the app-state."
   [response]
   (let [mappings {:dbas/api lib/host-dbas!
+                  :discuss/clipboard? (partial lib/store-to-app-state! 'discuss/clipboard?)
                   :discuss/experimental? lib/experimental!
                   :discussion/slug lib/set-slug!
                   :eden/api lib/host-eden!
