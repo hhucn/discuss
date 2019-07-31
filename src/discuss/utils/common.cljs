@@ -53,9 +53,9 @@
 
   Example: (store-to-app-state! 'foo \"bar\")"
   [field value]
-  (store-multiple-values-to-app-state! [[field value]]))
+  (store-multiple-values-to-app-state! [[(symbol field) value]]))
 (s/fdef store-to-app-state!
-  :args (s/cat :field symbol? :value any?))
+  :args (s/cat :field (s/or :symbol symbol? :keyword keyword?) :value any?))
 
 (defn load-from-app-state
   "Load data from application state."
