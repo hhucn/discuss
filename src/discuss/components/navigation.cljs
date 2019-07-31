@@ -66,12 +66,15 @@
 (defui Nav
   static om/IQuery
   (query [this]
-         [:user/logged-in? :layout/lang :host/eden :host/dbas])
+         [:user/logged-in? :layout/lang :host/eden :host/dbas :discuss/experimental?])
   Object
   (render [this]
-          (html [:div.text-muted.discuss-nav
-                 [:div.col.col-md-9.col-sm-9.col-xs-9
-                  (home) (create-argument) (eden-overview) #_(find-arg) (options)]
-                 [:div.col.col-md-3.col-sm-3.col-xs-3.text-right
-                  (if (lib/logged-in?) (logout) (login))]])))
+          (let [{:keys [discuss/experimental?]} (om/props this)]
+            (html [:div.text-muted.discuss-nav
+                   [:div.col.col-md-9.col-sm-9.col-xs-9
+                    (home) (create-argument)
+                    (when experimental? (eden-overview))
+                    (options)]
+                   [:div.col.col-md-3.col-sm-3.col-xs-3.text-right
+                    (if (lib/logged-in?) (logout) (login))]]))))
 (def nav (om/factory Nav))
