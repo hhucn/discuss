@@ -4,7 +4,10 @@
             [discuss.config :as config]))
 
 (def init-data
-  {:discussion/add-step :add/position
+  {:clipboard/items []
+   :discuss/clipboard? false
+   :discuss/experimental? false
+   :eden/arguments []
    :history/discussion-steps []
    :host/dbas config/host-dbas
    :host/dbas-is-up? nil
@@ -18,6 +21,7 @@
    :layout/error nil
    :layout/lang :de
    :layout/loading? false
+   :layout/show-in-div? true
    :layout/sidebar? false
    :layout/title "discuss"
    :layout/view :create/argument
@@ -28,6 +32,7 @@
    :user/logged-in? false
    :user/nickname "kangaroo"
    :user/token "razupaltuff"
+   :discussion/add-step :add/position
    :discussion/items [{:htmls ["the city should reduce the number of street festivals"],
                        :texts ["the city should reduce the number of street festivals"],
                        :url "/town-has-to-cut-spending/attitude/36"}
@@ -49,8 +54,6 @@
                          :html "What is your most important reason why <span data-argumentation-type=\"position\">we should shut down University Park</span> <span class='text-success'>holds</span>? <br>Because..."
                          :text "What is your most important reason why we should shut down University Park holds? Because..."
                          :url nil}]
-   :eden/arguments []
-   :clipboard/items []
    :references/all []
    :references/on-webpage []
    :references/usages []

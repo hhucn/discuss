@@ -46,10 +46,7 @@
   (render [this]
           (let [item (om/props this)]
             (html
-             [:div {:className "bs-callout bs-callout-info"
-                    ;; :draggable true
-                    ;; :onDragStart drag-event
-                    }
+             [:div {:className "bs-callout bs-callout-info"}
               item
               [:div.pull-right
                [:div.btn.btn-default.btn-xs
@@ -63,11 +60,11 @@
 
 (defui Clipboard
   static om/IQuery
-  (query [this] [:clipboard/items])
+  (query [this] [:clipboard/items :discuss/clipboard?])
   Object
   (render [this]
-          (let [{:keys [clipboard/items]} (om/props this)]
-            (when (pos? (count items))
+          (let [{:keys [clipboard/items discuss/clipboard?]} (om/props this)]
+            (when (and (pos? (count items)) clipboard?)
               (html [:div {:style {:paddingTop "rem"}}
                      [:h5 (t :clipboard :heading)]
                      [:p (t :clipboard :instruction)]

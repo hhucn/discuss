@@ -10,9 +10,9 @@ websites. Compatible to [D-BAS](https://github.com/hhucn/dbas).
 
 ## Setup
 
-Pull all bower components with:
+Pull all js dependencies with:
 
-    bower install
+    yarn install
 
 To get an interactive development environment run:
 

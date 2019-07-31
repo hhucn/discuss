@@ -18,8 +18,8 @@
 (defn ^:export main []
   (enable-console-print!)
   (log/debug "Loaded %s %s" config/project (lib/project-version))
-  (om/add-root! parser/reconciler views/Discuss (gdom/getElement (lib/prefix-name "main")))
-  (com/load-remote-configuration!))
+  (com/load-remote-configuration!)
+  (om/add-root! parser/reconciler views/Discuss (gdom/getElement (lib/prefix-name "main"))))
 (main)
 
 (defn on-js-reload []

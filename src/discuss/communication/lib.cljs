@@ -95,7 +95,7 @@
 (defn do-post
   "Get prepared statements and simply fire a POST request."
   ([request-url body handler error-handler headers]
-   (log/info (str "Posting " (dissoc body :password) " to " request-url))
+   (log/info "Posting %s to %s" (dissoc body :password) request-url)
    (POST request-url
          {:body            (lib/clj->json body)
           :handler         handler
@@ -110,12 +110,14 @@
 (defn jump-to-argument
   "Jump directly into the discussion to let the user argue about the given
   argument."
-  [slug arg-id]
-  (let [base-jump (:jump config/api)
-        with-slug (str/replace base-jump #":slug" (str slug))
-        with-arg (str/replace with-slug #":argument-id" (str arg-id))]
-    (hdis/save-discussion-urls! [with-arg])
-    (ajax-get-and-change-view with-arg :discussion)))
+  ([slug arg-id]
+   (let [base-jump (:jump config/api)
+         with-slug (str/replace base-jump #":slug" (str slug))
+         with-arg (str/replace with-slug #":argument-id" (str arg-id))]
+     (hdis/save-discussion-urls! [with-arg])
+     (ajax-get-and-change-view with-arg :discussion)))
+  ([arg-id]
+   (jump-to-argument (:discussion/base-slug config/eden) arg-id)))
 
 (defn init!
   "Request initial data from API. Optionally provide a slug to change the

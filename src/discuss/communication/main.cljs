@@ -85,14 +85,18 @@
   "Handler for valid request, when a configuration file was found. Parse edn file
   and store the values in the app-state."
   [response]
-  (let [mappings {:discussion/slug lib/set-slug!
-                  :dbas/api lib/host-dbas!
-                  :eden/api lib/host-eden!}
+  (let [mappings {:dbas/api lib/host-dbas!
+                  :discuss/clipboard? (partial lib/store-to-app-state! 'discuss/clipboard?)
+                  :discuss/experimental? lib/experimental!
+                  :discussion/slug lib/set-slug!
+                  :eden/api lib/host-eden!
+                  :layout/lang lib/language-next!
+                  :layout/show-in-div? lib/append-to-div!}
         response' (cljs.reader/read-string response)]
     (log/debug "Found a configuration file: %s" (str response'))
     (doseq [[k v] response'
             :let [f (get mappings k)]
-            :when (not-empty v)]
+            :when (not (nil? v))]
       (f v))
     (after-loading-config)))
 

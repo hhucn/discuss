@@ -6,7 +6,6 @@
             [devcards.discuss.atoms]
             [devcards.discuss.components.avatar]
             [devcards.discuss.components.create-argument]
-            [devcards.discuss.components.issue-selector]
             [devcards.discuss.components.loader]
             [devcards.discuss.components.options]
             [devcards.discuss.components.references]
@@ -15,7 +14,8 @@
             [devcards.discuss.molecules]
             [devcards.discuss.views]
             [devcards.discuss.views.alerts]
-            [devcards.discuss.views.login]))
+            [devcards.discuss.views.login]
+            [devcards.discuss.views.my-arguments]))
 
 (enable-console-print!)
 

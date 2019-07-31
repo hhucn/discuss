@@ -53,9 +53,9 @@
 
   Example: (store-to-app-state! 'foo \"bar\")"
   [field value]
-  (store-multiple-values-to-app-state! [[field value]]))
+  (store-multiple-values-to-app-state! [[(symbol field) value]]))
 (s/fdef store-to-app-state!
-  :args (s/cat :field symbol? :value any?))
+  :args (s/cat :field (s/or :symbol symbol? :keyword keyword?) :value any?))
 
 (defn load-from-app-state
   "Load data from application state."
@@ -388,6 +388,20 @@
   []
   (.modal ((js* "$") "#discuss-overlay") "hide"))
 
+;;;; Append to div
+(defn append-to-div!
+  "Show discuss in a separate div."
+  [bool]
+  (store-to-app-state! 'layout/show-in-div? bool))
+(s/fdef append-to-div!
+  :args (s/cat :bool boolean?))
+
+(defn append-to-div?
+  "Show if discuss is embedded in separate div."
+  []
+  (load-from-app-state :layout/show-in-div?))
+(s/fdef append-to-div?
+  :ret boolean?)
 
 ;;;; Language
 (defn language
@@ -409,6 +423,22 @@
       "en-US")))
 (s/fdef language-locale
   :ret string?)
+
+;;;; Experimental Features
+(defn experimental?
+  "See if experimental features are enabled."
+  []
+  (load-from-app-state :discuss/experimental?))
+(s/fdef experimental?
+  :ret boolean?)
+
+(defn experimental!
+  "Set current status of experimental features."
+  [bool]
+  (store-to-app-state! 'discuss/experimental? bool))
+(s/fdef experimental!
+  :args (s/cat :bool boolean?))
+
 
 
 ;;;; Other
