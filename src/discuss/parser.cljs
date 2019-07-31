@@ -5,6 +5,7 @@
 
 (def init-data
   {:clipboard/items []
+   :discuss/clipboard? false
    :discuss/experimental? false
    :eden/arguments []
    :history/discussion-steps []

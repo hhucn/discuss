@@ -108,24 +108,29 @@
 
 ;;;; Creating the view
 (defui Tooltip
+  static om/IQuery
+  (query [this] [:discuss/clipboard?])
   Object
   (componentDidMount
    [this]
    (track-user-selection))
   (render [this]
-          (html [:div#discuss-tooltip
-                 [:span.pointer {:onClick #((clipboard/add-item!) (lib/show-overlay))}
-                  (vlib/fa-icon "fa-bookmark-o")
-                  (translate :references :save/to-clipboard :space)]
-                 (vlib/safe-space) " " (vlib/safe-space)
+          (let [{:keys [discuss/clipboard?]} (om/props this)]
+            (html [:div#discuss-tooltip
+                   (when clipboard?
+                     [:span
+                      [:span.pointer {:onClick #((clipboard/add-item!) (lib/show-overlay))}
+                       (vlib/fa-icon "fa-bookmark-o")
+                       (translate :references :save/to-clipboard :space)]
+                      (vlib/safe-space) " " (vlib/safe-space)])
 
-                 [:span.pointer {:onClick #((lib/change-view! :create/argument) (lib/show-overlay) (hide))}
-                  (vlib/fa-icon "fa-comment")
-                  (translate :tooltip :discuss/start :space)]
+                   [:span.pointer {:onClick #((lib/change-view! :create/argument) (lib/show-overlay) (hide))}
+                    (vlib/fa-icon "fa-comment")
+                    (translate :tooltip :discuss/start :space)]
 
-                 [:span
-                  (vlib/safe-space) " " (vlib/safe-space)
-                  [:span.pointer {:onClick #(do (lib/show-overlay) (hide))}
-                   (vlib/fa-icon "fa-comments")
-                   (translate :common :show-discuss :space)]]])))
+                   #_[:span
+                    (vlib/safe-space) " " (vlib/safe-space)
+                    [:span.pointer {:onClick #(do (lib/show-overlay) (hide))}
+                     (vlib/fa-icon "fa-comments")
+                     (translate :common :show-discuss :space)]]]))))
 (def tooltip (om/factory Tooltip))

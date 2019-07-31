@@ -388,7 +388,6 @@
   []
   (.modal ((js* "$") "#discuss-overlay") "hide"))
 
-
 ;;;; Append to div
 (defn append-to-div!
   "Show discuss in a separate div."
