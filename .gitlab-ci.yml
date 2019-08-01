@@ -21,17 +21,8 @@ idiomatic?:
     - lein kibit
   allow_failure: true
 
-build-image:
-  image: docker:git
-  stage: deploy
-  services:
-    - docker:dind
-  script:
-    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE .
-    - docker push $CI_REGISTRY_IMAGE
-  only:
-    - master
+
+# ------------------------------------------------------------------------------
 
 deploy-dev:
   image: clojure:openjdk-8-lein-alpine
@@ -66,3 +57,16 @@ deploy-stable:
     - ./mc cp resources/public/js/compiled/discuss.js cn/argyou/discuss_stable.js
   only:
     - master
+
+pages:
+  stage: deploy
+  before_script:
+    - mkdir public
+  script:
+    - lein codox
+    - mv target/docs/* public
+  artifacts:
+    paths:
+      - public
+  only:
+    - develop
