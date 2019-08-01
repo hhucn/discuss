@@ -1,8 +1,8 @@
 # discuss
 
-| Develop | Master | Release |
-|---------|--------|---------|
-|[![CircleCI](https://img.shields.io/circleci/project/hhucn/discuss/develop.svg?maxAge=60)](https://circleci.com/gh/hhucn/discuss/tree/develop) | [![CircleCI](https://img.shields.io/circleci/project/hhucn/discuss/master.svg?maxAge=60)](https://circleci.com/gh/hhucn/discuss/tree/master) | [![GitHub release](https://img.shields.io/github/release/hhucn/discuss.svg?maxAge=60)](https://github.com/hhucn/discuss/releases)
+| Develop | Master | Release | Documentation |
+|---------|--------|---------|---------------|
+|[![CircleCI](https://img.shields.io/circleci/project/hhucn/discuss/develop.svg?maxAge=60)](https://circleci.com/gh/hhucn/discuss/tree/develop) | [![CircleCI](https://img.shields.io/circleci/project/hhucn/discuss/master.svg?maxAge=60)](https://circleci.com/gh/hhucn/discuss/tree/master) | [![GitHub release](https://img.shields.io/github/release/hhucn/discuss.svg?maxAge=60)](https://github.com/hhucn/discuss/releases) | [![Docs](https://img.shields.io/badge/docs-develop-blue)](https://cn-tsn.pages.cs.uni-duesseldorf.de/project/dbas/discuss/)
 
 Minimal front-end to include dialog-based discussion systems into existing
 websites. Compatible to [D-BAS](https://github.com/hhucn/dbas).
@@ -45,6 +45,12 @@ dev-environment of this project. You can then access the test-page at
 http://localhost:9500/tests.html
 
 
+## Documentation
+
+The latest documentation can be found at this location:
+https://cn-tsn.pages.cs.uni-duesseldorf.de/project/dbas/discuss/
+
+
 ## Publications
 
 This tool is being used in research projects (see [Google
@@ -73,6 +79,6 @@ Einbettung im Web." 2017.
 
 ## License
 
-Copyright © 2016 - 2019 Christian Meter
+Copyright © 2016 - today Christian Meter
 
 Distributed under the [MIT License](LICENSE).
