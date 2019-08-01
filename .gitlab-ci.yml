@@ -61,7 +61,7 @@ deploy-stable:
 pages:
   stage: deploy
   before_script:
-    - mkdir public
+    - mkdir -p public
   script:
     - lein codox
     - mv target/docs/* public
