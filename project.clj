@@ -72,12 +72,6 @@
   :figwheel {:nrepl-port 7888
              :css-dirs ["resources/public/css"]}             ;; watch and update CSS
 
-  :jvm-opts ~(let [version (System/getProperty "java.version")
-                   [major _ _] (clojure.string/split version #"\.")]
-               (if (>= (Integer. major) 9)
-                 ["--add-modules" "java.xml.bind"]
-                 []))
-
   ;; For documentation
   :codox {:language    :clojurescript
           :metadata    {:doc/format :markdown}

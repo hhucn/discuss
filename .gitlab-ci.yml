@@ -12,8 +12,7 @@ variables:
 compile-js:
   stage: test
   script:
-    - lein clean
-    - lein cljsbuild once min
+    - lein do clean, cljsbuild once min
 
 idiomatic?:
   stage: test
