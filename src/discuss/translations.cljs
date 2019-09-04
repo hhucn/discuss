@@ -32,7 +32,7 @@
                           :logged-in "Füllen Sie dazu die folgenden Felder aus."
                           :not-logged-in "Aber vorher müssen Sie sich einlogggen."}
         :discussion {:add-position "Nichts von all dem. Ich habe eine andere Idee"
-                     :add-position-heading "Ich denke, dass"
+                     :add-position-heading "Ich denke, "
                      :add-position-placeholder "wir dieses oder jenes machen sollten"
                      :add-reason-placeholder "aus diesen und jenen Gründen"
                      :bubble/congrats "Sie haben das Ende der Diskussion erreicht. Suchen Sie sich einen anderen Einstiegspunkt in dem Artikel, um weiter zu diskutieren."
