@@ -10,13 +10,20 @@ websites. Compatible to [D-BAS](https://github.com/hhucn/dbas).
 
 ## Setup
 
-Pull all js dependencies with:
+The following tools are required:
+* [Leiningen](http://leiningen.org/)
+* [yarn](https://yarnpkg.com/)
+* [sassc](https://github.com/sass/sassc)
+* JDK12
+* make
 
-    yarn install
+Build the project with:
+
+    make build
 
 To get an interactive development environment run:
 
-    lein fig
+    make run
 
 and open your browser at [localhost:9500](http://localhost:9500). This will auto
 compile and send all changes to the browser without the need to reload. After
@@ -29,20 +36,34 @@ and you should see an alert in the browser window.
 
 To clean all compiled files:
 
-    lein clean
+    make clean
 
 To create a production build run:
 
-    lein do clean, cljsbuild once min
+    make min
 
 And open your browser in `resources/public/index.html`. You will not get live
 reloading, nor a REPL.
+
+### Dependencies
+
+For caching optimizations, the project stores the dependencies in a local `.m2`
+folder. To avoid having duplicate dependencies on the development machine,
+you can create a symbolic link from your user's .m2 folder to the local one by
+executing this command: 
+
+    ln -s ~/.m2 .m2
+
 
 ### Testing and Development
 
 The testing environment is automatically launched when you start the
 dev-environment of this project. You can then access the test-page at
 http://localhost:9500/tests.html
+
+The components are development with the help of
+[devcards](https://github.com/bhauman/devcards). Access the project's devcards
+at http://localhost:9500/cards.html
 
 
 ## Documentation
@@ -79,6 +100,6 @@ Einbettung im Web." 2017.
 
 ## License
 
-Copyright © 2016 - today Christian Meter
+Copyright © 2016 - today hhucn
 
 Distributed under the [MIT License](LICENSE).
