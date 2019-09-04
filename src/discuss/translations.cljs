@@ -34,7 +34,7 @@
         :discussion {:add-position "Nichts von all dem. Ich habe eine andere Idee"
                      :add-position-heading "Ich denke, "
                      :add-position-placeholder "wir dieses oder jenes machen sollten"
-                     :add-reason-placeholder "aus diesen und jenen Gründen"
+                     :add-reason-placeholder "dieser Grund dafür existiert"
                      :bubble/congrats "Sie haben das Ende der Diskussion erreicht. Suchen Sie sich einen anderen Einstiegspunkt in dem Artikel, um weiter zu diskutieren."
                      :current      "Aktuelle Diskussion"
                      :reference/missing "Sie müssen sich auf eine Textstelle beziehen"
