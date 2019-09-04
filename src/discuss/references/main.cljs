@@ -71,7 +71,7 @@
             (html [:div.bs-callout.bs-callout-info
                    [:div.pull-right
                     (bs/button-default-sm #(comlib/jump-to-argument (:slug issue) uid)
-                     (vlib/fa-icon "fa-search"))]
+                     (vlib/fa-icon "fa-comment-o"))]
                    [:a {:href "javascript:void(0)"
                         :onClick #(comlib/jump-to-argument (:slug issue) uid)}
                     [:strong (vlib/safe-html intro)]]
