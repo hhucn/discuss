@@ -28,7 +28,7 @@ deploy-dev:
   image: clojure:openjdk-8-lein-alpine
   stage: deploy
   tags:
-    - 40c
+    - ht
   before_script:
     - apk add --no-cache ca-certificates
     - rm -f mc
@@ -45,7 +45,7 @@ deploy-stable:
   image: clojure:openjdk-8-lein-alpine
   stage: deploy
   tags:
-    - 40c
+    - ht
   before_script:
     - apk add --no-cache ca-certificates
     - rm -f mc
