@@ -82,17 +82,20 @@
   (let [selection (or (lib/get-selection) (:text (rlib/get-selected-reference)) "")]
     (html
      (if (> (count selection) 1)
-       [:div.input-group
-        [:span.input-group-addon.input-group-addon-left
-         (fa-icon "fa-quote-left")]
-        [:textarea.form-control {:style {:backgroundColor "rgb(250,250,250)"}
-                                 :title (t :references :disabled/tooltip)
-                                 :disabled true
-                                 :value selection}]
-        [:span.input-group-addon
-         (fa-icon "fa-quote-right")]
-        [:span.input-group-addon.pointer {:onClick remove-selection-then-reference!}
-         (fa-icon "fa-times")]]
+       [:div
+        [:label.input-group-addon {:for "citation-area"} "Ich zitiere:"]
+        [:div.input-group
+         [:span.input-group-addon.input-group-addon-left
+          (fa-icon "fa-quote-left")]
+         [:textarea.form-control {:style {:backgroundColor "rgb(250,250,250)"}
+                                  :title (t :references :disabled/tooltip)
+                                  :disabled true
+                                  :value selection
+                                  :id "citation-area"}]
+         [:span.input-group-addon
+          (fa-icon "fa-quote-right")]
+         [:span.input-group-addon.pointer {:onClick remove-selection-then-reference!}
+          (fa-icon "fa-times")]]]
        [:div.text-center {:style {:paddingBottom "1em"}}
         (if (= :create/argument (lib/current-view))
           (t :references :has-to-add)
