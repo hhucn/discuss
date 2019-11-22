@@ -35,15 +35,6 @@
       (seq last-api-call) (comlib/ajax-get last-api-call))
     (get-profile-picture uid)))
 
-(defn- load-credentials-from-localstorage
-  "Read user-related login information from localstorage and pass it to the
-  app-state"
-  []
-  (let [nickname (store/get-item :user/nickname)
-        uid (store/get-item :user/uid)
-        token (store/get-item :user/token)]
-    (handle-user-login! nickname uid token)))
-
 (defn- success-login
   "Callback function when login was successful. Set attributes of user."
   [response]
@@ -65,6 +56,9 @@
         body {:nickname nickname
               :password password}]
     (comlib/do-post url body success-login wrong-login)))
+
+
+;; -----------------------------------------------------------------------------
 
 (defn login
   "Use login form data, validate it and send ajax request."
@@ -90,3 +84,14 @@
     (let [last-api-call (hdis/get-last-discussion-url)]
       (when (seq last-api-call)
         (comlib/ajax-get last-api-call)))))
+
+(defn load-credentials-from-localstorage!
+  "Read user-related login information from localstorage and pass it to the
+  app-state"
+  []
+  (when-not (lib/persist-login-credentials?)
+    (let [nickname (store/get-item :user/nickname)
+          uid (store/get-item :user/uid)
+          token (store/get-item :user/token)]
+      (when (every? not-empty [nickname uid token])
+        (handle-user-login! nickname uid token)))))

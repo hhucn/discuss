@@ -91,7 +91,8 @@
                   :discussion/slug lib/set-slug!
                   :eden/api lib/host-eden!
                   :layout/lang lib/language-next!
-                  :layout/show-in-div? lib/append-to-div!}
+                  :layout/show-in-div? lib/append-to-div!
+                  :persist/login-credentials? lib/persist-login-credentials!}
         response' (cljs.reader/read-string response)]
     (log/debug "Found a configuration file: %s" (str response'))
     (doseq [[k v] response'

@@ -9,7 +9,8 @@
             [discuss.utils.common :as lib]
             [discuss.utils.logging :as log]
             [discuss.views :as views]
-            [discuss.communication.main :as com]))
+            [discuss.communication.main :as com]
+            [discuss.communication.auth :as auth]))
 
 ;; this is to support om with the latest version of React
 (set! (.-createClass react) create-react-class)
@@ -19,11 +20,8 @@
   (enable-console-print!)
   (log/debug "Loaded %s %s" config/project (lib/project-version))
   (com/load-remote-configuration!)
-  (om/add-root! parser/reconciler views/Discuss (gdom/getElement (lib/prefix-name "main"))))
+  (om/add-root! parser/reconciler views/Discuss (gdom/getElement (lib/prefix-name "main")))
+  (auth/load-credentials-from-localstorage!))
 (main)
 
-(defn on-js-reload []
-  ;; optionally touch your app-state to force rerendering depending on
-  ;; your application
-  ;; (swap! app-state update-in [:__figwheel_counter] inc)
-  )
+(defn on-js-reload [])
