@@ -1,7 +1,8 @@
-{:dbas/api              "http://localhost:4284/api"
- :discuss/clipboard?    false
+{:dbas/api "http://localhost:4284/api"
+ :discuss/clipboard? false
  :discuss/experimental? true
- :discussion/slug       "cat-or-dog"
- :eden/api              nil
- :layout/lang           :de
- :layout/show-in-div?   true}
+ :discussion/slug "cat-or-dog"
+ :eden/api nil
+ :layout/lang :de
+ :layout/show-in-div? true
+ :persist/login-credentials? true}
