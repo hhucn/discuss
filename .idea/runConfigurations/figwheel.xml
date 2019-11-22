@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="figwheel" type="ClojureREPL" factoryName="Local" activateToolWindowBeforeRun="false">
+    <module name="discuss" />
+    <setting name="replType" value="CLOJURE_MAIN" />
+    <setting name="execution" value="LEININGEN" />
+    <setting name="jvmArgs" value="" />
+    <setting name="parameters" value="dev/user.clj" />
+    <setting name="workingDir" value="$PROJECT_DIR$" />
+    <setting name="profiles" value="" />
+    <setting name="aliases" value="" />
+    <setting name="fixLineNumbers" value="false" />
+    <method v="2" />
+  </configuration>
+</component>

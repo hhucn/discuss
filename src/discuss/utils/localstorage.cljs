@@ -1,4 +1,6 @@
-(ns discuss.utils.localstorage)
+(ns discuss.utils.localstorage
+  "Code taken from https://gist.github.com/daveliepmann/cf923140702c8b1de301,
+   thanks to @daveliepmann!")
 
 (defn set-item!
   "Store `v` under `k` in localstorage."

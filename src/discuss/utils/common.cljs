@@ -223,7 +223,7 @@
   "Change view to the provided one."
   [view]
   (store-multiple-values-to-app-state!
-   [['layout/view view] ['layout/add? false]]))
+    [['layout/view view] ['layout/add? false]]))
 
 (defn next-view!
   "Set the next view, which should be loaded after the ajax call has finished."
@@ -315,7 +315,7 @@
   single space."
   [str]
   (gstring/unescapeEntities
-   (clojure.string/replace (trim-newline (trim str)) #"\s+" " ")))
+    (clojure.string/replace (trim-newline (trim str)) #"\s+" " ")))
 
 (defn remove-trailing-slash
   "Remove trailing slash if it exists."
@@ -518,16 +518,26 @@
   []
   (load-from-app-state :issue/current-slug))
 
+(defn persist-login-credentials!
+  "Set new discussion slug."
+  [bool]
+  (store-to-app-state! 'persist/login-credentials? bool))
+
+(defn persist-login-credentials?
+  "Get current discussion slug."
+  []
+  (load-from-app-state :persist/login-credentials?))
+
 ;; -----------------------------------------------------------------------------
 ;; Specs
 
 (s/fdef change-view!
-        :args (s/cat :view keyword?))
+  :args (s/cat :view keyword?))
 
 (s/fdef trim-and-normalize
-        :args (s/cat :str string?)
-        :ret string?
-        :fn #(<= (-> % :ret count) (-> % :args :str count)))
+  :args (s/cat :str string?)
+  :ret string?
+  :fn #(<= (-> % :ret count) (-> % :args :str count)))
 
 (s/fdef language-next!
-        :args (s/cat :lang keyword?))
+  :args (s/cat :lang keyword?))
