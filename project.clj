@@ -2,12 +2,12 @@
   :description "Embedding dialog-based discussions into arbitrary web-contexts"
   :url "https://discuss.cs.uni-duesseldorf.de"
   :license {:name "MIT"
-            :url  "https://choosealicense.com/licenses/mit/"}
+            :url "https://choosealicense.com/licenses/mit/"}
 
   :min-lein-version "2.5.3"
 
   :dependencies [[org.clojure/clojure "1.10.1"]
-                 [org.clojure/clojurescript "1.10.520"]
+                 [org.clojure/clojurescript "1.10.597"]
                  [org.clojure/core.async "0.4.500" :exclusions [org.clojure/tools.reader]]
                  [org.clojure/test.check "0.9.0"]
                  [org.clojure/tools.reader "1.3.2"]
@@ -40,9 +40,9 @@
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
   :aliases {"fig" ["trampoline" "run" "-m" "figwheel.main" "--build" "dev" "--repl"]
-            "fig:test" ["run" "-m" "figwheel.main" "-co" "test.cljs.edn" "-m" "discuss.test-runner"]
-            ;; "fig:test" ["trampoline" "run" "-m" "figwheel.main" "-m" "discuss.test-runner"]
-            }
+            "fig:test" ["run" "-m" "figwheel.main" "-co" "test.cljs.edn" "-m" "discuss.test-runner"]}
+  ;; "fig:test" ["trampoline" "run" "-m" "figwheel.main" "-m" "discuss.test-runner"]
+
 
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]
                                   [nrepl "0.6.0"]
@@ -53,28 +53,28 @@
                                   :nrepl-middleware [cider.piggieback/wrap-cljs-repl]}}}
 
   :cljsbuild {:builds
-              [{:id           "min"
+              [{:id "min"
                 :source-paths ["src"]
-                :compiler     {:output-to      "resources/public/js/compiled/discuss.js"
-                               :output-dir     "resources/public/js/compiled/min/out"
-                               :main           discuss.core
-                               :preloads       [discuss.utils.extensions]
-                               :optimizations  :simple
-                               :closure-defines {discuss.config/version ~(->> (slurp "project.clj")
-                                                                              (re-seq #"\".*\"")
-                                                                              (first))
-                                                 discuss.config/build-commit ~(if (.exists (clojure.java.io/as-file ".git/ORIG_HEAD"))
-                                                                                (subs (slurp ".git/ORIG_HEAD") 0 6)
-                                                                                "dev")}
-                               :parallel-build true
-                               :compiler-stats true
-                               :pretty-print   false}}]}
+                :compiler {:output-to "resources/public/js/compiled/discuss.js"
+                           :output-dir "resources/public/js/compiled/min/out"
+                           :main discuss.core
+                           :preloads [discuss.utils.extensions]
+                           :optimizations :simple
+                           :closure-defines {discuss.config/version ~(->> (slurp "project.clj")
+                                                                   (re-seq #"\".*\""
+                                                                       (first)))
+                                             discuss.config/build-commit ~(if (.exists (clojure.java.io/as-file ".git/ORIG_HEAD"))
+                                                                            (subs (slurp ".git/ORIG_HEAD") 0 6)
+                                                                            "dev")}
+                           :parallel-build true
+                           :compiler-stats true
+                           :pretty-print false}}]}
   :figwheel {:nrepl-port 7888
-             :css-dirs ["resources/public/css"]}             ;; watch and update CSS
+             :css-dirs ["resources/public/css"]}            ;; watch and update CSS
 
   ;; For documentation
-  :codox {:language    :clojurescript
-          :metadata    {:doc/format :markdown}
+  :codox {:language :clojurescript
+          :metadata {:doc/format :markdown}
           :source-paths ["src/discuss"]
           :source-uri "https://gitlab.cs.uni-duesseldorf.de/cn-tsn/project/discuss/blob/master/{filepath}#L{line}"
           :doc-paths ["docs"]
