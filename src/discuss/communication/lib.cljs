@@ -70,15 +70,17 @@
   (process-and-set-items-and-bubbles response))
 
 (defn ajax-get
-  "Make ajax call to dialog based argumentation system."
-  ([url headers handler params]
+  "Make ajax call to dialog-based argumentation system."
+  ([url headers handler params {:keys [hide-add-form?]}]
    (log/debug "GET Request to: %s" (make-url url))
-   (lib/hide-add-form!)
+   (when hide-add-form?
+     (lib/hide-add-form!))
    (GET (make-url url)
-        {:handler       handler
-         :headers       (merge (token-header) headers)
-         :params        params
+        {:handler handler
+         :headers (merge (token-header) headers)
+         :params params
          :error-handler error-handler}))
+  ([url headers handler params] (ajax-get url headers handler params true))
   ([url headers handler] (ajax-get url headers handler nil))
   ([url headers] (ajax-get url headers process-and-set-items-and-bubbles))
   ([url] (ajax-get url (token-header))))
@@ -97,13 +99,13 @@
   ([request-url body handler error-handler headers]
    (log/info "Posting %s to %s" (dissoc body :password) request-url)
    (POST request-url
-         {:body            (lib/clj->json body)
-          :handler         handler
-          :error-handler   error-handler
-          :format          :json
+         {:body (lib/clj->json body)
+          :handler handler
+          :error-handler error-handler
+          :format :json
           :response-format :json
-          :headers         (merge (token-header) headers)
-          :keywords?       true}))
+          :headers (merge (token-header) headers)
+          :keywords? true}))
   ([request-url body handler error-handler]
    (do-post request-url body handler error-handler {"Content-Type" "application/json"})))
 

@@ -78,7 +78,7 @@
   "In all cases, we want to initialize discuss with the init-functions."
   []
   (comcon/check-connectivity-of-hosts)
-  (rint/request-references)
+  (rint/auto-refresh-references)
   (comlib/init!))
 
 (defn- config-found

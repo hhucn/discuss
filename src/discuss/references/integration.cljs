@@ -1,6 +1,7 @@
 (ns discuss.references.integration
   "Listen for mouse clicks, get references and highlight them in the article."
-  (:require [om.next :as om :refer-macros [defui]]
+  (:require [cljs.core.async :refer [go <! timeout]]
+            [om.next :as om :refer-macros [defui]]
             [clojure.string :refer [split lower-case]]
             [clojure.set :refer [difference]]
             [discuss.utils.common :as lib]
@@ -24,9 +25,9 @@
   it, this function will return it."
   [doms ref]
   (last
-   (filter
-    identity
-    (map #(when (lib/substring? ref (lib/trim-and-normalize (.-innerHTML %))) %) doms))))
+    (filter
+      identity
+      (map #(when (lib/substring? ref (lib/trim-and-normalize (.-innerHTML %))) %) doms))))
 
 
 ;;; Integrate references and highlight them in the article
@@ -48,7 +49,7 @@
           (om/add-root! (om/reconciler {:state {:text ref-text
                                                 :url ref-url
                                                 :id ref-id
-                                                :dom-pre  (vlib/safe-html first-part)
+                                                :dom-pre (vlib/safe-html first-part)
                                                 :dom-post (when (and (< 1 (count dom-parts)) (not= last-part ref-text)) (vlib/safe-html last-part))}})
                         rmain/ReferenceView
                         parent)
@@ -71,6 +72,9 @@
     (lib/store-to-app-state! 'references/all refs)
     (process-references! refs)))
 
+
+;; -----------------------------------------------------------------------------
+
 (defn request-references
   "When this app is loaded, request all available references from the external
   discussion system."
@@ -79,4 +83,13 @@
         params {:host js/location.host
                 :path js/location.pathname}]
     (log/info "[request-references] Requesting references for %s, %s " url params)
-    (comlib/ajax-get url nil references-handler params)))
+    (comlib/ajax-get url nil references-handler params {:hide-add-form? false})))
+
+(defn auto-refresh-references
+  "Periodically queries the current references, to dynamically bind it directly
+  into the website."
+  []
+  (request-references)
+  (go (while true
+        (<! (timeout 2000))
+        (request-references))))
