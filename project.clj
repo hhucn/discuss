@@ -61,8 +61,8 @@
                            :preloads [discuss.utils.extensions]
                            :optimizations :simple
                            :closure-defines {discuss.config/version ~(->> (slurp "project.clj")
-                                                                   (re-seq #"\".*\""
-                                                                       (first)))
+                                                                       (re-seq #"\".*\"")
+                                                                       (first))
                                              discuss.config/build-commit ~(if (.exists (clojure.java.io/as-file ".git/ORIG_HEAD"))
                                                                             (subs (slurp ".git/ORIG_HEAD") 0 6)
                                                                             "dev")}
