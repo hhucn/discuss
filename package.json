@@ -1,6 +1,6 @@
 {
   "name": "discuss",
-  "version": "0.16.1",
+  "version": "0.16.2",
   "main": "discuss.core",
   "repository": "git@gitlab.cs.uni-duesseldorf.de:cn-tsn/project/discuss.git",
   "author": "Christian Meter <christian.meter@uni-duesseldorf.de>",
