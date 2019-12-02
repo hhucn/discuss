@@ -28,7 +28,7 @@
    :layout/view-next nil
    :search/results []
    :selection/current ""
-   :user/avatar "img/profile.jpg"
+   :user/avatar nil
    :user/logged-in? false
    :user/nickname "kangaroo"
    :user/token "razupaltuff"
@@ -93,12 +93,12 @@
                              (into #{}))]
     (cond
       (or
-       (contains? touched-symbols :host/dbas)
-       (contains? touched-symbols :host/eden)) ((resolve 'discuss.communication.connectivity/check-connectivity-of-hosts)))))
+        (contains? touched-symbols :host/dbas)
+        (contains? touched-symbols :host/eden)) ((resolve 'discuss.communication.connectivity/check-connectivity-of-hosts)))))
 
 (defonce reconciler
   (om/reconciler
-   {:state  init-data
-    :parser (om/parser {:read read :mutate mutate})
-    :logger nil
-    :tx-listen change-hooks}))
+    {:state init-data
+     :parser (om/parser {:read read :mutate mutate})
+     :logger nil
+     :tx-listen change-hooks}))
