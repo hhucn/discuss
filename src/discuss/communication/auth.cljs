@@ -8,18 +8,6 @@
             [discuss.utils.common :as lib]
             [discuss.utils.localstorage :as store]))
 
-(defn- handle-profile-picture
-  "Extract profile-picture and store it in the app-state."
-  [response]
-  (let [profile-picture (get-in (lib/process-response response) [:user :profilePicture])]
-    (lib/store-to-app-state! 'user/avatar profile-picture)))
-
-(defn- get-profile-picture
-  "Query graphql and receive the url to the user's profile picture."
-  [user-id]
-  (let [query (format "{user(uid: %d) {profilePicture(size: 36)}}" user-id)]
-    (comlib/ajax-get (:graphql config/api) nil handle-profile-picture {:q query})))
-
 (defn- handle-user-login!
   "Receives user-related login information and stores it to the app-state."
   [nickname uid token]
@@ -33,7 +21,7 @@
     (cond
       (lib/next-view?) (lib/change-to-next-view!)
       (seq last-api-call) (comlib/ajax-get last-api-call))
-    (get-profile-picture uid)))
+    (comlib/get-profile-picture uid)))
 
 (defn- success-login
   "Callback function when login was successful. Set attributes of user."

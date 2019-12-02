@@ -35,6 +35,9 @@
     {:htmls [translation]
      :texts [translation]
      :url url}))
+(s/fdef login-or-add-item
+  :args (s/cat :logged-in? boolean?)
+  :ret ::comspecs/item)
 
 (defn process-and-set-items-and-bubbles
   "Receive response and prepare UI with the new items and bubbles for the next
@@ -55,6 +58,8 @@
     (lib/store-multiple-values-to-app-state! [['discussion/bubbles bubbles']
                                               ['discussion/items update-items]
                                               ['discussion/add-step add-step]])))
+(s/fdef process-and-set-items-and-bubbles
+  :args (s/cat :response ::comspecs/response))
 
 
 ;;;; Handlers
@@ -121,19 +126,6 @@
   ([arg-id]
    (jump-to-argument (:discussion/base-slug config/eden) arg-id)))
 
-(defn init!
-  "Request initial data from API. Optionally provide a slug to change the
-  discussion."
-  ([]
-   (init! (lib/get-slug)))
-  ([slug]
-   (let [slug-corrected (lib/prepend-slash slug)]
-     (log/fine (format "Initializing discussion: %s" slug-corrected))
-     (hdis/save-discussion-urls! [slug-corrected])
-     (ajax-get-and-change-view slug-corrected :default index-handler))))
-(s/fdef init!
-  :args (s/? (s/cat :slug string?)))
-
 (defn discussion-step
   "Receives the next step in the discussion and performs a GET request to this
   url."
@@ -151,10 +143,31 @@
 (s/fdef item-click
   :args (s/cat :url string?))
 
-(s/fdef process-and-set-items-and-bubbles
-  :args (s/cat :response ::comspecs/response))
+(defn- handle-profile-picture
+  "Extract profile-picture and store it in the app-state."
+  [response]
+  (let [profile-picture (get-in (lib/process-response response) [:user :profilePicture])]
+    (lib/store-to-app-state! 'user/avatar profile-picture)))
 
-(s/fdef login-or-add-item
-  :args (s/cat :logged-in? boolean?)
-  :ret ::comspecs/item)
+(defn get-profile-picture
+  "Query graphql and receive the url to the user's profile picture."
+  ([user-id]
+   (let [query (format "{user(uid: %d) {profilePicture(size: 36)}}" user-id)]
+     (ajax-get (:graphql config/api) nil handle-profile-picture {:q query})))
+  ([] (get-profile-picture (lib/get-user-id))))
 
+
+;; -----------------------------------------------------------------------------
+
+(defn init!
+  "Request initial data from API. Optionally provide a slug to change the
+  discussion."
+  ([] (init! (lib/get-slug)))
+  ([slug]
+   (let [slug-corrected (lib/prepend-slash slug)]
+     (log/fine (format "Initializing discussion: %s" slug-corrected))
+     (hdis/save-discussion-urls! [slug-corrected])
+     (get-profile-picture)
+     (ajax-get-and-change-view slug-corrected :default index-handler))))
+(s/fdef init!
+  :args (s/? (s/cat :slug string?)))
