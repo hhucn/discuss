@@ -33,6 +33,13 @@
   ([url body]
    (post-json url body process-url-handler {"Content-Type" "application/json"})))
 
+defn- dbas-conform-origin-author
+  [{:keys [is-dgep-native uid nickname]}]
+  {:dgep-native is-dgep-native
+   :name nickname
+   :id uid})
+
+
 (defn- build-origin-body
   "Transform search results so that D-BAS can handle it."
   [search-result]
@@ -40,7 +47,7 @@
     (let [identifier (:identifier search-result)]
       {:entity-id (:entity-id identifier)
        :aggregate-id (:aggregate-id identifier)
-       :author (:author search-result)
+       :author (dbas-conform-origin-author (:author search-result))
        :version (:version identifier)})))
 
 (defn post-statement

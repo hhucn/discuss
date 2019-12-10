@@ -94,7 +94,10 @@
   (let [identifier (:identifier statement)
         content (:content statement)]
     {:text (:text content)
-     :author {:nickname (:name (:author content))}
+     :author {:nickname (:name (:author content))
+              :is-dgep-native (:dgep-native (:author content))
+              :uid (:id (:author content))}
+
      :identifier {:aggregate-id (:aggregate-id identifier)
                   :entity-id (int (:entity-id identifier))
                   :version (:version identifier)}}))
