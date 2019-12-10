@@ -40,7 +40,7 @@
     (let [identifier (:identifier search-result)]
       {:entity-id (:entity-id identifier)
        :aggregate-id (:aggregate-id identifier)
-       :author (get-in search-result [:author :nickname])
+       :author (:author search-result)
        :version (:version identifier)})))
 
 (defn post-statement
