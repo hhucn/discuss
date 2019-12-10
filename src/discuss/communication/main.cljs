@@ -33,7 +33,7 @@
   ([url body]
    (post-json url body process-url-handler {"Content-Type" "application/json"})))
 
-defn- dbas-conform-origin-author
+(defn- dbas-conform-origin-author
   [{:keys [is-dgep-native uid nickname]}]
   {:dgep-native is-dgep-native
    :name nickname
