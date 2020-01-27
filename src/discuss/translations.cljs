@@ -7,8 +7,8 @@
 
 (def translations
   {:de {:common {:and "und"
-                 :argue/con "denkt, dass"
-                 :argue/that "denkt nicht, dass"
+                 :argue/con "denkt nicht, dass"
+                 :argue/that "denkt, dass"
                  :author "Autor"
                  :back "Zurück"
                  :because "weil"
