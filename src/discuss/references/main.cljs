@@ -22,8 +22,8 @@
 (s/def ::id pos-int?)
 (s/def ::reference
   (s/and
-   #(instance? Reference %)
-   (s/keys :req-un [::id ::comlib/text ::comlib/url])))
+    #(instance? Reference %)
+    (s/keys :req-un [::id ::comlib/text ::comlib/url])))
 
 ;;;; Handlers & Queries
 (defn- reference-usage-handler
@@ -66,17 +66,17 @@
   (query [this] [:uid :author :issue :conclusion :premise])
   Object
   (render [this]
-          (let [{:keys [uid author issue texts]} (om/props this)
-                intro (textref/reference-usage-intro (:nickname author) (:conclusion texts) (:premise texts) (:attacks texts))]
-            (html [:div.bs-callout.bs-callout-info
-                   [:div.pull-right
-                    (bs/button-default-sm #(comlib/jump-to-argument (:slug issue) uid)
-                     (vlib/fa-icon "fa-comment-o"))]
-                   [:a {:href "javascript:void(0)"
-                        :onClick #(comlib/jump-to-argument (:slug issue) uid)}
-                    [:strong (vlib/safe-html intro)]]
-                   [:div (t :common :author) ": " (:nickname author)]
-                   [:div (t :common :issue) ": " (:title issue)]]))))
+    (let [{:keys [uid author issue texts is_supportive]} (om/props this)
+          intro (textref/reference-usage-intro (:nickname author) (:conclusion texts) (:premise texts) (:attacks texts) is_supportive)]
+      (html [:div.bs-callout.bs-callout-info
+             [:div.pull-right
+              (bs/button-default-sm #(comlib/jump-to-argument (:slug issue) uid)
+                                    (vlib/fa-icon "fa-comment-o"))]
+             [:a {:href "javascript:void(0)"
+                  :onClick #(comlib/jump-to-argument (:slug issue) uid)}
+              [:strong (vlib/safe-html intro)]]
+             [:div (t :common :author) ": " (:nickname author)]
+             [:div (t :common :issue) ": " (:title issue)]]))))
 (def reference-usage-for-single-argument (om/factory ReferenceUsageForSingleArgumentView {:keyfn :uid}))
 
 (defui ReferenceUsagesForArgumentsView
@@ -84,48 +84,48 @@
   (query [this] [:arguments])
   Object
   (render [this]
-          (let [{:keys [arguments]} (om/props this)]
-            (html [:div
-                   (map reference-usage-for-single-argument arguments)]))))
+    (let [{:keys [arguments]} (om/props this)]
+      (html [:div
+             (map reference-usage-for-single-argument arguments)]))))
 (def reference-usages-for-arguments (om/factory ReferenceUsagesForArgumentsView {:keyfn :arguments}))
 
 (defui UsagesView
   "Complete list of all references and all their usages in their arguments."
   static om/IQuery
   (query [this]
-         [:references/usages :references/selected])
+    [:references/usages :references/selected])
   Object
   (render [this]
-          (let [{:keys [references/usages references/selected]} (om/props this)]
-            (html [:div
-                   (if-not (empty? selected)
-                     [:div
-                      (vlib/view-header (t :references :usages/view-heading))
-                      [:p.text-center (t :references :usages/lead)]
-                      [:div.text-center
-                       [:p [:em.text-info (format "\"%s\"" (:text selected))]]
-                       [:div.btn.btn-primary {:onClick (fn [_e]
-                                                         (lib/save-selection! (:text selected))
-                                                         (lib/change-view! :create/argument))}
-                        (t :create/argument :short)]]
-                      (when (seq usages)
-                        [:div
-                         [:hr]
-                         [:p.text-center (t :references :usages/list) "."]
-                         (reference-usages-for-arguments usages)])]
-                     [:div.text-center
-                      (vlib/view-header (t :references :usages/not-found-lead))
-                      [:p (t :references :usages/not-found-body) "."]])]))))
+    (let [{:keys [references/usages references/selected]} (om/props this)]
+      (html [:div
+             (if-not (empty? selected)
+               [:div
+                (vlib/view-header (t :references :usages/view-heading))
+                [:p.text-center (t :references :usages/lead)]
+                [:div.text-center
+                 [:p [:em.text-info (format "\"%s\"" (:text selected))]]
+                 [:div.btn.btn-primary {:onClick (fn [_e]
+                                                   (lib/save-selection! (:text selected))
+                                                   (lib/change-view! :create/argument))}
+                  (t :create/argument :short)]]
+                (when (seq usages)
+                  [:div
+                   [:hr]
+                   [:p.text-center (t :references :usages/list) "."]
+                   (reference-usages-for-arguments usages)])]
+               [:div.text-center
+                (vlib/view-header (t :references :usages/not-found-lead))
+                [:p (t :references :usages/not-found-body) "."]])]))))
 (def usages-view-next (om/factory UsagesView))
 
 (defui ReferenceView
   "Nested reference link in text."
   Object
   (render [this]
-          (let [{:keys [text url id dom-pre dom-post]} (om/props this)]
-            (html [:span
-                   [:span dom-pre]
-                   [:span.arguments.pointer {:onClick #(click-reference (Reference. id text url))}
-                    text " " (vlib/logo)]
-                   [:span dom-post]]))))
+    (let [{:keys [text url id dom-pre dom-post]} (om/props this)]
+      (html [:span
+             [:span dom-pre]
+             [:span.arguments.pointer {:onClick #(click-reference (Reference. id text url))}
+              text " " (vlib/logo)]
+             [:span dom-post]]))))
 (def reference (om/factory ReferenceView))
