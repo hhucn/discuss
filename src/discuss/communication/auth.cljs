@@ -1,7 +1,5 @@
 (ns discuss.communication.auth
-  (:require [goog.string :refer [format]]
-            [goog.string.format]
-            [discuss.communication.lib :as comlib]
+  (:require [discuss.communication.lib :as comlib]
             [discuss.config :as config]
             [discuss.history.discussion :as hdis]
             [discuss.translations :refer [translate] :rename {translate t}]

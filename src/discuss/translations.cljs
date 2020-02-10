@@ -171,7 +171,7 @@
   ([group key option]
    (cond
      (= :space option) (prepend-translation group key " ")
-     :default (prepend-translation group key "")))
+     :else (prepend-translation group key "")))
   ([group key]
    (translate group key :default)))
 

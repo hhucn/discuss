@@ -1,7 +1,8 @@
 (ns discuss.components.loader
   (:require [om.next :as om :refer-macros [defui]]
-            [sablono.core :as html :refer-macros [html]]
+            [sablono.core :refer-macros [html]]
             [discuss.utils.views :as vlib]))
+(declare Loader LoaderButton)
 
 (defui Loader
   static om/IQuery

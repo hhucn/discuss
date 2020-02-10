@@ -53,7 +53,7 @@
                        (seq positions) (conj positions (login-or-add-item (lib/logged-in?)))
                        (seq attacks) (vals attacks)
                        (seq attitudes) (vals attitudes)
-                       :default [])
+                       :else [])
         bubbles' (-> bubbles breps/replace-congratulation-bubbles breps/replace-profile-link-bubbles)]
     (lib/store-multiple-values-to-app-state! [['discussion/bubbles bubbles']
                                               ['discussion/items update-items]

@@ -1,6 +1,6 @@
 (ns discuss.components.search.statements
-  (:require [sablono.core :as html :refer-macros [html]]
-            [cljs.core.async :refer [go chan alts! >! <!]]
+  (:require [sablono.core :refer-macros [html]]
+            [cljs.core.async :refer [go chan >! <!]]
             [clojure.set :refer [rename-keys]]
             [om.next :as om :refer-macros [defui]]
             [cljs.spec.alpha :as s]
@@ -10,6 +10,7 @@
             [discuss.utils.common :as lib]
             [discuss.utils.logging :as log]
             [discuss.utils.views :as vlib]))
+(declare Result Results SearchQuery)
 
 (s/def ::uid integer?)
 (s/def ::id integer?)
@@ -155,28 +156,28 @@
 (defui Result
   Object
   (render [this]
-          (let [{:keys [text issue author identifier] :as search-result} (om/props this)
-                aggregator (:aggregate-id identifier)]
-            (html [:div.bs-callout.bs-callout-info
-                   [:div.row
-                    [:div.col-sm-8
-                     [:p (vlib/safe-html text)]
-                     [:p [:span.btn.btn-sm.btn-primary
-                          {:on-click #(lib/store-multiple-values-to-app-state! [['search/selected search-result]
-                                                                                ['search/results []]])}
-                          (t :search :reuse)]]]
-                    [:div.col-sm-4
-                     [:div.text-rights
-                      (when issue
-                        [:span.label.label-default
-                         (str (t :common :issue) ": " (:title issue))
-                         [:br]])
-                      (when aggregator
-                        [:span.label.label-default
-                         (str (t :search :origin) ": " aggregator)
-                         [:br]])
-                      [:span.label.label-default
-                       (str (t :search :author) ": " (:nickname author))]]]]]))))
+    (let [{:keys [text issue author identifier] :as search-result} (om/props this)
+          aggregator (:aggregate-id identifier)]
+      (html [:div.bs-callout.bs-callout-info
+             [:div.row
+              [:div.col-sm-8
+               [:p (vlib/safe-html text)]
+               [:p [:span.btn.btn-sm.btn-primary
+                    {:on-click #(lib/store-multiple-values-to-app-state! [['search/selected search-result]
+                                                                          ['search/results []]])}
+                    (t :search :reuse)]]]
+              [:div.col-sm-4
+               [:div.text-rights
+                (when issue
+                  [:span.label.label-default
+                   (str (t :common :issue) ": " (:title issue))
+                   [:br]])
+                (when aggregator
+                  [:span.label.label-default
+                   (str (t :search :origin) ": " aggregator)
+                   [:br]])
+                [:span.label.label-default
+                 (str (t :search :author) ": " (:nickname author))]]]]]))))
 (def result (om/factory Result))
 
 (defui Results
@@ -184,10 +185,10 @@
   (query [this] [:search/results])
   Object
   (render [this]
-          (let [{:keys [search/results]} (om/props this)]
-            (html [:div {:className (lib/prefix-name "search-results")}
-                   (take 5
-                         (map #(result (merge (lib/unique-react-key-dict) %)) results))]))))
+    (let [{:keys [search/results]} (om/props this)]
+      (html [:div {:className (lib/prefix-name "search-results")}
+             (take 5
+                   (map #(result (merge (lib/unique-react-key-dict) %)) results))]))))
 (def results (om/factory Results))
 
 
@@ -196,9 +197,9 @@
 (defui ^:once SearchQuery
   Object
   (render [this]
-          (html [:div
-                 [:form
-                  [:div.form-group
-                   [:input.form-control {:type "text"
-                                         :on-change #(search (.. % -target -value))}]]]])))
+    (html [:div
+           [:form
+            [:div.form-group
+             [:input.form-control {:type "text"
+                                   :on-change #(search (.. % -target -value))}]]]])))
 (def search-query (om/factory SearchQuery))

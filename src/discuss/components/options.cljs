@@ -1,7 +1,7 @@
 (ns discuss.components.options
   (:require [om.next :as om :refer-macros [defui]]
             [cljs.spec.alpha :as s]
-            [sablono.core :as html :refer-macros [html]]
+            [sablono.core :refer-macros [html]]
             [goog.string :refer [format]]
             [goog.string.format]
             [discuss.utils.bootstrap :as bs]
@@ -11,6 +11,7 @@
             [discuss.utils.views :as vlib]
             [discuss.communication.connectivity :as comcon]
             [discuss.config :as config]))
+(declare HostDBAS HostEDEN ConnectivityStatus ConnectionBrowser Options)
 
 (defn- language-button
   "Create button to set language."
@@ -56,21 +57,21 @@
 (defui HostDBAS
   static om/IQuery
   (query [this]
-         `[:host/dbas :layout/lang])
+    `[:host/dbas :layout/lang])
   Object
   (render [this]
-          (html
-           (set-host-config this "D-BAS API" lib/host-dbas config/host-dbas lib/host-dbas! lib/host-dbas-reset! #(lib/host-dbas! nil)))))
+    (html
+      (set-host-config this "D-BAS API" lib/host-dbas config/host-dbas lib/host-dbas! lib/host-dbas-reset! #(lib/host-dbas! nil)))))
 (def host-dbas (om/factory HostDBAS))
 
 (defui HostEDEN
   static om/IQuery
   (query [this]
-         `[:host/eden :layout/lang])
+    `[:host/eden :layout/lang])
   Object
   (render [this]
-          (html
-           (set-host-config this "EDEN Search" lib/host-eden config/host-eden lib/host-eden! lib/host-eden-reset! #(lib/host-eden! nil)))))
+    (html
+      (set-host-config this "EDEN Search" lib/host-eden config/host-eden lib/host-eden! lib/host-eden-reset! #(lib/host-eden! nil)))))
 (def host-eden (om/factory HostEDEN))
 
 
@@ -80,10 +81,10 @@
 (defn- connection-icon [status service host]
   (let [[class icon msg]
         (cond
-          (empty? host)   ["" "fa-minus-square-o" "not configured"]
-          (true? status)  ["text-success" "fa-circle" "connected"]
+          (empty? host) ["" "fa-minus-square-o" "not configured"]
+          (true? status) ["text-success" "fa-circle" "connected"]
           (false? status) ["text-danger" "fa-circle-o" "disconnected"]
-          :default        ["text-warning" "fa-dot-circle-o" "connecting..."])]
+          :else ["text-warning" "fa-dot-circle-o" "connecting..."])]
     [:div
      [:span {:className class
              :style {:padding-right "0.5em"}} (vlib/fa-icon icon)]
@@ -92,18 +93,18 @@
 (defui ConnectivityStatus
   static om/IQuery
   (query [this]
-         [:host/dbas-is-up? :host/eden-is-up?
-          :host/dbas :host/eden])
+    [:host/dbas-is-up? :host/eden-is-up?
+     :host/dbas :host/eden])
   Object
   (render [this]
-          (let [{:keys [host/dbas-is-up? host/eden-is-up? host/dbas host/eden]} (om/props this)]
-            (html [:div
-                   [:h5 "Status"]
-                   (connection-icon dbas-is-up? "D-BAS" dbas)
-                   (connection-icon eden-is-up? "EDEN" eden)
-                   [:br]
-                   [:button.btn.btn-sm.btn-default {:onClick comcon/check-connectivity-of-hosts}
-                    (t :options :reconnect)]]))))
+    (let [{:keys [host/dbas-is-up? host/eden-is-up? host/dbas host/eden]} (om/props this)]
+      (html [:div
+             [:h5 "Status"]
+             (connection-icon dbas-is-up? "D-BAS" dbas)
+             (connection-icon eden-is-up? "EDEN" eden)
+             [:br]
+             [:button.btn.btn-sm.btn-default {:onClick comcon/check-connectivity-of-hosts}
+              (t :options :reconnect)]]))))
 (def connectivity-status (om/factory ConnectivityStatus))
 
 
@@ -116,8 +117,8 @@
     {:key (lib/get-unique-key)
      :onClick (fn [_]
                 (lib/store-multiple-values-to-app-state!
-                 [['host/dbas dbas]
-                  ['host/eden eden]])
+                  [['host/dbas dbas]
+                   ['host/eden eden]])
                 (auth/logout))}
     "Connect to " name]
    " "])
@@ -125,18 +126,18 @@
 (defui ConnectionBrowser
   static om/IQuery
   (query [this]
-         `[:layout/lang])
+    `[:layout/lang])
   Object
   (render [this]
-          (let [{:keys []} (om/props this)]
-            (html
-             [:div.text-center
-              (map build-connections config/demo-servers)
-              [:br][:br]
-              [:button.btn.btn-sm.btn-default {:onClick #(lib/save-current-and-change-view! :options)}
-               "Custom Settings"] " "
-              [:button.btn.btn-sm.btn-default {:onClick #(auth/login "Walter" "iamatestuser2016")}
-               "Login as Walter"]]))))
+    (let [{:keys []} (om/props this)]
+      (html
+        [:div.text-center
+         (map build-connections config/demo-servers)
+         [:br] [:br]
+         [:button.btn.btn-sm.btn-default {:onClick #(lib/save-current-and-change-view! :options)}
+          "Custom Settings"] " "
+         [:button.btn.btn-sm.btn-default {:onClick #(auth/login "Walter" "iamatestuser2016")}
+          "Login as Walter"]]))))
 (def connection-browser (om/factory ConnectionBrowser))
 
 
@@ -146,32 +147,32 @@
 (defui Options
   static om/IQuery
   (query [this]
-         `[:layout/lang :discuss/experimental?
-           {:host/dbas ~(om/get-query HostDBAS)}
-           {:host/eden ~(om/get-query HostEDEN)}])
+    `[:layout/lang :discuss/experimental?
+      {:host/dbas ~(om/get-query HostDBAS)}
+      {:host/eden ~(om/get-query HostEDEN)}])
   Object
   (render [this]
-          (let [{:keys [discuss/experimental?]} (om/props this)]
-            (html
-             [:div
-              [:div (vlib/view-header (t :options :heading))
-               [:div.row
-                [:div.col-md-3 (vlib/fa-icon "fa-flag") (t :options :lang :space)]
-                [:div.col-md-9 (interpose " " (mapv language-button translations/available))]]]
-              (when experimental?
-                [:div
-                 [:br]
-                 [:hr]
-                 [:h4.text-center "Connection Browser"]
-                 (connection-browser (om/props this))
-                 [:br]
-                 [:hr]
-                 [:h4.text-center "Connectivity"]
-                 (connectivity-status (om/props this))
-                 [:br]
-                 [:hr]
-                 [:h4.text-center (t :options :routes)]
-                 (host-dbas (om/props this))
-                 [:hr]
-                 (host-eden (om/props this))])]))))
+    (let [{:keys [discuss/experimental?]} (om/props this)]
+      (html
+        [:div
+         [:div (vlib/view-header (t :options :heading))
+          [:div.row
+           [:div.col-md-3 (vlib/fa-icon "fa-flag") (t :options :lang :space)]
+           [:div.col-md-9 (interpose " " (mapv language-button translations/available))]]]
+         (when experimental?
+           [:div
+            [:br]
+            [:hr]
+            [:h4.text-center "Connection Browser"]
+            (connection-browser (om/props this))
+            [:br]
+            [:hr]
+            [:h4.text-center "Connectivity"]
+            (connectivity-status (om/props this))
+            [:br]
+            [:hr]
+            [:h4.text-center (t :options :routes)]
+            (host-dbas (om/props this))
+            [:hr]
+            (host-eden (om/props this))])]))))
 (def options (om/factory Options))

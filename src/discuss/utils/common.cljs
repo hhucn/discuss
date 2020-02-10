@@ -1,5 +1,5 @@
 (ns discuss.utils.common
-  (:require [om.next :as om :refer-macros [defui]]
+  (:require [om.next :as om]
             [clojure.walk :refer [keywordize-keys]]
             [clojure.string :as string :refer [trim trim-newline]]
             [cljs.spec.alpha :as s]
@@ -78,7 +78,7 @@
   (cond
     (string? response) (let [r (transit/reader :json)]
                          (keywordize-keys (transit/read r response)))
-    :default (keywordize-keys response)))
+    :else (keywordize-keys response)))
 
 (defn str->int
   "Convert String to Integer."

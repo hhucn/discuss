@@ -1,9 +1,10 @@
 (ns discuss.components.clipboard
   (:require [om.next :as om :refer-macros [defui]]
-            [sablono.core :as html :refer-macros [html]]
+            [sablono.core :refer-macros [html]]
             [discuss.translations :refer [translate] :rename {translate t}]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
+(declare Clipboard ClipboardItem)
 
 (defn get-items
   "Return collection of previously stored text-passages."
@@ -35,27 +36,26 @@
 (defn allow-drop [ev]
   (.preventDefault ev))
 
-(defn- drag-event [ev]
-  (.setData (.. ev -dataTransfer) "reference" (.. ev -target -innerText)))
-
+;; (defn- drag-event [ev]
+;;   (.setData (.. ev -dataTransfer) "reference" (.. ev -target -innerText)))
 
 ;; -----------------------------------------------------------------------------
 
 (defui ClipboardItem
   Object
   (render [this]
-          (let [item (om/props this)]
-            (html
-             [:div {:className "bs-callout bs-callout-info"}
-              item
-              [:div.pull-right
-               [:div.btn.btn-default.btn-xs
-                {:onClick #(lib/save-selection! item)}
-                (t :common :select) " " (vlib/fa-icon "fa-check-square-o")]
-               " "
-               [:div.btn.btn-default.btn-xs
-                {:onClick #(remove-item! item)}
-                (t :common :delete) " " (vlib/fa-icon "fa-times")]]]))))
+    (let [item (om/props this)]
+      (html
+        [:div {:className "bs-callout bs-callout-info"}
+         item
+         [:div.pull-right
+          [:div.btn.btn-default.btn-xs
+           {:onClick #(lib/save-selection! item)}
+           (t :common :select) " " (vlib/fa-icon "fa-check-square-o")]
+          " "
+          [:div.btn.btn-default.btn-xs
+           {:onClick #(remove-item! item)}
+           (t :common :delete) " " (vlib/fa-icon "fa-times")]]]))))
 (def clipboard-item (om/factory ClipboardItem {:keyfn identity}))
 
 (defui Clipboard
@@ -63,10 +63,10 @@
   (query [this] [:clipboard/items :discuss/clipboard?])
   Object
   (render [this]
-          (let [{:keys [clipboard/items discuss/clipboard?]} (om/props this)]
-            (when (and (pos? (count items)) clipboard?)
-              (html [:div {:style {:paddingTop "rem"}}
-                     [:h5 (t :clipboard :heading)]
-                     [:p (t :clipboard :instruction)]
-                     (map clipboard-item items)])))))
+    (let [{:keys [clipboard/items discuss/clipboard?]} (om/props this)]
+      (when (and (pos? (count items)) clipboard?)
+        (html [:div {:style {:paddingTop "rem"}}
+               [:h5 (t :clipboard :heading)]
+               [:p (t :clipboard :instruction)]
+               (map clipboard-item items)])))))
 (def clipboard (om/factory Clipboard))

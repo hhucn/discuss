@@ -22,7 +22,7 @@
         (or (neg? idx) (empty? query)) [s]
         (or (empty? s)) [""]
         (= s query) []
-        :default [left right]))))
+        :else [left right]))))
 
 (defn save-selected-reference!
   "Saves the currently clicked reference for further processing."

@@ -4,11 +4,12 @@
             [goog.dom :as gdom]
             [goog.events :as events]
             [om.next :as om :refer-macros [defui]]
-            [sablono.core :as html :refer-macros [html]]
+            [sablono.core :refer-macros [html]]
             [discuss.components.clipboard :as clipboard]
             [discuss.translations :refer [translate]]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]))
+(declare Tooltip)
 
 (defn- get-tooltip
   "Return DOM element of tooltip"
@@ -25,7 +26,7 @@
   "Hide tooltip by adding a class."
   []
   (when-let [tooltip (get-tooltip)]
-    (lib/remove-class tooltip  (lib/prefix-name "tooltip-active"))))
+    (lib/remove-class tooltip (lib/prefix-name "tooltip-active"))))
 
 (defn- x-position
   "Center tooltip at mouse selection."
@@ -64,7 +65,7 @@
      (show)))
   ([]
    (when-let [tooltip (get-tooltip)]
-     (move-to-selection (calc-position tooltip.offsetWidth tooltip.offsetHeight)))))
+     (move-to-selection (calc-position (.-offsetWidth tooltip) (.-offsetHeight tooltip))))))
 
 
 ;; -----------------------------------------------------------------------------
@@ -76,8 +77,8 @@
   []
   (let [sel (js/document.getSelection)]
     (when (-> sel str count pos?)
-      (comment (.modify sel "move"   "backward" "sentence")
-               (.modify sel "extend" "forward"  "sentence")
+      (comment (.modify sel "move" "backward" "sentence")
+               (.modify sel "extend" "forward" "sentence")
                (.modify sel "extend" "backward" "character"))
       sel)))
 
@@ -106,31 +107,26 @@
             (<! clicks)
             (save-selected-text))))))
 
+
 ;;;; Creating the view
 (defui Tooltip
   static om/IQuery
   (query [this] [:discuss/clipboard?])
   Object
   (componentDidMount
-   [this]
-   (track-user-selection))
+    [this]
+    (track-user-selection))
   (render [this]
-          (let [{:keys [discuss/clipboard?]} (om/props this)]
-            (html [:div#discuss-tooltip
-                   (when clipboard?
-                     [:span
-                      [:span.pointer {:onClick #((clipboard/add-item!) (lib/show-overlay))}
-                       (vlib/fa-icon "fa-bookmark-o")
-                       (translate :references :save/to-clipboard :space)]
-                      (vlib/safe-space) " " (vlib/safe-space)])
+    (let [{:keys [discuss/clipboard?]} (om/props this)]
+      (html [:div#discuss-tooltip
+             (when clipboard?
+               [:span
+                [:span.pointer {:onClick #((clipboard/add-item!) (lib/show-overlay))}
+                 (vlib/fa-icon "fa-bookmark-o")
+                 (translate :references :save/to-clipboard :space)]
+                (vlib/safe-space) " " (vlib/safe-space)])
 
-                   [:span.pointer {:onClick #((lib/change-view! :create/argument) (lib/show-overlay) (hide))}
-                    (vlib/fa-icon "fa-comment")
-                    (translate :tooltip :discuss/start :space)]
-
-                   #_[:span
-                    (vlib/safe-space) " " (vlib/safe-space)
-                    [:span.pointer {:onClick #(do (lib/show-overlay) (hide))}
-                     (vlib/fa-icon "fa-comments")
-                     (translate :common :show-discuss :space)]]]))))
+             [:span.pointer {:onClick #((lib/change-view! :create/argument) (lib/show-overlay) (hide))}
+              (vlib/fa-icon "fa-comment")
+              (translate :tooltip :discuss/start :space)]]))))
 (def tooltip (om/factory Tooltip))

@@ -69,7 +69,7 @@
 
 (defmulti read om/dispatch)
 (defmethod read :default
-  [{:keys [state] :as env} key params]
+  [{:keys [state] :as _env} key _params]
   (let [st @state]
     (if-let [[_ value] (find st key)]
       {:value value}
@@ -77,7 +77,7 @@
 
 (defmulti mutate om/dispatch)
 (defmethod mutate :default
-  [{:keys [state] :as env} field {:keys [value]}]
+  [{:keys [state] :as _env} field {:keys [value]}]
   {:action (fn [] (swap! state assoc (keyword field) value))})
 
 
@@ -85,7 +85,7 @@
 
 (s/def ::reconciler #(instance? om/Reconciler %))
 
-(defn- change-hooks [tx-data changes]
+(defn- change-hooks [_tx-data changes]
   (let [touched-symbols (->> changes
                              :tx
                              (map first)
