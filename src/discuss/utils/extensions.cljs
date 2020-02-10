@@ -19,7 +19,7 @@
     IIndexed
     (-nth
       ([array n]
-       (if (< n (alength array)) (aget array n)))
+       (when (< n (alength array)) (aget array n)))
       ([array n not-found]
        (if (< n (alength array)) (aget array n)
                                  not-found)))

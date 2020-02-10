@@ -1,20 +1,21 @@
 (ns discuss.components.navigation
   (:require [om.dom :as dom :include-macros true]
             [om.next :as om :refer-macros [defui]]
-            [sablono.core :as html :refer-macros [html]]
+            [sablono.core :refer-macros [html]]
             [discuss.communication.lib :as comlib]
             [discuss.translations :refer [translate]]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
             [discuss.communication.auth :as auth]))
+(declare Nav)
 
 (defn- element
   "Create one element for the navigation."
   ([icon [group key] f left?]
    (dom/span #js {:key (lib/get-unique-key)
                   :className "pointer"
-                  :onClick   f
-                  :style     (if left? #js {:paddingLeft "1em"} #js {:paddingRight "1em"})}
+                  :onClick f
+                  :style (if left? #js {:paddingLeft "1em"} #js {:paddingRight "1em"})}
              (vlib/fa-icon icon)
              " "
              (dom/span #js {:className "hover-underline"}
@@ -28,10 +29,10 @@
   []
   (element "fa-home" [:nav :home] #(comlib/init!)))
 
-(defn- find-arg
-  "Open view to find statements inside of the discussion."
-  []
-  (element "fa-search" [:nav :find] #(lib/save-current-and-change-view! :find)))
+;; (defn- find-arg)
+;;   "Open view to find statements inside of the discussion."
+;;   []
+;;   (element "fa-search" [:nav :find] #(lib/save-current-and-change-view! :find))
 
 (defn- eden-overview
   "Open view to find statements inside of the discussion."
@@ -66,15 +67,15 @@
 (defui Nav
   static om/IQuery
   (query [this]
-         [:user/logged-in? :layout/lang :host/eden :host/dbas :discuss/experimental?])
+    [:user/logged-in? :layout/lang :host/eden :host/dbas :discuss/experimental?])
   Object
   (render [this]
-          (let [{:keys [discuss/experimental?]} (om/props this)]
-            (html [:div.text-muted.discuss-nav
-                   [:div.col.col-md-9.col-sm-9.col-xs-9
-                    (home) (create-argument)
-                    (when experimental? (eden-overview))
-                    (options)]
-                   [:div.col.col-md-3.col-sm-3.col-xs-3.text-right
-                    (if (lib/logged-in?) (logout) (login))]]))))
+    (let [{:keys [discuss/experimental?]} (om/props this)]
+      (html [:div.text-muted.discuss-nav
+             [:div.col.col-md-9.col-sm-9.col-xs-9
+              (home) (create-argument)
+              (when experimental? (eden-overview))
+              (options)]
+             [:div.col.col-md-3.col-sm-3.col-xs-3.text-right
+              (if (lib/logged-in?) (logout) (login))]]))))
 (def nav (om/factory Nav))

@@ -20,6 +20,7 @@
             [discuss.utils.views :as vlib]
             [discuss.views.add :as vadd]
             [discuss.views.login :as vlogin]))
+(declare DiscussionElements ViewDispatcher MainView Overlay Discuss)
 
 (def ^:private modal-name
   (lib/prefix-name "overlay"))
@@ -33,14 +34,14 @@
   (html [:div [:br]
          [:div.text-center
           (bs/button-default-sm
-           (fn [e]
-             (if (lib/inside-overlay? (.-target e))
-               (if (some #{(lib/current-view)} dismissable-views)
-                 (lib/change-to-next-view!)
-                 (lib/hide-overlay))
-               (lib/change-to-next-view!)))
-           (vlib/fa-icon "fa-times")
-           (t :common :close :space))]]))
+            (fn [e]
+              (if (lib/inside-overlay? (.-target e))
+                (if (some #{(lib/current-view)} dismissable-views)
+                  (lib/change-to-next-view!)
+                  (lib/hide-overlay))
+                (lib/change-to-next-view!)))
+            (vlib/fa-icon "fa-times")
+            (t :common :close :space))]]))
 
 (defn control-elements-next
   "Back and restart button."
@@ -59,9 +60,9 @@
 (defui DiscussionElements
   Object
   (render [this]
-          (html [:div
-                 (bubbles/bubbles-view-next (om/props this))
-                 (items/items (om/props this))])))
+    (html [:div
+           (bubbles/bubbles-view-next (om/props this))
+           (items/items (om/props this))])))
 (def discussion-elements-next (om/factory DiscussionElements))
 
 (defui ViewDispatcher
@@ -69,24 +70,24 @@
   (query [this] [:layout/view])
   Object
   (render [this]
-          (let [{:keys [layout/view]} (om/props this)]
-            (html [:div.panel.panel-default
-                   [:div.panel-body
-                    (case view
-                      :login (vlogin/login-form (om/props this))
-                      :options (options/options (om/props this))
-                      :reference-usages (ref/usages-view-next (om/props this))
-                      :eden/overview (eviews/overview-menu (om/props this))
-                      :eden/add-argument (eviews/eden-argument-form (om/props this))
-                      :eden/show-arguments (eviews/show-arguments (om/props this))
-                      :create/argument (carg/create-argument-with-reference (om/props this))
-                      :discussion/main (discussion-elements-next (om/props this))
-                      (discussion-elements-next (om/props this)))
-                    (cond
-                      (some #{view} [:login :options :find :reference-usages :eden/overview])
-                      (close-button-next)
-                      (some #{view} [:create/argument]) nil
-                      :default (control-elements-next))]]))))
+    (let [{:keys [layout/view]} (om/props this)]
+      (html [:div.panel.panel-default
+             [:div.panel-body
+              (case view
+                :login (vlogin/login-form (om/props this))
+                :options (options/options (om/props this))
+                :reference-usages (ref/usages-view-next (om/props this))
+                :eden/overview (eviews/overview-menu (om/props this))
+                :eden/add-argument (eviews/eden-argument-form (om/props this))
+                :eden/show-arguments (eviews/show-arguments (om/props this))
+                :create/argument (carg/create-argument-with-reference (om/props this))
+                :discussion/main (discussion-elements-next (om/props this))
+                (discussion-elements-next (om/props this)))
+              (cond
+                (some #{view} [:login :options :find :reference-usages :eden/overview])
+                (close-button-next)
+                (some #{view} [:create/argument]) nil
+                :else (control-elements-next))]]))))
 (def view-dispatcher-next (om/factory ViewDispatcher))
 
 (defui MainView
@@ -94,61 +95,61 @@
   (query [this] [:layout/add? :layout/title :discussion/add-step])
   Object
   (render [this]
-          (let [{:keys [layout/add? layout/title discussion/add-step]} (om/props this)]
-            (html
-             [:div#discuss-dialog-main
-              (avatar/avatar (om/props this))
-              [:h4 (vlib/logo)
-               " "
-               [:span.pointer {:data-toggle   "collapse"
-                               :data-target   (str "#" (lib/prefix-name "dialog-collapse"))
-                               :aria-expanded "true"
-                               :aria-controls (lib/prefix-name "dialog-collapse")}
-                title
-                [:small [:small " " (lib/project-version)]]]]
-              [:br]
-              (view-dispatcher-next (om/props this))
-              (when add?
-                [:div
-                 (if (= :add/position add-step)
-                   (vadd/position-form (om/props this))
-                   (vadd/statement-form (merge {:button-fn #(prn "Foo")} (om/props this))))])
-              [:div (nav/nav (om/props this))]
-              [:br]
-              (search/results (om/props this))
-              [:div (clipboard/clipboard (om/props this))]]))))
+    (let [{:keys [layout/add? layout/title discussion/add-step]} (om/props this)]
+      (html
+        [:div#discuss-dialog-main
+         (avatar/avatar (om/props this))
+         [:h4 (vlib/logo)
+          " "
+          [:span.pointer {:data-toggle "collapse"
+                          :data-target (str "#" (lib/prefix-name "dialog-collapse"))
+                          :aria-expanded "true"
+                          :aria-controls (lib/prefix-name "dialog-collapse")}
+           title
+           [:small [:small " " (lib/project-version)]]]]
+         [:br]
+         (view-dispatcher-next (om/props this))
+         (when add?
+           [:div
+            (if (= :add/position add-step)
+              (vadd/position-form (om/props this))
+              (vadd/statement-form (merge {:button-fn #(prn "Foo")} (om/props this))))])
+         [:div (nav/nav (om/props this))]
+         [:br]
+         (search/results (om/props this))
+         [:div (clipboard/clipboard (om/props this))]]))))
 (def main-view (om/factory MainView))
 
 (defui Overlay
   Object
   (render
-   [this]
-   (html [:div {:className "modal fade"
-                :id modal-name
-                :tabIndex -1
-                :role "dialog"
-                :aria-labelledby (str modal-name "Label")}
-          [:div {:className "modal-dialog modal-lg"
-                 :role "document"}
-           [:div.modal-content
-            [:div.modal-header {:style {:paddingBottom 0}}
-             [:button {:type "button"
-                       :className "close"
-                       :data-dismiss "modal"
-                       :aria-label "Close"}
-              [:span {:aria-hidden true}
-               (vlib/safe-html "&times;")]]]
-            [:div.modal-body
-             (main-view (om/props this))]]]])))
+    [this]
+    (html [:div {:className "modal fade"
+                 :id modal-name
+                 :tabIndex -1
+                 :role "dialog"
+                 :aria-labelledby (str modal-name "Label")}
+           [:div {:className "modal-dialog modal-lg"
+                  :role "document"}
+            [:div.modal-content
+             [:div.modal-header {:style {:paddingBottom 0}}
+              [:button {:type "button"
+                        :className "close"
+                        :data-dismiss "modal"
+                        :aria-label "Close"}
+               [:span {:aria-hidden true}
+                (vlib/safe-html "&times;")]]]
+             [:div.modal-body
+              (main-view (om/props this))]]]])))
 (def overlay (om/factory Overlay))
 
 (defui Discuss
   Object
   (render [this]
-          (html
-           [:div
-            (tooltip/tooltip (om/props this))
-            (overlay (om/props this))
-            (when (lib/append-to-div?)
-              (main-view (om/props this)))])))
+    (html
+      [:div
+       (tooltip/tooltip (om/props this))
+       (overlay (om/props this))
+       (when (lib/append-to-div?)
+         (main-view (om/props this)))])))
 (def discuss (om/factory Discuss {:keyfn identity}))

@@ -1,5 +1,5 @@
 (ns discuss.communication.connectivity
-  (:require [ajax.core :refer [GET POST]]
+  (:require [ajax.core :refer [GET]]
             [discuss.utils.common :as lib]
             [discuss.config :as config]
             [discuss.utils.logging :as log]))
@@ -13,7 +13,7 @@
 
 (defn- check-connectivity [server host-in-app-state]
   (GET server
-       {:handler       #(set-available! host-in-app-state)
+       {:handler #(set-available! host-in-app-state)
         :error-handler #(set-offline! server host-in-app-state)}))
 
 (defn check-connectivity-of-hosts

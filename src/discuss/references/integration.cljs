@@ -1,8 +1,8 @@
 (ns discuss.references.integration
   "Listen for mouse clicks, get references and highlight them in the article."
   (:require [cljs.core.async :refer [go <! timeout]]
-            [om.next :as om :refer-macros [defui]]
-            [clojure.string :refer [split lower-case]]
+            [om.next :as om]
+            [clojure.string :refer [lower-case]]
             [clojure.set :refer [difference]]
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]

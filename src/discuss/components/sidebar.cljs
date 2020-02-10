@@ -5,6 +5,7 @@
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
             [goog.dom :as gdom]))
+(declare Sidebar)
 
 (def id (lib/prefix-name "sidebar"))
 
@@ -38,9 +39,9 @@
 (defui Sidebar
   Object
   (render [this]
-          (html
-           [:div
-            [:div.discuss-sidebar
-             (vlib/fa-icon "fa-bars" hide)
-             ((resolve 'discuss.views/main-view) (om/props this))]])))
+    (html
+      [:div
+       [:div.discuss-sidebar
+        (vlib/fa-icon "fa-bars" hide)
+        ((resolve 'discuss.views/main-view) (om/props this))]])))
 (def sidebar (om/factory Sidebar {:keyfn identity}))

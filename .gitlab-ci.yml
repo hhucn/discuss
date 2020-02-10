@@ -20,6 +20,13 @@ idiomatic?:
     - lein kibit
   allow_failure: true
 
+lint:
+  image: borkdude/clj-kondo
+  stage: test
+  script:
+    - clj-kondo --lint src/discuss
+  allow_failure: true
+
 
 # ------------------------------------------------------------------------------
 

@@ -6,7 +6,7 @@
             [clojure.spec.alpha :as s]
             [goog.string :refer [format]]
             [goog.string.format]
-            [sablono.core :as html :refer-macros [html]]
+            [sablono.core :refer-macros [html]]
             [discuss.communication.lib :as comlib]
             [discuss.config :as config]
             [discuss.references.lib :as rlib]
@@ -16,6 +16,7 @@
             [discuss.utils.common :as lib]
             [discuss.utils.views :as vlib]
             [discuss.utils.logging :as log]))
+(declare ReferenceView UsagesView ReferenceUsagesForArgumentsView ReferenceUsageForSingleArgumentView)
 
 (defrecord Reference [id text url])
 
